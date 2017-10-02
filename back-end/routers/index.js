@@ -1,5 +1,5 @@
 module.exports = (req, res) => {
-  switch (req.param) {
+  switch (req.params.resource) {
     case "users":
       return require("./users");
     case "profiles":

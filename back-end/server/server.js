@@ -6,6 +6,7 @@ const session = require("express-session");
 const path = require("path");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
+const routers = require("../routers");
 
 require("../mongoose/connect");
 
@@ -25,10 +26,13 @@ app.use(passport.session());
 passport.serializeUser(configs.serialize);
 passport.deserializeUser(configs.deserialize);
 
+// serve static resource
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
-app.use("/api/:param", (req, res) => require("../routers"));
+// api routes
+app.use("/api/:resource", (req, res) => routers(req, res)(req, res));
 
+// web sockets
 io.on("connection", require("./sockets"));
 
 server.listen(3000, () => {
