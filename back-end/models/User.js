@@ -37,11 +37,11 @@ const UserSchema = new mongoose.Schema(
 				required: true
 			},
 		}]
-
 		sessionToken: String
 	},
 	{
-		timestamps: true
+		timestamps: true,
+		discriminatorKey: 'kind'
 	}
 );
 
