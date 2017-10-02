@@ -5,7 +5,7 @@ const Profile = require('./Profile');
 const Class = require('./Class');
 const Task = require('./Task');
 const Reward = require('./Reward');
-const Event = require('./Event');
+const Event = require('./events/index');
 
 module.exports = {
 	User,
@@ -15,5 +15,5 @@ module.exports = {
 	Class,
 	Task,
 	Reward,
-	Event
+	...Event
 };
