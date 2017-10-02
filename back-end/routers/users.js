@@ -1,19 +1,12 @@
 const router = require("express").Router();
-const { User } = require("../models");
+const { User, Profile } = require("../models");
 
-router.post("/", (req, res) => {
-  const {} = req.body;
-  User.create({}).then((err) => {
-    
-  })
-  });
+router.post("/", async (req, res) => {});
 
 router.get("/", (req, res) => {});
 
-router.patch("/", (req, res) => {});
+router.patch("/:id", (req, res) => {});
 
-router.delete("/", (req, res) => {
-  User.
-  });
+router.delete("/:id", (req, res) => {});
 
 module.exports = router;

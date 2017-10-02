@@ -18,11 +18,12 @@ const mw = require("./middleware");
 
 // middleware
 app.use(session(configs.session));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static("client"));
 app.use(mw.mongooseConnect);
 app.use(passport.initialize());
 app.use(passport.session());
+// app.use("/api", mw.authCheck);
 
 // passport setup
 passport.serializeUser(configs.serialize);

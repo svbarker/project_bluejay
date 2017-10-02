@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { createResponse } = require("../server/util");
 const passport = require("passport");
 
 // passport login route
@@ -13,10 +14,14 @@ router.post("/", (req, res, next) => {
   })(req, res, next);
 });
 
-router.delete("/", (req, res) => {
-  req.logout();
-  res.cookie("connect.sid", "", { expires: new Date() });
-  res.send({ status: "success" });
+router.delete("/", async (req, res) => {
+  try {
+    await req.logout(() => {});
+    res.cookie("connect.sid", "", { expires: new Date() });
+    res.json(createResponse());
+  } catch (error) {
+    res.json(createResponse(error));
+  }
 });
 
 module.exports = router;

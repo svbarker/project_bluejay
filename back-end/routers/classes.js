@@ -1,11 +1,13 @@
 const router = require("express").Router();
 
-router.post("/", (req, res) => {});
+// add student to class
+router.post("/classes/:classId/students", (req, res) => {});
 
 router.get("/", (req, res) => {});
 
 router.patch("/", (req, res) => {});
 
-router.delete("/", (req, res) => {});
+// remove student from class
+router.delete("/classes/:classId/students/:studentId", (req, res) => {});
 
 module.exports = router;

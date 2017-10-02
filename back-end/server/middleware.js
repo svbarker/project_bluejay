@@ -6,5 +6,16 @@ module.exports = {
       require("../mongoose/connect")();
     }
     next();
+  },
+  authCheck: (req, res, next) => {
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      res.send({
+        operationStatus: "failure",
+        apiError: "user could not be authenticated",
+        authError: true
+      });
+    }
   }
 };
