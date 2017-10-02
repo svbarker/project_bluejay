@@ -13,5 +13,10 @@ const PointRewardSchema = new mongoose.Schema(
 	}
 );
 
+PointRewardSchema.pre('save', function(next) {
+	this.kind = 'point';
+	next(this);
+});
+
 const PointReward = Reward.discriminator('PointReward', PointRewardSchema);
 module.exports = PointReward;

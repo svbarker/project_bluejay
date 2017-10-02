@@ -97,7 +97,15 @@ mongooseeder.seed({
 				value: Math.round(Math.random() * 10 + 1),
 				teacher: teachers[0]
 			});
-			rewards.push(reward);
+			rewards.push(pointReward);
+
+			process.stdout.write('.');
+			const lootReward = new LootReward({
+				description: faker.lorem.paragraph(),
+				value: Math.round(Math.random() * 10 + 1),
+				teacher: teachers[0]
+			});
+			rewards.push(lootReward);
 		}
 
 		// Tasks.
