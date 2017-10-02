@@ -65,9 +65,9 @@ UserSchema.methods.validatePassword = function(password) {
 	return bcrypt.compareSync(password, this.passwordHash);
 };
 
-UserSchema.post('find', function(next) {
+UserSchema.post('init', function(result, next) {
 	this.passwordHash = null;
-	next();
+	next(this);
 });
 
 const User = mongoose.model('User', UserSchema);
