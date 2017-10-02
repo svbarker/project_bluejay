@@ -7,6 +7,8 @@ const path = require("path");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const routers = require("../routers");
+const localStrategy = require("passport-local").Strategy;
+const ls = require("../strategies/local");
 
 require("../mongoose/connect");
 
@@ -25,6 +27,7 @@ app.use(passport.session());
 // passport setup
 passport.serializeUser(configs.serialize);
 passport.deserializeUser(configs.deserialize);
+passport.use(new localStrategy(ls));
 
 // serve static resource
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));

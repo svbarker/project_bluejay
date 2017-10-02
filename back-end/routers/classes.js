@@ -1,11 +1,11 @@
 const router = require("express").Router();
 
-router.post("/");
+router.post("/", (req, res) => {});
 
-router.get("/");
+router.get("/", (req, res) => {});
 
-router.patch("/");
+router.patch("/", (req, res) => {});
 
-router.delete("/");
+router.delete("/", (req, res) => {});
 
 module.exports = router;

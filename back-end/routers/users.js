@@ -1,13 +1,19 @@
 const router = require("express").Router();
+const { User } = require("../models");
 
-router.post("/");
+router.post("/", (req, res) => {
+  const {} = req.body;
+  User.create({}).then((err) => {
+    
+  })
+  });
 
-router.get("/", (req, res) => {
-  res.send("users accessed");
-});
+router.get("/", (req, res) => {});
 
-router.patch("/");
+router.patch("/", (req, res) => {});
 
-router.delete("/");
+router.delete("/", (req, res) => {
+  User.
+  });
 
 module.exports = router;
