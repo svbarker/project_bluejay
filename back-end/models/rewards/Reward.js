@@ -4,15 +4,11 @@ const RewardSchema = new mongoose.Schema(
 	{
 		kind: {
 			type: String,
-			default: 'Point'
+			enum: ['loot', 'point']
 		},
 		description: {
 			type: String,
 			required: true
-		},
-		cost: {
-			type: Number,
-			default: 5
 		},
 		teacher: {
 			type: mongoose.Schema.Types.ObjectId,

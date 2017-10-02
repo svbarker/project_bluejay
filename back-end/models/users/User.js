@@ -14,10 +14,10 @@ const UserSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Profile'
 		},
-		classes: [
+		classrooms: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Class'
+				ref: 'Classroom'
 			}
 		],
 		tasks: [
