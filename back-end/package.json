@@ -1,30 +1,36 @@
 {
-  "name": "final_project",
-  "version": "1.0.0",
-  "description": "A project by Stephanie, Andrew, Eric, and Ian",
-  "main": "back-end/server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Avonyel/final_project.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Avonyel/final_project/issues"
-  },
-  "homepage": "https://github.com/Avonyel/final_project#readme",
-  "dependencies": {
-    "bcrypt": "^1.0.3",
-    "bluebird": "^3.5.0",
-    "body-parser": "^1.18.2",
-    "dotenv": "^4.0.0",
-    "express": "^4.16.1",
-    "express-session": "^1.15.6",
-    "mongoose": "^4.11.14",
-    "passport": "^0.4.0",
-    "socket.io": "^2.0.3"
-  }
+	"name": "final_project",
+	"version": "1.0.0",
+	"description": "A project by Stephanie, Andrew, Eric, and Ian",
+	"main": "back-end/server.js",
+	"scripts": {
+		"start": "nodemon server/server.js",
+		"seed": "node seeding",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Avonyel/final_project.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Avonyel/final_project/issues"
+	},
+	"homepage": "https://github.com/Avonyel/final_project#readme",
+	"dependencies": {
+		"bcrypt": "^1.0.3",
+		"bluebird": "^3.5.0",
+		"body-parser": "^1.18.2",
+		"dotenv": "^4.0.0",
+		"express": "^4.16.1",
+		"express-session": "^1.15.6",
+		"faker": "^4.1.0",
+		"mongoose": "^4.11.14",
+		"mongoose-unique-validator": "^1.0.6",
+		"mongooseeder": "^2.0.5",
+		"passport": "^0.4.0",
+		"passport-local": "^1.0.0",
+		"socket.io": "^2.0.3"
+	}
 }
