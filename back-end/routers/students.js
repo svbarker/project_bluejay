@@ -26,6 +26,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+// reading a student
 router.get("/:id", async (req, res) => {
   try {
     const _id = req.params.id;
@@ -36,7 +37,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// finish
+// updating a student
 router.patch("/:id", async (req, res) => {
   try {
     const { updates } = req.body;
