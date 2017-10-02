@@ -30,7 +30,7 @@ passport.deserializeUser(configs.deserialize);
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
 // api routes
-app.use("/api/:resource", (req, res) => routers(req, res)(req, res));
+app.use("/api/:resource", (req, res) => routers(req)(req, res));
 
 // web sockets
 io.on("connection", require("./sockets"));
