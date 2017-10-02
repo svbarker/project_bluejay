@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const uniqueValidator = require('mongoose-unique-validator');
-const createSignedSessionId = require('../services/session');
 
 const UserSchema = new mongoose.Schema(
 	{

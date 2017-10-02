@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const uniqueValidator = require('mongoose-unique-validator');
 
 const ProfileSchema = new mongoose.Schema(
 	{
@@ -15,8 +13,6 @@ const ProfileSchema = new mongoose.Schema(
 		timestamps: true
 	}
 );
-
-ProfileSchema.plugin(uniqueValidator);
 
 ProfileSchema.virtual('fullname').get(function() {
 	return this.fname + ' ' + this.lname;
