@@ -65,7 +65,7 @@ UserSchema.methods.validatePassword = function(password) {
 	return bcrypt.compareSync(password, this.passwordHash);
 };
 
-UserSchema.post('init', function(next) {
+UserSchema.post('find', function(next) {
 	this.passwordHash = null;
 	next();
 });
