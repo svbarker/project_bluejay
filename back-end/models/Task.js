@@ -37,9 +37,6 @@ const TaskSchema = new mongoose.Schema(
 
 TaskSchema.plugin(uniqueValidator);
 
-TaskSchema.virtual('fullname').get(function() {
-	return this.fname + ' ' + this.lname;
-});
 
 const Task = mongoose.model('Task', TaskSchema);
 module.exports = Task;
