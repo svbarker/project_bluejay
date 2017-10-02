@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import teacher from "./teacher";
+import user from "./user";
 import students from "./student";
 import tasks from "./task";
 import rewards from "./rewards";
@@ -28,7 +28,7 @@ const reducer = (state = status, action) => {
 };
 
 const rootReducer = combineReducers({
-  teacher,
+  user,
   students,
   tasks,
   rewards,
