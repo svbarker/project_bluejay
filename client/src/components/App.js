@@ -1,7 +1,12 @@
 import React, { Component } from "react";
-import Navbar from "./Navbar";
+import TeacherNavbar from "./TeacherNavbar";
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { withRouter } from "react-router";
+import StudentNavbarContainer from "../containers/StudentNavbarContainer";
 import DashboardMenu from "./DashboardMenu";
+
+const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
 class App extends Component {
 	render() {
@@ -9,7 +14,7 @@ class App extends Component {
 			<div className="App">
 				<Router>
 					<div>
-						<Navbar displayName="Ms. Daisy" />
+						<StudentNavbarContainerWithRouter />
 						<Switch>
 							{/* do some login checking here */}
 							<Route exact path="/">
