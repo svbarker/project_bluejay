@@ -1,3 +1,4 @@
+const Event = require('./Event');
 const UserEvent = require('./UserEvent');
 const ProfileEvent = require('./ProfileEvent');
 const ClassEvent = require('./ClassEvent');
