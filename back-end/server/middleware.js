@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { createResponse } = require("./util");
 
 module.exports = {
   mongooseConnect: (res, req, next) => {
@@ -11,11 +12,7 @@ module.exports = {
     if (req.isAuthenticated()) {
       next();
     } else {
-      res.send({
-        operationStatus: "failure",
-        apiError: "User could not be authenticated",
-        authError: true
-      });
+      res.send(createResponse(new Error("User could not be authenticated")));
     }
   }
 };

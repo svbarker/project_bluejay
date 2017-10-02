@@ -23,7 +23,7 @@ app.use(express.static("client"));
 app.use(mw.mongooseConnect);
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use("/api", mw.authCheck);
+app.use("/api", mw.authCheck);
 
 // passport setup
 passport.serializeUser(configs.serialize);
@@ -34,6 +34,7 @@ passport.use(new localStrategy(ls));
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
 // api routes
+app.use("/sessions", require("../routers/sessions"));
 app.use("/api/:resource", (req, res) => routers(req)(req, res));
 
 // web sockets

@@ -1,13 +1,15 @@
-// const { User } = require("../models");
+const { User } = require("../models");
 
-module.exports = (username, password, done) => {
-  User.findOne({ email: username })
-    .then(user => {
-      if (user && user.validatePassword(password)) {
-        done(null, user);
-      } else {
-        done(null, false, { message: "validation failed" });
-      }
-    })
-    .catch(err => done);
+module.exports = async (username, password, done) => {
+  try {
+    const user = await User.findOne({ email: username });
+    if (user && user.validatePassword(password)) {
+      done(null, user);
+    } else {
+      done(null, false, { message: "validation failed" });
+    }
+  } catch (error) {
+    console.error(error);
+    done(error);
+  }
 };
