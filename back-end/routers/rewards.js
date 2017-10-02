@@ -22,6 +22,7 @@ router.get("/:id", async (req, res) => {
     const reward = await Reward.findById(_id);
     res.json(createResponse(reward));
   } catch (error) {
+    console.error(error);
     res.json(createResponse(error));
   }
 });
@@ -46,7 +47,7 @@ router.delete("/:id", async (req, res) => {
     const reward = await Reward.findByIdAndRemove(_id);
     res.json(createResponse(reward));
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.json(createResponse(error));
   }
 });

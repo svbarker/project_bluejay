@@ -9,6 +9,7 @@ router.get("/:id", async (req, res) => {
     const profile = await Profile.findById(_id);
     res.json(createResponse(profile));
   } catch (error) {
+    console.error(error);
     res.json(createResponse(error));
   }
 });
@@ -33,7 +34,7 @@ router.delete("/:id", async (req, res) => {
     const profile = await Profile.findByIdAndRemove(_id);
     res.json(createResponse(profile));
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.json(createResponse(error));
   }
 });

@@ -7,7 +7,7 @@ module.exports = {
     if (isError) {
       response.apiError = data.message;
     } else {
-      response.data = data;
+      response.apiData = data;
     }
     return response;
   }

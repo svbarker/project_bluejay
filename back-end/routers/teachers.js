@@ -35,6 +35,7 @@ router.get("/:id", async (req, res) => {
     const teacher = await Teacher.findById(_id);
     res.json(createResponse(teacher));
   } catch (error) {
+    console.error(error);
     res.json(createResponse(error));
   }
 });
@@ -59,7 +60,7 @@ router.delete("/:id", async (req, res) => {
     const teacher = await Teacher.findByIdAndRemove(_id);
     res.json(createResponse(teacher));
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.json(createResponse(error));
   }
 });
