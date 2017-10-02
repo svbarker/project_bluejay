@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
+import DashboardMenu from "./DashboardMenu";
 
 class App extends Component {
   render() {
@@ -8,7 +9,10 @@ class App extends Component {
         <Switch>
           {/* do some login checking here */}
           <Route exact path="/">
-            <h1>Dashboard</h1>
+            <div>
+              <h1>Dashboard</h1>
+              <DashboardMenu />
+            </div>
           </Route>
           <Route path="/student">
             <h1>Student</h1>
