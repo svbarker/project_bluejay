@@ -1,6 +1,3 @@
-// configure environment variables
-require("dotenv").config();
-
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -9,7 +6,6 @@ const expressSession = require("express-session");
 const path = require("path");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
-const mongoose = require("mongoose");
 
 require("../mongoose/connect");
 
@@ -19,7 +15,7 @@ const mw = require("./middleware");
 
 // middleware
 app.use(expressSession(configs.session));
-// app.use(express.static("front-end???"));
+app.use(express.static("client"));
 app.use(mw.mongooseConnect);
 
 // passport setup
