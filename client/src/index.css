@@ -1,5 +1,44 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+
+.navbar {
+	position: fixed;
+	display: grid;
+	top: 0;
+	width: 100%;
+	background-color: #dc2b2b;
+	grid-template-columns: 1fr 1fr 1.5fr;
+	align-items: center;
+	padding: 0 20px;
+}
+
+.navbar {
+	color: white;
+}
+
+.navbar a {
+	color: white;
+}
+
+.navbar h1 {
+	margin: 0;
+	font-size: 1.5em;
+}
+
+.navbar ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.navbar li {
+	display: inline-block;
+	padding: 10px;
+}
+
+.active li {
+	background-color: #ff6161;
 }
