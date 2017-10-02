@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Event = require('./Event');
 
 const ProfileEventSchema = new mongoose.Schema(
 	{

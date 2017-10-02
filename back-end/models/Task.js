@@ -5,23 +5,25 @@ const TaskSchema = new mongoose.Schema(
 		title: {
 			type: String,
 			required: true,
-			unique: true,
+			unique: true
 		},
 		description: {
 			type: String,
-			required: true,
-		}
-		rewards: [{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Reward"
-		}]
+			required: true
+		},
+		rewards: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Reward'
+			}
+		],
 		teacher: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "Teacher"
+			ref: 'Teacher'
 		},
 		class: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "Class"
+			ref: 'Class'
 		},
 		status: {
 			type: String,
@@ -34,7 +36,6 @@ const TaskSchema = new mongoose.Schema(
 );
 
 TaskSchema.plugin(uniqueValidator);
-
 
 const Task = mongoose.model('Task', TaskSchema);
 module.exports = Task;
