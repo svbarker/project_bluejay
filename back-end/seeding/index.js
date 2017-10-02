@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 const mongooseeder = require('mongooseeder');
 const models = require('../models/index');
-console.log(models);
 const {
 	Student,
 	Teacher,

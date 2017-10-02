@@ -15,4 +15,21 @@ module.exports = {
       res.send(createResponse(new Error("User could not be authenticated")));
     }
   }
+	logger: ({ url, method }, res, next) => {
+		const resource = url.match(/^\/api\/(\w+)s\//i);
+		if (!resource) next();
+		const event = createEvent(resource, method);
+		console.log(event);
+		next();
+	}
 };
+
+function createEvent(resource, method) {
+	switch (resource) {
+		case 'session':
+			switch (method) {
+				default: // GET SINGLE TEACHER
+			}
+			break;
+	}
+}
