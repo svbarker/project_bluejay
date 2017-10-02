@@ -8,7 +8,7 @@ import {
 
 export const studentInitState = [];
 
-const student = (state = studentInitState, action) => {
+const students = (state = studentInitState, action) => {
   switch (action.type) {
     case GET_ALL_STUDENTS:
       return {
@@ -41,4 +41,4 @@ const student = (state = studentInitState, action) => {
       return state;
   }
 };
-export default student;
+export default students;

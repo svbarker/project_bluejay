@@ -3,8 +3,8 @@ export const SET_TEACHER = "SET_TEACHER";
 // export const DELETE_TEACHER = "DELETE_TEACHER";
 
 const setTeacher = data => ({
-	type: SET_TEACHER,
-	data: data
+  type: SET_TEACHER,
+  data: data
 });
 
 // const updateTeacher = (id, data) => ({
@@ -20,6 +20,6 @@ const setTeacher = data => ({
 // 	data: data
 // });
 
-editTeacher = () => () => {
-	//
+const editTeacher = () => () => {
+  //
 };

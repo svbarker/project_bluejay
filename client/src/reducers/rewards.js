@@ -8,7 +8,7 @@ import {
 
 export const rewardInitState = [];
 
-const reward = (state = [], action) => {
+const rewards = (state = [], action) => {
   switch (action.type) {
     case GET_ALL_REWARDS:
       return {
@@ -41,4 +41,4 @@ const reward = (state = [], action) => {
       return state;
   }
 };
-export default reward;
+export default rewards;

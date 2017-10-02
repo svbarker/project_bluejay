@@ -8,7 +8,7 @@ import {
 
 export const taskInitState = [];
 
-const task = (state = [], action) => {
+const tasks = (state = [], action) => {
   switch (action.type) {
     case GET_ALL_TASKS:
       return {
@@ -41,4 +41,4 @@ const task = (state = [], action) => {
       return state;
   }
 };
-export default task;
+export default tasks;
