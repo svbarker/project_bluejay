@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
-const ClassSchema = new mongoose.Schema(
+const ClassroomSchema = new mongoose.Schema(
 	{
 		title: {
 			type: String,
@@ -30,7 +30,7 @@ const ClassSchema = new mongoose.Schema(
 	}
 );
 
-ClassSchema.plugin(uniqueValidator);
+ClassroomSchema.plugin(uniqueValidator);
 
-const Class = mongoose.model('Class', ClassSchema);
-module.exports = Class;
+const Classroom = mongoose.model('Classroom', ClassroomSchema);
+module.exports = Classroom;
