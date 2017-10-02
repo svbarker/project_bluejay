@@ -66,13 +66,13 @@ UserSchema.methods.validatePassword = function(password) {
 };
 
 UserSchema.post('init', function(result, next) {
-	this.passwordHash = null;
-	next(this);
+	result.passwordHash = null;
+	next(result);
 });
 
 UserSchema.post('save', function(result, next) {
-	this.passwordHash = null;
-	next(this);
+	result.passwordHash = null;
+	next(result);
 });
 
 const User = mongoose.model('User', UserSchema);
