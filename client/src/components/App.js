@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import TeacherNavbar from "./TeacherNavbar";
-
+import TeacherNavbarContainer from "../containers/TeacherNavbar";
+import StudentNavbarContainer from "../containers/StudentNavbarContainer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { withRouter } from "react-router";
-import StudentNavbarContainer from "../containers/StudentNavbarContainer";
 import DashboardMenu from "./DashboardMenu";
 
+const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
 class App extends Component {
