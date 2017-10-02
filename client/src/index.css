@@ -5,23 +5,32 @@ body {
 	font-family: sans-serif;
 }
 
+a {
+	text-decoration: none;
+}
+
+i {
+	padding: 0 10px;
+}
+
 .navbar {
 	position: fixed;
 	display: grid;
 	top: 0;
 	width: 100%;
 	background-color: #dc2b2b;
-	grid-template-columns: 1fr 1fr 1.5fr;
+	grid-template-columns: 1.5fr 1fr 1.5fr;
 	align-items: center;
-	padding: 0 20px;
-}
-
-.navbar {
+	padding: 0;
 	color: white;
 }
 
 .navbar a {
 	color: white;
+}
+
+.navbar a li:hover {
+	background-color: #ff6161;
 }
 
 .navbar h1 {
@@ -38,6 +47,20 @@ body {
 .navbar li {
 	display: inline-block;
 	padding: 10px;
+}
+
+.navbar-left {
+	justify-self: start;
+	padding-left: 20px;
+}
+
+.navbar-mid {
+	justify-self: center;
+}
+
+.navbar-right {
+	justify-self: end;
+	padding-right: 20px;
 }
 
 .active li {
