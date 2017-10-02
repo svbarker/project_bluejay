@@ -1,7 +1,25 @@
-export const START_REQUEST = "START_REQUEST";
-export const GET_ALL_TEACHERS = "GET_ALL_TEACHERS";
-export const GET_ONE_TEACHER = "GET_ONE_TEACHER";
-export const CREATE_TEACHER = "CREATE_TEACHER";
-export const UPDATE_TEACHER = "UPDATE_TEACHER";
-export const DELETE_TEACHER = "DELETE_TEACHER";
-export const FAILURE_REQUEST = "FAILED_REQUEST";
+export const SET_TEACHER = "SET_TEACHER";
+// export const UPDATE_TEACHER = "UPDATE_TEACHER";
+// export const DELETE_TEACHER = "DELETE_TEACHER";
+
+const setTeacher = data => ({
+	type: SET_TEACHER,
+	data: data
+});
+
+// const updateTeacher = (id, data) => ({
+// 	type: UPDATE_TEACHER,
+// 	data: {
+// 		id: id,
+// 		data: data
+// 	}
+// });
+
+// const deleteTeacher = (id) => ({
+// 	type: DELETE_TEACHER,
+// 	data: data
+// });
+
+editTeacher = () => () => {
+	//
+};

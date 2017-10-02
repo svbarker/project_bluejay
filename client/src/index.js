@@ -7,14 +7,17 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import reducers from "./reducers";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 const store = createStore(reducers, applyMiddleware(thunk));
-
+console.log(store);
 const app = () => {
 	return (
-		<Provider>
-			<App />
-		</Provider>
+		<MuiThemeProvider>
+			<Provider>
+				<App />
+			</Provider>
+		</MuiThemeProvider>
 	);
 };
 

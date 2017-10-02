@@ -1,52 +1,41 @@
 import {
-  START_REQUEST,
   GET_ALL_TASKS,
   GET_ONE_TASK,
-  CREATE_TASK,
+  ADD_TASK,
   UPDATE_TASK,
-  DELETE_TASK,
-  FAILURE_REQUEST
+  REMOVE_TASK
 } from "../actions/task";
 
 export const taskInitState = [];
 
 const task = (state = [], action) => {
   switch (action.type) {
-    case START_REQUEST:
-      return {
-        ...state,
-        isFetching: true
-      };
     case GET_ALL_TASKS:
       return {
         ...state,
-        isFetching: true
+        tasks: action.data
       };
-    case GET_ONE_TASK:
+    // case GET_ONE_TASK:
+    //   return {
+    //     ...state,
+    //     isFetching: true
+    //   };
+    case ADD_TASK:
       return {
         ...state,
-        isFetching: true
-      };
-    case CREATE_TASK:
-      return {
-        ...state,
-        isFetching: true
+        tasks: [...state.tasks, action.data]
       };
     case UPDATE_TASK:
       return {
         ...state,
-        isFetching: true
+        tasks: state.tasks.map(task => {
+          return action.data.id === task.id ? action.data.task : task;
+        })
       };
-    case DELETE_TASK:
+    case REMOVE_TASK:
       return {
         ...state,
-        isFetching: true
-      };
-    case FAILURE_REQUEST:
-      return {
-        ...state,
-        isFetching: false,
-        error: action.data
+        tasks: state.tasks.filter(task => task.id !== action.data)
       };
     default:
       return state;

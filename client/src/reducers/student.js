@@ -1,52 +1,41 @@
 import {
-  START_REQUEST,
   GET_ALL_STUDENTS,
   GET_ONE_STUDENT,
-  CREATE_STUDENT,
+  ADD_STUDENT,
   UPDATE_STUDENT,
-  DELETE_STUDENT,
-  FAILURE_REQUEST
+  REMOVE_STUDENT
 } from "../actions/student";
 
 export const studentInitState = [];
 
 const student = (state = studentInitState, action) => {
   switch (action.type) {
-    case START_REQUEST:
-      return {
-        ...state,
-        isFetching: true
-      };
     case GET_ALL_STUDENTS:
       return {
         ...state,
-        isFetching: true
+        students: action.data
       };
-    case GET_ONE_STUDENT:
+    // case GET_ONE_STUDENT:
+    //   return {
+    //     ...state,
+    //     isFetching: true
+    //   };
+    case ADD_STUDENT:
       return {
         ...state,
-        isFetching: true
-      };
-    case CREATE_STUDENT:
-      return {
-        ...state,
-        isFetching: true
+        students: [...state.students, action.data]
       };
     case UPDATE_STUDENT:
       return {
         ...state,
-        isFetching: true
+        students: state.students.map(student => {
+          return action.data.id === student.id ? action.data.student : student;
+        })
       };
-    case DELETE_STUDENT:
+    case REMOVE_STUDENT:
       return {
         ...state,
-        isFetching: true
-      };
-    case FAILURE_REQUEST:
-      return {
-        ...state,
-        isFetching: false,
-        error: action.data
+        students: state.students.filter(student => student.id !== action.data)
       };
     default:
       return state;
