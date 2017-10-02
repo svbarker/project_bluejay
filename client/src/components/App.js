@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TeacherNavbarContainer from "../containers/TeacherNavbar";
+import TeacherNavbarContainer from "../containers/TeacherNavbarContainer";
 import StudentNavbarContainer from "../containers/StudentNavbarContainer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { withRouter } from "react-router";

@@ -66,6 +66,10 @@ i {
 .active li {
 	background-color: #ff6161;
 }
+
+.avatar {
+	height: 100%;
+}
 /*/ Main Primary color /*/
 .color-primary-0 {
 	color: #dc2b2b;

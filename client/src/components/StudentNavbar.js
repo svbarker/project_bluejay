@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import Badge from "material-ui/Badge";
 
 class StudentNavbar extends Component {
 	constructor() {
@@ -36,7 +37,9 @@ class StudentNavbar extends Component {
 				</div>
 				<div className="navbar-right">
 					<ul>
-						<li>Welcome, {this.props.displayName}!</li>
+						<li>
+							<img className="avatar" src={this.props.avatar} />
+						</li>
 						<NavLink to="/messages">
 							<li>
 								<i className="fa fa-comment" aria-hidden="true" />

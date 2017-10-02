@@ -5,7 +5,8 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		...ownProps,
 		points: state.user.points,
-		displayName: state.user.displayName
+		displayName: state.user.displayName,
+		avatar: state.user.avatar
 	};
 };
 
