@@ -13,7 +13,7 @@ module.exports = {
     } else {
       res.send({
         operationStatus: "failure",
-        apiError: "user could not be authenticated",
+        apiError: "User could not be authenticated",
         authError: true
       });
     }
