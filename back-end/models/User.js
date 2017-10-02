@@ -47,6 +47,10 @@ const UserSchema = new mongoose.Schema(
 
 UserSchema.plugin(uniqueValidator);
 
+UserSchema.virtual('fullname').get(function() {
+	return this.profile.fullname;
+});
+
 UserSchema.virtual('password').set(function(val) {
 	this.passwordHash = bcrypt.hashSync(val, 10);
 });
