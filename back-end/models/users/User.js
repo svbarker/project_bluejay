@@ -70,5 +70,10 @@ UserSchema.post('init', function(result, next) {
 	next(this);
 });
 
+UserSchema.post('save', function(result, next) {
+	this.passwordHash = null;
+	next(this);
+});
+
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
