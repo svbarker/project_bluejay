@@ -2,10 +2,11 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const expressSession = require("express-session");
+const session = require("express-session");
 const path = require("path");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
+const routers = require("../routers");
 
 require("../mongoose/connect");
 
@@ -14,22 +15,24 @@ const configs = require("./config");
 const mw = require("./middleware");
 
 // middleware
-app.use(expressSession(configs.session));
+app.use(session(configs.session));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("client"));
 app.use(mw.mongooseConnect);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // passport setup
-passport.use(expressSession);
-passport.initialize();
 passport.serializeUser(configs.serialize);
 passport.deserializeUser(configs.deserialize);
 
-app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
+// serve static resource
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
-app.get("/", (req, res) => {
-  res.send("server running");
-});
+// api routes
+app.use("/api/:resource", (req, res) => routers(req)(req, res));
 
+// web sockets
 io.on("connection", require("./sockets"));
 
 server.listen(3000, () => {
