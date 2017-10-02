@@ -1,41 +1,43 @@
 import {
   START_REQUEST,
-  GET_ALL_TEACHERS,
-  GET_ONE_TEACHER,
-  CREATE_TEACHER,
-  UPDATE_TEACHER,
-  DELETE_TEACHER,
+  GET_ALL_TASKS,
+  GET_ONE_TASK,
+  CREATE_TASK,
+  UPDATE_TASK,
+  DELETE_TASK,
   FAILURE_REQUEST
-} from "../actions/teacher";
+} from "../actions/task";
 
-const teacher = (state = {}, action) => {
+export const taskInitState = [];
+
+const task = (state = [], action) => {
   switch (action.type) {
     case START_REQUEST:
       return {
         ...state,
         isFetching: true
       };
-    case GET_ALL_TEACHERS:
+    case GET_ALL_TASKS:
       return {
         ...state,
         isFetching: true
       };
-    case GET_ONE_TEACHER:
+    case GET_ONE_TASK:
       return {
         ...state,
         isFetching: true
       };
-    case CREATE_TEACHER:
+    case CREATE_TASK:
       return {
         ...state,
         isFetching: true
       };
-    case UPDATE_TEACHER:
+    case UPDATE_TASK:
       return {
         ...state,
         isFetching: true
       };
-    case DELETE_TEACHER:
+    case DELETE_TASK:
       return {
         ...state,
         isFetching: true
@@ -50,4 +52,4 @@ const teacher = (state = {}, action) => {
       return state;
   }
 };
-export default teacher;
+export default task;
