@@ -11,17 +11,17 @@ import reducers from "./reducers";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 const store = createStore(reducers, applyMiddleware(thunk));
-console.log(store.getState());
+
 const Index = () => {
-  return (
-    <MuiThemeProvider>
-      <Provider store={store}>
-        <Router>
-          <App />
-        </Router>
-      </Provider>
-    </MuiThemeProvider>
-  );
+	return (
+		<MuiThemeProvider>
+			<Provider store={store}>
+				<Router>
+					<App />
+				</Router>
+			</Provider>
+		</MuiThemeProvider>
+	);
 };
 
 ReactDOM.render(<Index />, document.getElementById("root"));
