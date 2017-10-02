@@ -28,7 +28,5 @@ const RewardSchema = new mongoose.Schema(
 	}
 );
 
-RewardSchema.plugin(uniqueValidator);
-
 const Reward = mongoose.model('Reward', RewardSchema);
 module.exports = Reward;
