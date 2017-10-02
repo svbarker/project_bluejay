@@ -33,6 +33,7 @@ router.get("/:id", async (req, res) => {
     const student = await Student.findById(_id);
     res.json(createResponse(student));
   } catch (error) {
+    console.error(error);
     res.json(createResponse(error));
   }
 });
@@ -57,7 +58,7 @@ router.delete("/:id", async (req, res) => {
     const student = await Student.findByIdAndRemove(_id);
     res.json(createResponse(student));
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.json(createResponse(error));
   }
 });
