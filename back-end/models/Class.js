@@ -7,20 +7,24 @@ const ClassSchema = new mongoose.Schema(
 		title: {
 			type: String,
 			required: true,
-			unique: true,
+			unique: true
 		},
 		description: {
 			type: String,
-			required: true,
+			required: true
 		},
-		students: [{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Student"
-		}]
-		teachers: [{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Teacher"
-		}]
+		students: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Student'
+			}
+		],
+		teachers: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Teacher'
+			}
+		]
 	},
 	{
 		timestamps: true

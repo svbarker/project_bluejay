@@ -13,31 +13,38 @@ const UserSchema = new mongoose.Schema(
 		passwordHash: String,
 		profile: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "Profile"
+			ref: 'Profile'
 		},
-		classes: [{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Class"
-		}],
-		tasks: [{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Task"
-		}],
-		rewards: [{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Reward"
-		}]
-		notifications: [{
-			message: {
-				type: String,
-				required: true
-			},
-			notificationType: {
-				type: String,
-				required: true
-			},
-		}]
-		sessionToken: String
+		classes: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Class'
+			}
+		],
+		tasks: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Task'
+			}
+		],
+		rewards: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Reward'
+			}
+		],
+		notifications: [
+			{
+				message: {
+					type: String,
+					required: true
+				},
+				notificationType: {
+					type: String,
+					required: true
+				}
+			}
+		]
 	},
 	{
 		timestamps: true,
@@ -58,11 +65,6 @@ UserSchema.virtual('password').set(function(val) {
 UserSchema.methods.validatePassword = function(password) {
 	return bcrypt.compareSync(password, this.passwordHash);
 };
-
-UserSchema.pre('save', function(next) {
-	this.sessionToken = createSignedSessionId(this.username);
-	next();
-});
 
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
