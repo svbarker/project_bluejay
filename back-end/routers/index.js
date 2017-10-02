@@ -1,3 +1,4 @@
+// provide router based on URL
 module.exports = (req, res) => {
   switch (req.params.resource) {
     case "users":
