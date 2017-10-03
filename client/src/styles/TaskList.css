@@ -1,0 +1,15 @@
+.task-container {
+	max-width: 960px;
+	margin: auto;
+}
+
+.menu-card-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-column-gap: 20px;
+}
+
+.menu-card-button-container {
+	justify-self: end;
+	grid-column-start: 2;
+}

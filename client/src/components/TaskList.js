@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import MenuCard from "./MenuCard";
+import "../styles/TaskList.css";
 
 class TaskList extends Component {
 	constructor(props) {
 		super(props);
 	}
 	componentDidMount() {
-		console.log("task list props: ", this.props);
 		this.props.hydrateTasks(this.props.userId);
 	}
 
@@ -16,7 +16,6 @@ class TaskList extends Component {
 				{!this.props.tasks.length ? null : (
 					this.props.tasks.map(task => <MenuCard task={task} />)
 				)}
-				}
 			</div>
 		);
 	}
