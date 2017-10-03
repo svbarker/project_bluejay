@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Task } = require('../models');
+const { Task, User } = require('../models');
 const { createResponse } = require('../server/util');
 const { getResource, logEvent, logError } = require('../server/middleware');
 const { TaskEvent, MessageEvent, Messages } = require('../models/events');
@@ -26,6 +26,11 @@ router.post('/', async (req, res) => {
 			classroom,
 			status
 		});
+		let promises = [];
+		const teacher = await User.findById(teacher);
+		teacher.tasks.push(task);
+		promises.push(teacher.save());
+		promises.push(task.save());
 
 		// Create log event.
 		logEvent(
@@ -38,7 +43,7 @@ router.post('/', async (req, res) => {
 			false
 		);
 
-		await task.save();
+		await Promise.all(promises);
 		res.json(createResponse(task));
 	} catch (error) {
 		logError(error);
@@ -52,15 +57,12 @@ router.get('/:id', async (req, res) => {
 		const task = await getResource(req.params.id, Task.findById.bind(Task));
 
 		// Create log event.
-		logEvent(
-			TaskEvent,
-			{
-				message: Messages.TEMPLATE_TASK_READ,
-				owner: req.user,
-				task
-			},
-			false
-		);
+		logEvent(TaskEvent, {
+			message: Messages.TEMPLATE_TASK_READ,
+			owner: req.user,
+			task
+		});
+
 		res.json(createResponse(task));
 	} catch (error) {
 		logError(error);
@@ -77,6 +79,12 @@ router.patch('/:id', async (req, res) => {
 			Task.findByIdAndUpdate(Task),
 			updates
 		);
+
+		if (updates.teacher) {
+			let teacher = User.findById(updates.teacher);
+			teacher.tasks.push(task);
+			await teacher.save();
+		}
 
 		task.fields = Object.keys(updates).join(',');
 		task.values = Object.values(updates).join(',');
@@ -105,7 +113,6 @@ router.patch('/:id', async (req, res) => {
 	}
 });
 
-// deleting a task
 router.delete('/:id', async (req, res) => {
 	try {
 		const task = await getResource(req.params.id, Task.findByIdAndRemove(Task));

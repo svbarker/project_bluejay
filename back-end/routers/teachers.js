@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Teacher, Profile } = require('../models');
+const { Teacher, Profile, Classroom, Task, Reward } = require('../models');
 const { createResponse } = require('../server/util');
 const { getResource, logEvent, logError } = require('../server/util');
 const { UserEvent, ProfileEvent, Messages } = require('../models/events');
@@ -167,6 +167,35 @@ router.patch('/:id', async (req, res) => {
 			updates
 		);
 
+		let promises = [];
+		if (updates.classrooms) {
+			updates.classrooms.forEach(classroom => {
+				if (!classroom.teachers.includes(teacher._id)) {
+					classroom = Classroom.findById(updates.classroom);
+					classroom.teachers.push(teacher);
+					promises.push(classroom.save());
+				}
+			});
+		}
+		if (updates.tasks) {
+			updates.tasks.forEach(task => {
+				if (!task.teachers.includes(teacher._id)) {
+					task = Classroom.findById(updates.task);
+					task.teachers.push(teacher);
+					promises.push(task.save());
+				}
+			});
+		}
+		if (updates.rewards) {
+			updates.rewards.forEach(reward => {
+				if (!reward.teachers.includes(teacher._id)) {
+					reward = Classroom.findById(updates.reward);
+					reward.teachers.push(teacher);
+					promises.push(reward.save());
+				}
+			});
+		}
+
 		// Create log event.
 		teacher.fields = Object.keys(updates).join(',');
 		teacher.values = Object.values(updates).join(',');
@@ -177,6 +206,7 @@ router.patch('/:id', async (req, res) => {
 			user: teacher
 		});
 
+		await Promise.all(promises);
 		res.json(createResponse(teacher));
 	} catch (error) {
 		logError(error);
