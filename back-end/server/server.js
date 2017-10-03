@@ -42,6 +42,10 @@ app.use("/api/:resource", require("../routers"));
 io.on("connection", require("./sockets"));
 
 // start server
-server.listen(3000, () => {
-  console.log("Listening on port 3000");
-});
+const productionStart = () => {
+  server.listen(configs.port, configs.serverCallback);
+};
+const developmentStart = () => {
+  server.listen(configs.port, configs.host, configs.serverCallback);
+};
+process.env.NODE_ENV === "production" ? productionStart() : developmentStart();
