@@ -22,10 +22,18 @@ const TaskSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Teacher'
 		},
-		classroom: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Classroom'
-		},
+		students: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Student'
+			}
+		],
+		classroom: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Classroom'
+			}
+		],
 		status: {
 			type: String,
 			default: 'Unassigned'
