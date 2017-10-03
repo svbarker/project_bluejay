@@ -13,6 +13,7 @@ class TaskList extends Component {
 	render() {
 		return (
 			<div className="task-container">
+				<h2>Tasks</h2>
 				{!this.props.tasks.length ? null : (
 					this.props.tasks.map(task => <MenuCard task={task} />)
 				)}

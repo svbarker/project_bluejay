@@ -23,6 +23,19 @@ const StudentItem = props => {
   );
 };
 
+const ModalTitle = () => {
+  return (
+    <div className="modal-title-container">
+      <div>
+        <h1>Full list of students</h1>
+      </div>
+      <div className="modal-title-button">
+        <FlatButton label="Unassign All" />
+      </div>
+    </div>
+  );
+};
+
 class StudentsModal extends React.Component {
   constructor() {
     super();
@@ -43,10 +56,10 @@ class StudentsModal extends React.Component {
       <Paper>
         <List className="horizontalCenterChildren" onClick={this.handleOpen}>
           <ListItem>Student 1</ListItem>
-          <i className="fa fa-ellipsis-v" />
+          <i className="fa fa-ellipsis-h" />
         </List>
         <Dialog
-          title="Full list of students"
+          title={<ModalTitle />}
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
