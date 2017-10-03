@@ -2,28 +2,31 @@ import React from "react";
 import Notifications from "../components/Notifications";
 import { connect } from "react-redux";
 
-// IS THIS WHAT ITS CALLED
-import { getNotifications } from "../actions/notifications";
+import {
+  clearNotification,
+  fetchNotifications
+} from "../actions/notifications";
 
 class NotificationsContainer extends React.Component {
   constructor() {
     super();
   }
 
-  componentDidMount() {
-    this.props.hydrateNotifications();
-  }
-
   takeToEvent = (event, id) => () => {
     this.props.history.push(`/${event}s/${id}`);
   };
 
+  componentDidMount() {
+    this.props.hydrateNotifications(this.props.user.id);
+  }
+
   render() {
-    const { notifications } = this.props;
+    const { notifications, clearNotification } = this.props;
     return (
       <Notifications
         takeToEvent={this.takeToEvent}
         notifications={notifications}
+        clearNotification={clearNotification}
       />
     );
   }
@@ -31,20 +34,20 @@ class NotificationsContainer extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    user: state.user,
     notifications: [
-      { message: "yeah", event: { kind: "task", id: 1 } },
-      { message: "this", event: { kind: "task", id: 1 } },
-      { message: "is", event: { kind: "reward", id: 1 } },
-      { message: "a", event: { kind: "task", id: 1 } },
-      { message: "notification", event: { kind: "reward", id: 1 } }
+      { message: "hello", kind: "reward", id: "59d3a0e477f2ad1e6668f823" }
     ]
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    hydrateNotifications: () => {
-      dispatch(getNotifications());
+    clearNotification: id => () => {
+      dispatch(clearNotification(id));
+    },
+    hydrateNotifications: id => {
+      dispatch(fetchNotifications(id));
     }
   };
 };

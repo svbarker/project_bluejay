@@ -3,6 +3,7 @@ import user from "./user";
 import students from "./student";
 import tasks from "./task";
 import rewards from "./rewards";
+import notifications from "./notifications";
 
 import { START_REQUEST, FAILURE_REQUEST } from "../actions/index";
 
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   students,
   tasks,
   rewards,
+  notifications,
   status: reducer
 });
 

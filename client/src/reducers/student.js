@@ -11,32 +11,20 @@ export const studentInitState = [];
 const students = (state = studentInitState, action) => {
   switch (action.type) {
     case GET_ALL_STUDENTS:
-      return {
-        ...state,
-        students: action.data
-      };
+      return action.data;
     // case GET_ONE_STUDENT:
     //   return {
     //     ...state,
     //     isFetching: true
     //   };
     case ADD_STUDENT:
-      return {
-        ...state,
-        students: [...state.students, action.data]
-      };
+      return [...state.students, action.data];
     case UPDATE_STUDENT:
-      return {
-        ...state,
-        students: state.students.map(student => {
-          return action.data.id === student.id ? action.data.student : student;
-        })
-      };
+      return state.students.map(student => {
+        return action.data.id === student.id ? action.data.student : student;
+      });
     case REMOVE_STUDENT:
-      return {
-        ...state,
-        students: state.students.filter(student => student.id !== action.data)
-      };
+      return state.students.filter(student => student.id !== action.data);
     default:
       return state;
   }
