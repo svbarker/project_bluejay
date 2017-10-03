@@ -1,13 +1,21 @@
+require("dotenv").config();
+const User = require("../models/users/User");
+
 module.exports = {
+  port: process.env.PORT || process.argv[2] || 3000,
+  host: "localhost",
+  serverCallback: () => {
+    console.log("Listening on port 3000");
+  },
   session: {
     secret: process.env.SECRET,
     saveUninitialized: true,
     resave: false
   },
-  serializeUser: (user, done) => {
+  serialize: (user, done) => {
     done(null, user._id);
   },
-  deeserializeUser: (_id, done) => {
+  deserialize: (_id, done) => {
     User.findById(_id).then(user => {
       done(null, user);
     });
