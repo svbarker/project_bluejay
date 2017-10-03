@@ -1,8 +1,27 @@
 import React from "react";
 import Paper from "material-ui/Paper";
 import Dialog from "material-ui/Dialog";
-import RaisedButton from "material-ui/RaisedButton";
+import FlatButton from "material-ui/FlatButton";
 import { List, ListItem } from "material-ui/List";
+
+const StudentItem = props => {
+  const unassignButton = (
+    <FlatButton
+      label="Unassign"
+      onClick={() => {
+        console.log("clicking");
+      }}
+    />
+  );
+  return (
+    <ListItem
+      primaryText={"Student1"}
+      secondaryText={"assigned on [insert date]"}
+      rightIconButton={unassignButton}
+      hoverColor="none"
+    />
+  );
+};
 
 class StudentsModal extends React.Component {
   constructor() {
@@ -19,21 +38,22 @@ class StudentsModal extends React.Component {
     this.setState({ open: false });
   };
   render() {
+    //check the amount and render ellipsis if necessary
     return (
       <Paper>
-        <List onClick={this.handleOpen}>
+        <List className="horizontalCenterChildren" onClick={this.handleOpen}>
           <ListItem>Student 1</ListItem>
+          <i className="fa fa-ellipsis-v" />
         </List>
         <Dialog
           title="Full list of students"
-          actions={null}
-          modal={false}
           open={this.state.open}
+          onRequestClose={this.handleClose}
         >
-          <List onClick={this.handleClose}>
-            <ListItem>Student 1</ListItem>
-            <ListItem>Student 1</ListItem>
-            <ListItem>Student 1</ListItem>
+          <List>
+            <StudentItem />
+            <StudentItem />
+            <StudentItem />
           </List>
         </Dialog>
       </Paper>
