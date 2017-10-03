@@ -9,12 +9,16 @@ const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
 class App extends Component {
+  componentDidMount() {
+    this.props.loginTeacher();
+  }
+
   render() {
     return (
       <div className="App">
         <Router>
           <div>
-            <StudentNavbarContainerWithRouter />
+            <TeacherNavbarContainerWithRouter />
             <Switch>
               {/* do some login checking here */}
               <Route exact path="/">
