@@ -14,21 +14,21 @@ const {
 const mongodbUrl = "mongodb://localhost/final_project";
 const faker = require("faker");
 
-const { RewardEvent, Messages } = require('../models/events');
+const { RewardEvent, Messages } = require("../models/events");
 
 mongooseeder.seed({
-	mongodbUrl: mongodbUrl,
-	models: models,
-	clean: false,
-	mongoose: mongoose,
-	seeds: () => {
-		let students = [];
-		let teachers = [];
-		let profiles = [];
-		let classrooms = [];
-		let tasks = [];
-		let rewards = [];
-		let events = [];
+  mongodbUrl: mongodbUrl,
+  models: models,
+  clean: false,
+  mongoose: mongoose,
+  seeds: () => {
+    let students = [];
+    let teachers = [];
+    let profiles = [];
+    let classrooms = [];
+    let tasks = [];
+    let rewards = [];
+    let events = [];
 
     // Students.
     for (let s = 0; s < 5; s++) {
@@ -89,60 +89,39 @@ mongooseeder.seed({
       classrooms.push(classroom);
     }
 
-<<<<<<< HEAD
     // Rewards.
     for (let r = 0; r < 5; r++) {
       process.stdout.write(".");
       const pointReward = new PointReward({
+        title: faker.company.companyName(),
         description: faker.lorem.paragraph(),
         value: Math.round(Math.random() * 10 + 1),
         teacher: teachers[0]
       });
       rewards.push(pointReward);
+      let rewardEvent = new RewardEvent({
+        message: "This is a test event!",
+        reward: pointReward
+      });
+      events.push(rewardEvent);
+      students[0].notifications.push(rewardEvent);
 
       process.stdout.write(".");
       const lootReward = new LootReward({
+        title: faker.company.companyName(),
         description: faker.lorem.paragraph(),
         value: Math.round(Math.random() * 10 + 1),
         teacher: teachers[0]
       });
+      events.push(rewardEvent);
       rewards.push(lootReward);
+
+      rewardEvent = new RewardEvent({
+        message: "This is a test event!",
+        reward: lootReward
+      });
+      students[0].notifications.push(rewardEvent);
     }
-=======
-		// Rewards.
-		for (let r = 0; r < 5; r++) {
-			process.stdout.write('.');
-			const pointReward = new PointReward({
-				title: faker.company.companyName(),
-				description: faker.lorem.paragraph(),
-				value: Math.round(Math.random() * 10 + 1),
-				teacher: teachers[0]
-			});
-			rewards.push(pointReward);
-			let rewardEvent = new RewardEvent({
-				message: 'This is a test event!',
-				reward: pointReward
-			});
-			events.push(rewardEvent);
-			students[0].notifications.push(rewardEvent);
-
-			process.stdout.write('.');
-			const lootReward = new LootReward({
-				title: faker.company.companyName(),
-				description: faker.lorem.paragraph(),
-				value: Math.round(Math.random() * 10 + 1),
-				teacher: teachers[0]
-			});
-			events.push(rewardEvent);
-			rewards.push(lootReward);
-
-			rewardEvent = new RewardEvent({
-				message: 'This is a test event!',
-				reward: lootReward
-			});
-			students[0].notifications.push(rewardEvent);
-		}
->>>>>>> b18269640c0637dc49e80f2ab9f3005ae26e09a3
 
     // Tasks.
     for (let t = 0; t < 5; t++) {
@@ -173,31 +152,20 @@ mongooseeder.seed({
       return teacher;
     });
 
-<<<<<<< HEAD
     const promiseArr = [];
-    [students, teachers, profiles, tasks, rewards].forEach(models =>
+    [
+      students,
+      teachers,
+      classrooms,
+      profiles,
+      tasks,
+      rewards,
+      events
+    ].forEach(models =>
       models.forEach(model => {
         return promiseArr.push(model.save());
       })
     );
     return Promise.all(promiseArr);
   }
-=======
-		const promiseArr = [];
-		[
-			students,
-			teachers,
-			classrooms,
-			profiles,
-			tasks,
-			rewards,
-			events
-		].forEach(models =>
-			models.forEach(model => {
-				return promiseArr.push(model.save());
-			})
-		);
-		return Promise.all(promiseArr);
-	}
->>>>>>> b18269640c0637dc49e80f2ab9f3005ae26e09a3
 });
