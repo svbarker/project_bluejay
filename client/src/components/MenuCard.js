@@ -3,22 +3,18 @@ import React from "react";
 import { Card, CardHeader, CardText } from "material-ui";
 import Dialog from "material-ui/Dialog";
 import Paper from "material-ui/Paper";
+import FlatButton from "material-ui/FlatButton";
 
-import StudentsModal from "../components/StudentModal";
+import StudentModal from "../components/StudentModal";
 
-const style = {
-	display: "flex",
-	justifyContent: "space-between"
-};
-
-const MenuNav = () => {
-	return (
-		<div style={style}>
-			<p>Task Name Here</p>
-			<p>Points Here</p>
-		</div>
-	);
-};
+// const MenuNav = () => {
+// 	return (
+// 		<div>
+// 			<p>Task Name Here</p>
+// 			<p>Points Here</p>
+// 		</div>
+// 	);
+// };
 
 class MenuCard extends React.Component {
 	constructor(props) {
@@ -29,19 +25,22 @@ class MenuCard extends React.Component {
 	}
 	render() {
 		//change this to grab this.props.tasks later
-		const { title, points } = this.props.task;
+		const { title, value, description } = this.props.task;
 		return (
 			<Card>
 				<CardHeader actAsExpander={true} showExpandableButton={true}>
-					<div style={style}>
-						<p>{title}</p>
-						<p>{points}</p>
-					</div>
+					{title} {value}
 				</CardHeader>
 				<CardText expandable={true}>
-					<div style={style}>
-						<p>Such task descriptions here.[insert descriptions later]</p>
-						<StudentsModal />
+					<div class="menu-card-container">
+						<p>{description}</p>
+						<div>
+							<StudentModal />
+						</div>
+						<div className="menu-card-button-container">
+							<FlatButton>Edit Task</FlatButton>
+							<FlatButton>Delete Task</FlatButton>
+						</div>
 					</div>
 				</CardText>
 			</Card>
