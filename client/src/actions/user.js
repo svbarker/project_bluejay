@@ -2,7 +2,7 @@ export const SET_USER = "SET_USER";
 // export const UPDATE_USER = "UPDATE_USER";
 // export const DELETE_USER = "DELETE_USER";
 
-const setUser = data => ({
+export const setUser = data => ({
 	type: SET_USER,
 	data: data
 });
@@ -20,20 +20,24 @@ const setUser = data => ({
 // 	data: data
 // });
 
-const loginTeacher = () => async dispatch => {
-	const response = await fetch("/sessions", {
-		method: "POST",
-		credentials: "include",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify({ username: "teacher1@teach.com", password: "foo" })
-	});
+// export const loginTeacher = () => async dispatch => {
+// 	try {
+// 		const response = await fetch("/sessions", {
+// 			method: "POST",
+// 			credentials: "include",
+// 			headers: {
+// 				"Content-Type": "application/json"
+// 			},
+// 			body: JSON.stringify({ username: "teacher1@teach.com", password: "foo" })
+// 		});
 
-	const teacher = await response.json();
+// 		const teacher = await response.json();
 
-	setUser(teacher);
-};
+// 		dispatch(setUser(teacher.apiData));
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// };
 
 const editUser = () => () => {
 	//

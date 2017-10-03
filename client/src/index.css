@@ -11,6 +11,7 @@ a {
 
 i {
   padding: 0 10px;
+<<<<<<< HEAD
 }
 
 .horizontalCenterChildren {
@@ -18,6 +19,8 @@ i {
   flex-direction: column;
   align-items: center;
   align-content: center;
+=======
+>>>>>>> 5a0e2f823fbe994710a8f54def6b121cacfbf409
 }
 
 .navbar {
@@ -25,7 +28,11 @@ i {
   display: grid;
   top: 0;
   width: 100%;
+<<<<<<< HEAD
   background-color: #dc2b2b;
+=======
+  background-color: #1a8484;
+>>>>>>> 5a0e2f823fbe994710a8f54def6b121cacfbf409
   grid-template-columns: 1.5fr 1fr 1.5fr;
   align-items: center;
   padding: 0;
@@ -37,7 +44,11 @@ i {
 }
 
 .navbar a li:hover {
+<<<<<<< HEAD
   background-color: #ff6161;
+=======
+  background-color: #96cd28;
+>>>>>>> 5a0e2f823fbe994710a8f54def6b121cacfbf409
 }
 
 .navbar h1 {
@@ -71,7 +82,11 @@ i {
 }
 
 .active li {
+<<<<<<< HEAD
   background-color: #ff6161;
+=======
+  background-color: #96cd28;
+>>>>>>> 5a0e2f823fbe994710a8f54def6b121cacfbf409
 }
 
 .avatar {

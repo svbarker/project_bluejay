@@ -4,9 +4,15 @@ export const ADD_TASK = "ADD_TASK";
 export const UPDATE_TASK = "UPDATE_TASK";
 export const REMOVE_TASK = "REMOVE_TASK";
 
+<<<<<<< HEAD
 const getTasks = data => ({
   type: GET_ALL_TASKS,
   data: data
+=======
+export const getTasks = data => ({
+	type: GET_ALL_TASKS,
+	data: data
+>>>>>>> 5a0e2f823fbe994710a8f54def6b121cacfbf409
 });
 
 const addTask = data => ({
