@@ -4,7 +4,7 @@ export const ADD_STUDENT = "ADD_STUDENT";
 export const UPDATE_STUDENT = "UPDATE_STUDENT";
 export const REMOVE_STUDENT = "REMOVE_STUDENT";
 
-const getStudents = data => ({
+export const getStudents = data => ({
 	type: GET_ALL_STUDENTS,
 	data: data
 });

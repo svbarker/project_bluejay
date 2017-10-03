@@ -26,9 +26,15 @@ export const loginTeacher = () => async dispatch => {
 			displayName: teacher.apiData.profile.displayName
 		};
 
+		const students = [];
+		teacher.apiData.classrooms.forEach(classroom => {
+			students.push(...classroom.students);
+		});
+
 		dispatch(user.setUser(userObj));
 		dispatch(task.getTasks(teacher.apiData.tasks));
 		dispatch(rewards.getRewards(teacher.apiData.rewards));
+		dispatch(student.getStudents(students));
 	} catch (error) {
 		console.log(error);
 	}
