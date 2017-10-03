@@ -21,12 +21,13 @@ class NotificationsContainer extends React.Component {
   }
 
   render() {
-    const { notifications, clearNotification } = this.props;
+    const { user, notifications, clearNotification } = this.props;
     return (
       <Notifications
         takeToEvent={this.takeToEvent}
         notifications={notifications}
         clearNotification={clearNotification}
+        user={user}
       />
     );
   }
@@ -35,16 +36,14 @@ class NotificationsContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    notifications: [
-      { message: "hello", kind: "reward", id: "59d3a0e477f2ad1e6668f823" }
-    ]
+    notifications: [{ message: "hello", kind: "task", id: "1" }]
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    clearNotification: id => () => {
-      dispatch(clearNotification(id));
+    clearNotification: (t_id, n_id) => () => {
+      dispatch(clearNotification(t_id, n_id));
     },
     hydrateNotifications: id => {
       dispatch(fetchNotifications(id));

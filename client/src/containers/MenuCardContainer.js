@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import { hydrateTeacherTasks } from "../actions/task";
 import MenuCard from "../components/MenuCard";
 
 const mapStateToProps = state => {

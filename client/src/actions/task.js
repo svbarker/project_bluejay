@@ -28,14 +28,15 @@ const removeTask = id => ({
 
 export const hydrateTeacherTasks = userId => async dispatch => {
   try {
-    const response = await fetch(`/teachers/${userId}/tasks`, {
+    const response = await fetch(`api/teachers/${userId}/tasks`, {
       method: "GET",
       credentials: "include"
     });
 
-    const tasks = response.json().apiData;
+    const tasks = await response.json();
+    console.log("Tasks in the actions: ", tasks);
 
-    dispatch(getTasks(tasks));
+    dispatch(getTasks(tasks.apiData));
   } catch (error) {
     console.log(error);
   }

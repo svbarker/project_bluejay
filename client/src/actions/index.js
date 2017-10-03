@@ -18,24 +18,17 @@ export const loginTeacher = () => async dispatch => {
 		});
 
 		const teacher = await response.json();
+		console.log("Teacher: ", teacher);
 		if (!teacher.success) {
 			throw new Error("Something went wrong with your request.");
 		}
 
 		const userObj = {
-			id: teacher.apiData.profile.id,
+			id: teacher.apiData._id,
 			displayName: teacher.apiData.profile.displayName
 		};
 
-		const students = [];
-		teacher.apiData.classrooms.forEach(classroom => {
-			students.push(...classroom.students);
-		});
-
 		dispatch(user.setUser(userObj));
-		dispatch(task.getTasks(teacher.apiData.tasks));
-		dispatch(rewards.getRewards(teacher.apiData.rewards));
-		dispatch(student.getStudents(students));
 	} catch (error) {
 		console.log(error);
 	}

@@ -32,13 +32,13 @@ export const fetchNotifications = id => async dispatch => {
 export const clearNotification = (t_id, n_id) => async dispatch => {
   try {
     let response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
-      method: "PATCH"
+      method: "DELETE"
     });
     response = await response.json();
     if (!response.success) {
       throw new Error("Something went wrong with your request.");
     }
-    dispatch(removeNotification(id));
+    dispatch(removeNotification(n_id));
   } catch (error) {
     console.log(error);
   }
