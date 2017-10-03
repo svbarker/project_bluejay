@@ -17,11 +17,16 @@ const icon = n => {
   );
 };
 
-const clearButton = (n, handler) => {
-  return <button onClick={handler(n.id)}>Clear</button>;
+const clearButton = (notification, userId, handler) => {
+  return <button onClick={handler(userId, notification.id)}>Clear</button>;
 };
 
-const Notifications = ({ notifications, takeToEvent, clearNotification }) => {
+const Notifications = ({
+  notifications,
+  takeToEvent,
+  user,
+  clearNotification
+}) => {
   return (
     <List>
       {notifications.map(n => {
@@ -35,7 +40,7 @@ const Notifications = ({ notifications, takeToEvent, clearNotification }) => {
             onClick={takeToEvent(n.kind, n.id)}
             leftIcon={icon(n)}
             style={{ marginLeft: "150px", marginRight: "150px" }}
-            rightIcon={clearButton(n, clearNotification)}
+            rightIcon={clearButton(n, user.id, clearNotification)}
           />
         );
       })}

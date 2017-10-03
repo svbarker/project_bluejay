@@ -12,7 +12,6 @@ class StudentNavbar extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <div className="navbar">
         <div className="navbar-left">
