@@ -1,1 +1,1 @@
-module.exports = ({ params: { resource } }) => require(`./${resource}`);
+module.exports = (req, res) => require(`./${req.params.resource}`)(req, res);
