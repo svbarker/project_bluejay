@@ -35,7 +35,9 @@ class NotificationsContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    notifications: state.notifications
+    notifications: [
+      { message: "hello", kind: "reward", id: "59d3a0e477f2ad1e6668f823" }
+    ]
   };
 };
 

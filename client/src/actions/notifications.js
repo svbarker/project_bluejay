@@ -16,7 +16,6 @@ const getAllNotifications = data => {
 };
 
 export const fetchNotifications = id => async dispatch => {
-  console.log("fetching");
   try {
     let response = await fetch(`/api/teachers/${id}/notifications`, {
       method: "GET"
@@ -25,7 +24,6 @@ export const fetchNotifications = id => async dispatch => {
     if (!response.success) {
       throw new Error("Something went wrong with your request.");
     }
-    console.log("success");
   } catch (error) {
     console.log(error);
   }
