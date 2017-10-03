@@ -5,7 +5,8 @@ const TaskEventSchema = new mongoose.Schema(
 	{
 		task: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Profile'
+			ref: 'Profile',
+			required: true
 		}
 	},
 	{

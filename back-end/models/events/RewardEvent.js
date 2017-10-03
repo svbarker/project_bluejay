@@ -5,7 +5,8 @@ const RewardEventSchema = new mongoose.Schema(
 	{
 		reward: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Profile'
+			ref: 'Reward',
+			required: true
 		}
 	},
 	{
