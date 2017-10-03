@@ -26,7 +26,7 @@ export const loginTeacher = () => async dispatch => {
 			displayName: teacher.apiData.profile.displayName
 		};
 
-		dispatch(user.setUser(teacher.apiData));
+		dispatch(user.setUser(userObj));
 		dispatch(task.getTasks(teacher.apiData.tasks));
 		dispatch(rewards.getRewards(teacher.apiData.rewards));
 	} catch (error) {
