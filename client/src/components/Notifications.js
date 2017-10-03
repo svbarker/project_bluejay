@@ -3,10 +3,21 @@ import { List, ListItem } from "material-ui/List";
 import FontIcon from "material-ui/FontIcon";
 import { red500, yellow500, blue500 } from "material-ui/styles/colors";
 
-const iconStyles = { marginLeft: "-100px" };
+const iconStyles = { marginLeft: "0", color: "#507c0c" };
 
-const taskIcon = "fa fa-tasks";
-const rewardIcon = "fa fa-gift";
+const icon = n => {
+  return (
+    <i
+      style={{
+        ...iconStyles,
+        color: n.event.kind === "task" ? "#1A8484 " : "#96CD28"
+      }}
+      className={`${n.event.kind === "task"
+        ? "fa fa-tasks"
+        : "fa fa-gift"} fa-2x`}
+    />
+  );
+};
 
 const Notifications = ({ notifications, takeToEvent }) => {
   return (
@@ -17,18 +28,11 @@ const Notifications = ({ notifications, takeToEvent }) => {
             key={n.message}
             primaryText={n.message}
             secondaryText={n.message}
-            hoverColor={"red"}
+            hoverColor={"lightgrey"}
             secondaryTextLines={2}
             onClick={takeToEvent(n.event.kind, n.event.id)}
-            leftIcon={
-              <i
-                style={iconStyles}
-                className={`${n.event.kind === "task"
-                  ? taskIcon
-                  : rewardIcon} fa-3x`}
-              />
-            }
-            style={{ marginLeft: "100px" }}
+            leftIcon={icon(n)}
+            style={{ marginLeft: "150px", marginRight: "150px" }}
           />
         );
       })}

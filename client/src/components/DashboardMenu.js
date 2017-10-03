@@ -8,7 +8,7 @@ import Paper from "material-ui/Paper";
 
 const DashboardMenu = () => {
   return (
-    <Paper style={{ backgroundColor: "#ff6161" }} className="dashboard-menu">
+    <Paper className="dashboard-menu">
       <Link to="/students">
         <Paper id="dashboard-menu-item1" className="dashboard-menu-item">
           <div className="dashboard-menu-grid">

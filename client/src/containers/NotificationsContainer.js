@@ -32,11 +32,11 @@ class NotificationsContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     notifications: [
-      { message: "yeah", event: { kind: "task", id: 1 } },
-      { message: "this", event: { kind: "task", id: 1 } },
-      { message: "is", event: { kind: "reward", id: 1 } },
-      { message: "a", event: { kind: "task", id: 1 } },
-      { message: "notification", event: { kind: "reward", id: 1 } }
+      { message: "task notification", event: { kind: "task", id: 1 } },
+      { message: "task notification", event: { kind: "task", id: 1 } },
+      { message: "reward notification", event: { kind: "reward", id: 1 } },
+      { message: "task notification", event: { kind: "task", id: 1 } },
+      { message: "reward notification", event: { kind: "reward", id: 1 } }
     ]
   };
 };
