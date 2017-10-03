@@ -104,7 +104,6 @@ mongooseeder.seed({
 				reward: pointReward
 			});
 			events.push(rewardEvent);
-			students[0].notifications.push(rewardEvent);
 
 			process.stdout.write('.');
 			const lootReward = new LootReward({
@@ -120,7 +119,6 @@ mongooseeder.seed({
 				message: 'This is a test event!',
 				reward: lootReward
 			});
-			students[0].notifications.push(rewardEvent);
 		}
 
 		// Tasks.

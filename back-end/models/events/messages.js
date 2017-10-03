@@ -9,6 +9,8 @@ module.exports = {
 	TEMPLATE_TEACHER_READ: `Data retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%`,
 	TEMPLATE_TEACHER_TASK_READ: `Task retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.taskList%]`,
 	TEMPLATE_TEACHER_REWARD_READ: `Reward retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.rewardList%]`,
+	TEMPLATE_TEACHER_CLASSROOM_READ: `Classroom retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.classRoomList%]`,
+	TEMPLATE_TEACHER_NOTIFICATION_READ: `Notification retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.notificationList%]`,
 	TEMPLATE_TEACHER_UPDATE: `%owner.profile.displayName% updated teacher %user.profile.displayName%. [%user.fields%] [%user.values%]`,
 	TEMPLATE_TEACHER_DELETE: `%owner.profile.displayName% deleted teacher %user.profile.displayName%.`,
 
