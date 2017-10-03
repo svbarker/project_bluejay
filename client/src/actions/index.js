@@ -23,6 +23,7 @@ export const loginTeacher = () => async dispatch => {
 		}
 
 		const userObj = {
+			id: teacher.apiData.profile.id,
 			displayName: teacher.apiData.profile.displayName
 		};
 

@@ -25,3 +25,18 @@ const removeTask = id => ({
   type: REMOVE_TASK,
   data: id
 });
+
+export const hydrateTeacherTasks = userId => async dispatch => {
+  try {
+    const response = await fetch(`/teachers/${userId}/tasks`, {
+      method: "GET",
+      credentials: "include"
+    });
+
+    const tasks = response.json().apiData;
+
+    dispatch(getTasks(tasks));
+  } catch (error) {
+    console.log(error);
+  }
+};
