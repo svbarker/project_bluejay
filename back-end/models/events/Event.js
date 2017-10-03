@@ -27,15 +27,11 @@ EventSchema.virtual('message').set(function(val) {
 	let matches;
 	while ((matches = regex.exec(val)) !== null) {
 		const [first, second, third] = matches[1].split('.');
-		console.log('SPLITS:', first, second, third);
+
 		if (!first || !second) {
 			this._message = 'ERROR: UNABLE TO PARSE TEMPLATE';
 			return;
 		}
-		console.log('THIS:', this);
-		console.log('FIRST:', this[first]);
-		console.log('SECOND:', this[first][second]);
-		console.log('THIRD:', this[first][second][third]);
 
 		this._message = val.replace(
 			matches[0],

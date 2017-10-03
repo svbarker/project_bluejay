@@ -1,10 +1,15 @@
 const { Event, Messages } = require('../models/events');
 module.exports = {
-	getResource: async function(_id, method, options) {
+	getResource: async function(_id, method, options, populate) {
 		if (!_id) {
 			throw new Error('No id supplied for resource method.');
 		}
-		const resource = await method(_id, options);
+		let resource;
+		if (populate) {
+			resource = await method(_id, options).populate(populate);
+		} else {
+			resource = await method(_id, options);
+		}
 		if (!resource) {
 			throw new Error('No resource found with that id.');
 		}
@@ -28,25 +33,26 @@ module.exports = {
 		console.log(event);
 	},
 	logEvent: (type, options, internal) => {
-		module.exports.log(
-			new type(
-				Object.assign(
-					{
-						internal
-					},
-					options
-				)
+		const newEvent = new type(
+			Object.assign(
+				{
+					internal
+				},
+				options
 			)
 		);
+		module.exports.log(newEvent);
+		return newEvent;
 	},
 	logError: error => {
 		console.log(error);
-		const event = new Event({
+		const newEvent = new Event({
 			message: Messages.INTERNAL_ERROR,
 			owner: {
 				message: error.message
 			}
 		});
-		module.exports.log(event);
+		module.exports.log(newEvent);
+		return newEvent;
 	}
 };

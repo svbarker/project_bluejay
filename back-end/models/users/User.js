@@ -45,6 +45,18 @@ const UserSchema = new mongoose.Schema(
 	}
 );
 
+const autoPopulateProfile = function(next) {
+	this.populate({
+		path: 'profile',
+		model: 'Profile'
+	});
+	next();
+};
+
+UserSchema.pre('findOne', autoPopulateProfile);
+UserSchema.pre('findOneAndUpdate', autoPopulateProfile);
+UserSchema.pre('findOneAndRemove', autoPopulateProfile);
+
 UserSchema.plugin(uniqueValidator);
 
 UserSchema.virtual('fullname').get(function() {
