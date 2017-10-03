@@ -22,9 +22,9 @@ const TaskSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Teacher'
 		},
-		class: {
+		classroom: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Class'
+			ref: 'Classroom'
 		},
 		status: {
 			type: String,
@@ -37,6 +37,10 @@ const TaskSchema = new mongoose.Schema(
 );
 
 TaskSchema.plugin(uniqueValidator);
+
+TaskSchema.methods.toString = function() {
+	return `${this.title}`;
+};
 
 const Task = mongoose.model('Task', TaskSchema);
 module.exports = Task;

@@ -87,8 +87,9 @@ router.get('/:id/tasks', async (req, res) => {
 		);
 
 		// Create log event.
+		teacher.taskList = teacher.tasks.join(',');
 		logEvent(UserEvent, {
-			message: Messages.TEMPLATE_TEACHER_READ,
+			message: Messages.TEMPLATE_TEACHER_TASK_READ,
 			owner: req.user,
 			user: teacher
 		});
@@ -103,11 +104,25 @@ router.get('/:id/tasks', async (req, res) => {
 // reading a teacher's reward(s)
 router.get('/:id/rewards', async (req, res) => {
 	try {
-		const _id = req.params.id;
-		const teacher = await Teacher.findById(_id).populate({
-			path: 'rewards',
-			model: 'Reward'
+		const teacher = await getResource(
+			req.params.id,
+			Teacher.findById.bind(Teacher),
+			{},
+			{
+				path: 'rewards',
+				model: 'Reward'
+			}
+		);
+
+		// Create log event.
+		teacher.rewardList = teacher.rewards.join(',');
+		console.log(teacher.rewardList);
+		logEvent(UserEvent, {
+			message: Messages.TEMPLATE_TEACHER_TASK_READ,
+			owner: req.user,
+			user: teacher
 		});
+
 		res.json(createResponse(teacher.rewards));
 	} catch (error) {
 		logError(error);

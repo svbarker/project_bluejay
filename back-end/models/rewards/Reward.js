@@ -6,6 +6,10 @@ const RewardSchema = new mongoose.Schema(
 			type: String,
 			enum: ['loot', 'point']
 		},
+		title: {
+			type: String,
+			required: true
+		},
 		description: {
 			type: String,
 			required: true

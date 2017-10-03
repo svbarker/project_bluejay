@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { createResponse } = require('../server/util');
 const passport = require('passport');
 const { getResource, logEvent, logError } = require('../server/util');
-const { UserEvent, Messages } = require('../models/events');
+const { ErrorEvent, UserEvent, Messages } = require('../models/events');
 
 // passport login route
 router.post('/', async (req, res, next) => {
@@ -10,7 +10,9 @@ router.post('/', async (req, res, next) => {
 		await passport.authenticate('local', async (err, user, info) => {
 			try {
 				if (!user) {
-					throw new Error('Invalid email or password.');
+					throw new Error(
+						`Invalid email or password. (email: ${req.body.username})`
+					);
 				}
 				await req.logIn(user, err => {
 					// Create log event.
