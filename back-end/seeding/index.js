@@ -98,6 +98,7 @@ mongooseeder.seed({
 				value: Math.round(Math.random() * 10 + 1),
 				teacher: teachers[0]
 			});
+
 			rewards.push(pointReward);
 			let rewardEvent = new RewardEvent({
 				message: 'This is a test event!',
@@ -112,13 +113,13 @@ mongooseeder.seed({
 				value: Math.round(Math.random() * 10 + 1),
 				teacher: teachers[0]
 			});
-			events.push(rewardEvent);
-			rewards.push(lootReward);
 
+			rewards.push(lootReward);
 			rewardEvent = new RewardEvent({
 				message: 'This is a test event!',
 				reward: lootReward
 			});
+			events.push(rewardEvent);
 		}
 
 		// Tasks.
