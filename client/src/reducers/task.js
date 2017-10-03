@@ -11,12 +11,7 @@ export const taskInitState = [];
 const tasks = (state = [], action) => {
   switch (action.type) {
     case GET_ALL_TASKS:
-      return action.data;
-    // case GET_ONE_TASK:
-    //   return {
-    //     ...state,
-    //     isFetching: true
-    //   };
+      return [...action.data];
     case ADD_TASK:
       return [...state.tasks, action.data];
     case UPDATE_TASK:

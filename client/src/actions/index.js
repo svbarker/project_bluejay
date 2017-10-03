@@ -17,22 +17,16 @@ export const loginTeacher = () => async dispatch => {
 			body: JSON.stringify({ username: "teacher1@teach.com", password: "foo" })
 		});
 
-		console.log("Teacher: ", teacher);
-
 		const teacher = await response.json();
+		console.log("Teacher: ", teacher);
 		if (!teacher.success) {
 			throw new Error("Something went wrong with your request.");
 		}
 
 		const userObj = {
-			id: teacher.apiData.profile.id,
+			id: teacher.apiData._id,
 			displayName: teacher.apiData.profile.displayName
 		};
-
-		const students = [];
-		teacher.apiData.classrooms.forEach(classroom => {
-			students.push(...classroom.students);
-		});
 
 		dispatch(user.setUser(userObj));
 	} catch (error) {
