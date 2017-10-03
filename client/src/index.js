@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./components/App";
+import AppContainer from "./containers/AppContainer";
 import registerServiceWorker from "./registerServiceWorker";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -17,7 +17,7 @@ const Index = () => {
 		<MuiThemeProvider>
 			<Provider store={store}>
 				<Router>
-					<App />
+					<AppContainer />
 				</Router>
 			</Provider>
 		</MuiThemeProvider>

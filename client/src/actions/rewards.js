@@ -4,7 +4,7 @@ export const ADD_REWARD = "ADD_REWARD";
 export const UPDATE_REWARD = "UPDATE_REWARD";
 export const REMOVE_REWARD = "REMOVE_REWARD";
 
-const getRewards = data => ({
+export const getRewards = data => ({
 	type: GET_ALL_REWARDS,
 	data: data
 });

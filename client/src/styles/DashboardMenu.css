@@ -15,7 +15,7 @@
   box-sizing: border-box;
   margin: 20px;
   display: grid;
-  border: 2px solid;
+  border: 4px solid;
 }
 .dashboard-menu-grid {
   display: grid;
@@ -30,25 +30,38 @@
   grid-row-start: 2;
   grid-row-end: 3;
 }
+/*leftmost item = 1, rightmost = 3*/
 #dashboard-menu-item1 {
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 1;
   grid-row-end: 1;
-  border-color: #1a8484;
+  border-color: #dc2b2b;
+  color: #dc2b2b; /*dont think this taking affect*/
+}
+#dashboard-menu-item1 i {
+  color: #dc2b2b; /*dont think this taking affect*/
 }
 #dashboard-menu-item2 {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 1;
   grid-row-end: 1;
-  border-color: #3d9f9f;
+  border-color: #1a8484;
+  color: #1a8484; /*dont think this taking affect*/
+}
+#dashboard-menu-item2 i {
+  color: #1a8484; /*dont think this taking affect*/
 }
 #dashboard-menu-item3 {
   grid-column-start: 3;
   grid-column-end: 3;
   grid-row-start: 1;
   grid-row-end: 1;
-  border-color: #beef5b;
+  border-color: #96cd28;
+  color: #96cd28; /*dont think this taking affect*/
+}
+#dashboard-menu-item3 i {
+  color: #96cd28; /*dont think this taking affect*/
 }
 /* DASHBOARD STYLES */
