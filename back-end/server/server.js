@@ -24,7 +24,7 @@ app.use(mw.mongooseConnect);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api", mw.authCheck);
-app.use(mw.logger);
+// app.use(mw.logger);
 
 // passport setup
 passport.serializeUser(configs.serialize);
@@ -34,18 +34,16 @@ passport.use(new localStrategy(require("../strategies/local")));
 // serve static resource
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
-// api routes
+// session handling routes
 app.use("/sessions", require("../routers/sessions"));
+
+// api routes
 app.use("/api/:resource", require("../routers"));
 
 // web sockets
 io.on("connection", require("./sockets"));
 
 // start server
-const productionStart = () => {
-  server.listen(configs.port, configs.serverCallback);
-};
-const developmentStart = () => {
-  server.listen(configs.port, configs.host, configs.serverCallback);
-};
-process.env.NODE_ENV === "production" ? productionStart() : developmentStart();
+process.env.NODE_ENV === "production"
+  ? server.listen(configs.port, configs.serverCallback)
+  : server.listen(configs.port, configs.host, configs.serverCallback);

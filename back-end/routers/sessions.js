@@ -12,6 +12,7 @@ router.post("/", (req, res, next) => {
       await req.logIn(user, err => {});
       res.json(createResponse(user));
     } catch (error) {
+      console.error(error);
       res.json(createResponse(err));
     }
   })(req, res, next);
