@@ -1,8 +1,15 @@
-const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION";
+export const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION";
 
 const removeNotification = data => {
   return {
     type: REMOVE_NOTIFICATION,
+    data
+  };
+};
+
+const getAllNotifications = data => {
+  return {
+    type: GET_ALL_NOTIFICATIONS,
     data
   };
 };

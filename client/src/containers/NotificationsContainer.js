@@ -15,29 +15,20 @@ class NotificationsContainer extends React.Component {
   };
 
   render() {
-    const { user, clearNotification } = this.props;
+    const { notifications, clearNotification } = this.props;
     return (
       <Notifications
         takeToEvent={this.takeToEvent}
-        notifications={user.notifications}
+        notifications={notifications}
         clearNotification={clearNotification}
       />
     );
   }
 }
 
-// change to 'state.notifications' when ready!
 const mapStateToProps = state => {
   return {
-    user: {
-      notifications: [
-        { message: "task notification", kind: "task", id: 1 },
-        { message: "task notification", kind: "task", id: 1 },
-        { message: "reward notification", kind: "reward", id: 1 },
-        { message: "task notification", kind: "task", id: 1 },
-        { message: "reward notification", kind: "reward", id: 1 }
-      ]
-    }
+    notifications: state.notifications
   };
 };
 
