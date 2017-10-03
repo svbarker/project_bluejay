@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import App from "../components/App";
-import { loginTeacher } from "../actions/user";
+import { loginTeacher } from "../actions";
 
 const mapDispatchToProps = dispatch => ({
 	loginTeacher: () => {
