@@ -33,8 +33,6 @@ passport.use(new localStrategy(ls));
 // serve static resource
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 
-app.use(mw.logger);
-
 // api routes
 app.use('/sessions', require('../routers/sessions'));
 app.use('/api/:resource', (req, res) => routers(req)(req, res));
