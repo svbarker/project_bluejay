@@ -1,4 +1,5 @@
 export const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION";
+export const GET_ALL_NOTIFICATIONS = "GET_ALL_NOTIFICATIONS";
 
 const removeNotification = data => {
   return {
@@ -14,12 +15,31 @@ const getAllNotifications = data => {
   };
 };
 
-export const clearNotification = id => async dispatch => {
-  let response = await fetch(`/api/events/${id}`, { method: "DELETE" });
-  response = await response.json();
-  if (!response.success) {
-    throw new Error("Something went wrong with your request.");
+export const fetchNotifications = id => async dispatch => {
+  console.log("fetching");
+  try {
+    let response = await fetch(`/api/teachers/${id}/notifications`, {
+      method: "GET"
+    });
+    response = await response.json();
+    if (!response.success) {
+      throw new Error("Something went wrong with your request.");
+    }
+    console.log("success");
+  } catch (error) {
+    console.log(error);
   }
+};
 
-  dispatch(removeNotification());
+export const clearNotification = id => async dispatch => {
+  try {
+    let response = await fetch(`/api/events/${id}`, { method: "DELETE" });
+    response = await response.json();
+    if (!response.success) {
+      throw new Error("Something went wrong with your request.");
+    }
+    dispatch(removeNotification(id));
+  } catch (error) {
+    console.log(error);
+  }
 };
