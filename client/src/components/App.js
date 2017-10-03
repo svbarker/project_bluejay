@@ -19,17 +19,17 @@ class App extends Component {
               {/* do some login checking here */}
               <Route exact path="/">
                 <div>
-                  <h1>Dashboard</h1>
+                  <h1>Teacher Dashboard</h1>
                   <DashboardMenu />
                 </div>
               </Route>
-              <Route path="/student">
+              <Route path="/students">
                 <h1>Student</h1>
               </Route>
-              <Route path="/task">
+              <Route path="/tasks">
                 <h1>Tasks</h1>
               </Route>
-              <Route path="/reward">
+              <Route path="/rewards">
                 <h1>Rewards</h1>
               </Route>
               <Route path="/report">

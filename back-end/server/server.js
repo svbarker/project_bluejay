@@ -1,41 +1,49 @@
-// configure environment variables
-require("dotenv").config();
-
+// npm modules
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const expressSession = require("express-session");
+const session = require("express-session");
 const path = require("path");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
-const mongoose = require("mongoose");
+const localStrategy = require("passport-local").Strategy;
 
-require("../mongoose/connect");
+// connect to database
+require("../mongoose/connect")();
 
 // server configurations
 const configs = require("./config");
 const mw = require("./middleware");
 
 // middleware
-app.use(expressSession(configs.session));
-// app.use(express.static("front-end???"));
+app.use(session(configs.session));
+app.use(bodyParser.json());
+app.use(express.static("client"));
 app.use(mw.mongooseConnect);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use("/api", mw.authCheck);
+// app.use(mw.logger);
 
 // passport setup
-passport.use(expressSession);
-passport.initialize();
 passport.serializeUser(configs.serialize);
 passport.deserializeUser(configs.deserialize);
+passport.use(new localStrategy(require("../strategies/local")));
 
-app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
+// serve static resource
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
-app.get("/", (req, res) => {
-  res.send("server running");
-});
+// session handling routes
+app.use("/sessions", require("../routers/sessions"));
 
+// api routes
+app.use("/api/:resource", require("../routers"));
+
+// web sockets
 io.on("connection", require("./sockets"));
 
-server.listen(3000, () => {
-  console.log("Listening on port 3000");
-});
+// start server
+process.env.NODE_ENV === "production"
+  ? server.listen(configs.port, configs.serverCallback)
+  : server.listen(configs.port, configs.host, configs.serverCallback);
