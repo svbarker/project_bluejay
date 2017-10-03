@@ -40,6 +40,40 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// reading a teacher's task(s)
+router.get("/:id/tasks", async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const teacher = await Teacher.findById(_id).populate({
+      path: "tasks",
+      model: "Task"
+    });
+    res.json(createResponse(teacher.tasks));
+  } catch (error) {
+    console.error(error);
+    res.json(createResponse(error));
+  }
+});
+
+// reading a teacher's reward(s)
+router.get("/:id/rewards", async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const teacher = await Teacher.findById(_id).populate({
+      path: "rewards",
+      model: "Reward"
+    });
+    res.json(createResponse(teacher.tasks));
+  } catch (error) {
+    console.error(error);
+    res.json(createResponse(error));
+  }
+});
+
+// reading a teacher's classroom(s)
+
+// reading a teacher's event(s)
+
 // updating a teacher
 router.patch("/:id", async (req, res) => {
   try {
