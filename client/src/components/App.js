@@ -4,6 +4,7 @@ import StudentNavbarContainer from "../containers/StudentNavbarContainer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { withRouter } from "react-router";
 import DashboardMenu from "./DashboardMenu";
+import MenuCardContainer from "../containers/MenuCardContainer";
 
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
@@ -30,9 +31,7 @@ class App extends Component {
               <Route path="/students">
                 <h1>Student</h1>
               </Route>
-              <Route path="/tasks">
-                <h1>Tasks</h1>
-              </Route>
+              <Route path="/tasks" component={MenuCardContainer} />
               <Route path="/rewards">
                 <h1>Rewards</h1>
               </Route>
