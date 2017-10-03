@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import MenuCardContainer from "./MenuCardContainer";
+import MenuCard from "../components/MenuCard";
 import { Card, CardHeader, CardText } from "material-ui";
 import Dialog from "material-ui/Dialog";
 import Paper from "material-ui/Paper";
+
+import { hydrateTeacherTasks } from "../actions/task";
 
 // const fakeData = [
 //   { title: "task1", points: ">9000" },
@@ -17,12 +19,12 @@ class MenuTasksContainer extends React.Component {
     super();
   }
   componentDidMount() {
-    this.props.hydrateTasks(userId);
+    this.props.hydrateTasks(this.props.userId);
   }
   render() {
-    const taskList = this.props.tasks.map(task => (
-      <MenuCardContainer task={task} />
-    ));
+    console.log("Tasks are: ", this.props.tasks);
+
+    const taskList = this.props.tasks.map(task => <MenuCard task={task} />);
 
     return <Paper>{taskList}</Paper>;
   }
@@ -30,7 +32,8 @@ class MenuTasksContainer extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    userId: state.user.id
+    userId: state.user.id,
+    tasks: state.tasks
   };
 };
 const mapDispatchToProps = state => {

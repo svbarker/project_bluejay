@@ -17,6 +17,8 @@ export const loginTeacher = () => async dispatch => {
 			body: JSON.stringify({ username: "teacher1@teach.com", password: "foo" })
 		});
 
+		console.log("Teacher: ", teacher);
+
 		const teacher = await response.json();
 		if (!teacher.success) {
 			throw new Error("Something went wrong with your request.");
@@ -33,9 +35,6 @@ export const loginTeacher = () => async dispatch => {
 		});
 
 		dispatch(user.setUser(userObj));
-		dispatch(task.getTasks(teacher.apiData.tasks));
-		dispatch(rewards.getRewards(teacher.apiData.rewards));
-		dispatch(student.getStudents(students));
 	} catch (error) {
 		console.log(error);
 	}

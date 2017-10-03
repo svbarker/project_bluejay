@@ -21,15 +21,15 @@ const MenuNav = () => {
 };
 
 class MenuCard extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 	}
 	componentDidMount() {
 		///
 	}
 	render() {
 		//change this to grab this.props.tasks later
-		const { title, points } = { title: "task1", points: ">9000" };
+		const { title, points } = this.props.task;
 		return (
 			<Card>
 				<CardHeader actAsExpander={true} showExpandableButton={true}>
