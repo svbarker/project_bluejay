@@ -11,13 +11,13 @@ class RewardsContainer extends React.Component {
   render() {
     return (
       <div>
-        <div>Rewards</div>
+        {/* <div>Rewards</div>
         <div>Rewards</div>
         <div>Rewards</div>
         <div>Rewards</div>
         <div>Rewards</div>
         <FlatButton onClick={this.props.fetchRewards} label="testing" />
-        <FlatButton onClick={this.props.createReward} label="create reward" />
+        <FlatButton onClick={this.props.createReward} label="create reward" /> */}
       </div>
     );
   }
