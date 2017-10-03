@@ -8,16 +8,19 @@ class RewardsContainer extends React.Component {
   constructor() {
     super();
   }
+  componentDidMount(){
+    
+  }
   render() {
     return (
       <div>
-        {/* <div>Rewards</div>
+        <div>Rewards</div>
         <div>Rewards</div>
         <div>Rewards</div>
         <div>Rewards</div>
         <div>Rewards</div>
         <FlatButton onClick={this.props.fetchRewards} label="testing" />
-        <FlatButton onClick={this.props.createReward} label="create reward" /> */}
+        <FlatButton onClick={this.props.createReward} label="create reward" />
       </div>
     );
   }
@@ -25,7 +28,10 @@ class RewardsContainer extends React.Component {
 
 const mapStateToProps = state => {
   console.log("state in rewards = ", state);
-  return {};
+  return {
+    user: state.user
+    rewards: state.rewards
+  };
 };
 const mapDispatchToProps = dispatch => {
   return {
