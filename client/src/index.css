@@ -13,6 +13,13 @@ i {
   padding: 0 10px;
 }
 
+.horizontalCenterChildren {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
 .navbar {
   position: fixed;
   display: grid;
@@ -30,7 +37,7 @@ i {
 }
 
 .navbar a li:hover {
-  background-color: #96cd28;
+  background-color: #3d9f9f;
 }
 
 .navbar h1 {
@@ -64,7 +71,7 @@ i {
 }
 
 .active li {
-  background-color: #96cd28;
+  background-color: #3d9f9f;
 }
 
 .avatar {
