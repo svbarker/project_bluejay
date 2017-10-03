@@ -4,6 +4,7 @@ const ProfileEvent = require('./ProfileEvent');
 const ClassEvent = require('./ClassEvent');
 const TaskEvent = require('./TaskEvent');
 const RewardEvent = require('./RewardEvent');
+const Messages = require('./messages.js');
 
 module.exports = {
 	Event,
@@ -11,5 +12,6 @@ module.exports = {
 	ProfileEvent,
 	ClassEvent,
 	TaskEvent,
-	RewardEvent
+	RewardEvent,
+	Messages
 };

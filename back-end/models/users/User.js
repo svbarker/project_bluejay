@@ -34,14 +34,8 @@ const UserSchema = new mongoose.Schema(
 		],
 		notifications: [
 			{
-				message: {
-					type: String,
-					required: true
-				},
-				notificationType: {
-					type: String,
-					required: true
-				}
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Event'
 			}
 		]
 	},
