@@ -5,6 +5,7 @@ const user = (state = {}, action) => {
 		case SET_USER:
 			return {
 				...state,
+				id: action.data.id,
 				displayName: action.data.displayName
 			};
 		default:
