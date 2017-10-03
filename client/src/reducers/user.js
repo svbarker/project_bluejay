@@ -1,6 +1,6 @@
 import { SET_USER } from "../actions/user";
 
-const user = (state = { displayName: "Ms. Frizzle", points: 793 }, action) => {
+const user = (state = {}, action) => {
 	switch (action.type) {
 		case SET_USER:
 			return {

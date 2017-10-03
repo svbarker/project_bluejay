@@ -4,7 +4,7 @@ export const ADD_TASK = "ADD_TASK";
 export const UPDATE_TASK = "UPDATE_TASK";
 export const REMOVE_TASK = "REMOVE_TASK";
 
-const getTasks = data => ({
+export const getTasks = data => ({
 	type: GET_ALL_TASKS,
 	data: data
 });
