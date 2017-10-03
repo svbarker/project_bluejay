@@ -46,7 +46,7 @@ router.get("/:id/tasks", async (req, res) => {
     const _id = req.params.id;
     const teacher = await Teacher.findById(_id).populate({
       path: "tasks",
-      model: "Event"
+      model: "Task"
     });
     res.json(createResponse(teacher.tasks));
   } catch (error) {
@@ -56,6 +56,19 @@ router.get("/:id/tasks", async (req, res) => {
 });
 
 // reading a teacher's reward(s)
+router.get("/:id/rewards", async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const teacher = await Teacher.findById(_id).populate({
+      path: "rewards",
+      model: "Reward"
+    });
+    res.json(createResponse(teacher.tasks));
+  } catch (error) {
+    console.error(error);
+    res.json(createResponse(error));
+  }
+});
 
 // reading a teacher's classroom(s)
 
