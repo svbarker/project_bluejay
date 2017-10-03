@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const EventSchema = new mongoose.Schema(
 	{
+		internal: {
+			type: Boolean,
+			default: false
+		},
 		message: {
 			type: String,
 			required: true
