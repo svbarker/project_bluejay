@@ -25,7 +25,7 @@ class MenuCard extends React.Component {
 	}
 	render() {
 		//change this to grab this.props.tasks later
-		const { title, value, description } = this.props.task;
+		const { title, value, description, classroom } = this.props.task;
 		return (
 			<Card style={{ "margin-bottom": "10px" }}>
 				<CardHeader
