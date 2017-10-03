@@ -12,8 +12,8 @@ class NotificationsContainer extends React.Component {
     super();
   }
 
-  takeToEvent = (event, id) => () => {
-    this.props.history.push(`/${event}s/${id}`);
+  takeToItem = (item, id) => () => {
+    this.props.history.push(`/${item}s/${id}`);
   };
 
   componentDidMount() {
@@ -24,7 +24,7 @@ class NotificationsContainer extends React.Component {
     const { user, notifications, clearNotification } = this.props;
     return (
       <Notifications
-        takeToEvent={this.takeToEvent}
+        takeToItem={this.takeToItem}
         notifications={notifications}
         clearNotification={clearNotification}
         user={user}
@@ -36,7 +36,14 @@ class NotificationsContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    notifications: [{ message: "hello", kind: "task", id: "1" }]
+    notifications: [
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "reward",
+        id: "1"
+      }
+    ]
   };
 };
 

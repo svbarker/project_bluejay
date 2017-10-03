@@ -1,4 +1,4 @@
-const { Event, Messages } = require('../models/events');
+const { ErrorEvent, Messages } = require('../models/events');
 module.exports = {
 	getResource: async function(_id, method, options, populate) {
 		if (!_id) {
@@ -28,9 +28,9 @@ module.exports = {
 		}
 		return response;
 	},
-	log: event => {
-		event.save();
-		console.log(event);
+	log: async event => {
+		event = await event.save();
+		console.log(`[${event.createdAt}]: ${event}`);
 	},
 	logEvent: (type, options, internal) => {
 		const newEvent = new type(
@@ -45,12 +45,9 @@ module.exports = {
 		return newEvent;
 	},
 	logError: error => {
-		console.log(error);
-		const newEvent = new Event({
+		const newEvent = new ErrorEvent({
 			message: Messages.INTERNAL_ERROR,
-			owner: {
-				message: error.message
-			}
+			error
 		});
 		module.exports.log(newEvent);
 		return newEvent;

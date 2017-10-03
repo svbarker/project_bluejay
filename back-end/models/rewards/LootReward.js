@@ -18,5 +18,9 @@ LootRewardSchema.pre('save', function(next) {
 	next(this);
 });
 
+LootRewardSchema.methods.toString = function() {
+	return `${this.kind} (Cost: ${this.cost} points)`;
+};
+
 const LootReward = Reward.discriminator('LootReward', LootRewardSchema);
 module.exports = LootReward;

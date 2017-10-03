@@ -1,4 +1,5 @@
 const Event = require('./Event');
+const ErrorEvent = require('./ErrorEvent');
 const UserEvent = require('./UserEvent');
 const ProfileEvent = require('./ProfileEvent');
 const ClassEvent = require('./ClassEvent');
@@ -8,6 +9,7 @@ const Messages = require('./messages.js');
 
 module.exports = {
 	Event,
+	ErrorEvent,
 	UserEvent,
 	ProfileEvent,
 	ClassEvent,

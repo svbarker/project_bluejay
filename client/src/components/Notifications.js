@@ -1,9 +1,11 @@
 import React from "react";
 import { List, ListItem } from "material-ui/List";
+import RaisedButton from "material-ui/RaisedButton";
 import FontIcon from "material-ui/FontIcon";
 import { red500, yellow500, blue500 } from "material-ui/styles/colors";
-
 const iconStyles = { marginTop: "25px", color: "#507c0c" };
+
+console.log(RaisedButton);
 
 const icon = n => {
   return (
@@ -18,12 +20,18 @@ const icon = n => {
 };
 
 const clearButton = (notification, userId, handler) => {
-  return <button onClick={handler(userId, notification.id)}>Clear</button>;
+  return (
+    <RaisedButton label={`clear`} onClick={handler(userId, notification.id)} />
+  );
+};
+
+const takeToItemButton = (kind, id, handler) => {
+  return <RaisedButton label={`View`} onClick={handler(kind, id)} />;
 };
 
 const Notifications = ({
   notifications,
-  takeToEvent,
+  takeToItem,
   user,
   clearNotification
 }) => {
@@ -37,10 +45,14 @@ const Notifications = ({
             secondaryText={n.message}
             hoverColor={"lightgrey"}
             secondaryTextLines={2}
-            onClick={takeToEvent(n.kind, n.id)}
             leftIcon={icon(n)}
             style={{ marginLeft: "150px", marginRight: "150px" }}
-            rightIcon={clearButton(n, user.id, clearNotification)}
+            rightIcon={
+              <div style={{ marginRight: "100px" }}>
+                {takeToItemButton(n.kind, n.id, takeToItem)}
+                {clearButton(n, user.id, clearNotification)}
+              </div>
+            }
           />
         );
       })}

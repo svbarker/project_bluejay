@@ -1,12 +1,16 @@
 module.exports = {
-	INTERNAL_ERROR: `An internal error occurred: %owner.message%`,
+	INTERNAL_ERROR: `An internal error occurred: %error.message%`,
 
-	TEMPLATE_LOGGED_IN: `%owner.profile.profile.displayName% logged in.`,
-	TEMPLATE_LOGGED_OUT: `%owner.profile.profile.displayName% logged out.`,
-	TEMPLATE_LOGIN_FAILED: `Login attempt with credentials %owner.username% (%owner.kind%) failed.`,
+	TEMPLATE_LOGGED_IN: `%owner.profile.displayName% logged in.`,
+	TEMPLATE_LOGGED_OUT: `%owner.profile.displayName% logged out.`,
+	TEMPLATE_LOGIN_FAILED: `Login attempt with credentials %owner.username% failed.`,
 
 	TEMPLATE_TEACHER_CREATE: `New teacher registered with credentials: %owner.email%, %owner.fname%, %owner.lname%.`,
 	TEMPLATE_TEACHER_READ: `Data retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%`,
+	TEMPLATE_TEACHER_TASK_READ: `Task retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.taskList%]`,
+	TEMPLATE_TEACHER_REWARD_READ: `Reward retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.rewardList%]`,
+	TEMPLATE_TEACHER_CLASSROOM_READ: `Classroom retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.classRoomList%]`,
+	TEMPLATE_TEACHER_NOTIFICATION_READ: `Notification retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.notificationList%]`,
 	TEMPLATE_TEACHER_UPDATE: `%owner.profile.displayName% updated teacher %user.profile.displayName%. [%user.fields%] [%user.values%]`,
 	TEMPLATE_TEACHER_DELETE: `%owner.profile.displayName% deleted teacher %user.profile.displayName%.`,
 

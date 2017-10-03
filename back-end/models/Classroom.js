@@ -32,5 +32,9 @@ const ClassroomSchema = new mongoose.Schema(
 
 ClassroomSchema.plugin(uniqueValidator);
 
+ClassroomSchema.methods.toString = function() {
+	return `${this.title}`;
+};
+
 const Classroom = mongoose.model('Classroom', ClassroomSchema);
 module.exports = Classroom;

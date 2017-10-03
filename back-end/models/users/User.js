@@ -45,17 +45,23 @@ const UserSchema = new mongoose.Schema(
 	}
 );
 
-const autoPopulateProfile = function(next) {
-	this.populate({
-		path: 'profile',
-		model: 'Profile'
-	});
+const autoPopulate = function(next) {
+	this.populate([
+		{
+			path: 'profile',
+			model: 'Profile'
+		},
+		{
+			path: 'notifications',
+			model: 'Event'
+		}
+	]);
 	next();
 };
 
-UserSchema.pre('findOne', autoPopulateProfile);
-UserSchema.pre('findOneAndUpdate', autoPopulateProfile);
-UserSchema.pre('findOneAndRemove', autoPopulateProfile);
+UserSchema.pre('findOne', autoPopulate);
+UserSchema.pre('findOneAndUpdate', autoPopulate);
+UserSchema.pre('findOneAndRemove', autoPopulate);
 
 UserSchema.plugin(uniqueValidator);
 
