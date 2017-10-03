@@ -20,6 +20,25 @@ const setUser = data => ({
 // 	data: data
 // });
 
+export const loginTeacher = () => async dispatch => {
+	try {
+		const response = await fetch("/sessions", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({ username: "teacher1@teach.com", password: "foo" })
+		});
+
+		const teacher = await response.json();
+
+		dispatch(setUser(teacher.apiData));
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 const editUser = () => () => {
 	//
 };

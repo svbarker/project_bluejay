@@ -5,19 +5,26 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { withRouter } from "react-router";
 import DashboardMenu from "./DashboardMenu";
 import NotificationsContainer from "../containers/NotificationsContainer";
+import MenuCardContainer from "../containers/MenuCardContainer";
+
 
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
 class App extends Component {
+  componentDidMount() {
+    this.props.loginTeacher();
+  }
+
   render() {
     return (
       <div className="App">
         <Router>
           <div>
-            <StudentNavbarContainerWithRouter />
+            <TeacherNavbarContainerWithRouter />
             <Switch>
               {/* do some login checking here */}
+
               <Route
                 exact
                 path="/"
@@ -33,6 +40,7 @@ class App extends Component {
               <Route path="/rewards" component={() => <h1>Rewards</h1>} />
               <Route path="/report" component={() => <h1>Reports</h1>} />
               <Route path="/notifications" component={NotificationsContainer} />
+
             </Switch>
           </div>
         </Router>
