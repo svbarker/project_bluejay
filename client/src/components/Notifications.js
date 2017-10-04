@@ -5,7 +5,22 @@ import FontIcon from "material-ui/FontIcon";
 import { red500, yellow500, blue500 } from "material-ui/styles/colors";
 const iconStyles = { marginTop: "25px", color: "#507c0c" };
 
-const icon = n => {
+const getListItemStyle = n => ({
+  margin: "50px 150px",
+  paddingBottom: "20px",
+  border: `20px solid ${n.kind === "TaskEvent"
+    ? "rgba( 26,132,132,.2)"
+    : "rgba(150,205, 40,.2)"}`
+});
+
+const pendingListItemStyle = {
+  margin: "30px 150px",
+  paddingBottom: "20px"
+};
+
+const listItemButtonsStyle = { marginRight: "50px", width: "200px" };
+
+const getIcon = n => {
   return (
     <i
       style={{
@@ -19,24 +34,27 @@ const icon = n => {
   );
 };
 
-const acceptButton = (notification, userId, handler) => {
+const getButton = (notification, userId, handler, action) => {
   const taskId =
     notification.kind === "TaskEvent"
       ? notification.task._id
       : notification.reward._id;
+  const getBackgroundColor = () => {
+    if (action === "Accept") {
+      return notification.kind === "TaskEvent"
+        ? "rgba( 26,132,132,1)"
+        : "rgba(150,205, 40,1)";
+    } else {
+      return "rgba(220, 43, 43,.8)";
+    }
+  };
   return (
     <RaisedButton
-      backgroundColor={
-        notification.kind === "TaskEvent" ? (
-          "rgba( 26,132,132,1)"
-        ) : (
-          "rgba(150,205, 40,1)"
-        )
-      }
+      backgroundColor={getBackgroundColor()}
       style={{ marginBottom: "10px" }}
       fullWidth={true}
       labelColor={"rgb(255,255,255)"}
-      label={`Confirm`}
+      label={`${action}`}
       onClick={handler(
         userId,
         notification.owner._id,
@@ -47,35 +65,7 @@ const acceptButton = (notification, userId, handler) => {
   );
 };
 
-const rejectButton = (notification, userId, handler) => {
-  const taskId =
-    notification.kind === "TaskEvent"
-      ? notification.task._id
-      : notification.reward._id;
-  return (
-    <RaisedButton
-      backgroundColor={"rgba(220, 43, 43,.8)"}
-      style={{ marginBottom: "10px" }}
-      fullWidth={true}
-      labelColor={"rgb(255,255,255)"}
-      label={`Reject`}
-      onClick={handler(
-        userId,
-        notification.owner._id,
-        taskId,
-        notification._id
-      )}
-    />
-  );
-};
-
-const takeToItemButton = (kind, id, handler) => {
-  return (
-    <RaisedButton fullWidth={true} label={`View`} onClick={handler(kind, id)} />
-  );
-};
-
-const actionIcon = type => {
+const getActionIcon = type => {
   return (
     <i
       style={{
@@ -89,6 +79,31 @@ const actionIcon = type => {
   );
 };
 
+const getPendingMainText = (pendingType, n, undo, timeLeft) => (
+  <span>
+    {`You ${pendingType} this ${n.kind === "TaskEvent" ? "task." : "reward."} `}
+    <span
+      onClick={undo(n._id)}
+      style={{ color: "blue", textDecoration: "underline" }}
+    >
+      Undo?
+    </span>
+    {`  (${timeLeft} seconds)`}
+  </span>
+);
+
+const getMainText = n =>
+  `${n.owner.profile.fname} ${n.owner.profile.lname} ${n.kind === "TaskEvent"
+    ? `completed this task:`
+    : `redeemed this reward:`} ${n.kind === "TaskEvent"
+    ? n.task.title
+    : n.reward.title}`;
+
+const getSecondaryText = n => `${n.owner.profile.fname} says: ${n._message}`;
+
+const getHoverColor = n =>
+  n.kind === "TaskEvent" ? "rgba( 26,132,132,.2)" : "rgba(150,205, 40,.2)";
+
 const Notifications = ({
   notifications,
   takeToItem,
@@ -99,75 +114,45 @@ const Notifications = ({
   undo
 }) => {
   const pendingIds = pendings.map(p => p.id);
+
   return (
     <List>
       {notifications.map(n => {
         if (pendingIds.includes(n._id)) {
           let pendingType = pendings.filter(p => p.id === n._id)[0]["type"];
           let timeLeft = pendings.filter(p => p.id === n._id)[0]["timeLeft"];
-          return (
-            <ListItem
-              key={n._id}
-              primaryText={
-                <span>
-                  {`You ${pendingType} this ${n.kind === "TaskEvent"
-                    ? "task."
-                    : "reward."} `}
-                  <span
-                    onClick={undo(n._id)}
-                    style={{ color: "blue", textDecoration: "underline" }}
-                  >
-                    Undo?
-                  </span>
-                  {`  (${timeLeft} seconds)`}
-                </span>
-              }
-              secondaryText={`Leaving the page will make this permanent.`}
-              hoverColor={"lightgrey"}
-              secondaryTextLines={2}
-              leftIcon={actionIcon(pendingType)}
-              style={{
-                margin: "30px 150px",
-                paddingBottom: "20px"
-              }}
-            />
-          );
+
+          const pendingListItemProps = {
+            key: n._id,
+            primaryText: getPendingMainText(pendingType, n, undo, timeLeft),
+            secondaryText: `Leaving the page will make this permanent.`,
+            hoverColor: "lightgrey",
+            secondaryTextLines: 2,
+            leftIcon: getActionIcon(pendingType),
+            style: pendingListItemStyle
+          };
+
+          return <ListItem {...pendingListItemProps} />;
         }
-        return (
-          <ListItem
-            key={n._id}
-            primaryText={`${n.owner.profile.fname} ${n.owner.profile
-              .lname} ${n.kind === "TaskEvent"
-              ? `completed this task:`
-              : `redeemed this reward:`} ${n.kind === "TaskEvent"
-              ? n.task.title
-              : n.reward.title}`}
-            secondaryText={`${n.owner.profile.fname} says: ${n._message}`}
-            hoverColor={
-              n.kind === "TaskEvent" ? (
-                "rgba( 26,132,132,.2)"
-              ) : (
-                "rgba(150,205, 40,.2)"
-              )
-            }
-            onClick={takeToItem(n.kind, n._id)}
-            secondaryTextLines={2}
-            leftIcon={icon(n)}
-            style={{
-              margin: "50px 150px",
-              paddingBottom: "20px",
-              border: `20px solid ${n.kind === "TaskEvent"
-                ? "rgba( 26,132,132,.2)"
-                : "rgba(150,205, 40,.2)"}`
-            }}
-            rightIcon={
-              <div style={{ marginRight: "50px", width: "200px" }}>
-                {acceptButton(n, user._id, acceptEvent)}
-                {rejectButton(n, user._id, rejectEvent)}
-              </div>
-            }
-          />
-        );
+
+        const ListItemProps = {
+          key: n._id,
+          primaryText: getMainText(n),
+          secondaryText: getSecondaryText(n),
+          hoverColor: getHoverColor(n),
+          onClick: takeToItem(n.kind, n._id),
+          secondaryTextLines: 2,
+          leftIcon: getIcon(n),
+          style: getListItemStyle(n),
+          rightIcon: (
+            <div style={listItemButtonsStyle}>
+              {getButton(n, user._id, acceptEvent, "Accept")}
+              {getButton(n, user._id, rejectEvent, "Reject")}
+            </div>
+          )
+        };
+
+        return <ListItem {...ListItemProps} />;
       })}
     </List>
   );
