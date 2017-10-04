@@ -12,11 +12,11 @@ const rewards = (state = [], action) => {
   switch (action.type) {
     case GET_ALL_REWARDS:
       return action.data;
-    // case GET_ONE_REWARD:
-    //   return {
-    //     ...state,
-    //     isFetching: true
-    //   };
+    case GET_ONE_REWARD:
+      const newRewards = state
+        .filter(reward => reward._id !== action.data._id)
+        .push(action.data);
+      return newRewards;
     case ADD_REWARD:
       return [...state.rewards, action.data];
     case UPDATE_REWARD:

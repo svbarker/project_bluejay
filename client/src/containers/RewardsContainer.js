@@ -1,42 +1,75 @@
 import React from "react";
 import { connect } from "react-redux";
 
+//components
+import { Card, CardHeader } from "material-ui/Card";
+import { List, ListItem } from "material-ui/List";
+import Paper from "material-ui/Paper";
 import FlatButton from "material-ui/FlatButton";
+import "../styles/RewardList.css";
+
+//actions
 import { getAllRewards, createReward } from "../actions/rewards";
 
 class RewardsContainer extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
-  componentDidMount(){
-    
-  }
-  render() {
+  componentDidMount = () => {
+    //hydrate some data
+    if (!this.props.user) {
+      //fetch user
+    }
+    this.getRewards();
+  };
+  getRewards = () => {
+    // console.log("getting rewards");
+    this.props.fetchRewards(this.props.user.id);
+  };
+  render = () => {
+    const rewards = this.props.rewards.map(reward => (
+      <Card key={reward._id} className="reward-container">
+        <CardHeader actAsExpander={true}>
+          <h3>Some Reward </h3>
+        </CardHeader>
+        <ListItem
+          className="reward-item"
+          style={{ hoverColor: "none" }}
+          expandable={true}
+        >
+          <p>Reward: {reward.description}</p>
+          <p>Cost: {reward.cost || reward.value}</p>
+          <p>Available: {reward.status}</p>
+          <FlatButton onClick={null} label="delete" />
+          <FlatButton onClick={null} label="set unavailable" />
+        </ListItem>
+      </Card>
+    ));
+    console.log("rewards = ", this.props.rewards);
     return (
-      <div>
-        <div>Rewards</div>
-        <div>Rewards</div>
-        <div>Rewards</div>
-        <div>Rewards</div>
-        <div>Rewards</div>
-        <FlatButton onClick={this.props.fetchRewards} label="testing" />
+      <Paper className="reward-container">
+        {/* header */}
+        <h1>{this.props.user.displayName}'s Rewards</h1>
+        <List className="reward-list">{rewards}</List>
+        <FlatButton onClick={this.getRewards} label="testing" />
         <FlatButton onClick={this.props.createReward} label="create reward" />
-      </div>
+      </Paper>
     );
-  }
+  };
 }
 
 const mapStateToProps = state => {
-  console.log("state in rewards = ", state);
+  // console.log("state in rewards = ", state);
   return {
-    user: state.user
+    user: state.user,
     rewards: state.rewards
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    fetchRewards: () => {
-      dispatch(getAllRewards());
+    fetchRewards: teacherId => {
+      // console.log("dispatching ", teacherId);
+      dispatch(getAllRewards(teacherId));
     },
     createReward: teacher => {
       dispatch(createReward(teacher));

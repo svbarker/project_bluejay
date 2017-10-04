@@ -104,10 +104,12 @@ router.get("/:id/tasks", async (req, res) => {
 router.get("/:id/rewards", async (req, res) => {
   try {
     const _id = req.params.id;
+    console.log("id = ", _id);
     const teacher = await Teacher.findById(_id).populate({
       path: "rewards",
       model: "Reward"
     });
+    console.log("teacher = ", teacher);
     res.json(createResponse(teacher.rewards));
   } catch (error) {
     logError(error);

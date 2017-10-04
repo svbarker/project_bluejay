@@ -30,15 +30,16 @@ const removeReward = id => ({
 });
 
 //NOT IMPLEMENTED
-//create a reward
-export const createReward = teacher => async dispatch => {
+//create a new kind of reward
+export const createReward = (teacherId, reward) => async dispatch => {
   dispatch(startRequest());
-  teacher = await getTeacher(); //change this later after we store the user
+  // teacher = await getTeacher(); //change this later after we store the user
+  const teacher = null;
   console.log("teacher = ", teacher);
-  const reward = {
+  const defaultReward = {
     kind: "point",
     description: "new reward",
-    cost: "lots",
+    value: "lots",
     teacher: teacher._id,
     status: "Unaccepted"
   };
@@ -48,15 +49,35 @@ export const createReward = teacher => async dispatch => {
     headers: {
       "Content-Type": "application/json"
     },
-    body: reward
+    body: defaultReward
   });
   console.log("response from createReward API = ", response);
+  //TODO: double check that we're getting this back from server
+  dispatch(addReward(response.apiData));
+};
+//SEEMS TO WORK
+//get all the rewards for a teacher
+export const getAllRewards = teacherId => async dispatch => {
+  console.log("reward things!");
+  dispatch(startRequest());
+  const response = await fetch(`/api/teachers/${teacherId}/rewards`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: null
+  });
+  if (response.status !== 200) {
+    console.error(response.status);
+  }
+  const data = await response.json();
+  dispatch(getRewards(data.apiData));
 };
 
 //NOT IMPLEMENTED
-export const editReward = (teacher, editedReward) => async dispatch => {
+export const editReward = (teacherId, editedReward) => async dispatch => {
   dispatch(startRequest());
-  teacher = await getTeacher(); //change this later after we store the user
   const response = await fetch(`/api/rewards`, {
     method: "PATCH",
     credentials: "include",
@@ -73,43 +94,5 @@ export const editReward = (teacher, editedReward) => async dispatch => {
   dispatch(updateReward(newReward._id, newReward));
 };
 
-//NOT IMPLEMENTED
-//get all the rewards for a teacher
-export const getAllRewards = () => async dispatch => {
-  console.log("reward things!");
-  dispatch(startRequest());
-  const response = await fetch(
-    `/api/teachers/59d3e54d09cb9cfe741b45ac/rewards`,
-    {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: null
-    }
-  );
-  console.log("response = ", response);
-  const data = await response.json();
-  console.log("data = ", data);
-  return null;
-};
-
-//TODO: REMOVE LATER
-const getTeacher = async () => {
-  const response = await fetch("/sessions", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ username: "teacher1@teach.com", password: "foo" })
-  });
-
-  const teacher = await response.json();
-  if (!teacher.success) {
-    throw new Error("Something went wrong with your request.");
-  }
-  console.log("teacher = ", teacher.apiData);
-  return teacher;
-};
+//TODO:
+//MAKE A DELETE REWARD CALL
