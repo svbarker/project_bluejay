@@ -32,12 +32,8 @@ class App extends Component {
   }
 
   render() {
-<<<<<<< HEAD
-    const userType = "Teacher";
-=======
     console.log(this.props.user);
     const userType = "Student";
->>>>>>> 3c698517c016a02abf5bc1876cc8b7a6eedc47e6
 
     if (userType === "Teacher") {
       return (
