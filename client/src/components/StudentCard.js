@@ -4,8 +4,12 @@ import Paper from "material-ui/Paper";
 const StudentCard = ({ student }) => {
 	return (
 		<Paper>
-			<i class="fa fa-user-circle-o" aria-hidden="true" />
-			<h3>{student.displayName}</h3>
+			<div className="student-card">
+				<i class="fa fa-user-circle-o" aria-hidden="true" />
+				<h3>{student.profile.displayName}</h3>
+			</div>
 		</Paper>
 	);
 };
+
+export default StudentCard;

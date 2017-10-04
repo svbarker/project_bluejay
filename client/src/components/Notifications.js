@@ -10,9 +10,11 @@ const icon = n => {
     <i
       style={{
         ...iconStyles,
-        color: n.kind === "task" ? "#1A8484 " : "#96CD28"
+        color: n.kind === "TaskEvent" ? "#1A8484 " : "#96CD28"
       }}
-      className={`${n.kind === "task" ? "fa fa-tasks" : "fa fa-gift"} fa-2x`}
+      className={`${n.kind === "TaskEvent"
+        ? "fa fa-tasks"
+        : "fa fa-gift"} fa-2x`}
     />
   );
 };
@@ -21,15 +23,17 @@ const acceptButton = (notification, userId, handler) => {
   return (
     <RaisedButton
       backgroundColor={
-        notification.kind === "task" ? (
-          "rgba( 26,132,132,.3)"
+        notification.kind === "TaskEvent" ? (
+          "rgba( 26,132,132,1)"
         ) : (
-          "rgba(150,205, 40,.3)"
+          "rgba(150,205, 40,1)"
         )
       }
+      style={{ marginBottom: "10px" }}
       fullWidth={true}
+      labelColor={"white"}
       label={`Confirm`}
-      onClick={handler(userId, notification.id)}
+      onClick={handler(userId, notification._id)}
     />
   );
 };
@@ -37,10 +41,12 @@ const acceptButton = (notification, userId, handler) => {
 const rejectButton = (notification, userId, handler) => {
   return (
     <RaisedButton
-      backgroundColor={"rgba(220, 43, 43,.3)"}
+      backgroundColor={"rgba(220, 43, 43,.8)"}
+      style={{ marginBottom: "10px" }}
       fullWidth={true}
+      labelColor={"white"}
       label={`Reject`}
-      onClick={handler(userId, notification.id)}
+      onClick={handler(userId, notification._id)}
     />
   );
 };
@@ -63,17 +69,22 @@ const Notifications = ({
       {notifications.map(n => {
         return (
           <ListItem
-            key={n.message}
-            primaryText={n.message}
-            secondaryText={n.message}
+            key={n._id}
+            primaryText={`${n.owner.profile.fname} ${n.owner.profile
+              .lname} ${n.kind === "TaskEvent"
+              ? `completed this task:`
+              : `redeemed this reward:`} ${n.kind === "TaskEvent"
+              ? n.task.title
+              : n.reward.title}`}
+            secondaryText={`${n.owner.profile.fname} says: ${n._message}`}
             hoverColor={
-              n.kind === "task" ? (
+              n.kind === "TaskEvent" ? (
                 "rgba( 26,132,132,.2)"
               ) : (
                 "rgba(150,205, 40,.2)"
               )
             }
-            onClick={takeToItem(n.kind, n.id)}
+            onClick={takeToItem(n.kind, n._id)}
             secondaryTextLines={2}
             leftIcon={icon(n)}
             style={{
@@ -82,8 +93,8 @@ const Notifications = ({
             }}
             rightIcon={
               <div style={{ marginRight: "50px", width: "200px" }}>
-                {acceptButton(n, user.id, acceptEvent)}
-                {rejectButton(n, user.id, rejectEvent)}
+                {acceptButton(n, user._id, acceptEvent)}
+                {rejectButton(n, user._id, rejectEvent)}
               </div>
             }
           />

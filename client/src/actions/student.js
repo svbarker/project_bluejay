@@ -27,9 +27,15 @@ const removeStudent = id => ({
 	data: id
 });
 
-export const loadStudents = () => async dispatch => {
+export const loadStudents = classId => async dispatch => {
 	try {
-		const response = await fetch("/");
+		const response = await fetch(`/api/classrooms/${classId}/students`, {
+			method: "GET",
+			credentials: "include"
+		});
+
+		const students = await response.json();
+		dispatch(getStudents(students.apiData));
 	} catch (error) {
 		console.log(error);
 	}

@@ -11,7 +11,7 @@ export const studentInitState = [];
 const students = (state = studentInitState, action) => {
   switch (action.type) {
     case GET_ALL_STUDENTS:
-      return action.data;
+      return [...action.data];
     // case GET_ONE_STUDENT:
     //   return {
     //     ...state,

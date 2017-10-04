@@ -34,7 +34,6 @@ export const hydrateTeacherTasks = userId => async dispatch => {
     });
 
     const tasks = await response.json();
-    console.log("Tasks in the actions: ", tasks);
 
     dispatch(getTasks(tasks.apiData));
   } catch (error) {
