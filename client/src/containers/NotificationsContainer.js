@@ -14,7 +14,7 @@ class NotificationsContainer extends React.Component {
   }
 
   takeToItem = (item, id) => () => {
-    this.props.history.push(`/${item}s`);
+    this.props.history.push(`/${item === "TaskEvent" ? "task" : "reward"}s`);
   };
 
   componentDidMount() {
@@ -40,7 +40,7 @@ const mapStateToProps = state => {
     user: state.user,
     notifications: [
       {
-        _message: "Thanks for giving me this task to comlete!",
+        _message: "Thanks for giving me this task to complete!",
         kind: "TaskEvent",
         _id: "1",
         owner: {

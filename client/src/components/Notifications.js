@@ -24,12 +24,14 @@ const acceptButton = (notification, userId, handler) => {
     <RaisedButton
       backgroundColor={
         notification.kind === "TaskEvent" ? (
-          "rgba( 26,132,132,.3)"
+          "rgba( 26,132,132,1)"
         ) : (
-          "rgba(150,205, 40,.3)"
+          "rgba(150,205, 40,1)"
         )
       }
+      style={{ marginBottom: "10px" }}
       fullWidth={true}
+      labelColor={"white"}
       label={`Confirm`}
       onClick={handler(userId, notification._id)}
     />
@@ -39,8 +41,10 @@ const acceptButton = (notification, userId, handler) => {
 const rejectButton = (notification, userId, handler) => {
   return (
     <RaisedButton
-      backgroundColor={"rgba(220, 43, 43,.3)"}
+      backgroundColor={"rgba(220, 43, 43,.8)"}
+      style={{ marginBottom: "10px" }}
       fullWidth={true}
+      labelColor={"white"}
       label={`Reject`}
       onClick={handler(userId, notification._id)}
     />
@@ -68,8 +72,8 @@ const Notifications = ({
             key={n._id}
             primaryText={`${n.owner.profile.fname} ${n.owner.profile
               .lname} ${n.kind === "TaskEvent"
-              ? `completed`
-              : `redeemed`} ${n.kind === "TaskEvent"
+              ? `completed this task:`
+              : `redeemed this reward:`} ${n.kind === "TaskEvent"
               ? n.task.title
               : n.reward.title}`}
             secondaryText={`${n.owner.profile.fname} says: ${n._message}`}
