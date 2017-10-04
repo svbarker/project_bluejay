@@ -6,6 +6,7 @@ import { withRouter } from "react-router";
 
 //Components
 import DashboardMenu from "./DashboardMenu";
+import StudentDashboardMenu from "./StudentDashboardMenu";
 import NotificationsContainer from "../containers/NotificationsContainer";
 import StudentView from "./StudentView";
 import MenuTasksContainer from "../containers/DisplayTasksContainer";
@@ -57,6 +58,7 @@ class App extends Component {
                   path="/notifications"
                   component={NotificationsContainer}
                 />
+                <Route path="/" component={PageNotFound} />
               </Switch>
             </div>
           </Router>
@@ -76,12 +78,11 @@ class App extends Component {
                   path="/"
                   component={() => (
                     <div>
-                      <h1>Teacher Dashboard</h1>
-                      <DashboardMenu />
+                      <h1>Student Dashboard</h1>
+                      <StudentDashboardMenu />
                     </div>
                   )}
                 />
-                <Route path="/students" component={StudentView} />
                 <Route path="/tasks" component={MenuTasksContainer} />
                 <Route path="/rewards" component={StudentRewards} />
                 <Route path="/report" component={() => <h1>Reports</h1>} />
