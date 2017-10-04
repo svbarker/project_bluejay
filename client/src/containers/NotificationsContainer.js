@@ -42,6 +42,36 @@ const mapStateToProps = state => {
           "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
         kind: "reward",
         id: "1"
+      },
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "reward",
+        id: "1"
+      },
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "task",
+        id: "1"
+      },
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "task",
+        id: "1"
+      },
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "reward",
+        id: "1"
+      },
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "task",
+        id: "1"
       }
     ]
   };
