@@ -49,8 +49,8 @@ class NotificationsContainer extends React.Component {
               )
             });
           }, 15000),
-          interval,
           eventId: n_id,
+          interval,
           t_id,
           s_id,
           ta_id,
@@ -58,7 +58,6 @@ class NotificationsContainer extends React.Component {
         }
       ]
     });
-    console.log(interval);
     setTimeout(() => {
       clearInterval(interval);
     }, 15000);
@@ -91,19 +90,17 @@ class NotificationsContainer extends React.Component {
   }
 
   render() {
-    const { user, notifications } = this.props;
-    const { pendingActions } = this.state;
-    return (
-      <Notifications
-        takeToItem={this.takeToItem}
-        notifications={notifications}
-        acceptEvent={this.handleAction("confirm")}
-        rejectEvent={this.handleAction("reject")}
-        user={user}
-        pendings={pendingActions}
-        undo={this.undoAction}
-      />
-    );
+    const NotificationsProps = {
+      takeToItem: this.takeToItem,
+      notifications: this.props.notifications,
+      acceptEvent: this.handleAction("confirm"),
+      rejectEvent: this.handleAction("reject"),
+      user: this.props.user,
+      pendings: this.state.pendingActions,
+      undo: this.undoAction
+    };
+
+    return <Notifications {...NotificationsProps} />;
   }
 }
 
