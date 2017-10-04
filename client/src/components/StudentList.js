@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import StudentCard from "./StudentCard";
+import ClassAssign from "./ClassAssign";
 import DropDownMenu from "material-ui/DropDownMenu";
 import MenuItem from "material-ui/MenuItem";
 import "../styles/students.css";
@@ -38,9 +39,7 @@ class StudentList extends Component {
 						<MenuItem value={i} primaryText={classroom.title} />
 					))}
 				</DropDownMenu>
-				<div className="student-assign-all">
-					<span>Assign to Class</span>
-				</div>
+				<ClassAssign currentClass={this.state.currentClass} />
 				<div className="student-card-container">
 					{!this.props.students ? null : (
 						this.props.students.map(student => (

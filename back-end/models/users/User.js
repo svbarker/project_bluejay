@@ -57,6 +57,10 @@ const autoPopulate = function(next) {
 		{
 			path: 'classrooms',
 			model: 'Classroom'
+		},
+		{
+			path: 'tasks',
+			model: 'Task'
 		}
 	]);
 	next();
@@ -79,7 +83,13 @@ UserSchema.methods.validatePassword = function(password) {
 };
 
 UserSchema.methods.hasTask = function(task) {
-	return this.tasks.some(t => '' + t === task.id);
+	return this.tasks.some(t => {
+		return t.title === task.title;
+	});
+};
+
+UserSchema.methods.getTask = function(id) {
+	return this.tasks.find(t => t.id === id);
 };
 
 UserSchema.methods.toString = function() {

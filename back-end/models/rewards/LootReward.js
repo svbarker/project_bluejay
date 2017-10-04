@@ -9,14 +9,10 @@ const LootRewardSchema = new mongoose.Schema(
 		}
 	},
 	{
-		timestamps: true
+		timestamps: true,
+		discriminatorKey: 'kind'
 	}
 );
-
-LootRewardSchema.pre('save', function(next) {
-	this.kind = 'loot';
-	next(this);
-});
 
 LootRewardSchema.methods.toString = function() {
 	return `${this.kind} (Cost: ${this.cost} points)`;

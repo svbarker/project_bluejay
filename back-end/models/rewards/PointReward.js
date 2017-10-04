@@ -9,14 +9,10 @@ const PointRewardSchema = new mongoose.Schema(
 		}
 	},
 	{
-		timestamps: true
+		timestamps: true,
+		discriminatorKey: 'kind'
 	}
 );
-
-PointRewardSchema.pre('save', function(next) {
-	this.kind = 'point';
-	next(this);
-});
 
 PointRewardSchema.methods.toString = function() {
 	return `${this.kind} (Value: ${this.value} points)`;

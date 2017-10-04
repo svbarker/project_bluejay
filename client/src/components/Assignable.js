@@ -4,7 +4,7 @@ import { DragSource } from "react-dnd";
 
 const assignableSource = {
 	beginDrag(props) {
-		const item = { id: props.id };
+		const item = { id: props.resource._id, type: props.type };
 		return item;
 	},
 
@@ -13,9 +13,7 @@ const assignableSource = {
 			return;
 		}
 
-		const item = monitor.getItem();
-		const droppedOn = monitor.getDropResult();
-		console.log(`Dropped ${item} on ${droppedOn}`);
+		// Do some animation stuff I guess?
 	}
 };
 
@@ -31,7 +29,7 @@ class Assignable extends Component {
 	}
 
 	render() {
-		const { resource, connectDragSource } = this.props;
+		const { type, resource, connectDragSource } = this.props;
 
 		return connectDragSource(
 			<div>
@@ -46,4 +44,4 @@ class Assignable extends Component {
 	}
 }
 
-export default DragSource("task", assignableSource, collect)(Assignable);
+export default DragSource("assignable", assignableSource, collect)(Assignable);

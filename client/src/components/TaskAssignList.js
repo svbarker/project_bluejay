@@ -32,7 +32,7 @@ class TaskAssignList extends Component {
 					<CardText expandable={true}>
 						<div className="task-card-container">
 							{this.props.tasks.map(task => {
-								return <Assignable resource={task} />;
+								return <Assignable resource={task} type="tasks" />;
 							})}
 						</div>
 					</CardText>
