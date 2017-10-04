@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 //components
-import { Card, CardHeader } from "material-ui/Card";
+import { Card, CardHeader, CardText } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
 import LoadScreen from "../components/LoadScreen";
 import Paper from "material-ui/Paper";
@@ -16,20 +16,25 @@ import {
   editReward,
   deleteReward
 } from "../actions/rewards";
-import { loginTeacher } from "../actions/index";
+import { loginTeacher, loginStudent } from "../actions/index";
 
 class RewardsContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       fetchingRewards: false,
-      loading: true
+      loading: true,
+      userType: "Teacher"
     };
   }
   componentDidMount = async () => {
     //login the teacher
     if (Object.keys(this.props.user).length === 0) {
-      loginTeacher();
+      if (this.state.userType === "Teacher") {
+        loginTeacher();
+      } else if (this.state.userType === "Student") {
+        loginStudent();
+      }
     } else {
       this.getRewards();
       this.setState({ fetchingRewards: true });
@@ -42,6 +47,13 @@ class RewardsContainer extends React.Component {
       fetchingRewards: false,
       loading: false
     });
+  };
+  onCreateReward = async () => {
+    //placeholder
+    //open a modal???
+    //this.props.createReward()
+    console.log("making a reward");
+    return null;
   };
   render = () => {
     if (this.state.loading) {
@@ -60,36 +72,45 @@ class RewardsContainer extends React.Component {
     //TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
     /////////IF THE USER IS THE TEACHER
     console.log("a reward looks like ", this.props.rewards[0]);
-    const rewards = this.props.rewards.map(reward => (
-      <Card key={reward._id} className="reward-container">
-        <CardHeader actAsExpander={true}>
-          <h3>{reward.title}</h3>
-        </CardHeader>
-        <ListItem
-          className="reward-item"
-          style={{ hoverColor: "none" }}
-          expandable={true}
-        >
-          <p>Reward: {reward.description}</p>
-          <p>Cost: {reward.cost || reward.value}</p>
-          <p>Available: {reward.status}</p>
-          <FlatButton
-            onClick={() => {
-              this.props.removeReward(reward._id);
-            }}
-            label="delete"
+    const rewards = this.props.rewards.map(reward => {
+      return (
+        <Card key={reward._id} className="reward-container">
+          <CardHeader
+            title={reward.title}
+            className="reward-card-header"
+            actAsExpander={true}
           />
-          <FlatButton onClick={null} label="set unavailable" />
-        </ListItem>
-      </Card>
-    ));
+          <CardText
+            className="reward-item"
+            style={{ hoverColor: "none" }}
+            expandable={true}
+          >
+            <p>Reward: {reward.description}</p>
+            <p>Cost: {reward.cost || reward.value}</p>
+            <p>Available: {reward.status}</p>
+            <FlatButton
+              onClick={() => {
+                this.props.removeReward(reward._id);
+              }}
+              label="delete"
+            />
+            <FlatButton onClick={null} label="set unavailable" />
+          </CardText>
+        </Card>
+      );
+    });
     return (
       <Paper className="reward-container">
         {/* header */}
-        <h1>{this.props.user.displayName}'s Rewards</h1>
+        <div className="reward-card-title">
+          <h1>{this.props.user.displayName}'s Rewards</h1>
+          {/* <div onClick={this.onCreateReward}>
+            <i class="fa fa-plus" aria-hidden="true" />
+          </div> */}
+          <FlatButton onClick={this.onCreateReward} label="create reward" />
+        </div>
+        {/* Rewards List */}
         <List className="reward-list">{rewards}</List>
-        <FlatButton onClick={this.getRewards} label="testing" />
-        <FlatButton onClick={this.props.createReward} label="create reward" />
       </Paper>
     );
   };
