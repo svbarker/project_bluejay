@@ -1,11 +1,11 @@
-const router = require('express').Router();
-const { Task, User, Student } = require('../models');
-const { createResponse } = require('../server/util');
-const { getResource, logEvent, logError } = require('../server/util');
-const { TaskEvent, MessageEvent, Messages } = require('../models/events');
+const router = require("express").Router();
+const { Task, User, Student } = require("../models");
+const { createResponse } = require("../server/util");
+const { getResource, logEvent, logError } = require("../server/util");
+const { TaskEvent, MessageEvent, Messages } = require("../models/events");
 
 // creating a task
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
 	try {
 		const {
 			title,
@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 			status
 		} = req.body;
 		if (!title || !description) {
-			throw new Error('No title or description supplied.');
+			throw new Error("No title or description supplied.");
 		}
 		const task = new Task({
 			title,
@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
 });
 
 // reading a task
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
 	try {
 		const task = await getResource(req.params.id, Task.findById.bind(Task));
 
@@ -71,12 +71,12 @@ router.get('/:id', async (req, res) => {
 });
 
 // reading a task's students
-router.get('/:id/students', async (req, res) => {
+router.get("/:id/students", async (req, res) => {
 	try {
 		const task = await getResource(req.params.id, Task.findById.bind(Task));
 		// Create log event.
 		console.log(task.students);
-		task.studentList = task.students.join(',');
+		task.studentList = task.students.join(",");
 		console.log(task.studentList);
 		logEvent(TaskEvent, {
 			message: Messages.TEMPLATE_TASK_STUDENT_READ,
@@ -92,7 +92,7 @@ router.get('/:id/students', async (req, res) => {
 });
 
 // updating a task
-router.patch('/:id', async (req, res) => {
+router.patch("/:id", async (req, res) => {
 	try {
 		let { updates, message } = req.body;
 		if (!updates) {
@@ -111,14 +111,14 @@ router.patch('/:id', async (req, res) => {
 			await teacher.save();
 		}
 
-		task.fields = Object.keys(updates).join(',');
-		task.values = Object.values(updates).join(',');
+		task.fields = Object.keys(updates).join(",");
+		task.values = Object.values(updates).join(",");
 		logEvent(TaskEvent, {
 			message: Messages.TEMPLATE_TASK_UPDATE,
 			owner: req.user,
 			task
 		});
-		if (updates.statues && updates.statues === 'complete' && message) {
+		if (updates.statues && updates.statues === "complete" && message) {
 			logEvent(
 				MessageEvent,
 				{
@@ -138,7 +138,7 @@ router.patch('/:id', async (req, res) => {
 	}
 });
 
-router.patch('/:id/assign/:s_id', async (req, res) => {
+router.patch("/:id/assign/:s_id", async (req, res) => {
 	try {
 		// Get the task.
 		const task = await getResource(req.params.id, Task.findById.bind(Task));
@@ -156,7 +156,7 @@ router.patch('/:id/assign/:s_id', async (req, res) => {
 				student.tasks.push(task);
 				await student.save();
 			}
-			throw new Error('Task already assigned to student');
+			throw new Error("Task already assigned to student");
 		}
 
 		// Create log event.
@@ -179,7 +179,7 @@ router.patch('/:id/assign/:s_id', async (req, res) => {
 	}
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete("/:id", async (req, res) => {
 	try {
 		const task = await getResource(req.params.id, Task.findByIdAndRemove(Task));
 		res.json(createResponse(task));

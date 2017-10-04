@@ -13,7 +13,6 @@ class RewardAssignList extends Component {
 	render() {
 		return (
 			<div>
-				<h2>Rewards</h2>
 				<Card>
 					<CardHeader
 						actAsExpander={true}
@@ -27,8 +26,8 @@ class RewardAssignList extends Component {
 							"font-size": "16px"
 						}}
 					/>
-					<CardText expandable={true}>
-						<div className="reward-card-container">
+					<CardText expandable={true} style={{ "background-color": "#d8f996" }}>
+						<div className="card-container">
 							{this.props.rewards.map(reward => {
 								return <Assignable resource={reward} type="rewards" />;
 							})}

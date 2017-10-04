@@ -30,7 +30,7 @@ class StudentList extends Component {
 		console.log(this.props);
 		return (
 			<div>
-				<h2>Students</h2>
+				<span>Current Class: </span>
 				<DropDownMenu
 					value={this.state.classIndex}
 					onChange={this.handleChange}

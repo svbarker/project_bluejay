@@ -12,6 +12,7 @@ import StudentView from "./StudentView";
 import MenuTasksContainer from "../containers/DisplayTasksContainer";
 import StudentRewards from "../containers/Rewards/StudentRewards";
 import TeacherRewards from "../containers/Rewards/TeacherRewards";
+import PageNotFound from "./PageNotFound";
 
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
@@ -19,8 +20,8 @@ const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 class App extends Component {
   componentDidMount() {
     //for testing porpoises
-    // const userType = "Teacher";
-    const userType = "Student";
+    const userType = "Teacher";
+    //const userType = "Student";
     if (userType === "Teacher") {
       this.props.loginTeacher();
     } else if (userType === "Student") {
@@ -29,7 +30,7 @@ class App extends Component {
   }
 
   render() {
-    const userType = "Student";
+    const userType = "Teacher";
 
     if (userType === "Teacher") {
       return (

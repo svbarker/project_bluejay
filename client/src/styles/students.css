@@ -14,7 +14,7 @@
 .student-assign-all {
 	height: 50px;
 	text-align: center;
-	border: 3px solid #aaa;
+	background-color: #960d0d;
 	border-radius: 5px;
 	margin-bottom: 20px;
 }
@@ -23,7 +23,7 @@
 	display: inline-block;
 	vertical-align: middle;
 	line-height: 50px;
-	color: #aaa;
+	color: white;
 }
 
 .student-card {
@@ -36,7 +36,7 @@
 	color: #960d0d;
 }
 
-.task-card-container {
+.card-container {
 	display: grid;
 	grid-gap: 10px;
 }
@@ -50,5 +50,5 @@
 	-moz-transition: background-color 350ms ease;
 	-o-transition: background-color 350ms ease;
 	transition: background-color 350ms ease;
-	background-color: #ccc;
+	background-color: #ff9a9a;
 }
