@@ -264,6 +264,7 @@ router.get('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
 // Task: 59d52bffc574836cb7250eec
 // reading a teacher's reward(s)
 router.get('/:id/rewards', async (req, res) => {
+	console.log('id = ', req.params.id);
 	try {
 		const teacher = await getResource(
 			req.params.id,
@@ -275,6 +276,7 @@ router.get('/:id/rewards', async (req, res) => {
 			}
 		);
 
+		console.log('teacher = ', teacher);
 		// Create log event.
 		teacher.rewardList = teacher.rewards.join(',');
 		logEvent(UserEvent, {

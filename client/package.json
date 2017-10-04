@@ -6,6 +6,8 @@
     "isomorphic-fetch": "^2.2.1",
     "material-ui": "^0.19.3",
     "react": "^16.0.0",
+    "react-dnd": "^2.5.3",
+    "react-dnd-html5-backend": "^2.5.3",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",

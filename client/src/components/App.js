@@ -6,48 +6,96 @@ import { withRouter } from "react-router";
 
 //Components
 import DashboardMenu from "./DashboardMenu";
+import StudentDashboardMenu from "./StudentDashboardMenu";
 import NotificationsContainer from "../containers/NotificationsContainer";
 import StudentView from "./StudentView";
 import MenuTasksContainer from "../containers/DisplayTasksContainer";
-import RewardsContainer from "../containers/RewardsContainer";
+import StudentRewards from "../containers/Rewards/StudentRewards";
+import TeacherRewards from "../containers/Rewards/TeacherRewards";
 
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
 class App extends Component {
   componentDidMount() {
-    this.props.loginTeacher();
+    //for testing porpoises
+    // const userType = "Teacher";
+    const userType = "Student";
+    if (userType === "Teacher") {
+      this.props.loginTeacher();
+    } else if (userType === "Student") {
+      this.props.loginStudent();
+    }
   }
 
   render() {
-    return (
-      <div className="App">
-        <Router>
-          <div>
-            <TeacherNavbarContainerWithRouter />
-            <Switch>
-              {/* do some login checking here */}
+    const userType = "Student";
 
-              <Route
-                exact
-                path="/"
-                component={() => (
-                  <div>
-                    <h1>Teacher Dashboard</h1>
-                    <DashboardMenu />
-                  </div>
-                )}
-              />
-              <Route path="/students" component={StudentView} />
-              <Route path="/tasks" component={MenuTasksContainer} />
-              <Route path="/rewards" component={RewardsContainer} />
-              <Route path="/report" component={() => <h1>Reports</h1>} />
-              <Route path="/notifications" component={NotificationsContainer} />
-            </Switch>
-          </div>
-        </Router>
-      </div>
-    );
+    if (userType === "Teacher") {
+      return (
+        <div className="App">
+          <Router>
+            <div>
+              <TeacherNavbarContainerWithRouter />
+              <Switch>
+                {/* do some login checking here */}
+
+                <Route
+                  exact
+                  path="/"
+                  component={() => (
+                    <div>
+                      <h1>Teacher Dashboard</h1>
+                      <DashboardMenu />
+                    </div>
+                  )}
+                />
+                <Route path="/students" component={StudentView} />
+                <Route path="/tasks" component={MenuTasksContainer} />
+                <Route path="/rewards" component={StudentRewards} />
+                <Route path="/report" component={() => <h1>Reports</h1>} />
+                <Route
+                  path="/notifications"
+                  component={NotificationsContainer}
+                />
+                <Route path="/" component={PageNotFound} />
+              </Switch>
+            </div>
+          </Router>
+        </div>
+      );
+    } else {
+      return (
+        <div className="App">
+          <Router>
+            <div>
+              <StudentNavbarContainerWithRouter />
+              <Switch>
+                {/* do some login checking here */}
+
+                <Route
+                  exact
+                  path="/"
+                  component={() => (
+                    <div>
+                      <h1>Student Dashboard</h1>
+                      <StudentDashboardMenu />
+                    </div>
+                  )}
+                />
+                <Route path="/tasks" component={MenuTasksContainer} />
+                <Route path="/rewards" component={StudentRewards} />
+                <Route path="/report" component={() => <h1>Reports</h1>} />
+                <Route
+                  path="/notifications"
+                  component={NotificationsContainer}
+                />
+              </Switch>
+            </div>
+          </Router>
+        </div>
+      );
+    }
   }
 }
 
