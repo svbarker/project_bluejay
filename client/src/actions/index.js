@@ -32,7 +32,6 @@ export const loginTeacher = () => async dispatch => {
     });
 
     const teacher = await response.json();
-    console.log("Teacher: ", teacher);
     if (!teacher.success) {
       throw new Error("Something went wrong with your request.");
     }

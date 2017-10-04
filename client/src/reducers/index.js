@@ -4,6 +4,7 @@ import students from "./student";
 import tasks from "./task";
 import rewards from "./rewards";
 import notifications from "./notifications";
+import classrooms from "./classrooms";
 
 import { START_REQUEST, FAILURE_REQUEST } from "../actions/index";
 
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   tasks,
   rewards,
   notifications,
+  classrooms,
   status: reducer
 });
 

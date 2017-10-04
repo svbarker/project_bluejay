@@ -1,13 +1,19 @@
 import { connect } from "react-redux";
+import { loadStudents } from "../actions/student";
 import StudentList from "../components/StudentList";
 
-const mapStateToProps = state => ({
-	students: state.students,
-	classrooms: state.classrooms
-});
+const mapStateToProps = state => {
+	console.log(state);
+	return {
+		students: state.students,
+		classrooms: state.classrooms
+	};
+};
 
 const mapDispatchToProps = dispatch => ({
-	getStudents: () => {}
+	loadStudents: id => {
+		dispatch(loadStudents(id));
+	}
 });
 
 const StudentListContainer = connect(mapStateToProps, mapDispatchToProps)(

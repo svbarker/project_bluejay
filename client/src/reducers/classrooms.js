@@ -4,7 +4,7 @@ import {
   ADD_CLASSROOM,
   UPDATE_CLASSROOM,
   REMOVE_CLASSROOM
-} from "../actions/classroom";
+} from "../actions/classrooms";
 
 export const classroomInitState = [];
 
