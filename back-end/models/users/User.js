@@ -54,6 +54,10 @@ const autoPopulate = function(next) {
 		{
 			path: 'notifications',
 			model: 'Event'
+		},
+		{
+			path: 'classrooms',
+			model: 'Classroom'
 		}
 	]);
 	next();
@@ -75,6 +79,10 @@ UserSchema.virtual('password').set(function(val) {
 
 UserSchema.methods.validatePassword = function(password) {
 	return bcrypt.compareSync(password, this.passwordHash);
+};
+
+UserSchema.methods.toString = function() {
+	return this.fullname;
 };
 
 const User = mongoose.model('User', UserSchema);
