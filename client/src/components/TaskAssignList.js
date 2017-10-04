@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AssignableTask from "./AssignableTask";
+import Assignable from "./Assignable";
 import { Card, CardHeader, CardText } from "material-ui/Card";
 
 class TaskAssignList extends Component {
@@ -32,7 +32,7 @@ class TaskAssignList extends Component {
 					<CardText expandable={true}>
 						<div className="task-card-container">
 							{this.props.tasks.map(task => {
-								return <AssignableTask task={task} />;
+								return <Assignable resource={task} />;
 							})}
 						</div>
 					</CardText>

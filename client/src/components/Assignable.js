@@ -1,15 +1,15 @@
 import React from "react";
 import Paper from "material-ui/Paper";
 
-const AssignableTask = ({ task }) => {
+const Assignable = ({ resource }) => {
 	return (
 		<Paper>
 			<div className="task-card">
-				<h4>{task.title}</h4>
-				<p>{task.description}</p>
+				<h4>{resource.title}</h4>
+				<p>{resource.description}</p>
 			</div>
 		</Paper>
 	);
 };
 
-export default AssignableTask;
+export default Assignable;
