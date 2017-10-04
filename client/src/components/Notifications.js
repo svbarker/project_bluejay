@@ -154,8 +154,11 @@ const Notifications = ({
             secondaryTextLines={2}
             leftIcon={icon(n)}
             style={{
-              margin: "30px 150px",
-              paddingBottom: "20px"
+              margin: "50px 150px",
+              paddingBottom: "20px",
+              border: `20px solid ${n.kind === "TaskEvent"
+                ? "rgba( 26,132,132,.2)"
+                : "rgba(150,205, 40,.2)"}`
             }}
             rightIcon={
               <div style={{ marginRight: "50px", width: "200px" }}>
