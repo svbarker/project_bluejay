@@ -1,9 +1,33 @@
+.student-view-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin: 0 20px;
+}
+
 .student-card-container {
-	max-width: 960px;
 	margin: 0 auto;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: 20px;
+}
+
+.student-assign-all {
+	height: 50px;
+	text-align: center;
+	border: 3px solid #aaa;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+
+.student-assign-all:hover {
+	background-color: white;
+}
+
+.student-assign-all span {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 50px;
+	color: #aaa;
 }
 
 .student-card {

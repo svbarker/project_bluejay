@@ -7,7 +7,7 @@ import { withRouter } from "react-router";
 //Components
 import DashboardMenu from "./DashboardMenu";
 import NotificationsContainer from "../containers/NotificationsContainer";
-import StudentListContainer from "../containers/StudentListContainer";
+import StudentView from "./StudentView";
 import MenuTasksContainer from "../containers/DisplayTasksContainer";
 import RewardsContainer from "../containers/RewardsContainer";
 
@@ -38,7 +38,7 @@ class App extends Component {
                   </div>
                 )}
               />
-              <Route path="/students" component={StudentListContainer} />
+              <Route path="/students" component={StudentView} />
               <Route path="/tasks" component={MenuTasksContainer} />
               <Route path="/rewards" component={RewardsContainer} />
               <Route path="/report" component={() => <h1>Reports</h1>} />
