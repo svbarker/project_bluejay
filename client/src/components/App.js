@@ -9,7 +9,8 @@ import DashboardMenu from "./DashboardMenu";
 import NotificationsContainer from "../containers/NotificationsContainer";
 import StudentView from "./StudentView";
 import MenuTasksContainer from "../containers/DisplayTasksContainer";
-import RewardsContainer from "../containers/RewardsContainer";
+import StudentRewards from "../containers/Rewards/StudentRewards";
+import TeacherRewards from "../containers/Rewards/TeacherRewards";
 
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
@@ -17,7 +18,7 @@ const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 class App extends Component {
   componentDidMount() {
     //for testing porpoises
-    const userType = "Student";
+    const userType = "Teacher";
     // const userType = "Student";
     if (userType === "Teacher") {
       this.props.loginTeacher();
@@ -47,7 +48,7 @@ class App extends Component {
               />
               <Route path="/students" component={StudentView} />
               <Route path="/tasks" component={MenuTasksContainer} />
-              <Route path="/rewards" component={RewardsContainer} />
+              <Route path="/rewards" component={TeacherRewards} />
               <Route path="/report" component={() => <h1>Reports</h1>} />
               <Route path="/notifications" component={NotificationsContainer} />
             </Switch>

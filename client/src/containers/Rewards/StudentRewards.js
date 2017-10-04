@@ -2,14 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 
 //components
-import TeacherOnly from "../components/TeacherOnly";
-import StudentOnly from "../components/StudentOnly";
+// import TeacherOnly from "../components/TeacherOnly";
+// import StudentOnly from "../components/StudentOnly";
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
-import LoadScreen from "../components/LoadScreen";
+import LoadScreen from "../../components/LoadScreen";
 import Paper from "material-ui/Paper";
 import FlatButton from "material-ui/FlatButton";
-import "../styles/RewardList.css";
+import "../../styles/RewardList.css";
 
 //actions
 import {
@@ -17,10 +17,10 @@ import {
   getAllRewards,
   editReward,
   deleteReward
-} from "../actions/rewards";
-import { loginTeacher, loginStudent } from "../actions/index";
+} from "../../actions/rewards";
+import { loginTeacher, loginStudent } from "../../actions/index";
 
-class RewardsContainer extends React.Component {
+class StudentRewards extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -60,6 +60,11 @@ class RewardsContainer extends React.Component {
     console.log("making a reward");
     return null;
   };
+  onPurchase = async () => {
+    //check points
+    //show error if not possible
+    //else purchase
+  };
   render = () => {
     if (this.state.loading) {
       if (
@@ -77,21 +82,6 @@ class RewardsContainer extends React.Component {
     //TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
     /////////IF THE USER IS THE TEACHER
     const rewards = this.props.rewards.map(reward => {
-      //custom buttons for students and teachers
-      let actions;
-      if (this.props.user.kind === "Teacher") {
-        actions = (
-          <div>
-            <FlatButton
-              onClick={() => this.props.removeReward(reward._id)}
-              label="delete"
-            />
-            <FlatButton onClick={null} label="set unavailable" />
-          </div>
-        );
-      } else if (this.props.user.kind === "Student") {
-        actions = <FlatButton onClick={() => null} label="purchase" />;
-      }
       return (
         <Card key={reward._id} className="reward-container">
           <CardHeader
@@ -108,7 +98,10 @@ class RewardsContainer extends React.Component {
             <p>Description: {reward.description || "None"}</p>
             <p>Cost: {reward.cost || reward.value || "None"}</p>
             <p>Available: {reward.status || "Unknown"}</p>
-            {actions}
+            <FlatButton
+              onClick={() => this.onPurchase(reward._id)}
+              label="purchase"
+            />
           </CardText>
         </Card>
       );
@@ -121,13 +114,8 @@ class RewardsContainer extends React.Component {
           {/* <div onClick={this.onCreateReward}>
             <i class="fa fa-plus" aria-hidden="true" />
           </div> */}
-          <StudentOnly userKind={this.props.user.kind}>
-            <h5>Your points</h5>
-            <h5>{this.props.user.points}</h5>
-          </StudentOnly>
-          <TeacherOnly userKind={this.props.user.kind}>
-            <FlatButton onClick={this.onCreateReward} label="create reward" />
-          </TeacherOnly>
+          <h5>Your points</h5>
+          <h5>{this.props.user.points}</h5>
         </div>
         {/* Rewards List */}
         <List className="reward-list">{rewards}</List>
@@ -161,4 +149,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RewardsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(StudentRewards);
