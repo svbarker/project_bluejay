@@ -8,10 +8,12 @@ import { withRouter } from "react-router";
 import DashboardMenu from "./DashboardMenu";
 import StudentDashboardMenu from "./StudentDashboardMenu";
 import NotificationsContainer from "../containers/NotificationsContainer";
+import StudentNotificationsContainer from "../containers/StudentNotificationsContainer";
 import StudentView from "./StudentView";
-import MenuTasksContainer from "../containers/DisplayTasksContainer";
+import TaskListContainer from "../containers/TaskListContainer";
 import StudentRewards from "../containers/Rewards/StudentRewards";
 import TeacherRewards from "../containers/Rewards/TeacherRewards";
+import PageNotFound from "./PageNotFound";
 
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
@@ -39,19 +41,9 @@ class App extends Component {
               <TeacherNavbarContainerWithRouter />
               <Switch>
                 {/* do some login checking here */}
-
-                <Route
-                  exact
-                  path="/"
-                  component={() => (
-                    <div>
-                      <h1>Teacher Dashboard</h1>
-                      <DashboardMenu />
-                    </div>
-                  )}
-                />
+                <Route exact path="/" component={DashboardMenu} />
                 <Route path="/students" component={StudentView} />
-                <Route path="/tasks" component={MenuTasksContainer} />
+                <Route path="/tasks" component={TaskListContainer} />
                 <Route path="/rewards" component={StudentRewards} />
                 <Route path="/report" component={() => <h1>Reports</h1>} />
                 <Route
@@ -72,24 +64,14 @@ class App extends Component {
               <StudentNavbarContainerWithRouter />
               <Switch>
                 {/* do some login checking here */}
-
-                <Route
-                  exact
-                  path="/"
-                  component={() => (
-                    <div>
-                      <h1>Student Dashboard</h1>
-                      <StudentDashboardMenu />
-                    </div>
-                  )}
-                />
-                <Route path="/tasks" component={MenuTasksContainer} />
+                <Route exact path="/" component={StudentDashboardMenu} />
+                <Route path="/tasks" component={TaskListContainer} />
                 <Route path="/rewards" component={StudentRewards} />
-                <Route path="/report" component={() => <h1>Reports</h1>} />
                 <Route
                   path="/notifications"
-                  component={NotificationsContainer}
+                  component={StudentNotificationsContainer}
                 />
+                <Route path="/" component={PageNotFound} />
               </Switch>
             </div>
           </Router>
