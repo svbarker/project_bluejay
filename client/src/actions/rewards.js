@@ -86,25 +86,6 @@ export const getAllRewards = (userId, userKind) => async dispatch => {
   }
   dispatch(getRewards(response.apiData));
 };
-//
-// export const getStudentRewardOptions = studentId => async dispatch => {
-//   dispatch(startRequest());
-//   try {
-//     let response = await fetch(`/api/students/${studentId}/rewards`, {
-//       method: "GET",
-//       credentials: "include",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//       body: null
-//     });
-//     let data = await response.json();
-//     dispatch(getRewards(data.apiData));
-//   } catch (e) {
-//     console.error(e);
-//     dispatch(failedRequest(e));
-//   }
-// };
 
 //NOT IMPLEMENTED
 export const editReward = (id, editedReward) => async dispatch => {

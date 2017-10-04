@@ -70,6 +70,7 @@ export const loginStudent = () => async dispatch => {
     const userObj = {
       id: loggedInUser.apiData._id,
       kind: loggedInUser.apiData.kind,
+      points: loggedInUser.apiData.points,
       displayName: loggedInUser.apiData.profile.displayName
     };
     console.log("logged in as ", loggedInUser);

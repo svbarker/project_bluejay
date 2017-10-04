@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 //components
+import TeacherOnly from "../components/TeacherOnly";
+import StudentOnly from "../components/StudentOnly";
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
 import LoadScreen from "../components/LoadScreen";
@@ -23,8 +25,8 @@ class RewardsContainer extends React.Component {
     super(props);
     this.state = {
       fetchingRewards: false,
-      loading: true,
-      userType: "Student"
+      loading: true
+      // userType: "Student"
     };
   }
   componentDidMount = async () => {
@@ -75,10 +77,26 @@ class RewardsContainer extends React.Component {
     //TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
     /////////IF THE USER IS THE TEACHER
     const rewards = this.props.rewards.map(reward => {
+      //custom buttons for students and teachers
+      let actions;
+      if (this.props.user.kind === "Teacher") {
+        actions = (
+          <div>
+            <FlatButton
+              onClick={() => this.props.removeReward(reward._id)}
+              label="delete"
+            />
+            <FlatButton onClick={null} label="set unavailable" />
+          </div>
+        );
+      } else if (this.props.user.kind === "Student") {
+        actions = <FlatButton onClick={() => null} label="purchase" />;
+      }
       return (
         <Card key={reward._id} className="reward-container">
           <CardHeader
             title={reward.title}
+            subtitle={`costs ${reward.cost || reward.value || "None"}`}
             className="reward-card-header"
             actAsExpander={true}
           />
@@ -87,16 +105,10 @@ class RewardsContainer extends React.Component {
             style={{ hoverColor: "none" }}
             expandable={true}
           >
-            <p>Description: {reward.description}</p>
-            <p>Cost: {reward.cost || reward.value}</p>
-            <p>Available: {reward.status}</p>
-            <FlatButton
-              onClick={() => {
-                this.props.removeReward(reward._id);
-              }}
-              label="delete"
-            />
-            <FlatButton onClick={null} label="set unavailable" />
+            <p>Description: {reward.description || "None"}</p>
+            <p>Cost: {reward.cost || reward.value || "None"}</p>
+            <p>Available: {reward.status || "Unknown"}</p>
+            {actions}
           </CardText>
         </Card>
       );
@@ -109,7 +121,13 @@ class RewardsContainer extends React.Component {
           {/* <div onClick={this.onCreateReward}>
             <i class="fa fa-plus" aria-hidden="true" />
           </div> */}
-          <FlatButton onClick={this.onCreateReward} label="create reward" />
+          <StudentOnly userKind={this.props.user.kind}>
+            <h5>Your points</h5>
+            <h5>{this.props.user.points}</h5>
+          </StudentOnly>
+          <TeacherOnly userKind={this.props.user.kind}>
+            <FlatButton onClick={this.onCreateReward} label="create reward" />
+          </TeacherOnly>
         </div>
         {/* Rewards List */}
         <List className="reward-list">{rewards}</List>
@@ -119,6 +137,7 @@ class RewardsContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
+  console.log("state in rewards = ", state);
   return {
     user: state.user,
     rewards: state.rewards,
