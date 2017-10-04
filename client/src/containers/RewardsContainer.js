@@ -4,12 +4,18 @@ import { connect } from "react-redux";
 //components
 import { Card, CardHeader } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
+import LoadScreen from "../components/LoadScreen";
 import Paper from "material-ui/Paper";
 import FlatButton from "material-ui/FlatButton";
 import "../styles/RewardList.css";
 
 //actions
-import { getAllRewards, createReward } from "../actions/rewards";
+import {
+  createReward,
+  getAllRewards,
+  editReward,
+  deleteReward
+} from "../actions/rewards";
 import { loginTeacher } from "../actions/index";
 
 class RewardsContainer extends React.Component {
@@ -21,17 +27,15 @@ class RewardsContainer extends React.Component {
     };
   }
   componentDidMount = async () => {
-    //slight fix for jumping into page at /rewards
-
     //login the teacher
     if (Object.keys(this.props.user).length === 0) {
-      //login the teacher
       loginTeacher();
     } else {
-      this.getRewards(); //slight fix for jumping into page at /rewards
+      this.getRewards();
       this.setState({ fetchingRewards: true });
     }
   };
+  //grab all the rewards
   getRewards = async () => {
     await this.props.fetchRewards(this.props.user.id);
     this.setState({
@@ -49,13 +53,17 @@ class RewardsContainer extends React.Component {
         this.getRewards();
       }
       //display load screen
-      return <div>LOADING</div>;
+      return <LoadScreen />;
     }
 
+    //TODO: ADD IN-PLACE EDITING FOR DESCRIPTION/ COST/VALUE
+    //TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
+    /////////IF THE USER IS THE TEACHER
+    console.log("a reward looks like ", this.props.rewards[0]);
     const rewards = this.props.rewards.map(reward => (
       <Card key={reward._id} className="reward-container">
         <CardHeader actAsExpander={true}>
-          <h3>Some Reward </h3>
+          <h3>{reward.title}</h3>
         </CardHeader>
         <ListItem
           className="reward-item"
@@ -65,12 +73,16 @@ class RewardsContainer extends React.Component {
           <p>Reward: {reward.description}</p>
           <p>Cost: {reward.cost || reward.value}</p>
           <p>Available: {reward.status}</p>
-          <FlatButton onClick={null} label="delete" />
+          <FlatButton
+            onClick={() => {
+              this.props.removeReward(reward._id);
+            }}
+            label="delete"
+          />
           <FlatButton onClick={null} label="set unavailable" />
         </ListItem>
       </Card>
     ));
-    console.log("rewards = ", this.props.rewards);
     return (
       <Paper className="reward-container">
         {/* header */}
@@ -84,7 +96,6 @@ class RewardsContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  // console.log("state in rewards = ", state);
   return {
     user: state.user,
     rewards: state.rewards
@@ -92,12 +103,17 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    fetchRewards: teacherId => {
-      // console.log("dispatching ", teacherId);
-      dispatch(getAllRewards(teacherId));
-    },
     createReward: teacher => {
       dispatch(createReward(teacher));
+    },
+    fetchRewards: teacherId => {
+      dispatch(getAllRewards(teacherId));
+    },
+    removeReward: rewardId => {
+      dispatch(deleteReward(rewardId));
+    },
+    updateReward: (id, editedReward) => {
+      dispatch(editReward(id, editedReward));
     }
   };
 };
