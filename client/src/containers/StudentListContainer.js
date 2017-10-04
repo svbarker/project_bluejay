@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import StudentList from "../components/StudentList";
 
 const mapStateToProps = state => ({
-	students: state.students
+	students: state.students,
+	classrooms: state.classrooms
 });
 
 const mapDispatchToProps = dispatch => ({
