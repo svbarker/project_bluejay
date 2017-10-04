@@ -2,9 +2,19 @@ import React, { Component } from "react";
 import Paper from "material-ui/Paper";
 import { DropTarget } from "react-dnd";
 
+const assignTask = async (studentId, assignableId) => {
+	const response = await fetch(
+		`/api/tasks/${assignableId}/assign/${studentId}`
+	);
+	console.log(response);
+	return await response.json();
+};
+
 const studentTarget = {
-	drop(props) {
-		console.log("I got dropped!");
+	drop(props, monitor) {
+		assignTask(props.student._id, monitor.getItem().id).then(response => {
+			console.log(response);
+		});
 	}
 };
 

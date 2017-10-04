@@ -4,7 +4,7 @@ import { DragSource } from "react-dnd";
 
 const assignableSource = {
 	beginDrag(props) {
-		const item = { id: props.id };
+		const item = { id: props.resource._id };
 		return item;
 	},
 
@@ -13,9 +13,7 @@ const assignableSource = {
 			return;
 		}
 
-		const item = monitor.getItem();
-		const droppedOn = monitor.getDropResult();
-		console.log(`Dropped ${item} on ${droppedOn}`);
+		// Do some animation stuff I guess?
 	}
 };
 
