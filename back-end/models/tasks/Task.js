@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
 
 const TaskSchema = new mongoose.Schema(
 	{
 		title: {
 			type: String,
-			required: true,
-			unique: true
+			required: true
 		},
 		description: {
 			type: String,
@@ -33,15 +31,11 @@ const TaskSchema = new mongoose.Schema(
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Classroom'
 			}
-		],
-		status: {
-			type: String,
-			default: 'Unassigned'
-		}
+		]
 	},
 	{
 		timestamps: true,
-		discriminatorKey: 'kind'
+		discriminatorKey: 'status'
 	}
 );
 
@@ -49,7 +43,10 @@ const autoPopulate = function(next) {
 	this.populate([
 		{
 			path: 'students',
-			model: 'Student'
+			populate: {
+				path: 'profile',
+				model: 'Profile'
+			}
 		}
 	]);
 	next();
@@ -59,14 +56,29 @@ TaskSchema.pre('findOne', autoPopulate);
 TaskSchema.pre('findOneAndUpdate', autoPopulate);
 TaskSchema.pre('findOneAndRemove', autoPopulate);
 
-TaskSchema.plugin(uniqueValidator);
-
 TaskSchema.methods.hasStudent = function(student) {
 	return this.students.some(s => '' + s === student.id);
 };
 
 TaskSchema.methods.toString = function() {
 	return `${this.title}`;
+};
+
+TaskSchema.methods.toNewObject = function() {
+	const newObj = this.toObject();
+	delete newObj._id;
+	return newObj;
+};
+
+TaskSchema.methods.addStudent = function(student) {
+	const index = this.students.findIndex(stud => {
+		return stud.id === student.id;
+	});
+	if (index > -1) {
+		this.students[index] = student.id;
+	} else {
+		this.students[0] = student.id;
+	}
 };
 
 const Task = mongoose.model('Task', TaskSchema);

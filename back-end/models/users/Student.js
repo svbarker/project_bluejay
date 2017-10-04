@@ -14,5 +14,20 @@ const StudentSchema = new mongoose.Schema(
 	}
 );
 
+// StudentSchema.methods.hasTask = function(task) {
+// 	return this.tasks.some(t => t.title === task.title);
+// };
+
+StudentSchema.methods.addTask = function(task) {
+	const index = this.tasks.findIndex(t => {
+		return t.id === task.id;
+	});
+	if (index > -1) {
+		this.tasks[index] = task;
+	} else {
+		this.tasks[0] = task;
+	}
+};
+
 const Student = User.discriminator('Student', StudentSchema);
 module.exports = Student;

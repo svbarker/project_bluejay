@@ -74,10 +74,9 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/students", async (req, res) => {
 	try {
 		const task = await getResource(req.params.id, Task.findById.bind(Task));
+
 		// Create log event.
-		console.log(task.students);
 		task.studentList = task.students.join(",");
-		console.log(task.studentList);
 		logEvent(TaskEvent, {
 			message: Messages.TEMPLATE_TASK_STUDENT_READ,
 			owner: req.user,

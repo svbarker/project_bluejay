@@ -23,14 +23,12 @@ const EventSchema = new mongoose.Schema(
 	}
 );
 
-EventSchema.virtual('message').set(function(val) {
+function templateParser(val) {
 	this._message = val;
 	const regex = /%(.+?)%/gi;
 	let matches;
-
 	while ((matches = regex.exec(val)) !== null) {
 		const [first, second, third] = matches[1].split('.');
-
 		if (
 			!first ||
 			(first && !second) ||
@@ -47,7 +45,9 @@ EventSchema.virtual('message').set(function(val) {
 			third ? this[first][second][third] : this[first][second]
 		);
 	}
-});
+}
+
+EventSchema.virtual('message').set(templateParser);
 
 EventSchema.virtual('message').get(function() {
 	return this._message;

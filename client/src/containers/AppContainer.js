@@ -11,6 +11,12 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-const AppContainer = connect(null, mapDispatchToProps)(App);
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default AppContainer;
