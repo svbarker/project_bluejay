@@ -18,10 +18,18 @@ class StudentList extends Component {
 	render() {
 		console.log(this.props);
 		return (
-			<div className="student-card-container">
-				{!this.props.students ? null : (
-					this.props.students.map(student => <StudentCard student={student} />)
-				)}
+			<div>
+				<h2>Students</h2>
+				<div className="student-assign-all">
+					<span>Assign to Class</span>
+				</div>
+				<div className="student-card-container">
+					{!this.props.students ? null : (
+						this.props.students.map(student => (
+							<StudentCard student={student} />
+						))
+					)}
+				</div>
 			</div>
 		);
 	}
