@@ -40,3 +40,19 @@ export const hydrateTeacherTasks = userId => async dispatch => {
     console.log(error);
   }
 };
+
+export const hydrateStudentTasks = userId => async dispatch => {
+  try {
+    console.log("userId:", userId);
+    const response = await fetch(`api/students/${userId}/tasks`, {
+      method: "GET",
+      credentials: "include"
+    });
+
+    const tasks = await response.json();
+
+    dispatch(getTasks(tasks.apiData));
+  } catch (error) {
+    console.log(error);
+  }
+};

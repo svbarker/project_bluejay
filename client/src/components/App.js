@@ -11,6 +11,7 @@ import NotificationsContainer from "../containers/NotificationsContainer";
 import StudentNotificationsContainer from "../containers/StudentNotificationsContainer";
 import StudentView from "./StudentView";
 import TaskListContainer from "../containers/TaskListContainer";
+import StudentTaskListContainer from "../containers/StudentTaskListContainer";
 import StudentRewards from "../containers/Rewards/StudentRewards";
 import TeacherRewards from "../containers/Rewards/TeacherRewards";
 import PageNotFound from "./PageNotFound";
@@ -31,6 +32,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props.user);
     const userType = "Student";
 
     if (userType === "Teacher") {
@@ -65,7 +67,7 @@ class App extends Component {
               <Switch>
                 {/* do some login checking here */}
                 <Route exact path="/" component={StudentDashboardMenu} />
-                <Route path="/tasks" component={TaskListContainer} />
+                <Route path="/tasks" component={StudentTaskListContainer} />
                 <Route path="/rewards" component={StudentRewards} />
                 <Route
                   path="/notifications"
