@@ -16,7 +16,14 @@ const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
 class App extends Component {
   componentDidMount() {
-    this.props.loginTeacher();
+    //for testing porpoises
+    const userType = "Teacher";
+    // const userType = "Student";
+    if (userType === "Teacher") {
+      this.props.loginTeacher();
+    } else if (userType === "Student") {
+      this.props.loginStudent();
+    }
   }
 
   render() {
