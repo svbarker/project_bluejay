@@ -95,15 +95,16 @@ const Notifications = ({
   user,
   acceptEvent,
   rejectEvent,
-  pending,
-  pendingType,
-  undo,
-  timeLeft
+  pendings,
+  undo
 }) => {
+  const pendingIds = pendings.map(p => p.id);
   return (
     <List>
       {notifications.map(n => {
-        if (pending === n._id) {
+        if (pendingIds.includes(n._id)) {
+          let pendingType = pendings.filter(p => p.id === n._id)[0]["type"];
+          let timeLeft = pendings.filter(p => p.id === n._id)[0]["timeLeft"];
           return (
             <ListItem
               key={n._id}
@@ -113,13 +114,15 @@ const Notifications = ({
                     ? "task."
                     : "reward."} `}
                   <span
-                    onClick={undo}
+                    onClick={undo(n._id)}
                     style={{ color: "blue", textDecoration: "underline" }}
                   >
                     Undo?
                   </span>
+                  {`  (${timeLeft} seconds)`}
                 </span>
               }
+              secondaryText={`Leaving the page will make this permanent.`}
               hoverColor={"lightgrey"}
               secondaryTextLines={2}
               leftIcon={actionIcon(pendingType)}
@@ -151,8 +154,11 @@ const Notifications = ({
             secondaryTextLines={2}
             leftIcon={icon(n)}
             style={{
-              margin: "30px 150px",
-              paddingBottom: "20px"
+              margin: "50px 150px",
+              paddingBottom: "20px",
+              border: `20px solid ${n.kind === "TaskEvent"
+                ? "rgba( 26,132,132,.2)"
+                : "rgba(150,205, 40,.2)"}`
             }}
             rightIcon={
               <div style={{ marginRight: "50px", width: "200px" }}>
