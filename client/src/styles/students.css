@@ -1,0 +1,17 @@
+.student-card-container {
+	max-width: 960px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-gap: 20px;
+}
+
+.student-card {
+	text-align: center;
+	padding: 20px;
+}
+
+.student-card i {
+	font-size: 100px;
+	color: #960d0d;
+}

@@ -36,8 +36,6 @@ export const loginTeacher = () => async dispatch => {
       throw new Error("Something went wrong with your request.");
     }
 
-    console.log("Teacher login returns: ", teacher);
-
     const userObj = {
       id: teacher.apiData._id,
       displayName: teacher.apiData.profile.displayName

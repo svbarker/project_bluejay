@@ -34,7 +34,7 @@ export const loadStudents = classId => async dispatch => {
 			credentials: "include"
 		});
 
-		const students = response.json();
+		const students = await response.json();
 		dispatch(getStudents(students.apiData));
 	} catch (error) {
 		console.log(error);
