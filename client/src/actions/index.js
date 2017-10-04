@@ -51,3 +51,8 @@ export const loginTeacher = () => async dispatch => {
     console.log(error);
   }
 };
+
+//placeholder
+export const loginStudent = () => async dispatch => {
+  ///nothing
+};

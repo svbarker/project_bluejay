@@ -1,8 +1,17 @@
 .reward-container {
   max-width: 960px;
-  margin: auto;
+  padding: 20px;
 }
-
+.reward-card-header {
+  background-color: #beef5b;
+  color: white;
+}
+.reward-card-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+}
 .reward-list {
   display: grid;
   width: 100%;

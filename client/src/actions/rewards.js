@@ -35,7 +35,7 @@ export const createReward = (teacherId, reward) => async dispatch => {
   dispatch(startRequest());
   // teacher = await getTeacher(); //change this later after we store the user
   const teacher = null;
-  console.log("teacher = ", teacher);
+  // console.log("teacher = ", teacher);
   const defaultReward = {
     kind: "point",
     description: "new reward",
@@ -51,14 +51,13 @@ export const createReward = (teacherId, reward) => async dispatch => {
     },
     body: defaultReward
   });
-  console.log("response from createReward API = ", response);
+  // console.log("response from createReward API = ", response);
   //TODO: double check that we're getting this back from server
   dispatch(addReward(response.apiData));
 };
 
 //get all the rewards for a teacher
 export const getAllRewards = teacherId => async dispatch => {
-  console.log("reward things!");
   dispatch(startRequest());
   const response = await fetch(`/api/teachers/${teacherId}/rewards`, {
     method: "GET",
@@ -72,7 +71,6 @@ export const getAllRewards = teacherId => async dispatch => {
     console.error(response.status);
   }
   const data = await response.json();
-  console.log(data.apiData);
   dispatch(getRewards(data.apiData));
 };
 
