@@ -14,7 +14,7 @@ class NotificationsContainer extends React.Component {
   }
 
   takeToItem = (item, id) => () => {
-    this.props.history.push(`/${item}s/${id}`);
+    this.props.history.push(`/${item}s`);
   };
 
   componentDidMount() {
@@ -40,40 +40,32 @@ const mapStateToProps = state => {
     user: state.user,
     notifications: [
       {
-        message:
-          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
-        kind: "reward",
-        id: "1"
+        _message: "Thanks for giving me this task to comlete!",
+        kind: "TaskEvent",
+        _id: "1",
+        owner: {
+          profile: {
+            fname: "Bob",
+            lname: "Hope"
+          }
+        },
+        task: {
+          title: "One Difficult Task"
+        }
       },
       {
-        message:
-          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
-        kind: "reward",
-        id: "1"
-      },
-      {
-        message:
-          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
-        kind: "task",
-        id: "1"
-      },
-      {
-        message:
-          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
-        kind: "task",
-        id: "1"
-      },
-      {
-        message:
-          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
-        kind: "reward",
-        id: "1"
-      },
-      {
-        message:
-          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
-        kind: "task",
-        id: "1"
+        _message: "I love this awesome reward!",
+        kind: "RewardEvent",
+        _id: "1",
+        owner: {
+          profile: {
+            fname: "Bob",
+            lname: "Saget"
+          }
+        },
+        reward: {
+          title: "One Awesome Reward"
+        }
       }
     ]
   };
