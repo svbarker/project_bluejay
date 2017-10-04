@@ -7,6 +7,7 @@ const user = (state = {}, action) => {
         ...state,
         id: action.data.id,
         kind: action.data.kind,
+        points: action.data.points,
         displayName: action.data.displayName
       };
     default:

@@ -4,7 +4,8 @@ store = {
   user: {
     id: String,
     kind: String,
-    displayName: String
+    displayName: String,
+    points: Number
   }
   classrooms: [
     {
