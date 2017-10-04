@@ -6,7 +6,7 @@ const StudentCard = ({ student }) => {
 		<Paper>
 			<div className="student-card">
 				<i class="fa fa-user-circle-o" aria-hidden="true" />
-				<h3>{student.profile.displayName}</h3>
+				<h4>{student.profile.displayName}</h4>
 			</div>
 		</Paper>
 	);

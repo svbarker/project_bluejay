@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import TaskList from "../components/TaskList";
+import TaskAssignList from "../components/TaskAssignList";
 
 import { hydrateTeacherTasks } from "../actions/task";
 
@@ -19,4 +19,4 @@ const mapDispatchToProps = dispatch => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskList);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskAssignList);
