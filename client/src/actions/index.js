@@ -21,6 +21,7 @@ export const failedRequest = error => {
 };
 
 export const loginTeacher = () => async dispatch => {
+  console.log("LOGGING IN AS A TEACHER");
   try {
     const response = await fetch("/sessions", {
       method: "POST",
@@ -35,18 +36,15 @@ export const loginTeacher = () => async dispatch => {
     if (!teacher.success) {
       throw new Error("Something went wrong with your request.");
     }
-
+    console.log("teacher = ", teacher);
     const userObj = {
       id: teacher.apiData._id,
+      kind: teacher.apiData.kind,
       displayName: teacher.apiData.profile.displayName
     };
 
     dispatch(user.setUser(userObj));
     dispatch(classrooms.getClassrooms(teacher.apiData.classrooms));
-    // //return the teacher
-    // //so you can fetch teacher data immediately without waiting for the
-    // //redux store to update
-    // return userObj;
   } catch (error) {
     console.log(error);
   }
@@ -54,5 +52,30 @@ export const loginTeacher = () => async dispatch => {
 
 //placeholder
 export const loginStudent = () => async dispatch => {
-  ///nothing
+  console.log("LOGGING IN AS A STUDENT");
+  try {
+    const response = await fetch("/sessions", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username: "student1@learn.com", password: "foo" })
+    });
+
+    const loggedInUser = await response.json();
+    if (!loggedInUser.success) {
+      throw new Error("Something went wrong with your request.");
+    }
+    const userObj = {
+      id: loggedInUser.apiData._id,
+      kind: loggedInUser.apiData.kind,
+      displayName: loggedInUser.apiData.profile.displayName
+    };
+    console.log("logged in as ", loggedInUser);
+    dispatch(user.setUser(userObj));
+    dispatch(classrooms.getClassrooms(loggedInUser.apiData.classrooms));
+  } catch (error) {
+    console.log(error);
+  }
 };

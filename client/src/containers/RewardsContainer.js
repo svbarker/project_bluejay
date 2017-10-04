@@ -24,17 +24,17 @@ class RewardsContainer extends React.Component {
     this.state = {
       fetchingRewards: false,
       loading: true,
-      userType: "Teacher"
+      userType: "Student"
     };
   }
   componentDidMount = async () => {
     //login the teacher
     if (Object.keys(this.props.user).length === 0) {
-      if (this.state.userType === "Teacher") {
-        loginTeacher();
-      } else if (this.state.userType === "Student") {
-        loginStudent();
-      }
+      // if (this.state.userType === "Teacher") {
+      //   loginTeacher();
+      // } else if (this.state.userType === "Student") {
+      //   loginStudent();
+      // }
     } else {
       this.getRewards();
       this.setState({ fetchingRewards: true });
@@ -42,7 +42,10 @@ class RewardsContainer extends React.Component {
   };
   //grab all the rewards
   getRewards = async () => {
-    await this.props.fetchRewards(this.props.user.id);
+    //TESTING STUDENTS
+    console.log("user = ", this.props.user);
+    await this.props.fetchRewards(this.props.user.id, this.props.user.kind);
+    // await this.props.fetchStudentRewards(this.props.user.id);
     this.setState({
       fetchingRewards: false,
       loading: false
@@ -71,7 +74,6 @@ class RewardsContainer extends React.Component {
     //TODO: ADD IN-PLACE EDITING FOR DESCRIPTION/ COST/VALUE
     //TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
     /////////IF THE USER IS THE TEACHER
-    console.log("a reward looks like ", this.props.rewards[0]);
     const rewards = this.props.rewards.map(reward => {
       return (
         <Card key={reward._id} className="reward-container">
@@ -85,7 +87,7 @@ class RewardsContainer extends React.Component {
             style={{ hoverColor: "none" }}
             expandable={true}
           >
-            <p>Reward: {reward.description}</p>
+            <p>Description: {reward.description}</p>
             <p>Cost: {reward.cost || reward.value}</p>
             <p>Available: {reward.status}</p>
             <FlatButton
@@ -119,7 +121,8 @@ class RewardsContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    rewards: state.rewards
+    rewards: state.rewards,
+    classrooms: state.classrooms
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -127,8 +130,8 @@ const mapDispatchToProps = dispatch => {
     createReward: teacher => {
       dispatch(createReward(teacher));
     },
-    fetchRewards: teacherId => {
-      dispatch(getAllRewards(teacherId));
+    fetchRewards: (userId, userKind) => {
+      dispatch(getAllRewards(userId, userKind));
     },
     removeReward: rewardId => {
       dispatch(deleteReward(rewardId));

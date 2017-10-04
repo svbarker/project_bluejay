@@ -57,22 +57,54 @@ export const createReward = (teacherId, reward) => async dispatch => {
 };
 
 //get all the rewards for a teacher
-export const getAllRewards = teacherId => async dispatch => {
+export const getAllRewards = (userId, userKind) => async dispatch => {
   dispatch(startRequest());
-  const response = await fetch(`/api/teachers/${teacherId}/rewards`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: null
-  });
-  if (response.status !== 200) {
-    console.error(response.status);
+
+  //use correct input for students and teachers
+  let endpoint = `/api/teachers/${userId}/rewards`;
+  if (userKind === "Student") {
+    endpoint = `/api/students/${userId}/rewards`;
   }
-  const data = await response.json();
-  dispatch(getRewards(data.apiData));
+  let response;
+  try {
+    response = await fetch(endpoint, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: null
+    });
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+  response = await response.json();
+  if (!response.success) {
+    console.error(response.apiError);
+    return null;
+  }
+  dispatch(getRewards(response.apiData));
 };
+//
+// export const getStudentRewardOptions = studentId => async dispatch => {
+//   dispatch(startRequest());
+//   try {
+//     let response = await fetch(`/api/students/${studentId}/rewards`, {
+//       method: "GET",
+//       credentials: "include",
+//       headers: {
+//         "Content-Type": "application/json"
+//       },
+//       body: null
+//     });
+//     let data = await response.json();
+//     dispatch(getRewards(data.apiData));
+//   } catch (e) {
+//     console.error(e);
+//     dispatch(failedRequest(e));
+//   }
+// };
 
 //NOT IMPLEMENTED
 export const editReward = (id, editedReward) => async dispatch => {
@@ -106,11 +138,52 @@ export const deleteReward = id => async dispatch => {
     body: null
   });
   //TODO: SHOULD THESE USE THE response success flag?
-  if (response.status !== 200) {
-    console.error(response.status);
-    dispatch(failedRequest());
+  console.log("response = ", response);
+  const data = await response.json();
+  console.log("data = ", data);
+  if (!data.success) {
+    console.error(data);
+    dispatch(failedRequest(data));
   } else {
     //delete from redux
-    dispatch(removeReward(id));
+    dispatch(removeReward(data.apiData._id));
   }
 };
+
+//
+// //get all the rewards a student could ever choose from
+// export const getStudentRewardOptions = classrooms => async dispatch => {
+//   const flatTeachers = classrooms.reduce((all, classroom) => {
+//     return all.concat(classroom.teachers);
+//   }, []);
+//   console.log("flatTeachers = ", flatTeachers);
+//   const uniqueTeachers = new Set(flatTeachers);
+//   console.log("uniqueTeachers = ", uniqueTeachers);
+//   dispatch(startRequest());
+//   //TODO: HANDLE ERRORS BETTER
+//   try {
+//     // console.log("teachers = ", [...uniqueTeachers.values()]);
+//     const promiseOfRewards = [...uniqueTeachers.values()].map(teacher => {
+//       console.log("teacher = ", teacher);
+//       return fetch(`/api/teachers/${teacher._id}/rewards`, {
+//         method: "GET",
+//         credentials: "include",
+//         headers: {
+//           "Content-Type": "application/json"
+//         },
+//         body: null
+//       });
+//     });
+//     let allResponses = await Promise.all(promiseOfRewards);
+//     console.log("responses = ", allResponses);
+//     allResponses = allResponses.map(response => response.json());
+//     let allRewards = await Promise.all(allResponses);
+//     console.log("all rewards = ", allRewards);
+//     allRewards = allRewards.map(response => response.apiData);
+//     console.log("all rewards = ", allRewards);
+//     // dispatch(getRewards(allRewards));
+//   } catch (e) {
+//     console.error(e);
+//     dispatch(failedRequest(e));
+//   }
+// };

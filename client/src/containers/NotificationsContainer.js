@@ -27,12 +27,19 @@ class NotificationsContainer extends React.Component {
     this.setState({
       pendingActions: [
         ...this.state.pendingActions,
-        { id: n_id, type: `${action}ed` }
+        { id: n_id, timeLeft: 15, type: `${action}ed` }
       ]
     });
+    let interval = setInterval(() => {
+      this.setState({
+        pendingActions: this.state.pendingActions.map(
+          a => (a.id === n_id ? { ...a, timeLeft: a.timeLeft - 1 } : a)
+        )
+      });
+    }, 1000);
     this.setState({
       actionTimeouts: [
-        ...this.state.actionTimeouts,
+        ...this.state.actionTimeouts.filter(t => t.eventId !== n_id),
         {
           timeout: setTimeout(() => {
             this.props[`${action}Event`](t_id, s_id, ta_id, n_id);
@@ -41,17 +48,29 @@ class NotificationsContainer extends React.Component {
                 a => a.id !== n_id
               )
             });
-          }, 5000),
-          eventId: n_id
+          }, 15000),
+          interval,
+          eventId: n_id,
+          t_id,
+          s_id,
+          ta_id,
+          action
         }
       ]
     });
+    console.log(interval);
+    setTimeout(() => {
+      clearInterval(interval);
+    }, 15000);
   };
 
   undoAction = id => e => {
     e.stopPropagation();
     clearTimeout(
       this.state.actionTimeouts.filter(t => t.eventId === id)[0]["timeout"]
+    );
+    clearInterval(
+      this.state.actionTimeouts.filter(t => t.eventId === id)[0]["interval"]
     );
     this.setState({
       pendingActions: this.state.pendingActions.filter(a => a.id !== id)
@@ -60,6 +79,15 @@ class NotificationsContainer extends React.Component {
 
   componentDidMount() {
     this.props.hydrateNotifications(this.props.user.id);
+  }
+
+  componentWillUnmount() {
+    let timeouts = this.state.actionTimeouts;
+    timeouts.forEach(t => {
+      clearTimeout(t.timeout);
+      clearInterval(t.interval);
+      this.props[`${t.action}Event`](t.t_id, t.s_id, t.ta_id, t.eventId);
+    });
   }
 
   render() {
