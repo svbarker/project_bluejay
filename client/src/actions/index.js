@@ -2,6 +2,7 @@ import * as rewards from "./rewards";
 import * as student from "./student";
 import * as task from "./task";
 import * as user from "./user";
+import * as classrooms from "./classrooms";
 
 export const START_REQUEST = "START_REQUEST";
 export const FAILURE_REQUEST = "FAILURE_REQUEST";
@@ -42,6 +43,7 @@ export const loginTeacher = () => async dispatch => {
     };
 
     dispatch(user.setUser(userObj));
+    dispatch(classrooms.getClassrooms(teacher.apiData.classrooms));
   } catch (error) {
     console.log(error);
   }

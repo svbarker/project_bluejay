@@ -26,3 +26,11 @@ const removeStudent = id => ({
 	type: REMOVE_STUDENT,
 	data: id
 });
+
+export const loadStudents = () => async dispatch => {
+	try {
+		const response = await fetch("/");
+	} catch (error) {
+		console.log(error);
+	}
+};

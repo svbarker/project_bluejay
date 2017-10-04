@@ -45,7 +45,6 @@ class TeacherNavbar extends Component {
         </div>
         <div className="navbar-right">
           <ul>
-            <li>Welcome, {this.props.displayName}!</li>
             <NavLink to="/notifications">
               <li>
                 <i className="fa fa-comment" aria-hidden="true" />
