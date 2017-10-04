@@ -6,6 +6,9 @@ const TaskEventSchema = new mongoose.Schema(
 		task: {
 			type: Object,
 			required: true
+		},
+		user: {
+			type: Object
 		}
 	},
 	{

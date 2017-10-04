@@ -32,7 +32,7 @@ module.exports = {
 		event = await event.save();
 		console.log(`[${event.createdAt}]: ${event}`);
 	},
-	logEvent: (type, options, internal) => {
+	logEvent: (type, options, internal = true) => {
 		const newEvent = new type(
 			Object.assign(
 				{

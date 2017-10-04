@@ -8,6 +8,9 @@ module.exports = {
 	TEMPLATE_TEACHER_CREATE: `New teacher registered with credentials: %owner.email%, %owner.fname%, %owner.lname%.`,
 	TEMPLATE_TEACHER_READ: `Data retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%.`,
 	TEMPLATE_TEACHER_TASK_READ: `Task retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.taskList%]`,
+	TEMPLATE_TEACHER_TASK_ASSIGN_MSG: `%owner.profile.displayName% assigned you a task: %task.title%`,
+	TEMPLATE_TEACHER_TASK_CONFIRM_COMPLETION_MSG: `%owner.profile.displayName% rejected your completion of task: %task.title%`,
+	TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG: `%owner.profile.displayName% confirmed your completion of task: %task.title%`,
 	TEMPLATE_TEACHER_REWARD_READ: `Reward retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.rewardList%]`,
 	TEMPLATE_TEACHER_CLASSROOM_READ: `Classroom retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.classroomList%]`,
 	TEMPLATE_TEACHER_NOTIFICATION_READ: `Notification retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.notificationList%]`,
@@ -39,6 +42,8 @@ module.exports = {
 	TEMPLATE_TASK_READ: `Data retrieval for task %task.title% initiated by %owner.profile.displayName%.`,
 	TEMPLATE_TASK_STUDENT_READ: `Student retrieval for task %task.title% initiated by %owner.profile.displayName%. [%task.studentList%]`,
 	TEMPLATE_TASK_ASSIGN: `%owner.profile.displayName% assigned task %task.title% to %user.profile.displayName%.`,
+	TEMPLATE_TASK_CONFIRM_COMPLETION: `%owner.profile.displayName% confirmed completion of task %task.title% for %user.profile.displayName%.`,
+	TEMPLATE_TASK_REJECT_COMPLETION: `%owner.profile.displayName% rejected completion of task %task.title% for %user.profile.displayName%.`,
 	TEMPLATE_TASK_UPDATE: `%owner.profile.displayName% updated task %task.title%. [%task.fields%] [%task.values%]`,
 	TEMPLATE_TASK_DELETE: `%owner.profile.displayName% deleted task %task.title%.`,
 

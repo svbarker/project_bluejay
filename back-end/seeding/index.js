@@ -141,7 +141,7 @@ mongooseeder.seed({
 		classrooms[1].students = [...students];
 		students = students.map(student => {
 			student.classrooms = [classrooms[0], classrooms[1]];
-			student.tasks = [...tasks];
+			//student.tasks = [...tasks];
 			student.rewards = [...rewards];
 			return student;
 		});

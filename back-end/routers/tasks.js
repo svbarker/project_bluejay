@@ -74,10 +74,9 @@ router.get('/:id', async (req, res) => {
 router.get('/:id/students', async (req, res) => {
 	try {
 		const task = await getResource(req.params.id, Task.findById.bind(Task));
+
 		// Create log event.
-		console.log(task.students);
 		task.studentList = task.students.join(',');
-		console.log(task.studentList);
 		logEvent(TaskEvent, {
 			message: Messages.TEMPLATE_TASK_STUDENT_READ,
 			owner: req.user,
@@ -132,47 +131,6 @@ router.patch('/:id', async (req, res) => {
 			);
 		}
 		res.json(createResponse(task));
-	} catch (error) {
-		logError(error);
-		res.json(createResponse(error));
-	}
-});
-
-router.patch('/:id/assign/:s_id', async (req, res) => {
-	try {
-		// Get the task.
-		const task = await getResource(req.params.id, Task.findById.bind(Task));
-
-		// Get the student.
-		const student = await getResource(
-			req.params.s_id,
-			Student.findById.bind(Student)
-		);
-
-		if (task.hasStudent(student)) {
-			// Check the student for the corresponding task.
-			if (!student.hasTask(task)) {
-				// Add the task to the student's task list.
-				student.tasks.push(task);
-				await student.save();
-			}
-			throw new Error('Task already assigned to student');
-		}
-
-		// Create log event.
-		logEvent(TaskEvent, {
-			message: Messages.TEMPLATE_TASK_ASSIGN,
-			owner: req.user,
-			user: student,
-			task
-		});
-
-		req.session.body = {
-			updates: {
-				students: student
-			}
-		};
-		res.redirect(`/api/tasks/${req.params.id}`);
 	} catch (error) {
 		logError(error);
 		res.json(createResponse(error));

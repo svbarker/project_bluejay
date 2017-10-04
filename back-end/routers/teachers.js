@@ -1,8 +1,23 @@
 const router = require('express').Router();
-const { Teacher, Profile, Classroom, Task, Reward } = require('../models');
+const {
+	Teacher,
+	Profile,
+	Classroom,
+	Task,
+	AssignedTask,
+	CompletedTask,
+	RejectedTask,
+	Reward
+} = require('../models');
 const { createResponse } = require('../server/util');
 const { getResource, logEvent, logError } = require('../server/util');
-const { UserEvent, ProfileEvent, Messages } = require('../models/events');
+const {
+	UserEvent,
+	ProfileEvent,
+	TaskEvent,
+	MessageEvent,
+	Messages
+} = require('../models/events');
 
 // creating a teacher
 router.post('/', async (req, res) => {
@@ -101,6 +116,152 @@ router.get('/:id/tasks', async (req, res) => {
 	}
 });
 
+// Assigning a task to a student
+router.patch('/:te_id/student/:st_id/assign/:t_id', async (req, res) => {
+	try {
+		const teacher = await getResource(
+			req.params.te_id,
+			Teacher.findById.bind(Teacher)
+		);
+
+		let student = await teacher.getStudent(req.params.st_id);
+		if (!student) {
+			throw new Error(`That teacher doesn't have a student with that id`);
+		}
+
+		let task = await Task.findById(req.params.t_id);
+		if (!task) {
+			throw new Error(`No task found using that id.`);
+		}
+
+		// TODO: FIX THIS
+		if (student.hasTask(task)) {
+			throw new Error(`Student is already assigned that task.`);
+		}
+
+		// Create new assigned task from root task.
+		let assignedTask = new AssignedTask(task.toNewObject());
+
+		assignedTask.addStudent(student);
+		assignedTask = await assignedTask.save();
+
+		student.addTask(assignedTask);
+		console.log(student);
+		student = await student.save();
+		console.log(student);
+		// Create log events.
+		logEvent(TaskEvent, {
+			message: Messages.TEMPLATE_TASK_ASSIGN,
+			owner: req.user,
+			user: student,
+			task: assignedTask
+		});
+
+		logEvent(MessageEvent, {
+			body: Messages.TEMPLATE_TEACHER_TASK_ASSIGN_MSG,
+			message: Messages.TEMPLATE_SEND_MESSAGE,
+			owner: req.user,
+			user: student,
+			task: assignedTask
+		});
+
+		res.json(createResponse());
+	} catch (error) {
+		logError(error);
+		res.json(createResponse(error));
+	}
+});
+
+// Confirming completion of a student's task
+router.get('/:te_id/student/:st_id/complete/:t_id', async (req, res) => {
+	try {
+		const teacher = await getResource(
+			req.params.te_id,
+			Teacher.findById.bind(Teacher)
+		);
+
+		const student = teacher.getStudent(req.params.st_id);
+		if (!student) {
+			throw new Error(`That teacher doesn't have a student with that id`);
+		}
+
+		const task = student.getTask(req.params.t_id);
+		if (!task) {
+			throw new Error(`That student doesn't have a task with that id`);
+		}
+
+		// Create completed task.
+		const completedTask = new CompletedTask(task.toNewObject());
+		await completedTask.save();
+		student.replaceTask(req.params.t_id, completedTask);
+
+		// Create log events.
+		logEvent(UserEvent, {
+			message: Messages.TEMPLATE_TASK_CONFIRM_COMPLETION,
+			owner: req.user,
+			user: student,
+			task
+		});
+
+		logEvent(MessageEvent, {
+			message: Messages.TEMPLATE_SEND_MESSAGE,
+			owner: req.user,
+			user: student,
+			task,
+			body: Messages.TEMPLATE_TEACHER_TASK_CONFIRM_COMPLETION_MSG
+		});
+	} catch (error) {
+		logError(erro);
+		res.json(createResponse(error));
+	}
+});
+
+// Rejecting completion of a student's task
+router.get('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
+	try {
+		const teacher = await getResource(
+			req.params.te_id,
+			Teacher.findById.bind(Teacher)
+		);
+
+		const student = teacher.getStudent(req.params.st_id);
+		if (!student) {
+			throw new Error(`That teacher doesn't have a student with that id`);
+		}
+
+		const task = student.getTask(req.params.t_id);
+		if (!task) {
+			throw new Error(`That student doesn't have a task with that id`);
+		}
+		// Create rejected task.
+		const rejectedTask = new RejectedTask(task.toNewObject());
+		student.replaceTask(req.params.t_id, rejectedTask);
+
+		// Create log event.
+		logEvent(UserEvent, {
+			message: Messages.TEMPLATE_TASK_REJECT_COMPLETION,
+			owner: req.user,
+			user: student,
+			task
+		});
+
+		logEvent(MessageEvent, {
+			message: Messages.TEMPLATE_SEND_MESSAGE,
+			owner: req.user,
+			user: student,
+			task,
+			body: Messages.TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG
+		});
+
+		res.json(createResponse());
+	} catch (error) {
+		logError(erro);
+		res.json(createResponse(error));
+	}
+});
+// Teacher: 59d52bfec574836cb7250eca
+// Student: 59d52bfec574836cb7250ec8
+// Task: 59d52bffc574836cb7250eec
 // reading a teacher's reward(s)
 router.get('/:id/rewards', async (req, res) => {
 	try {
