@@ -11,10 +11,43 @@ import {
 class NotificationsContainer extends React.Component {
   constructor() {
     super();
+
+    this.state = {
+      pendingActionId: null,
+      pendingType: null,
+      timeout: null
+    };
   }
 
   takeToItem = (item, id) => () => {
     this.props.history.push(`/${item === "TaskEvent" ? "task" : "reward"}s`);
+  };
+
+  handleAction = action => (t_id, s_id, ta_id, n_id) => e => {
+    e.stopPropagation();
+    clearTimeout(this.state.timeout);
+    this.setState({
+      pendingActionId: n_id,
+      pendingType: `${action}ed`
+    });
+    this.setState({
+      timeout: setTimeout(() => {
+        this.props[`${action}Event`](t_id, s_id, ta_id, n_id);
+        this.setState({
+          pendingActionId: null,
+          pendingType: null
+        });
+      }, 5000)
+    });
+  };
+
+  undoAction = e => {
+    e.stopPropagation();
+    clearTimeout(this.state.timeout);
+    this.setState({
+      pendingActionId: null,
+      pendingType: null
+    });
   };
 
   componentDidMount() {
@@ -22,14 +55,18 @@ class NotificationsContainer extends React.Component {
   }
 
   render() {
-    const { user, notifications, acceptEvent, rejectEvent } = this.props;
+    const { user, notifications } = this.props;
+    const { pendingActionId, pendingType } = this.state;
     return (
       <Notifications
         takeToItem={this.takeToItem}
         notifications={notifications}
-        acceptEvent={acceptEvent}
-        rejectEvent={rejectEvent}
+        acceptEvent={this.handleAction("confirm")}
+        rejectEvent={this.handleAction("reject")}
         user={user}
+        pending={pendingActionId}
+        pendingType={pendingType}
+        undo={this.undoAction}
       />
     );
   }
@@ -56,7 +93,7 @@ const mapStateToProps = state => {
       {
         _message: "I love this awesome reward!",
         kind: "RewardEvent",
-        _id: "1",
+        _id: "2",
         owner: {
           profile: {
             fname: "Bob",
@@ -73,13 +110,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    acceptEvent: (t_id, n_id) => e => {
-      e.stopPropagation();
-      dispatch(acceptEvent(t_id, n_id));
+    confirmEvent: (t_id, s_id, ta_id, n_id) => {
+      dispatch(acceptEvent(t_id, s_id, ta_id, n_id));
     },
-    rejectEvent: (t_id, n_id) => e => {
-      e.stopPropagation();
-      dispatch(rejectEvent(t_id, n_id));
+    rejectEvent: (t_id, s_id, ta_id, n_id) => {
+      dispatch(rejectEvent(t_id, s_id, ta_id, n_id));
     },
     hydrateNotifications: id => {
       dispatch(fetchNotifications(id));
