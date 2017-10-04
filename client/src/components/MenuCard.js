@@ -37,15 +37,14 @@ class MenuCard extends React.Component {
             </div>
             <div className="menu-card-button-container">
               <FlatButton
-                label="Edit Task"
-                labelStyle={{ color: "white" }}
-                backgroundColor="#50A040"
+                label="Edit"
+                backgroundColor="#96cd28"
                 hoverColor="#D8F996"
               />
               <FlatButton
-                label="Delete Task"
+                label="Delete"
                 labelStyle={{ color: "white" }}
-                backgroundColor="#DC4040"
+                backgroundColor="#DC2B2B"
                 hoverColor="#FF9A9A"
               />
             </div>

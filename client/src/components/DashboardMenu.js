@@ -8,32 +8,35 @@ import Paper from "material-ui/Paper";
 
 const DashboardMenu = () => {
   return (
-    <Paper className="dashboard-menu">
-      <Link to="/students">
-        <Paper id="dashboard-menu-item1" className="dashboard-menu-item">
-          <div className="dashboard-menu-grid">
-            <h3>Students</h3>
-            <i className="fa fa-graduation-cap fa-5x" />
-          </div>
-        </Paper>
-      </Link>
-      <Link to="/tasks">
-        <Paper id="dashboard-menu-item2" className="dashboard-menu-item">
-          <div className="dashboard-menu-grid">
-            <h3 id="dashboard-item-higher">Tasks</h3>
-            <i className="fa fa-tasks fa-5x" />
-          </div>
-        </Paper>
-      </Link>
-      <Link to="/rewards">
-        <Paper id="dashboard-menu-item3" className="dashboard-menu-item">
-          <div className="dashboard-menu-grid">
-            <h3>Rewards</h3>
-            <i className="fa fa-gift fa-5x" />
-          </div>
-        </Paper>
-      </Link>
-    </Paper>
+    <div>
+      <h1>Teacher Dashboard</h1>
+      <Paper className="dashboard-menu">
+        <Link to="/students">
+          <Paper id="dashboard-menu-item1" className="dashboard-menu-item">
+            <div className="dashboard-menu-grid">
+              <h3>Students</h3>
+              <i className="fa fa-graduation-cap fa-5x" />
+            </div>
+          </Paper>
+        </Link>
+        <Link to="/tasks">
+          <Paper id="dashboard-menu-item2" className="dashboard-menu-item">
+            <div className="dashboard-menu-grid">
+              <h3 id="dashboard-item-higher">Tasks</h3>
+              <i className="fa fa-tasks fa-5x" />
+            </div>
+          </Paper>
+        </Link>
+        <Link to="/rewards">
+          <Paper id="dashboard-menu-item3" className="dashboard-menu-item">
+            <div className="dashboard-menu-grid">
+              <h3>Rewards</h3>
+              <i className="fa fa-gift fa-5x" />
+            </div>
+          </Paper>
+        </Link>
+      </Paper>
+    </div>
   );
 };
 

@@ -1,9 +1,9 @@
+//TODO: SPLIT THIS UP INTO ONE CONTAINER AND TWO COMPONENTS
+
 import React from "react";
 import { connect } from "react-redux";
 
 //components
-// import TeacherOnly from "../components/TeacherOnly";
-// import StudentOnly from "../components/StudentOnly";
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
 import LoadScreen from "../../components/LoadScreen";
@@ -26,8 +26,14 @@ class StudentRewards extends React.Component {
     this.state = {
       fetchingRewards: false,
       loading: true
-      // userType: "Student"
     };
+    //testing
+    // const broke = true;
+    // if (broke) {
+    //   this.props.user.points = 0;
+    // } else {
+    //   this.props.user.points = 20;
+    // }
   }
   componentDidMount = async () => {
     //login the teacher
@@ -60,10 +66,29 @@ class StudentRewards extends React.Component {
     console.log("making a reward");
     return null;
   };
-  onPurchase = async () => {
+  onPurchase = async reward => {
     //check points
-    //show error if not possible
-    //else purchase
+    if (reward.cost > this.props.user.points) {
+      //no canz buyz
+      //show error if not possible
+    } else {
+      //else purchase
+    }
+  };
+  //A TEST FUNCTION OF THE STUDENTS PATCH FUNCTIONALITY,
+  /////NOT FUNCTIONING
+  getMoarPoints = async change => {
+    let points = this.props.user.points++;
+    // let response = await fetch(`api/students/${this.props.user.id}`, {
+    //   method: "PATCH",
+    //   credentials: "include",
+    //   body: JSON.stringify({
+    //     updates: { classrooms: this.props.classrooms, points }
+    //   })
+    // });
+    // console.log("moar points response = ", response);
+    // let data = await response.json();
+    // console.log("moar datat = ", data);
   };
   render = () => {
     if (this.state.loading) {
@@ -99,7 +124,9 @@ class StudentRewards extends React.Component {
             <p>Cost: {reward.cost || reward.value || "None"}</p>
             <p>Available: {reward.status || "Unknown"}</p>
             <FlatButton
-              onClick={() => this.onPurchase(reward._id)}
+              onClick={() => this.onPurchase(reward)}
+              disabled={this.props.user.points < reward.cost ? true : false}
+              primary={this.props.user.points > reward.cost ? true : false}
               label="purchase"
             />
           </CardText>
@@ -116,6 +143,7 @@ class StudentRewards extends React.Component {
           </div> */}
           <h5>Your points</h5>
           <h5>{this.props.user.points}</h5>
+          <FlatButton label="Get More" onClick={this.getMoarPoints} />
         </div>
         {/* Rewards List */}
         <List className="reward-list">{rewards}</List>
@@ -125,7 +153,6 @@ class StudentRewards extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log("state in rewards = ", state);
   return {
     user: state.user,
     rewards: state.rewards,
