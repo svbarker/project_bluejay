@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const models = require('../');
+const { Student, Teacher } = models;
 
 const EventSchema = new mongoose.Schema(
 	{
@@ -11,8 +13,8 @@ const EventSchema = new mongoose.Schema(
 			required: true
 		},
 		owner: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User'
+			type: Object,
+			required: true
 		}
 	},
 	{
@@ -54,6 +56,18 @@ EventSchema.virtual('message').get(function() {
 EventSchema.methods.toString = function() {
 	return this._message;
 };
+
+EventSchema.pre('save', async function(next) {
+	const thisObj = this.toObject();
+	const modelNames = Object.keys(models).map(key => key.toLowerCase());
+	for (let key in thisObj) {
+		if (!modelNames.some(name => name.startsWith(key))) continue;
+		this[key] = this[key].toObject();
+		delete this[key]._id;
+	}
+
+	next(this);
+});
 
 const Event = mongoose.model('Event', EventSchema);
 module.exports = Event;

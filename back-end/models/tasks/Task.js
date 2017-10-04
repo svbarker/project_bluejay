@@ -40,11 +40,30 @@ const TaskSchema = new mongoose.Schema(
 		}
 	},
 	{
-		timestamps: true
+		timestamps: true,
+		discriminatorKey: 'kind'
 	}
 );
 
+const autoPopulate = function(next) {
+	this.populate([
+		{
+			path: 'students',
+			model: 'Student'
+		}
+	]);
+	next();
+};
+
+TaskSchema.pre('findOne', autoPopulate);
+TaskSchema.pre('findOneAndUpdate', autoPopulate);
+TaskSchema.pre('findOneAndRemove', autoPopulate);
+
 TaskSchema.plugin(uniqueValidator);
+
+TaskSchema.methods.hasStudent = function(student) {
+	return this.students.some(s => '' + s === student.id);
+};
 
 TaskSchema.methods.toString = function() {
 	return `${this.title}`;

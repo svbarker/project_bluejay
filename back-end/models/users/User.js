@@ -6,8 +6,7 @@ const UserSchema = new mongoose.Schema(
 	{
 		email: {
 			type: String,
-			required: true,
-			unique: true
+			required: true
 		},
 		passwordHash: String,
 		profile: {
@@ -67,8 +66,6 @@ UserSchema.pre('findOne', autoPopulate);
 UserSchema.pre('findOneAndUpdate', autoPopulate);
 UserSchema.pre('findOneAndRemove', autoPopulate);
 
-UserSchema.plugin(uniqueValidator);
-
 UserSchema.virtual('fullname').get(function() {
 	return this.profile.fullname;
 });
@@ -79,6 +76,10 @@ UserSchema.virtual('password').set(function(val) {
 
 UserSchema.methods.validatePassword = function(password) {
 	return bcrypt.compareSync(password, this.passwordHash);
+};
+
+UserSchema.methods.hasTask = function(task) {
+	return this.tasks.some(t => '' + t === task.id);
 };
 
 UserSchema.methods.toString = function() {
