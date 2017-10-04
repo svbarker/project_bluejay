@@ -55,7 +55,7 @@ export const createReward = (teacherId, reward) => async dispatch => {
   //TODO: double check that we're getting this back from server
   dispatch(addReward(response.apiData));
 };
-//SEEMS TO WORK
+
 //get all the rewards for a teacher
 export const getAllRewards = teacherId => async dispatch => {
   console.log("reward things!");
@@ -77,23 +77,42 @@ export const getAllRewards = teacherId => async dispatch => {
 };
 
 //NOT IMPLEMENTED
-export const editReward = (teacherId, editedReward) => async dispatch => {
+export const editReward = (id, editedReward) => async dispatch => {
+  // dispatch(startRequest());
+  // const response = await fetch(`/api/rewards`, {
+  //   method: "PATCH",
+  //   credentials: "include",
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   },
+  //   body: editedReward
+  // });
+  // //do some things
+  // if (!response.success) {
+  //   dispatch(failedRequest(response.apiData));
+  // }
+  // const newReward = await response.json().apiData;
+  // dispatch(updateReward(newReward._id, newReward));
+};
+
+//NOT TESTED
+//TESTED, NON-FUNCTIONING, API => 500
+export const deleteReward = id => async dispatch => {
   dispatch(startRequest());
-  const response = await fetch(`/api/rewards`, {
-    method: "PATCH",
+  const response = await fetch(`/api/rewards/${id}`, {
+    method: "DELETE",
     credentials: "include",
     headers: {
       "Content-Type": "application/json"
     },
-    body: editedReward
+    body: null
   });
-  //do some things
-  if (!response.success) {
-    dispatch(failedRequest(response.apiData));
+  //TODO: SHOULD THESE USE THE response success flag?
+  if (response.status !== 200) {
+    console.error(response.status);
+    dispatch(failedRequest());
+  } else {
+    //delete from redux
+    dispatch(removeReward(id));
   }
-  const newReward = await response.json().apiData;
-  dispatch(updateReward(newReward._id, newReward));
 };
-
-//TODO:
-//MAKE A DELETE REWARD CALL
