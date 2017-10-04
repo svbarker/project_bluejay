@@ -20,6 +20,10 @@ const icon = n => {
 };
 
 const acceptButton = (notification, userId, handler) => {
+  const taskId =
+    notification.kind === "TaskEvent"
+      ? notification.task._id
+      : notification.reward._id;
   return (
     <RaisedButton
       backgroundColor={
@@ -31,22 +35,36 @@ const acceptButton = (notification, userId, handler) => {
       }
       style={{ marginBottom: "10px" }}
       fullWidth={true}
-      labelColor={"white"}
+      labelColor={"rgb(255,255,255)"}
       label={`Confirm`}
-      onClick={handler(userId, notification._id)}
+      onClick={handler(
+        userId,
+        notification.owner._id,
+        taskId,
+        notification._id
+      )}
     />
   );
 };
 
 const rejectButton = (notification, userId, handler) => {
+  const taskId =
+    notification.kind === "TaskEvent"
+      ? notification.task._id
+      : notification.reward._id;
   return (
     <RaisedButton
       backgroundColor={"rgba(220, 43, 43,.8)"}
       style={{ marginBottom: "10px" }}
       fullWidth={true}
-      labelColor={"white"}
+      labelColor={"rgb(255,255,255)"}
       label={`Reject`}
-      onClick={handler(userId, notification._id)}
+      onClick={handler(
+        userId,
+        notification.owner._id,
+        taskId,
+        notification._id
+      )}
     />
   );
 };
@@ -57,16 +75,61 @@ const takeToItemButton = (kind, id, handler) => {
   );
 };
 
+const actionIcon = type => {
+  return (
+    <i
+      style={{
+        ...iconStyles,
+        color: type === "confirmed" ? "#96CD28" : "rgba(220, 43, 43,.8)"
+      }}
+      className={`fa fa-${type === "confirmed"
+        ? "check-square-o"
+        : "times-rectangle-o"} fa-2x`}
+    />
+  );
+};
+
 const Notifications = ({
   notifications,
   takeToItem,
   user,
   acceptEvent,
-  rejectEvent
+  rejectEvent,
+  pending,
+  pendingType,
+  undo,
+  timeLeft
 }) => {
   return (
     <List>
       {notifications.map(n => {
+        if (pending === n._id) {
+          return (
+            <ListItem
+              key={n._id}
+              primaryText={
+                <span>
+                  {`You ${pendingType} this ${n.kind === "TaskEvent"
+                    ? "task."
+                    : "reward."} `}
+                  <span
+                    onClick={undo}
+                    style={{ color: "blue", textDecoration: "underline" }}
+                  >
+                    Undo?
+                  </span>
+                </span>
+              }
+              hoverColor={"lightgrey"}
+              secondaryTextLines={2}
+              leftIcon={actionIcon(pendingType)}
+              style={{
+                margin: "30px 150px",
+                paddingBottom: "20px"
+              }}
+            />
+          );
+        }
         return (
           <ListItem
             key={n._id}

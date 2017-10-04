@@ -29,19 +29,66 @@ export const fetchNotifications = id => async dispatch => {
   }
 };
 
-export const acceptEvent = (t_id, n_id) => async dispatch => {
-  // try {
-  //   let response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
-  //     method: "DELETE"
-  //   });
-  //   response = await response.json();
-  //   if (!response.success) {
-  //     throw new Error("Something went wrong with your request.");
-  //   }
-  //   dispatch(removeNotification(n_id));
-  // } catch (error) {
-  //   console.log(error);
-  // }
+export const acceptEvent = (t_id, s_id, ta_id, n_id) => async dispatch => {
+  try {
+    /*
+
+    WHAT IS THE ROUTE FOR THIS
+
+    */
+    let response = await fetch(`complete task, deliver reward to student!`);
+    response = await response.json();
+    if (!response.success) {
+      throw new Error("Something went wrong with your request.");
+    }
+    // dispatch(???);
+  } catch (error) {
+    console.log(error);
+  }
+
+  // remove from teacher's notifications
+  try {
+    let response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
+      method: "DELETE"
+    });
+    response = await response.json();
+    if (!response.success) {
+      throw new Error("Something went wrong with your request.");
+    }
+    dispatch(removeNotification(n_id));
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export const rejectEvent = (t_id, n_id) => async dispatch => {};
+export const rejectEvent = (t_id, s_id, ta_id, n_id) => async dispatch => {
+  try {
+    /*
+
+    WHAT IS THE ROUTE FOR THIS
+
+    */
+    let response = await fetch(`udpate student task status to 'rejected'!`);
+    response = await response.json();
+    if (!response.success) {
+      throw new Error("Something went wrong with your request.");
+    }
+    // dispatch(???);
+  } catch (error) {
+    console.log(error);
+  }
+
+  // remove from teacher's notifications
+  try {
+    let response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
+      method: "DELETE"
+    });
+    response = await response.json();
+    if (!response.success) {
+      throw new Error("Something went wrong with your request.");
+    }
+    dispatch(removeNotification(n_id));
+  } catch (error) {
+    console.log(error);
+  }
+};
