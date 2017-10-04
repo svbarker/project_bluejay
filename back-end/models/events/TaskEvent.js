@@ -4,8 +4,7 @@ const Event = require('./Event');
 const TaskEventSchema = new mongoose.Schema(
 	{
 		task: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Profile',
+			type: Object,
 			required: true
 		}
 	},

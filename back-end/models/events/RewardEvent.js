@@ -4,8 +4,7 @@ const Event = require('./Event');
 const RewardEventSchema = new mongoose.Schema(
 	{
 		reward: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Reward',
+			type: Object,
 			required: true
 		}
 	},

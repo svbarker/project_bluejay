@@ -4,7 +4,8 @@ const Event = require('./Event');
 const ErrorEventSchema = new mongoose.Schema(
 	{
 		error: {
-			type: Object
+			type: Object,
+			required: true
 		}
 	},
 	{

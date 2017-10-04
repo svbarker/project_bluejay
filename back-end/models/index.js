@@ -1,15 +1,15 @@
-const Users = require('./users/index');
+const Users = require('./users');
 const Profile = require('./Profile');
 const Classroom = require('./Classroom');
-const Task = require('./Task');
-const Rewards = require('./rewards/index');
+const Tasks = require('./tasks');
+const Rewards = require('./rewards');
 const Event = require('./events/index');
 
 module.exports = {
 	...Users,
 	Profile,
 	Classroom,
-	Task,
+	...Tasks,
 	...Rewards,
 	...Event
 };

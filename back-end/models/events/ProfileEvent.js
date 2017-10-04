@@ -4,8 +4,7 @@ const Event = require('./Event');
 const ProfileEventSchema = new mongoose.Schema(
 	{
 		profile: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Profile',
+			type: Object,
 			required: true
 		}
 	},

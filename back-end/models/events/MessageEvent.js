@@ -8,12 +8,12 @@ const MessageEventSchema = new mongoose.Schema(
 			required: true
 		},
 		user: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User'
+			type: Object,
+			required: true
 		},
 		task: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Task'
+			type: Object,
+			required: true
 		}
 	},
 	{

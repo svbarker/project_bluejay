@@ -4,8 +4,8 @@ const Event = require('./Event');
 const ClassroomEventSchema = new mongoose.Schema(
 	{
 		classroom: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Classroom'
+			type: Object,
+			required: true
 		}
 	},
 	{
