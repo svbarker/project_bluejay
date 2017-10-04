@@ -32,7 +32,6 @@ export const loginTeacher = () => async dispatch => {
     });
 
     const teacher = await response.json();
-    console.log("Teacher: ", teacher);
     if (!teacher.success) {
       throw new Error("Something went wrong with your request.");
     }
@@ -44,6 +43,10 @@ export const loginTeacher = () => async dispatch => {
 
     dispatch(user.setUser(userObj));
     dispatch(classrooms.getClassrooms(teacher.apiData.classrooms));
+    // //return the teacher
+    // //so you can fetch teacher data immediately without waiting for the
+    // //redux store to update
+    // return userObj;
   } catch (error) {
     console.log(error);
   }

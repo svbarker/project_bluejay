@@ -15,21 +15,43 @@ import { loginTeacher } from "../actions/index";
 class RewardsContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      fetchingRewards: false,
+      loading: true
+    };
   }
   componentDidMount = async () => {
     //slight fix for jumping into page at /rewards
-    await loginTeacher();
-    //hydrate some data
-    if (!this.props.user) {
-      //fetch user
+
+    //login the teacher
+    if (Object.keys(this.props.user).length === 0) {
+      //login the teacher
+      loginTeacher();
+    } else {
+      this.getRewards(); //slight fix for jumping into page at /rewards
+      this.setState({ fetchingRewards: true });
     }
-    // this.getRewards(); //slight fix for jumping into page at /rewards
   };
-  getRewards = () => {
-    // console.log("getting rewards");
-    this.props.fetchRewards(this.props.user.id);
+  getRewards = async () => {
+    await this.props.fetchRewards(this.props.user.id);
+    this.setState({
+      fetchingRewards: false,
+      loading: false
+    });
   };
   render = () => {
+    if (this.state.loading) {
+      if (
+        Object.keys(this.props.user).length !== 0 &&
+        !this.state.fetchingRewards
+      ) {
+        //go fetch some data
+        this.getRewards();
+      }
+      //display load screen
+      return <div>LOADING</div>;
+    }
+
     const rewards = this.props.rewards.map(reward => (
       <Card key={reward._id} className="reward-container">
         <CardHeader actAsExpander={true}>
