@@ -13,9 +13,8 @@ class NotificationsContainer extends React.Component {
     super();
 
     this.state = {
-      pendingActionId: null,
-      pendingType: null,
-      timeout: null
+      pendingActions: [],
+      actionTimeouts: []
     };
   }
 
@@ -25,28 +24,37 @@ class NotificationsContainer extends React.Component {
 
   handleAction = action => (t_id, s_id, ta_id, n_id) => e => {
     e.stopPropagation();
-    clearTimeout(this.state.timeout);
     this.setState({
-      pendingActionId: n_id,
-      pendingType: `${action}ed`
+      pendingActions: [
+        ...this.state.pendingActions,
+        { id: n_id, type: `${action}ed` }
+      ]
     });
     this.setState({
-      timeout: setTimeout(() => {
-        this.props[`${action}Event`](t_id, s_id, ta_id, n_id);
-        this.setState({
-          pendingActionId: null,
-          pendingType: null
-        });
-      }, 5000)
+      actionTimeouts: [
+        ...this.state.actionTimeouts,
+        {
+          timeout: setTimeout(() => {
+            this.props[`${action}Event`](t_id, s_id, ta_id, n_id);
+            this.setState({
+              pendingActions: this.state.pendingActions.filter(
+                a => a.id !== n_id
+              )
+            });
+          }, 5000),
+          eventId: n_id
+        }
+      ]
     });
   };
 
-  undoAction = e => {
+  undoAction = id => e => {
     e.stopPropagation();
-    clearTimeout(this.state.timeout);
+    clearTimeout(
+      this.state.actionTimeouts.filter(t => t.eventId === id)[0]["timeout"]
+    );
     this.setState({
-      pendingActionId: null,
-      pendingType: null
+      pendingActions: this.state.pendingActions.filter(a => a.id !== id)
     });
   };
 
@@ -56,7 +64,7 @@ class NotificationsContainer extends React.Component {
 
   render() {
     const { user, notifications } = this.props;
-    const { pendingActionId, pendingType } = this.state;
+    const { pendingActions } = this.state;
     return (
       <Notifications
         takeToItem={this.takeToItem}
@@ -64,8 +72,7 @@ class NotificationsContainer extends React.Component {
         acceptEvent={this.handleAction("confirm")}
         rejectEvent={this.handleAction("reject")}
         user={user}
-        pending={pendingActionId}
-        pendingType={pendingType}
+        pendings={pendingActions}
         undo={this.undoAction}
       />
     );
@@ -98,6 +105,34 @@ const mapStateToProps = state => {
           profile: {
             fname: "Bob",
             lname: "Saget"
+          }
+        },
+        reward: {
+          title: "One Awesome Reward"
+        }
+      },
+      {
+        _message: "Thanks for giving me this task to complete!",
+        kind: "TaskEvent",
+        _id: "3",
+        owner: {
+          profile: {
+            fname: "Bob",
+            lname: "The Builder"
+          }
+        },
+        task: {
+          title: "One Difficult Task"
+        }
+      },
+      {
+        _message: "I love this awesome reward!",
+        kind: "RewardEvent",
+        _id: "4",
+        owner: {
+          profile: {
+            fname: "Bob",
+            lname: "Bob Bob Bob-Bobera Ann"
           }
         },
         reward: {
