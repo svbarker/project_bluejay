@@ -27,34 +27,73 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div className="App">
-        <Router>
-          <div>
-            <TeacherNavbarContainerWithRouter />
-            <Switch>
-              {/* do some login checking here */}
+    const userType = "Student";
 
-              <Route
-                exact
-                path="/"
-                component={() => (
-                  <div>
-                    <h1>Teacher Dashboard</h1>
-                    <DashboardMenu />
-                  </div>
-                )}
-              />
-              <Route path="/students" component={StudentView} />
-              <Route path="/tasks" component={MenuTasksContainer} />
-              <Route path="/rewards" component={RewardsContainer} />
-              <Route path="/report" component={() => <h1>Reports</h1>} />
-              <Route path="/notifications" component={NotificationsContainer} />
-            </Switch>
-          </div>
-        </Router>
-      </div>
-    );
+    if (userType === "Teacher") {
+      return (
+        <div className="App">
+          <Router>
+            <div>
+              <TeacherNavbarContainerWithRouter />
+              <Switch>
+                {/* do some login checking here */}
+
+                <Route
+                  exact
+                  path="/"
+                  component={() => (
+                    <div>
+                      <h1>Teacher Dashboard</h1>
+                      <DashboardMenu />
+                    </div>
+                  )}
+                />
+                <Route path="/students" component={StudentView} />
+                <Route path="/tasks" component={MenuTasksContainer} />
+                <Route path="/rewards" component={RewardsContainer} />
+                <Route path="/report" component={() => <h1>Reports</h1>} />
+                <Route
+                  path="/notifications"
+                  component={NotificationsContainer}
+                />
+              </Switch>
+            </div>
+          </Router>
+        </div>
+      );
+    } else {
+      return (
+        <div className="App">
+          <Router>
+            <div>
+              <StudentNavbarContainerWithRouter />
+              <Switch>
+                {/* do some login checking here */}
+
+                <Route
+                  exact
+                  path="/"
+                  component={() => (
+                    <div>
+                      <h1>Teacher Dashboard</h1>
+                      <DashboardMenu />
+                    </div>
+                  )}
+                />
+                <Route path="/students" component={StudentView} />
+                <Route path="/tasks" component={MenuTasksContainer} />
+                <Route path="/rewards" component={RewardsContainer} />
+                <Route path="/report" component={() => <h1>Reports</h1>} />
+                <Route
+                  path="/notifications"
+                  component={NotificationsContainer}
+                />
+              </Switch>
+            </div>
+          </Router>
+        </div>
+      );
+    }
   }
 }
 
