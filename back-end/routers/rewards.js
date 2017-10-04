@@ -93,7 +93,7 @@ router.delete("/:id", async (req, res) => {
     );
 
     // Create log event.
-    logEvent(ClassEvent, {
+    logEvent(ClassroomEvent, {
       message: Messages.TEMPLATE_REWARD_DELETE,
       owner: req.user,
       reward

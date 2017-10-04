@@ -25,13 +25,13 @@ EventSchema.virtual('message').set(function(val) {
 	this._message = val;
 	const regex = /%(.+?)%/gi;
 	let matches;
-	console.log(this);
+
 	while ((matches = regex.exec(val)) !== null) {
 		const [first, second, third] = matches[1].split('.');
 
-		console.log('SPLITS:', first, second, third);
 		if (
 			!first ||
+			(first && !second) ||
 			!second ||
 			!this[first] ||
 			(this[first] && !this[first][second])
