@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const Student = require('../users/Student');
 const TaskSchema = new mongoose.Schema(
 	{
 		title: {
@@ -43,6 +43,7 @@ const autoPopulate = function(next) {
 	this.populate([
 		{
 			path: 'students',
+			Model: 'Student',
 			populate: {
 				path: 'profile',
 				model: 'Profile'
@@ -56,10 +57,6 @@ TaskSchema.pre('findOne', autoPopulate);
 TaskSchema.pre('findOneAndUpdate', autoPopulate);
 TaskSchema.pre('findOneAndRemove', autoPopulate);
 
-TaskSchema.methods.hasStudent = function(student) {
-	return this.students.some(s => '' + s === student.id);
-};
-
 TaskSchema.methods.toString = function() {
 	return `${this.title}`;
 };
@@ -70,15 +67,17 @@ TaskSchema.methods.toNewObject = function() {
 	return newObj;
 };
 
-TaskSchema.methods.addStudent = function(student) {
+TaskSchema.methods.addStudent = async function(student) {
 	const index = this.students.findIndex(stud => {
 		return stud.id === student.id;
 	});
+
 	if (index > -1) {
-		this.students[index] = student.id;
+		this.students[index] = student;
 	} else {
-		this.students[0] = student.id;
+		this.students[this.students.length] = student;
 	}
+	await this.update({ students: this.students });
 };
 
 const Task = mongoose.model('Task', TaskSchema);

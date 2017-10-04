@@ -32,8 +32,13 @@ class App extends Component {
   }
 
   render() {
+<<<<<<< HEAD
     console.log(this.props.user);
     const userType = "Student";
+=======
+    const userType = "Teacher";
+    // const userType = "Student";
+>>>>>>> 8b5ccb2623f76033a41afc327771fe63cdb3e289
 
     if (userType === "Teacher") {
       return (
@@ -52,7 +57,7 @@ class App extends Component {
                   path="/notifications"
                   component={NotificationsContainer}
                 />
-                <Route path="/" component={PageNotFound} />
+                {/* <Route path="/" component={PageNotFound} /> */}
               </Switch>
             </div>
           </Router>
