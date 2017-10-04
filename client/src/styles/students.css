@@ -19,10 +19,6 @@
 	margin-bottom: 20px;
 }
 
-.student-assign-all:hover {
-	background-color: white;
-}
-
 .student-assign-all span {
 	display: inline-block;
 	vertical-align: middle;
@@ -33,10 +29,6 @@
 .student-card {
 	text-align: center;
 	padding: 10px;
-}
-
-.student-card:hover {
-	background-color: #ccc;
 }
 
 .student-card i {
@@ -51,4 +43,12 @@
 
 .task-card {
 	padding: 10px;
+}
+
+.highlighted {
+	-webkit-transition: background-color 350ms ease;
+	-moz-transition: background-color 350ms ease;
+	-o-transition: background-color 350ms ease;
+	transition: background-color 350ms ease;
+	background-color: #ccc;
 }
