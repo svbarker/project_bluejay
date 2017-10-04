@@ -1,22 +1,32 @@
 module.exports = {
-	INTERNAL_ERROR: `An internal error occurred: %owner.message%`,
+	INTERNAL_ERROR: `An internal error occurred: %error.message%`,
 
-	TEMPLATE_LOGGED_IN: `%owner.profile.profile.displayName% logged in.`,
-	TEMPLATE_LOGGED_OUT: `%owner.profile.profile.displayName% logged out.`,
-	TEMPLATE_LOGIN_FAILED: `Login attempt with credentials %owner.username% (%owner.kind%) failed.`,
+	TEMPLATE_LOGGED_IN: `%owner.profile.displayName% logged in.`,
+	TEMPLATE_LOGGED_OUT: `%owner.profile.displayName% logged out.`,
+	TEMPLATE_LOGIN_FAILED: `Login attempt with credentials %owner.username% failed.`,
 
 	TEMPLATE_TEACHER_CREATE: `New teacher registered with credentials: %owner.email%, %owner.fname%, %owner.lname%.`,
 	TEMPLATE_TEACHER_READ: `Data retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%`,
+	TEMPLATE_TEACHER_TASK_READ: `Task retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.taskList%]`,
+	TEMPLATE_TEACHER_REWARD_READ: `Reward retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.rewardList%]`,
+	TEMPLATE_TEACHER_CLASSROOM_READ: `Classroom retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.classroomList%]`,
+	TEMPLATE_TEACHER_NOTIFICATION_READ: `Notification retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.notificationList%]`,
 	TEMPLATE_TEACHER_UPDATE: `%owner.profile.displayName% updated teacher %user.profile.displayName%. [%user.fields%] [%user.values%]`,
 	TEMPLATE_TEACHER_DELETE: `%owner.profile.displayName% deleted teacher %user.profile.displayName%.`,
 
 	TEMPLATE_STUDENT_CREATE: `New student registered with credentials: %owner.email%, %owner.fname%, %owner.lname%.`,
 	TEMPLATE_STUDENT_READ: `Data retrieval for student %user.profile.displayName% initiated by %owner.profile.displayName%`,
+	TEMPLATE_STUDENT_TASK_READ: `Task retrieval for student %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.taskList%]`,
+	TEMPLATE_STUDENT_REWARD_READ: `Reward retrieval for student %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.rewardList%]`,
+	TEMPLATE_STUDENT_CLASSROOM_READ: `Classroom retrieval for student %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.classroomList%]`,
+	TEMPLATE_STUDENT_NOTIFICATION_READ: `Notification retrieval for student %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.notificationList%]`,
 	TEMPLATE_STUDENT_UPDATE: `%owner.profile.displayName% updated student %user.profile.displayName%. [%user.fields%] [%user.values%]`,
 	TEMPLATE_STUDENT_DELETE: `%owner.profile.displayName% deleted student %user.profile.displayName%.`,
 
 	TEMPLATE_CLASSROOM_CREATE: `%owner.profile.displayName% created new classroom named %class.title%.`,
 	TEMPLATE_CLASSROOM_READ: `Data retrieval for classroom %class.title% initiated by %owner.profile.displayName%`,
+	TEMPLATE_CLASSROOM_STUDENT_READ: `Student retrieval for classroom %classroom.title% initiated by %owner.profile.displayName%. [%classroom.studentList%]`,
+	TEMPLATE_CLASSROOM_TEACHER_READ: `Teacher retrieval for classroom %classroom.title% initiated by %owner.profile.displayName%. [%classroom.teacherList%]`,
 	TEMPLATE_CLASSROOM_UPDATE: `%owner.profile.displayName% updated classroom %class.title%. [%class.fields] [%class.values%]`,
 	TEMPLATE_CLASSROOM_DELETE: `%owner.profile.displayName% deleted %class.title%.`,
 

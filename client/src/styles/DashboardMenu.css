@@ -2,9 +2,9 @@
 .dashboard-menu {
   background-color: red;
   display: grid;
-  grid-template-columns: 33% 33% 33%;
+  grid-template-columns: 1fr 1fr 1fr;
   text-decoration: none;
-  /*grid-template-rows: 25% auto;*/
+  margin: 0 auto;
   width: 80%;
   height: 300px;
 }

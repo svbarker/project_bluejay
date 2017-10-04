@@ -10,17 +10,20 @@ import "../styles/RewardList.css";
 
 //actions
 import { getAllRewards, createReward } from "../actions/rewards";
+import { loginTeacher } from "../actions/index";
 
 class RewardsContainer extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    //slight fix for jumping into page at /rewards
+    await loginTeacher();
     //hydrate some data
     if (!this.props.user) {
       //fetch user
     }
-    this.getRewards();
+    // this.getRewards(); //slight fix for jumping into page at /rewards
   };
   getRewards = () => {
     // console.log("getting rewards");

@@ -1,8 +1,8 @@
 import React from "react";
 import { List, ListItem } from "material-ui/List";
+import RaisedButton from "material-ui/RaisedButton";
 import FontIcon from "material-ui/FontIcon";
 import { red500, yellow500, blue500 } from "material-ui/styles/colors";
-
 const iconStyles = { marginTop: "25px", color: "#507c0c" };
 
 const icon = n => {
@@ -17,15 +17,46 @@ const icon = n => {
   );
 };
 
-const clearButton = (notification, userId, handler) => {
-  return <button onClick={handler(userId, notification.id)}>Clear</button>;
+const acceptButton = (notification, userId, handler) => {
+  return (
+    <RaisedButton
+      backgroundColor={
+        notification.kind === "task" ? (
+          "rgba( 26,132,132,.3)"
+        ) : (
+          "rgba(150,205, 40,.3)"
+        )
+      }
+      fullWidth={true}
+      label={`Confirm`}
+      onClick={handler(userId, notification.id)}
+    />
+  );
+};
+
+const rejectButton = (notification, userId, handler) => {
+  return (
+    <RaisedButton
+      backgroundColor={"rgba(220, 43, 43,.3)"}
+      fullWidth={true}
+      label={`Reject`}
+      onClick={handler(userId, notification.id)}
+    />
+  );
+};
+
+const takeToItemButton = (kind, id, handler) => {
+  return (
+    <RaisedButton fullWidth={true} label={`View`} onClick={handler(kind, id)} />
+  );
 };
 
 const Notifications = ({
   notifications,
-  takeToEvent,
+  takeToItem,
   user,
-  clearNotification
+  acceptEvent,
+  rejectEvent
 }) => {
   return (
     <List>
@@ -35,12 +66,26 @@ const Notifications = ({
             key={n.message}
             primaryText={n.message}
             secondaryText={n.message}
-            hoverColor={"lightgrey"}
+            hoverColor={
+              n.kind === "task" ? (
+                "rgba( 26,132,132,.2)"
+              ) : (
+                "rgba(150,205, 40,.2)"
+              )
+            }
+            onClick={takeToItem(n.kind, n.id)}
             secondaryTextLines={2}
-            onClick={takeToEvent(n.kind, n.id)}
             leftIcon={icon(n)}
-            style={{ marginLeft: "150px", marginRight: "150px" }}
-            rightIcon={clearButton(n, user.id, clearNotification)}
+            style={{
+              margin: "30px 150px",
+              paddingBottom: "20px"
+            }}
+            rightIcon={
+              <div style={{ marginRight: "50px", width: "200px" }}>
+                {acceptButton(n, user.id, acceptEvent)}
+                {rejectButton(n, user.id, rejectEvent)}
+              </div>
+            }
           />
         );
       })}

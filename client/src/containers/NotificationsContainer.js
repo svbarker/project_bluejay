@@ -3,7 +3,8 @@ import Notifications from "../components/Notifications";
 import { connect } from "react-redux";
 
 import {
-  clearNotification,
+  acceptEvent,
+  rejectEvent,
   fetchNotifications
 } from "../actions/notifications";
 
@@ -12,8 +13,8 @@ class NotificationsContainer extends React.Component {
     super();
   }
 
-  takeToEvent = (event, id) => () => {
-    this.props.history.push(`/${event}s/${id}`);
+  takeToItem = (item, id) => () => {
+    this.props.history.push(`/${item}s/${id}`);
   };
 
   componentDidMount() {
@@ -21,12 +22,13 @@ class NotificationsContainer extends React.Component {
   }
 
   render() {
-    const { user, notifications, clearNotification } = this.props;
+    const { user, notifications, acceptEvent, rejectEvent } = this.props;
     return (
       <Notifications
-        takeToEvent={this.takeToEvent}
+        takeToItem={this.takeToItem}
         notifications={notifications}
-        clearNotification={clearNotification}
+        acceptEvent={acceptEvent}
+        rejectEvent={rejectEvent}
         user={user}
       />
     );
@@ -36,14 +38,56 @@ class NotificationsContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    notifications: [{ message: "hello", kind: "task", id: "1" }]
+    notifications: [
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "reward",
+        id: "1"
+      },
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "reward",
+        id: "1"
+      },
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "task",
+        id: "1"
+      },
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "task",
+        id: "1"
+      },
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "reward",
+        id: "1"
+      },
+      {
+        message:
+          "A user has submitted something of a sort which to for with might notify you in and of some sort of way",
+        kind: "task",
+        id: "1"
+      }
+    ]
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    clearNotification: (t_id, n_id) => () => {
-      dispatch(clearNotification(t_id, n_id));
+    acceptEvent: (t_id, n_id) => e => {
+      e.stopPropagation();
+      dispatch(acceptEvent(t_id, n_id));
+    },
+    rejectEvent: (t_id, n_id) => e => {
+      e.stopPropagation();
+      dispatch(rejectEvent(t_id, n_id));
     },
     hydrateNotifications: id => {
       dispatch(fetchNotifications(id));

@@ -45,17 +45,27 @@ const UserSchema = new mongoose.Schema(
 	}
 );
 
-const autoPopulateProfile = function(next) {
-	this.populate({
-		path: 'profile',
-		model: 'Profile'
-	});
+const autoPopulate = function(next) {
+	this.populate([
+		{
+			path: 'profile',
+			model: 'Profile'
+		},
+		{
+			path: 'notifications',
+			model: 'Event'
+		},
+		{
+			path: 'classrooms',
+			model: 'Classroom'
+		}
+	]);
 	next();
 };
 
-UserSchema.pre('findOne', autoPopulateProfile);
-UserSchema.pre('findOneAndUpdate', autoPopulateProfile);
-UserSchema.pre('findOneAndRemove', autoPopulateProfile);
+UserSchema.pre('findOne', autoPopulate);
+UserSchema.pre('findOneAndUpdate', autoPopulate);
+UserSchema.pre('findOneAndRemove', autoPopulate);
 
 UserSchema.plugin(uniqueValidator);
 
@@ -69,6 +79,10 @@ UserSchema.virtual('password').set(function(val) {
 
 UserSchema.methods.validatePassword = function(password) {
 	return bcrypt.compareSync(password, this.passwordHash);
+};
+
+UserSchema.methods.toString = function() {
+	return this.fullname;
 };
 
 const User = mongoose.model('User', UserSchema);

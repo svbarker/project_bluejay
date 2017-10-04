@@ -25,10 +25,18 @@ class MenuCard extends React.Component {
 	}
 	render() {
 		//change this to grab this.props.tasks later
-		const { title, value, description } = this.props.task;
+		const { title, value, description, classroom } = this.props.task;
 		return (
-			<Card>
-				<CardHeader actAsExpander={true} showExpandableButton={true}>
+			<Card style={{ "margin-bottom": "10px" }}>
+				<CardHeader
+					actAsExpander={true}
+					showExpandableButton={true}
+					style={{
+						"background-color": "#1a8484",
+						color: "white"
+					}}
+					iconStyle={{ color: "white" }}
+				>
 					{title} {value}
 				</CardHeader>
 				<CardText expandable={true}>
@@ -38,8 +46,18 @@ class MenuCard extends React.Component {
 							<StudentModal />
 						</div>
 						<div className="menu-card-button-container">
-							<FlatButton>Edit Task</FlatButton>
-							<FlatButton>Delete Task</FlatButton>
+							<FlatButton
+								label="Edit Task"
+								labelStyle={{ color: "white" }}
+								backgroundColor="#50A040"
+								hoverColor="#D8F996"
+							/>
+							<FlatButton
+								label="Delete Task"
+								labelStyle={{ color: "white" }}
+								backgroundColor="#DC4040"
+								hoverColor="#FF9A9A"
+							/>
 						</div>
 					</div>
 				</CardText>

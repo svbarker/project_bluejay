@@ -6,21 +6,21 @@ export const ADD_REWARD = "ADD_REWARD";
 export const UPDATE_REWARD = "UPDATE_REWARD";
 export const REMOVE_REWARD = "REMOVE_REWARD";
 
-export const getRewards = data => ({
+export const getRewards = rewards => ({
   type: GET_ALL_REWARDS,
-  data: data
+  data: rewards
 });
 
-const addReward = data => ({
+const addReward = reward => ({
   type: ADD_REWARD,
-  data: data
+  data: reward
 });
 
-const updateReward = (id, data) => ({
+const updateReward = (id, reward) => ({
   type: UPDATE_REWARD,
   data: {
     id: id,
-    reward: data
+    reward
   }
 });
 
@@ -72,6 +72,7 @@ export const getAllRewards = teacherId => async dispatch => {
     console.error(response.status);
   }
   const data = await response.json();
+  console.log(data.apiData);
   dispatch(getRewards(data.apiData));
 };
 

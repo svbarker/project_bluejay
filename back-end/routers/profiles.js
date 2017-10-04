@@ -61,7 +61,7 @@ router.delete('/:id', async (req, res) => {
 		);
 
 		// Create log event.
-		logEvent(ClassEvent, {
+		logEvent(ClassroomEvent, {
 			message: Messages.TEMPLATE_PROFILE_DELETE,
 			owner: req.user,
 			profile

@@ -22,10 +22,18 @@ const TaskSchema = new mongoose.Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Teacher'
 		},
-		class: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Class'
-		},
+		students: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Student'
+			}
+		],
+		classroom: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Classroom'
+			}
+		],
 		status: {
 			type: String,
 			default: 'Unassigned'
@@ -37,6 +45,10 @@ const TaskSchema = new mongoose.Schema(
 );
 
 TaskSchema.plugin(uniqueValidator);
+
+TaskSchema.methods.toString = function() {
+	return `${this.title}`;
+};
 
 const Task = mongoose.model('Task', TaskSchema);
 module.exports = Task;
