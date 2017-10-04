@@ -43,6 +43,10 @@ export const loginTeacher = () => async dispatch => {
 
     dispatch(user.setUser(userObj));
     dispatch(classrooms.getClassrooms(teacher.apiData.classrooms));
+    // //return the teacher
+    // //so you can fetch teacher data immediately without waiting for the
+    // //redux store to update
+    // return userObj;
   } catch (error) {
     console.log(error);
   }
