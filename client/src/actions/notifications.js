@@ -37,8 +37,9 @@ export const acceptEvent = (
   type
 ) => async dispatch => {
   try {
+    type = type[0].toUppercase().concat(type.slice(1));
     let response = await fetch(
-      `/api/teachers/${t_id}/student/${s_id}/complete/${ta_id}`,
+      `/api/teachers/${t_id}/student/${s_id}/confirm${type}/${ta_id}`,
       { method: "PATCH" }
     );
     response = await response.json();
@@ -68,8 +69,9 @@ export const rejectEvent = (
   type
 ) => async dispatch => {
   try {
+    type = type[0].toUppercase().concat(type.slice(1));
     let response = await fetch(
-      `/api/teachers/${t_id}/student/${s_id}/reject/${ta_id}`,
+      `/api/teachers/${t_id}/student/${s_id}/reject${type}/${ta_id}`,
       { method: "PATCH" }
     );
     response = await response.json();
