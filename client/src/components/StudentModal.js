@@ -55,7 +55,7 @@ class StudentsModal extends React.Component {
   render() {
     //check the amount and render ellipsis if necessary
     return (
-      <Paper>
+      <div>
         <List className="horizontalCenterChildren" onClick={this.handleOpen}>
           <ListItem>Student 1</ListItem>
           <i className="fa fa-ellipsis-h" />
@@ -71,7 +71,7 @@ class StudentsModal extends React.Component {
             <StudentItem onClick={this.unassignOne} />
           </List>
         </Dialog>
-      </Paper>
+      </div>
     );
   }
 }
