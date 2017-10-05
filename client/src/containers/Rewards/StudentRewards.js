@@ -39,13 +39,6 @@ class StudentRewards extends React.Component {
       loading: false
     });
   };
-  onCreateReward = async () => {
-    //placeholder
-    //open a modal???
-    //this.props.createReward()
-    console.log("making a reward");
-    return null;
-  };
   onPurchase = async reward => {
     //check points
     if ((reward.value || reward.cost) > this.props.user.points) {
@@ -128,7 +121,6 @@ class StudentRewards extends React.Component {
               wait={2}
             >
               <FlatButton
-                // onClick={() => this.onPurchase(reward)}
                 disabled={this.props.user.points < reward.cost ? true : false}
                 primary={this.props.user.points > reward.cost ? true : false}
                 label="purchase"
@@ -143,9 +135,6 @@ class StudentRewards extends React.Component {
         {/* header */}
         <div className="reward-card-title">
           <h1>{this.props.user.displayName}'s Rewards</h1>
-          {/* <div onClick={this.onCreateReward}>
-            <i class="fa fa-plus" aria-hidden="true" />
-          </div> */}
           <h5>Your points</h5>
           <h5>{this.props.user.points}</h5>
           <FlatButton label="Get More" onClick={this.getMoarPoints} />
