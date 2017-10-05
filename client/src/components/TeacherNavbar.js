@@ -9,6 +9,7 @@ class TeacherNavbar extends Component {
     super(props);
 
     this.props.socket.on(Events.REFRESH_NOTIFICATIONS, () => {
+      console.log("REFRESHING!!!");
       this.props.dispatch(fetchNotifications());
     });
   }
@@ -55,6 +56,7 @@ class TeacherNavbar extends Component {
               <li>
                 <i className="fa fa-comment" aria-hidden="true" />
               </li>
+              <h6>{this.props.notifications.length}</h6>
             </NavLink>
             <NavLink to="/profile">
               <li>
