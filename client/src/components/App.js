@@ -15,6 +15,7 @@ import StudentTaskListContainer from "../containers/StudentTaskListContainer";
 import StudentRewards from "../containers/Rewards/StudentRewards";
 import TeacherRewards from "../containers/Rewards/TeacherRewards";
 import PageNotFound from "./PageNotFound";
+import connect from "socket.io-client";
 
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
@@ -23,6 +24,12 @@ const userType = "Student";
 // const userType = "Teacher";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.socket = connect("/");
+  }
+
   componentDidMount() {
     //for testing porpoises
     if (userType === "Teacher") {
@@ -38,7 +45,7 @@ class App extends Component {
         <div className="App">
           <Router>
             <div>
-              <TeacherNavbarContainerWithRouter />
+              <TeacherNavbarContainerWithRouter socket={this.socket} />
               <Switch>
                 {/* do some login checking here */}
                 <Route exact path="/" component={DashboardMenu} />
@@ -66,7 +73,7 @@ class App extends Component {
         <div className="App">
           <Router>
             <div>
-              <StudentNavbarContainerWithRouter />
+              <StudentNavbarContainerWithRouter socket={this.socket} />
               <Switch>
                 {/* do some login checking here */}
                 <Route exact path="/" component={StudentDashboardMenu} />

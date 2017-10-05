@@ -4,11 +4,12 @@ import React from "react";
 import { connect } from "react-redux";
 
 //components
-import { Card, CardHeader, CardText } from "material-ui/Card";
-import { List, ListItem } from "material-ui/List";
+import CreateRewardModal from "../../components/CreateRewardModal";
 import Undoable from "../../components/Undoable";
 import Editable from "../../components/Editable";
 import LoadScreen from "../../components/LoadScreen";
+import { Card, CardHeader, CardText } from "material-ui/Card";
+import { List, ListItem } from "material-ui/List";
 import Paper from "material-ui/Paper";
 import RaisedButton from "material-ui/RaisedButton";
 import "../../styles/RewardList.css";
@@ -142,7 +143,8 @@ class TeacherRewards extends React.Component {
           {/* <div onClick={this.onCreateReward}>
             <i class="fa fa-plus" aria-hidden="true" />
           </div> */}
-          <RaisedButton onClick={this.onCreateReward} label="create reward" />
+          {/* <RaisedButton onClick={this.onCreateReward} label="create reward" /> */}
+          <CreateRewardModal />
         </div>
         {/* Rewards List */}
         {rewards}

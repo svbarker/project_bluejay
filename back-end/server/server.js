@@ -40,7 +40,7 @@ passport.use(new localStrategy(require("../strategies/local")));
 app.use("/sessions", require("../routers/sessions"));
 
 // api routes
-app.use("/api/:resource", require("../routers"));
+app.use("/api/:resource", require("../routers")(io));
 
 // web sockets
 io.on("connection", require("./sockets"));

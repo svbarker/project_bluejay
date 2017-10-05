@@ -1,10 +1,17 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import Badge from "material-ui/Badge";
+import * as Events from "../actions/events";
+import { fetchNotifications } from "../actions/notifications";
 
 class TeacherNavbar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    this.props.socket.on(Events.REFRESH_NOTIFICATIONS, () => {
+      console.log("REFRESHING!!!");
+      this.props.dispatch(fetchNotifications());
+    });
   }
 
   logout = e => {
@@ -49,6 +56,7 @@ class TeacherNavbar extends Component {
               <li>
                 <i className="fa fa-comment" aria-hidden="true" />
               </li>
+              <h6>{this.props.notifications.length}</h6>
             </NavLink>
             <NavLink to="/profile">
               <li>
