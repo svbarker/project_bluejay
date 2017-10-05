@@ -2,9 +2,16 @@ import React, { Component } from "react";
 import Paper from "material-ui/Paper";
 import { DropTarget } from "react-dnd";
 
-const assignTask = async (studentId, assignableId, type) => {
+const assignTask = async (teacherId, studentId, assignableId, type) => {
+	let verb;
+	if (type === "tasks") {
+		verb = "assign";
+	} else if (type === "rewards") {
+		verb = "distribute";
+	}
+
 	const response = await fetch(
-		`/api/${type}/${assignableId}/assign/${studentId}`,
+		`/api/teachers/${teacherId}/student/${studentId}/${verb}/${assignableId}`,
 		{
 			method: "PATCH",
 			credentials: "include"
@@ -15,7 +22,14 @@ const assignTask = async (studentId, assignableId, type) => {
 
 const studentTarget = {
 	drop(props, monitor) {
-		assignTask(props.student._id, monitor.getItem().id, monitor.getItem().type);
+		assignTask(
+			props.teacherId,
+			props.student._id,
+			monitor.getItem().id,
+			monitor.getItem().type
+		).then(response => {
+			console.log(response);
+		});
 	}
 };
 

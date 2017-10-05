@@ -24,7 +24,6 @@ const userType = "Teacher";
 
 class App extends Component {
   componentDidMount() {
-    console.log("STATUS:", this.props.loading);
     //for testing porpoises
     if (userType === "Teacher") {
       this.props.loginTeacher();
@@ -34,7 +33,7 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.user);
+    const userType = "Teacher";
 
     if (userType === "Teacher") {
       return (

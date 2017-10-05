@@ -1,5 +1,5 @@
 /* DASHBOARD STYLES */
-.dashboard-menu {
+.student-dashboard-menu {
   background-color: red;
   display: grid;
   grid-template-columns: 1fr 1fr;
