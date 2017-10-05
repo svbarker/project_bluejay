@@ -38,8 +38,8 @@ mongooseeder.seed({
 				email: `student${s + 1}@learn.com`,
 				password: 'foo',
 				profile: new Profile({
-					title: '',
-					displayName: '<Cool Display Name Here>',
+					title: faker.name.title(),
+					displayName: faker.name.findName(),
 					avatar: faker.image.avatar(),
 					gender: !!Math.round(Math.random()) ? 'M' : 'F',
 					fname: faker.name.firstName(),
@@ -63,7 +63,7 @@ mongooseeder.seed({
 				about: "I'm an awesome teacher bruh",
 				profile: new Profile({
 					title: faker.name.title(),
-					displayName: '<Cool Display Name Here>',
+					displayName: faker.name.findName(),
 					avatar: faker.image.avatar(),
 					gender: !!Math.round(Math.random()) ? 'M' : 'F',
 					fname: faker.name.firstName(),
@@ -150,7 +150,6 @@ mongooseeder.seed({
 
 		students = students.map(student => {
 			student.classrooms = [classrooms[0], classrooms[1]];
-			student.rewards = [...rewards];
 			return student;
 		});
 

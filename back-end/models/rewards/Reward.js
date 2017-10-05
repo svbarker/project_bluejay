@@ -20,11 +20,13 @@ const RewardSchema = new mongoose.Schema(
 		},
 		status: {
 			type: String,
-			default: 'Unaccepted'
+			enum: ['Unredeemed', 'Redeemed'],
+			default: 'Unredeemed'
 		}
 	},
 	{
-		timestamps: true
+		timestamps: true,
+		discriminatorKey: 'kind'
 	}
 );
 
