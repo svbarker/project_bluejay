@@ -93,13 +93,19 @@ UserSchema.methods.getClassroom = function(id) {
 };
 
 UserSchema.methods.hasTask = function(task) {
+	console.log(this.tasks);
 	return this.tasks.some(t => {
+		console.log(t);
 		return t.title === task.title;
 	});
 };
 
 UserSchema.methods.getTask = function(id) {
 	return this.tasks.find(t => t.id === id);
+};
+
+UserSchema.methods.getTaskByTitle = function(task) {
+	return this.tasks.find(t => t.title === task.title);
 };
 
 const User = mongoose.model('User', UserSchema);

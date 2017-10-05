@@ -63,6 +63,7 @@ TaskSchema.methods.toString = function() {
 
 TaskSchema.methods.toNewObject = function() {
 	const newObj = this.toObject();
+	delete newObj.status;
 	delete newObj._id;
 	return newObj;
 };
