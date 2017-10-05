@@ -2,8 +2,13 @@ const router = require("express").Router();
 const { Student, Profile, Classroom } = require("../models");
 const { createResponse } = require("../server/util");
 const { getResource, logEvent, logError } = require("../server/util");
-const { UserEvent, ProfileEvent, Messages } = require("../models/events");
-const Events = require('../../client/src/actions/events');
+const {
+  UserEvent,
+  ProfileEvent,
+  Messages,
+  MessageEvent
+} = require("../models/events");
+const Events = require("../../client/src/actions/events");
 
 // creating a student
 router.post("/", async (req, res) => {
@@ -101,12 +106,12 @@ router.get("/:id/tasks", async (req, res) => {
 });
 
 // completing a student's task(s)
-router.patch("/:id/complete/t_id", async (req, res) => {
-	try {
-		const student = await getResource(
-			req.params.id,
-			Student.findById.bind(Student)
-		);
+router.patch("/:id/complete/:t_id", async (req, res) => {
+  try {
+    const student = await getResource(
+      req.params.id,
+      Student.findById.bind(Student)
+    );
 
     if (!student) {
       throw new Error(`No student found with that id`);
@@ -118,27 +123,28 @@ router.patch("/:id/complete/t_id", async (req, res) => {
     }
 
     // Create log events
-    logEvent(Event, {
+    logEvent(UserEvent, {
       message: Messages.TEMPLATE_TASK_REQUEST_COMPLETION,
-      owner: req.user
-    }
+      owner: req.user,
+      task
+    });
 
     logEvent(MessageEvent, {
       body: Messages.TEMPLATE_STUDENT_REQUEST_COMPLETION_MSG,
-      message: Message.TEMPLATE_SEND_MESSAGE,
+      message: Messages.TEMPLATE_SEND_MESSAGE,
       owner: req.user,
       user: student,
       task
     });
     if (router.socket) {
       router.socket.emit(Events.REFRESH_NOTIFICATIONS);
-    } 
+    }
 
-    res.json(createResponse())
-	} catch (error) {
-		logError(error)
-		res.json(createResponse(error))
-	}
+    res.json(createResponse());
+  } catch (error) {
+    logError(error);
+    res.json(createResponse(error));
+  }
 });
 
 // reading a student's reward(s)
