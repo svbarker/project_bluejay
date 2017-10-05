@@ -61,7 +61,7 @@ export const hydrateStudentTasks = userId => async dispatch => {
 export const completeTask = (s_id, t_id) => async dispatch => {
   try {
     let response = await fetch(`api/students/${s_id}/complete/${t_id}`, {
-      method: "POST",
+      method: "PATCH",
       credentials: "include"
     });
     response = await response.json();

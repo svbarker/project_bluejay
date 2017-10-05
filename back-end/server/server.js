@@ -26,6 +26,8 @@ app.use(passport.session());
 // app.use("/api", mw.authCheck);
 // app.use(mw.logger);
 
+require("../routers/teachers");
+
 // passport setup
 passport.serializeUser(configs.serialize);
 passport.deserializeUser(configs.deserialize);

@@ -116,10 +116,10 @@ export const getAllRewards = (userId, userKind) => async dispatch => {
   dispatch(getRewards(response.apiData));
 };
 
-//NOT IMPLEMENTED
+//works??
 export const editReward = (id, updates) => async dispatch => {
   dispatch(startRequest());
-  // console.log("new reward = ", updates);
+  console.log("new reward = ", updates);
   let response = await fetch(`/api/rewards/${id}`, {
     method: "PATCH",
     credentials: "include",
@@ -128,9 +128,9 @@ export const editReward = (id, updates) => async dispatch => {
     },
     body: JSON.stringify(updates)
   });
-  // console.log("response = ", response);
+  console.log("response = ", response);
   response = await response.json();
-  // console.log("response = ", response);
+  console.log("response = ", response);
   //do some things
   if (!response.success) {
     console.error(response.apiError);
