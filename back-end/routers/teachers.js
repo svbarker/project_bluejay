@@ -243,7 +243,7 @@ router.patch('/:te_id/student/:st_id/complete/:t_id', async (req, res) => {
 			throw new Error(`That student doesn't have a task with that id`);
 		}
 
-		if (!(task instanceof AssignedTask) || !(task instanceof RejectedTask)) {
+		if (!(task instanceof AssignedTask) && !(task instanceof RejectedTask)) {
 			throw new Error(
 				`You can only complete tasks that are assigned or rejected`
 			);
@@ -302,6 +302,7 @@ router.get('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
 		const rejectedTask = new RejectedTask(task.toNewObject());
 		await rejectedTask.save();
 		student.removeTask(task);
+		await task.remove();
 		student.addTask(rejectedTask);
 		task.removeStudent(teacher.getTaskByTitle(rejectedTask));
 

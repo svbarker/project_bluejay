@@ -108,5 +108,28 @@ UserSchema.methods.getTaskByTitle = function(task) {
 	return this.tasks.find(t => t.title === task.title);
 };
 
+UserSchema.methods.addTask = async function(task) {
+	const index = this.tasks.findIndex(t => {
+		return t.id === task.id;
+	});
+	if (index > -1) {
+		this.tasks[index] = task;
+	} else {
+		this.tasks[this.tasks.length] = task;
+	}
+	await this.update({ tasks: this.tasks });
+};
+
+UserSchema.methods.removeTask = async function(task) {
+	const index = this.tasks.findIndex(t => {
+		return t.id === task.id;
+	});
+
+	if (index > -1) {
+		return this.tasks.splice(index, 1)[0];
+	}
+	return null;
+};
+
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
