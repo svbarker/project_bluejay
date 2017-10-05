@@ -51,14 +51,6 @@ const autoPopulate = function(next) {
 			model: 'Profile'
 		},
 		{
-			path: 'classrooms',
-			model: 'Classroom'
-		},
-		{
-			path: 'tasks',
-			model: 'Task'
-		},
-		{
 			path: 'notifications',
 			model: 'Event'
 		}
@@ -93,9 +85,7 @@ UserSchema.methods.getClassroom = function(id) {
 };
 
 UserSchema.methods.hasTask = function(task) {
-	console.log(this.tasks);
 	return this.tasks.some(t => {
-		console.log(t);
 		return t.title === task.title;
 	});
 };
@@ -108,6 +98,14 @@ UserSchema.methods.getTaskByTitle = function(task) {
 	return this.tasks.find(t => t.title === task.title);
 };
 
+UserSchema.methods.getReward = function(id) {
+	return this.rewards.find(r => r.id === id);
+};
+
+UserSchema.methods.getRewardByTitle = function(reward) {
+	return this.rewards.find(r => r.title === reward.title);
+};
+
 UserSchema.methods.addTask = async function(task) {
 	const index = this.tasks.findIndex(t => {
 		return t.id === task.id;
@@ -118,6 +116,7 @@ UserSchema.methods.addTask = async function(task) {
 		this.tasks[this.tasks.length] = task;
 	}
 	await this.update({ tasks: this.tasks });
+	return task;
 };
 
 UserSchema.methods.removeTask = async function(task) {
@@ -126,9 +125,28 @@ UserSchema.methods.removeTask = async function(task) {
 	});
 
 	if (index > -1) {
-		return this.tasks.splice(index, 1)[0];
+		this.tasks.splice(index, 1);
+		await this.update({ tasks: this.tasks });
 	}
-	return null;
+	return task;
+};
+
+UserSchema.methods.addReward = async function(reward) {
+	this.rewards.push(reward);
+	await this.update({ rewards: this.rewards });
+	return reward;
+};
+
+UserSchema.methods.removeReward = async function(reward) {
+	const index = this.rewards.findIndex(t => {
+		return t.id === reward.id;
+	});
+
+	if (index > -1) {
+		this.rewards.splice(index, 1);
+		await this.update({ rewards: this.rewards });
+	}
+	return reward;
 };
 
 const User = mongoose.model('User', UserSchema);

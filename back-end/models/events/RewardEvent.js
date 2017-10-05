@@ -6,6 +6,10 @@ const RewardEventSchema = new mongoose.Schema(
 		reward: {
 			type: Object,
 			required: true
+		},
+		user: {
+			type: Object,
+			required: true
 		}
 	},
 	{

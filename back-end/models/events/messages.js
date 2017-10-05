@@ -12,6 +12,7 @@ module.exports = {
 	TEMPLATE_TEACHER_TASK_CONFIRM_COMPLETION_MSG: `%owner.profile.displayName% confirmed your completion of task: %task.title%`,
 	TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG: `%owner.profile.displayName% rejected your completion of task: %task.title%`,
 	TEMPLATE_TEACHER_REWARD_READ: `Reward retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.rewardList%]`,
+	TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG: `%owner.profile.displayName% gave you a reward %reward.title%, congratulations!.`,
 	TEMPLATE_TEACHER_CLASSROOM_READ: `Classroom retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.classroomList%]`,
 	TEMPLATE_TEACHER_NOTIFICATION_READ: `Notification retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.notificationList%]`,
 	TEMPLATE_TEACHER_UPDATE: `%owner.profile.displayName% updated teacher %user.profile.displayName%. [%user.fields%] [%user.values%]`,
@@ -49,8 +50,9 @@ module.exports = {
 
 	TEMPLATE_REWARD_CREATE: `%owner.profile.displayName% created reward %reward.title%.`,
 	TEMPLATE_REWARD_READ: `Data retrieval for reward %reward.title% initiated by %owner.profile.displayName%.`,
+	TEMPLATE_REWARD_DISTRIBUTE: `%owner.profile.displayName% distributed reward %reward.title% to %user.profile.displayName%`,
 	TEMPLATE_REWARD_UPDATE: `%owner.profile.displayName% updated reward %reward.title%. [%reward.fields%] [%reward.values%]`,
 	TEMPLATE_REWARD_DELETE: `%owner.profile.displayName% deleted reward %reward.title%.`,
 
-	TEMPLATE_SEND_MESSAGE: `%owner.profile.displayName% sent a message to %user.profile.displayName%, attached to task: %task.title%.`
+	TEMPLATE_SEND_MESSAGE: `%owner.profile.displayName% sent a message to %user.profile.displayName%`
 };
