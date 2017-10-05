@@ -11,6 +11,28 @@ const TeacherSchema = new mongoose.Schema(
 	}
 );
 
+const autoPopulate = function(next) {
+	this.populate([
+		{
+			path: 'classrooms',
+			model: 'Classroom'
+		},
+		{
+			path: 'tasks',
+			model: 'Task'
+		},
+		{
+			path: 'rewards',
+			model: 'Reward'
+		}
+	]);
+	next();
+};
+
+TeacherSchema.pre('findOne', autoPopulate);
+TeacherSchema.pre('findOneAndUpdate', autoPopulate);
+TeacherSchema.pre('findOneAndRemove', autoPopulate);
+
 TeacherSchema.methods.getAllStudents = async function() {
 	let students = this.classrooms.reduce(
 		(studs, room) => studs.concat(room.students),
@@ -18,12 +40,16 @@ TeacherSchema.methods.getAllStudents = async function() {
 	);
 	students = await User.find({ _id: students }).populate([
 		{
+			path: 'profile',
+			model: 'Profile'
+		},
+		{
 			path: 'tasks',
 			model: 'Task'
 		},
 		{
-			path: 'profile',
-			model: 'Profile'
+			path: 'rewards',
+			model: 'Reward'
 		}
 	]);
 	return students;

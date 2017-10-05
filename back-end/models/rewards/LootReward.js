@@ -6,6 +6,10 @@ const LootRewardSchema = new mongoose.Schema(
 		cost: {
 			type: Number,
 			default: 5
+		},
+		available: {
+			type: Boolean,
+			default: true
 		}
 	},
 	{
