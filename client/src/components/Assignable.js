@@ -19,7 +19,9 @@ const assignableSource = {
 
 function collect(connect, monitor) {
 	return {
-		connectDragSource: connect.dragSource()
+		connectDragSource: connect.dragSource(),
+		connectDragPreview: connect.dragPreview(),
+		isDragging: monitor.isDragging()
 	};
 }
 
@@ -29,7 +31,14 @@ class Assignable extends Component {
 	}
 
 	render() {
-		const { type, resource, connectDragSource } = this.props;
+		const {
+			type,
+			resource,
+			connectDragPreview,
+			connectDragSource
+		} = this.props;
+
+		connectDragPreview(<i className="fa fa-tasks" aria-hidden="true" />);
 
 		return connectDragSource(
 			<div>

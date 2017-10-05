@@ -1,9 +1,16 @@
 import React, { Component } from "react";
 import { DropTarget } from "react-dnd";
 
-const assignTask = async (classId, assignableId, type) => {
+const assignTask = async (teacherId, classId, assignableId, type) => {
+	let verb;
+	if (type === "tasks") {
+		verb = "assign";
+	} else if (type === "rewards") {
+		verb = "distribute";
+	}
+
 	const response = await fetch(
-		`/api/${type}/${assignableId}/assign/${classId}`,
+		`/api/teacher/${teacherId}/classroom/${classId}/${verb}/${assignableId}`,
 		{
 			method: "PATCH",
 			credentials: "include"
@@ -14,12 +21,14 @@ const assignTask = async (classId, assignableId, type) => {
 
 const classTarget = {
 	drop(props, monitor) {
-		console.log("Got dropped!");
-		// assignTask(
-		// 	props.currentClass._id,
-		// 	monitor.getItem().id,
-		// 	monitor.getItem().type
-		// );
+		assignTask(
+			props.teacherId,
+			props.currentClass._id,
+			monitor.getItem().id,
+			monitor.getItem().type
+		).then(response => {
+			console.log(response);
+		});
 	}
 };
 
