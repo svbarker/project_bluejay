@@ -22,14 +22,15 @@ const assignTask = async (teacherId, studentId, assignableId, type) => {
 
 const studentTarget = {
 	drop(props, monitor) {
-		assignTask(
-			props.teacherId,
-			props.student._id,
-			monitor.getItem().id,
-			monitor.getItem().type
-		).then(response => {
-			console.log(response);
-		});
+		return {
+			result: assignTask(
+				props.teacherId,
+				props.student._id,
+				monitor.getItem().id,
+				monitor.getItem().type
+			),
+			name: props.student.profile.displayName
+		};
 	}
 };
 
