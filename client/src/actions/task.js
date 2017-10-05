@@ -34,7 +34,7 @@ export const hydrateTeacherTasks = userId => async dispatch => {
     });
     response = await response.json();
     if (!response.success) {
-      throw new Error("There was a problem with your request.");
+      throw new Error(response.apiError.message);
     }
     dispatch(getTasks(response.apiData));
   } catch (error) {
@@ -50,7 +50,7 @@ export const hydrateStudentTasks = userId => async dispatch => {
     });
     response = await response.json();
     if (!response.success) {
-      throw new Error("There was a problem with your request.");
+      throw new Error(response.apiError.message);
     }
     dispatch(getTasks(response.apiData));
   } catch (error) {
@@ -66,7 +66,7 @@ export const completeTask = (s_id, t_id) => async dispatch => {
     });
     response = await response.json();
     if (!response.success) {
-      throw new Error("There was a problem with your request.");
+      throw new Error(response.apiError.message);
     }
     dispatch(updateTask(t_id, response.apiData));
   } catch (error) {

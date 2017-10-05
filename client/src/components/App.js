@@ -19,12 +19,11 @@ import PageNotFound from "./PageNotFound";
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
-// const userType = "Student";
-const userType = "Teacher";
+const userType = "Student";
+// const userType = "Teacher";
 
 class App extends Component {
   componentDidMount() {
-    console.log("STATUS:", this.props.loading);
     //for testing porpoises
     if (userType === "Teacher") {
       this.props.loginTeacher();
@@ -34,8 +33,6 @@ class App extends Component {
   }
 
   render() {
-    const userType = "Teacher";
-
     if (userType === "Teacher") {
       return (
         <div className="App">

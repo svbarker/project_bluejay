@@ -28,19 +28,6 @@ class TeacherRewards extends React.Component {
       loading: true
     };
   }
-  componentDidMount = async () => {
-    //login the teacher
-    if (Object.keys(this.props.user).length === 0) {
-      // if (this.state.userType === "Teacher") {
-      //   loginTeacher();
-      // } else if (this.state.userType === "Student") {
-      //   loginStudent();
-      // }
-    } else {
-      this.getRewards();
-      this.setState({ fetchingRewards: true });
-    }
-  };
   //grab all the rewards
   getRewards = async () => {
     await this.props.fetchRewards(this.props.user.id, this.props.user.kind);
@@ -56,10 +43,15 @@ class TeacherRewards extends React.Component {
     console.log("making a reward");
     return null;
   };
-  onPurchase = async () => {
-    //check points
-    //show error if not possible
-    //else purchase
+  onToggleAvailability = async reward => {
+    //
+    reward.available = !reward.available;
+    // console.log("reward = ", reward);
+    this.props.updateReward(reward._id, { updates: { status: "YES" } });
+    // this.props.updateReward(reward._id, {
+    //   updates: { available: reward.available }
+    // });
+    return null;
   };
   render = () => {
     if (this.state.loading) {
@@ -93,13 +85,19 @@ class TeacherRewards extends React.Component {
             expandable={true}
           >
             <p>Description: {reward.description || "None"}</p>
+            <p>Kind of reward: {reward.cost ? "Loot" : "Point"}</p>
+            {/* <p>Kind of reward: {reward.kind}</p> */}
             <p>Cost: {reward.cost || reward.value || "None"}</p>
-            <p>Available: {reward.status || "Unknown"}</p>
+            <p>Available: {reward.available ? "YES" : "NO"}</p>
+            <p>Supply: {reward.supply || "Unlimited"}</p>
             <FlatButton
               onClick={() => this.props.removeReward(reward._id)}
               label="delete"
             />
-            <FlatButton onClick={null} label="set unavailable" />
+            <FlatButton
+              onClick={() => this.onToggleAvailability(reward)}
+              label={reward.available ? "Make Unavailable" : "Make Available"}
+            />
           </CardText>
         </Card>
       );

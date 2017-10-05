@@ -5,6 +5,7 @@ export const GET_ONE_REWARD = "GET_ONE_REWARD";
 export const ADD_REWARD = "ADD_REWARD";
 export const UPDATE_REWARD = "UPDATE_REWARD";
 export const REMOVE_REWARD = "REMOVE_REWARD";
+export const REDEEM_REWARD = "REDEEM_REWARD";
 
 export const getRewards = rewards => ({
   type: GET_ALL_REWARDS,
@@ -29,6 +30,34 @@ const removeReward = id => ({
   data: id
 });
 
+///let the students purchase a reward
+//NOT IMPLEMENTED
+export const redeemReward = (reward, studentId) => async dispatch => {
+  dispatch(startRequest());
+  //make a copy of the reward
+  const copy = new reward.toNewObj();
+  let response;
+  try {
+    response = await fetch(`/api/students/${studentId}/rewards`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: copy
+    });
+    const data = await response.json();
+    if (!data.success) {
+      throw data.apiData;
+    }
+    const newReward = data.apiData;
+    dispatch(addReward(newReward));
+  } catch (e) {
+    console.error(e);
+    dispatch(failedRequest(e));
+  }
+};
+
 //NOT IMPLEMENTED
 //create a new kind of reward
 export const createReward = (teacherId, reward) => async dispatch => {
@@ -49,7 +78,7 @@ export const createReward = (teacherId, reward) => async dispatch => {
     headers: {
       "Content-Type": "application/json"
     },
-    body: defaultReward
+    body: JSON.stringify({ defaultReward })
   });
   // console.log("response from createReward API = ", response);
   //TODO: double check that we're getting this back from server
@@ -88,22 +117,27 @@ export const getAllRewards = (userId, userKind) => async dispatch => {
 };
 
 //NOT IMPLEMENTED
-export const editReward = (id, editedReward) => async dispatch => {
-  // dispatch(startRequest());
-  // const response = await fetch(`/api/rewards`, {
-  //   method: "PATCH",
-  //   credentials: "include",
-  //   headers: {
-  //     "Content-Type": "application/json"
-  //   },
-  //   body: editedReward
-  // });
-  // //do some things
-  // if (!response.success) {
-  //   dispatch(failedRequest(response.apiData));
-  // }
-  // const newReward = await response.json().apiData;
-  // dispatch(updateReward(newReward._id, newReward));
+export const editReward = (id, updates) => async dispatch => {
+  dispatch(startRequest());
+  console.log("new reward = ", updates);
+  let response = await fetch(`/api/rewards/${id}`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(updates)
+  });
+  console.log("response = ", response);
+  response = await response.json();
+  console.log("response = ", response);
+  //do some things
+  if (!response.success) {
+    console.error(response.apiError);
+    dispatch(failedRequest(response.apiError));
+  } else {
+    dispatch(updateReward(response.apiData._id, response.apiData));
+  }
 };
 
 //NOT TESTED
@@ -119,9 +153,9 @@ export const deleteReward = id => async dispatch => {
     body: null
   });
   //TODO: SHOULD THESE USE THE response success flag?
-  console.log("response = ", response);
+  // console.log("response = ", response);
   const data = await response.json();
-  console.log("data = ", data);
+  // console.log("data = ", data);
   if (!data.success) {
     console.error(data);
     dispatch(failedRequest(data));

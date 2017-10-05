@@ -33,6 +33,11 @@ export const getStudentRewardOptions = classrooms => async dispatch => {
       (list, rewardArr) => list.concat(rewardArr),
       []
     );
+    //filter out the point rewards, by checking for the cost property
+    ////because currently only loot rewards have a cost
+    flatListORewards = flatListORewards.filter(reward =>
+      reward.hasOwnProperty("cost")
+    );
     dispatch(getAllRewardOptions(flatListORewards));
   } catch (e) {
     console.error(e);

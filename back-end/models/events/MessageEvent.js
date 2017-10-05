@@ -11,8 +11,10 @@ const MessageEventSchema = new mongoose.Schema(
 			required: true
 		},
 		task: {
-			type: Object,
-			required: true
+			type: Object
+		},
+		reward: {
+			type: Object
 		}
 	},
 	{

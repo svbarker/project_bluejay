@@ -181,7 +181,6 @@ router.get("/:id/notifications", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   try {
     const { updates } = req.body;
-    console.log("updates = ", updates);
     const student = await getResource(
       req.params.id,
       Student.findByIdAndUpdate.bind(Student),

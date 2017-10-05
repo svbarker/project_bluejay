@@ -22,38 +22,37 @@ export const fetchNotifications = id => async dispatch => {
     });
     response = await response.json();
     if (!response.success) {
-      throw new Error("Something went wrong with your request.");
+      throw new Error(response.apiError.message);
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-export const acceptEvent = (t_id, s_id, ta_id, n_id) => async dispatch => {
+export const acceptEvent = (
+  t_id,
+  s_id,
+  ta_id,
+  n_id,
+  type
+) => async dispatch => {
   try {
-    /*
-
-    WHAT IS THE ROUTE FOR THIS
-
-    */
-    let response = await fetch(`complete task, deliver reward to student!`);
+    let response = await fetch(
+      `/api/teachers/${t_id}/student/${s_id}/complete/${ta_id}`,
+      { method: "PATCH" }
+    );
     response = await response.json();
     if (!response.success) {
-      throw new Error("Something went wrong with your request.");
+      throw new Error(response.apiError.message);
     }
     // dispatch(???);
-  } catch (error) {
-    console.log(error);
-  }
-
-  // remove from teacher's notifications
-  try {
-    let response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
+    // remove from teacher's notifications
+    response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
       method: "DELETE"
     });
     response = await response.json();
     if (!response.success) {
-      throw new Error("Something went wrong with your request.");
+      throw new Error(response.apiError.message);
     }
     dispatch(removeNotification(n_id));
   } catch (error) {
@@ -61,31 +60,30 @@ export const acceptEvent = (t_id, s_id, ta_id, n_id) => async dispatch => {
   }
 };
 
-export const rejectEvent = (t_id, s_id, ta_id, n_id) => async dispatch => {
+export const rejectEvent = (
+  t_id,
+  s_id,
+  ta_id,
+  n_id,
+  type
+) => async dispatch => {
   try {
-    /*
-
-    WHAT IS THE ROUTE FOR THIS
-
-    */
-    let response = await fetch(`udpate student task status to 'rejected'!`);
+    let response = await fetch(
+      `/api/teachers/${t_id}/student/${s_id}/reject/${ta_id}`,
+      { method: "PATCH" }
+    );
     response = await response.json();
     if (!response.success) {
-      throw new Error("Something went wrong with your request.");
+      throw new Error(response.apiError.message);
     }
     // dispatch(???);
-  } catch (error) {
-    console.log(error);
-  }
-
-  // remove from teacher's notifications
-  try {
-    let response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
+    // remove from teacher's notifications
+    response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
       method: "DELETE"
     });
     response = await response.json();
     if (!response.success) {
-      throw new Error("Something went wrong with your request.");
+      throw new Error(response.apiError.message);
     }
     dispatch(removeNotification(n_id));
   } catch (error) {
