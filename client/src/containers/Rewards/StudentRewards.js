@@ -13,6 +13,7 @@ import "../../styles/RewardList.css";
 
 //actions
 import {
+  redeemReward,
   createReward,
   getAllRewards,
   editReward,
@@ -29,26 +30,9 @@ class StudentRewards extends React.Component {
       loading: true
     };
   }
-  componentDidMount = async () => {
-    //login the teacher
-    if (Object.keys(this.props.user).length === 0) {
-      // if (this.state.userType === "Teacher") {
-      //   loginTeacher();
-      // } else if (this.state.userType === "Student") {
-      //   loginStudent();
-      // }
-    } else {
-      this.getRewards();
-      this.setState({ fetchingRewards: true });
-    }
-  };
   //grab all the rewards
   getRewards = async () => {
-    //TESTING STUDENTS
-    console.log("user = ", this.props.user);
     await this.props.getStudentRewardOptions(this.props.classrooms);
-    // await this.props.fetchRewards(this.props.user.id, this.props.user.kind);
-    // await this.props.fetchStudentRewards(this.props.user.id);
     this.setState({
       fetchingRewards: false,
       loading: false
@@ -64,10 +48,11 @@ class StudentRewards extends React.Component {
   onPurchase = async reward => {
     //check points
     if ((reward.value || reward.cost) > this.props.user.points) {
-      //no canz buyz
+      //no canz buyz, button should be disabled already
       //show error if not possible
     } else {
       //else purchase
+      // this.props.redeemReward(reward, this.props.user.id);
       let points = this.props.user.points - (reward.cost || reward.value);
       let response = await fetch(`api/students/${this.props.user.id}`, {
         method: "PATCH",
@@ -79,15 +64,13 @@ class StudentRewards extends React.Component {
           updates: { points }
         })
       });
-      console.log("moar points response = ", response);
       let data = await response.json();
-      console.log("moar datat = ", data);
       //open a purchased message
       this.forceUpdate();
     }
   };
   //A TEST FUNCTION OF THE STUDENTS PATCH FUNCTIONALITY,
-  /////NOT FUNCTIONING
+  //
   getMoarPoints = async change => {
     let points = this.props.user.points++;
     let response = await fetch(`api/students/${this.props.user.id}`, {
@@ -100,9 +83,7 @@ class StudentRewards extends React.Component {
         updates: { points }
       })
     });
-    console.log("moar points response = ", response);
     let data = await response.json();
-    console.log("moar datat = ", data);
     this.forceUpdate();
   };
   render = () => {
@@ -122,7 +103,6 @@ class StudentRewards extends React.Component {
     //TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
     /////////IF THE USER IS THE TEACHER
     const rewards = this.props.rewardOptions.map(reward => {
-      // console.log("user", this.props.user);
       return (
         <Card className="reward-container">
           <CardHeader
@@ -137,8 +117,10 @@ class StudentRewards extends React.Component {
             expandable={true}
           >
             <p>Description: {reward.description || "None"}</p>
+            <p>Kind of reward: {reward.cost ? "Loot" : "Point"}</p>
             <p>Cost: {reward.cost || reward.value || "None"}</p>
             <p>Available: {reward.status || "Unknown"}</p>
+            <p>Supply: {reward.supply || "Unlimited"}</p>
             <FlatButton
               onClick={() => this.onPurchase(reward)}
               disabled={this.props.user.points < reward.cost ? true : false}
@@ -192,6 +174,9 @@ const mapDispatchToProps = dispatch => {
     },
     getStudentRewardOptions: classrooms => {
       dispatch(getStudentRewardOptions(classrooms));
+    },
+    redeemReward: (reward, studentId) => {
+      dispatch(redeemReward(reward, studentId));
     }
   };
 };

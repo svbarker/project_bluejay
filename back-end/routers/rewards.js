@@ -2,7 +2,12 @@ const router = require("express").Router();
 const { Reward, User } = require("../models");
 const { createResponse } = require("../server/util");
 const { getResource, logEvent, logError } = require("../server/util");
-const { ClassroomEvent, RewardEvent, Messages } = require("../models/events");
+const {
+  ClassroomEvent,
+  RewardEvent,
+  Messages,
+  ProfileEvent
+} = require("../models/events");
 
 // creating a reward
 router.post("/", async (req, res) => {
@@ -57,6 +62,7 @@ router.get("/:id", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   try {
     const { updates } = req.body;
+    console.log("body = ", req.body);
     const reward = await getResource(
       req.params.id,
       Reward.findByIdAndUpdate.bind(Reward),
