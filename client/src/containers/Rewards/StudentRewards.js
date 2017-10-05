@@ -18,6 +18,7 @@ import {
   editReward,
   deleteReward
 } from "../../actions/rewards";
+import { getStudentRewardOptions } from "../../actions/rewardOptions";
 import { loginTeacher, loginStudent } from "../../actions/index";
 
 class StudentRewards extends React.Component {
@@ -27,13 +28,6 @@ class StudentRewards extends React.Component {
       fetchingRewards: false,
       loading: true
     };
-    //testing
-    // const broke = true;
-    // if (broke) {
-    //   this.props.user.points = 0;
-    // } else {
-    //   this.props.user.points = 20;
-    // }
   }
   componentDidMount = async () => {
     //login the teacher
@@ -52,7 +46,8 @@ class StudentRewards extends React.Component {
   getRewards = async () => {
     //TESTING STUDENTS
     console.log("user = ", this.props.user);
-    await this.props.fetchRewards(this.props.user.id, this.props.user.kind);
+    await this.props.getStudentRewardOptions(this.props.classrooms);
+    // await this.props.fetchRewards(this.props.user.id, this.props.user.kind);
     // await this.props.fetchStudentRewards(this.props.user.id);
     this.setState({
       fetchingRewards: false,
@@ -68,27 +63,47 @@ class StudentRewards extends React.Component {
   };
   onPurchase = async reward => {
     //check points
-    if (reward.cost > this.props.user.points) {
+    if ((reward.value || reward.cost) > this.props.user.points) {
       //no canz buyz
       //show error if not possible
     } else {
       //else purchase
+      let points = this.props.user.points - (reward.cost || reward.value);
+      let response = await fetch(`api/students/${this.props.user.id}`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          updates: { points }
+        })
+      });
+      console.log("moar points response = ", response);
+      let data = await response.json();
+      console.log("moar datat = ", data);
+      //open a purchased message
+      this.forceUpdate();
     }
   };
   //A TEST FUNCTION OF THE STUDENTS PATCH FUNCTIONALITY,
   /////NOT FUNCTIONING
   getMoarPoints = async change => {
     let points = this.props.user.points++;
-    // let response = await fetch(`api/students/${this.props.user.id}`, {
-    //   method: "PATCH",
-    //   credentials: "include",
-    //   body: JSON.stringify({
-    //     updates: { classrooms: this.props.classrooms, points }
-    //   })
-    // });
-    // console.log("moar points response = ", response);
-    // let data = await response.json();
-    // console.log("moar datat = ", data);
+    let response = await fetch(`api/students/${this.props.user.id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        updates: { points }
+      })
+    });
+    console.log("moar points response = ", response);
+    let data = await response.json();
+    console.log("moar datat = ", data);
+    this.forceUpdate();
   };
   render = () => {
     if (this.state.loading) {
@@ -106,9 +121,10 @@ class StudentRewards extends React.Component {
     //TODO: ADD IN-PLACE EDITING FOR DESCRIPTION/ COST/VALUE
     //TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
     /////////IF THE USER IS THE TEACHER
-    const rewards = this.props.rewards.map(reward => {
+    const rewards = this.props.rewardOptions.map(reward => {
+      // console.log("user", this.props.user);
       return (
-        <Card key={reward._id} className="reward-container">
+        <Card className="reward-container">
           <CardHeader
             title={reward.title}
             subtitle={`costs ${reward.cost || reward.value || "None"}`}
@@ -156,7 +172,8 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     rewards: state.rewards,
-    classrooms: state.classrooms
+    classrooms: state.classrooms,
+    rewardOptions: state.rewardOptions
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -172,6 +189,9 @@ const mapDispatchToProps = dispatch => {
     },
     updateReward: (id, editedReward) => {
       dispatch(editReward(id, editedReward));
+    },
+    getStudentRewardOptions: classrooms => {
+      dispatch(getStudentRewardOptions(classrooms));
     }
   };
 };

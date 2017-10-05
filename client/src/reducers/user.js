@@ -1,4 +1,4 @@
-import { SET_USER } from "../actions/user";
+import { SET_USER, UPDATE_POINTS } from "../actions/user";
 
 const user = (state = {}, action) => {
   switch (action.type) {
@@ -9,6 +9,11 @@ const user = (state = {}, action) => {
         kind: action.data.kind,
         points: action.data.points,
         displayName: action.data.displayName
+      };
+    case UPDATE_POINTS:
+      return {
+        ...state,
+        points: action.data.points
       };
     default:
       return state;

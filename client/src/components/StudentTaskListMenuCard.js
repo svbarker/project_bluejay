@@ -13,7 +13,9 @@ class StudentTaskListMenuCard extends React.Component {
     ///
   }
   render() {
-    const { title, value, description, classroom } = this.props.task;
+    const { title, value, description, classroom, _id } = this.props.task;
+    const { markCompleted, user } = this.props;
+
     return (
       <Card style={{ "margin-bottom": "10px" }}>
         <CardHeader
@@ -34,6 +36,7 @@ class StudentTaskListMenuCard extends React.Component {
               <FlatButton
                 label="Mark Completed"
                 style={{ color: "rgb(255,255,255)" }}
+                onClick={markCompleted(user._id, _id)}
                 backgroundColor="#1a8484"
                 hoverColor="#3ca6a6"
               />
