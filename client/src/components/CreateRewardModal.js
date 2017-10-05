@@ -24,6 +24,8 @@ export default class CreateRewardModal extends React.Component {
   };
 
   handleClose = () => {
+    const { description, kind, cost } = this.state;
+    if (this.state.valid) this.props.onSubmit({ description, kind, cost });
     this.setState({
       open: false,
       description: "",

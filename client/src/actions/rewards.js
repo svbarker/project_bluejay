@@ -58,19 +58,17 @@ export const redeemReward = (reward, studentId) => async dispatch => {
   }
 };
 
-//NOT IMPLEMENTED
+//NOT WORKING
 //create a new kind of reward
 export const createReward = (teacherId, reward) => async dispatch => {
   dispatch(startRequest());
-  // teacher = await getTeacher(); //change this later after we store the user
-  const teacher = null;
-  // console.log("teacher = ", teacher);
-  const defaultReward = {
-    kind: "point",
-    description: "new reward",
-    value: "lots",
-    teacher: teacher._id,
-    status: "Unaccepted"
+  const newReward = {
+    kind: reward.kind || "loot",
+    description: reward.description || "new reward",
+    cost: reward.cost || undefined,
+    value: reward.value || undefined,
+    teacher: teacherId,
+    available: reward.available || true
   };
   const response = await fetch(`/api/rewards`, {
     method: "POST",
@@ -78,11 +76,18 @@ export const createReward = (teacherId, reward) => async dispatch => {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ defaultReward })
+    body: JSON.stringify({ teacher: teacherId, ...newReward })
   });
   // console.log("response from createReward API = ", response);
+  const data = await response.json();
+  //check for server errors
+  // console.log("response from createReward API = ", data);
+  if (!data.success) {
+    console.error(data.apiError);
+    return;
+  }
   //TODO: double check that we're getting this back from server
-  dispatch(addReward(response.apiData));
+  dispatch(addReward(data.apiData));
 };
 
 //get all the rewards for a teacher
@@ -119,7 +124,7 @@ export const getAllRewards = (userId, userKind) => async dispatch => {
 //works??
 export const editReward = (id, updates) => async dispatch => {
   dispatch(startRequest());
-  console.log("new reward = ", updates);
+  // console.log("new reward = ", updates);
   let response = await fetch(`/api/rewards/${id}`, {
     method: "PATCH",
     credentials: "include",
@@ -128,9 +133,9 @@ export const editReward = (id, updates) => async dispatch => {
     },
     body: JSON.stringify(updates)
   });
-  console.log("response = ", response);
+  // console.log("response = ", response);
   response = await response.json();
-  console.log("response = ", response);
+  // console.log("response = ", response);
   //do some things
   if (!response.success) {
     console.error(response.apiError);

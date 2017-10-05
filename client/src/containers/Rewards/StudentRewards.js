@@ -39,13 +39,6 @@ class StudentRewards extends React.Component {
       loading: false
     });
   };
-  onCreateReward = async () => {
-    //placeholder
-    //open a modal???
-    //this.props.createReward()
-    console.log("making a reward");
-    return null;
-  };
   onPurchase = async reward => {
     //check points
     if ((reward.value || reward.cost) > this.props.user.points) {
@@ -147,10 +140,7 @@ class StudentRewards extends React.Component {
       <Paper className="reward-container outer" style={{ padding: "20px" }}>
         {/* header */}
         <div className="reward-card-title">
-          <h2>{this.props.user.displayName}'s Rewards</h2>
-          {/* <div onClick={this.onCreateReward}>
-            <i class="fa fa-plus" aria-hidden="true" />
-          </div> */}
+          <h1>{this.props.user.displayName}'s Rewards</h1>
           <h5>Your points</h5>
           <h5>{this.props.user.points}</h5>
           <FlatButton label="Get More" onClick={this.getMoarPoints} />

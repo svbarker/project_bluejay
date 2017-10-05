@@ -39,22 +39,15 @@ class TeacherRewards extends React.Component {
       loading: false
     });
   };
-  onCreateReward = async () => {
-    //placeholder
-    //open a modal???
-    //this.props.createReward()
-    console.log("making a reward");
-    return null;
+  onCreateReward = async rewardInput => {
+    this.props.createReward(this.props.user.id, rewardInput);
   };
+  //change the availability of a reward
   onToggleAvailability = async reward => {
-    //
     reward.available = !reward.available;
-    // console.log("reward = ", reward);
-    // this.props.updateReward(reward._id, { updates: { status: "YES" } });
     this.props.updateReward(reward._id, {
       updates: { available: reward.available }
     });
-    return null;
   };
   onEditReward = async (newValue, id, property) => {
     console.log("editing");
@@ -143,8 +136,7 @@ class TeacherRewards extends React.Component {
           {/* <div onClick={this.onCreateReward}>
             <i class="fa fa-plus" aria-hidden="true" />
           </div> */}
-          {/* <RaisedButton onClick={this.onCreateReward} label="create reward" /> */}
-          <CreateRewardModal />
+          <CreateRewardModal onSubmit={this.onCreateReward} />
         </div>
         {/* Rewards List */}
         {rewards}
@@ -162,8 +154,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    createReward: teacher => {
-      dispatch(createReward(teacher));
+    createReward: (teacher, rewardInput) => {
+      dispatch(createReward(teacher, rewardInput));
     },
     fetchRewards: (userId, userKind) => {
       dispatch(getAllRewards(userId, userKind));
