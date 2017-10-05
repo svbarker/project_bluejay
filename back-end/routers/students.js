@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Student, Profile } = require("../models");
+const { Student, Profile, Classroom } = require("../models");
 const { createResponse } = require("../server/util");
 const { getResource, logEvent, logError } = require("../server/util");
 const { UserEvent, ProfileEvent, Messages } = require("../models/events");

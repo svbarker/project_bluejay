@@ -19,11 +19,12 @@ import PageNotFound from "./PageNotFound";
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
+const userType = "Student";
+// const userType = "Teacher";
+
 class App extends Component {
   componentDidMount() {
     //for testing porpoises
-    const userType = "Student";
-    //const userType = "Student";
     if (userType === "Teacher") {
       this.props.loginTeacher();
     } else if (userType === "Student") {
@@ -33,7 +34,6 @@ class App extends Component {
 
   render() {
     console.log(this.props.user);
-    const userType = "Student";
 
     if (userType === "Teacher") {
       return (
@@ -46,7 +46,7 @@ class App extends Component {
                 <Route exact path="/" component={DashboardMenu} />
                 <Route path="/students" component={StudentView} />
                 <Route path="/tasks" component={TaskListContainer} />
-                <Route path="/rewards" component={StudentRewards} />
+                <Route path="/rewards" component={TeacherRewards} />
                 <Route path="/report" component={() => <h1>Reports</h1>} />
                 <Route
                   path="/notifications"
