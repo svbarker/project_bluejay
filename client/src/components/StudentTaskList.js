@@ -22,6 +22,7 @@ const TaskList = props => {
       {!assignedTasks.length ? null : (
         assignedTasks.map(task => (
           <StudentTaskListMenuCard
+            key={task.id}
             markCompleted={props.markCompleted}
             task={task}
             user={props.user}
@@ -33,6 +34,7 @@ const TaskList = props => {
           <div>
             <h1>Completed Tasks</h1>
             <StudentTaskListMenuCard
+              key={task.id}
               markCompleted={props.markCompleted}
               task={task}
               user={props.user}
@@ -45,6 +47,7 @@ const TaskList = props => {
           <div>
             <h1>Rejected Tasks</h1>
             <StudentTaskListMenuCard
+              key={task.id}
               markCompleted={props.markCompleted}
               task={task}
               user={props.user}
