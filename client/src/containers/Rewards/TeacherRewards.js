@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
 import Undoable from "../../components/Undoable";
+import Editable from "../../components/Editable";
 import LoadScreen from "../../components/LoadScreen";
 import Paper from "material-ui/Paper";
 import FlatButton from "material-ui/FlatButton";
@@ -48,10 +49,15 @@ class TeacherRewards extends React.Component {
     //
     reward.available = !reward.available;
     // console.log("reward = ", reward);
-    this.props.updateReward(reward._id, { updates: { status: "YES" } });
-    // this.props.updateReward(reward._id, {
-    //   updates: { available: reward.available }
-    // });
+    // this.props.updateReward(reward._id, { updates: { status: "YES" } });
+    this.props.updateReward(reward._id, {
+      updates: { available: reward.available }
+    });
+    return null;
+  };
+  onEditReward = async (newValue, id, property) => {
+    console.log("editing");
+    this.props.updateReward(id, { updates: { [property]: newValue } });
     return null;
   };
   render = () => {
@@ -67,11 +73,9 @@ class TeacherRewards extends React.Component {
       return <LoadScreen />;
     }
 
-    //TODO: ADD IN-PLACE EDITING FOR DESCRIPTION/ COST/VALUE
     //TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
-    /////////IF THE USER IS THE TEACHER
+    //THE REWARDS CARDS ////
     const rewards = this.props.rewards.map(reward => {
-      //custom buttons for students and teachers
       return (
         <Card key={reward._id} className="reward-container">
           <CardHeader
@@ -85,10 +89,28 @@ class TeacherRewards extends React.Component {
             style={{ hoverColor: "none" }}
             expandable={true}
           >
-            <p>Description: {reward.description || "None"}</p>
+            <Editable
+              onSubmit={text => {
+                this.onEditReward(text, reward._id, "description");
+              }}
+              text={reward.description || "None"}
+              label={"description"}
+              multiLine={true}
+              fullWidth={true}
+            >
+              <p>Description: {reward.description || "None"}</p>
+            </Editable>
             <p>Kind of reward: {reward.cost ? "Loot" : "Point"}</p>
-            {/* <p>Kind of reward: {reward.kind}</p> */}
-            <p>Cost: {reward.cost || reward.value || "None"}</p>
+            <Editable
+              onSubmit={text => {
+                this.onEditReward(text, reward._id, "cost");
+              }}
+              text={reward.cost || "None"}
+              label={"Cost"}
+            >
+              <p>Cost: {reward.cost || reward.value || "None"}</p>
+            </Editable>
+
             <p>Available: {reward.available ? "YES" : "NO"}</p>
             <p>Supply: {reward.supply || "Unlimited"}</p>
             <Undoable resolve={() => this.props.removeReward(reward._id)}>
@@ -137,8 +159,8 @@ const mapDispatchToProps = dispatch => {
     removeReward: rewardId => {
       dispatch(deleteReward(rewardId));
     },
-    updateReward: (id, editedReward) => {
-      dispatch(editReward(id, editedReward));
+    updateReward: (id, updates) => {
+      dispatch(editReward(id, updates));
     }
   };
 };
