@@ -228,6 +228,7 @@ router.patch("/:te_id/classroom/:cl_id/assign/:t_id", async (req, res) => {
 });
 
 // Confirming completion of a student's task (t_id must be instanceof AssignedTask|RejectedTask)
+<<<<<<< HEAD
 router.patch("/:te_id/student/:st_id/confirmTask/:t_id", async (req, res) => {
   try {
     const teacher = await getResource(
@@ -288,6 +289,24 @@ router.patch("/:te_id/student/:st_id/confirmTask/:t_id", async (req, res) => {
     res.json(createResponse(error));
   }
 });
+=======
+router.patch('/:te_id/student/:st_id/confirmTask/:t_id', async (req, res) => {
+	try {
+		const teacher = await getResource(
+			req.params.te_id,
+			Teacher.findById.bind(Teacher)
+		);
+
+		const student = await teacher.getStudent(req.params.st_id);
+		if (!student) {
+			throw new Error(`That teacher doesn't have a student with that id`);
+		}
+
+		const task = student.getTask(req.params.t_id); // Assigned or RejectedTask
+		if (!task) {
+			throw new Error(`That student doesn't have a task with that id`);
+		}
+>>>>>>> c910bceb98c0a8d1dc3e03c05adba8f8b0685dd3
 
 // Confirming completion of a student's reward (t_id must be instanceof Reward)
 router.patch("/:te_id/student/:st_id/confirmReward/:t_id", async (req, res) => {
@@ -311,6 +330,7 @@ router.patch("/:te_id/student/:st_id/confirmReward/:t_id", async (req, res) => {
       throw new Error(`You can only confirm rewards that are pending rewards`);
     }
 
+<<<<<<< HEAD
     if (!(reward instanceof LootReward)) {
       throw new Error(`Invalid reward type`);
     }
@@ -400,55 +420,166 @@ router.patch("/:te_id/student/:st_id/rejectTask/:t_id", async (req, res) => {
     logError(error);
     res.json(createResponse(error));
   }
+=======
+		res.json(createResponse(completedTask));
+	} catch (error) {
+		logError(error);
+		res.json(createResponse(error));
+	}
+});
+
+// Confirming completion of a student's reward (t_id must be instanceof Reward)
+router.patch('/:te_id/student/:st_id/confirmReward/:t_id', async (req, res) => {
+	// try {
+	//   const teacher = await getResource(
+	//     req.params.te_id,
+	//     Teacher.findById.bind(Teacher)
+	//   );
+	//
+	//   const student = await teacher.getStudent(req.params.st_id);
+	//   if (!student) {
+	//     throw new Error(`That teacher doesn't have a student with that id`);
+	//   }
+	//
+	//   const task = student.getTask(req.params.t_id); // Assigned or RejectedTask
+	//   if (!task) {
+	//     throw new Error(`That student doesn't have a task with that id`);
+	//   }
+	//
+	//   if (!(task instanceof AssignedTask) && !(task instanceof RejectedTask)) {
+	//     throw new Error(
+	//       `You can only complete tasks that are assigned or rejected`
+	//     );
+	//   }
+	//
+	//   // Create completed task.
+	//   const completedTask = new CompletedTask(task.toNewObject());
+	//   await completedTask.save();
+	//   student.removeTask(task);
+	//   await task.remove();
+	//   student.addTask(completedTask);
+	//   task.removeStudent(teacher.getTaskByTitle(completedTask));
+	//
+	//   // Create log events.
+	//   logEvent(TaskEvent, {
+	//     message: Messages.TEMPLATE_TASK_CONFIRM_COMPLETION,
+	//     owner: req.user,
+	//     user: student,
+	//     task
+	//   });
+	//
+	//   logEvent(MessageEvent, {
+	//     body: Messages.TEMPLATE_TEACHER_TASK_CONFIRM_COMPLETION_MSG,
+	//     message: Messages.TEMPLATE_SEND_MESSAGE,
+	//     owner: req.user,
+	//     user: student,
+	//     task
+	//   });
+	//
+	//   res.json(createResponse(completedTask));
+	// } catch (error) {
+	//   logError(error);
+	//   res.json(createResponse(error));
+	// }
+});
+
+// Rejecting completion of a student's task (t_id must be instanceof AssignedTask|RejectedTask)
+router.patch('/:te_id/student/:st_id/rejectTask/:t_id', async (req, res) => {
+	try {
+		const teacher = await getResource(
+			req.params.te_id,
+			Teacher.findById.bind(Teacher)
+		);
+
+		const student = await teacher.getStudent(req.params.st_id);
+		if (!student) {
+			throw new Error(`That teacher doesn't have a student with that id`);
+		}
+
+		const task = student.getTask(req.params.t_id);
+		if (!task) {
+			throw new Error(`That student doesn't have a task with that id`);
+		}
+
+		// Create rejected task.
+		const rejectedTask = new RejectedTask(task.toNewObject());
+		await rejectedTask.save();
+		student.removeTask(task);
+		await task.remove();
+		student.addTask(rejectedTask);
+		task.removeStudent(teacher.getTaskByTitle(rejectedTask));
+
+		// Create log events.
+		logEvent(TaskEvent, {
+			message: Messages.TEMPLATE_TASK_REJECT_COMPLETION,
+			owner: req.user,
+			user: student,
+			task
+		});
+
+		logEvent(MessageEvent, {
+			body: Messages.TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG,
+			message: Messages.TEMPLATE_SEND_MESSAGE,
+			owner: req.user,
+			user: student,
+			task
+		});
+
+		res.json(createResponse(rejectedTask));
+	} catch (error) {
+		logError(error);
+		res.json(createResponse(error));
+	}
+>>>>>>> c910bceb98c0a8d1dc3e03c05adba8f8b0685dd3
 });
 
 // Rejecting reception of a student's reward (t_id must be instanceof Reward)
-router.patch("/:te_id/student/:st_id/rejectReward/:t_id", async (req, res) => {
-  // try {
-  //   const teacher = await getResource(
-  //     req.params.te_id,
-  //     Teacher.findById.bind(Teacher)
-  //   );
-  //
-  //   const student = await teacher.getStudent(req.params.st_id);
-  //   if (!student) {
-  //     throw new Error(`That teacher doesn't have a student with that id`);
-  //   }
-  //
-  //   const task = student.getTask(req.params.t_id);
-  //   if (!task) {
-  //     throw new Error(`That student doesn't have a task with that id`);
-  //   }
-  //
-  //   // Create rejected task.
-  //   const rejectedTask = new RejectedTask(task.toNewObject());
-  //   await rejectedTask.save();
-  //   student.removeTask(task);
-  //   await task.remove();
-  //   student.addTask(rejectedTask);
-  //   task.removeStudent(teacher.getTaskByTitle(rejectedTask));
-  //
-  //   // Create log events.
-  //   logEvent(TaskEvent, {
-  //     message: Messages.TEMPLATE_TASK_REJECT_COMPLETION,
-  //     owner: req.user,
-  //     user: student,
-  //     task
-  //   });
-  //
-  //   logEvent(MessageEvent, {
-  //     body: Messages.TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG,
-  //     message: Messages.TEMPLATE_SEND_MESSAGE,
-  //     owner: req.user,
-  //     user: student,
-  //     task
-  //   });
-  //
-  //   res.json(createResponse(rejectedTask));
-  // } catch (error) {
-  //   logError(error);
-  //   res.json(createResponse(error));
-  // }
+router.patch('/:te_id/student/:st_id/rejectReward/:t_id', async (req, res) => {
+	// try {
+	//   const teacher = await getResource(
+	//     req.params.te_id,
+	//     Teacher.findById.bind(Teacher)
+	//   );
+	//
+	//   const student = await teacher.getStudent(req.params.st_id);
+	//   if (!student) {
+	//     throw new Error(`That teacher doesn't have a student with that id`);
+	//   }
+	//
+	//   const task = student.getTask(req.params.t_id);
+	//   if (!task) {
+	//     throw new Error(`That student doesn't have a task with that id`);
+	//   }
+	//
+	//   // Create rejected task.
+	//   const rejectedTask = new RejectedTask(task.toNewObject());
+	//   await rejectedTask.save();
+	//   student.removeTask(task);
+	//   await task.remove();
+	//   student.addTask(rejectedTask);
+	//   task.removeStudent(teacher.getTaskByTitle(rejectedTask));
+	//
+	//   // Create log events.
+	//   logEvent(TaskEvent, {
+	//     message: Messages.TEMPLATE_TASK_REJECT_COMPLETION,
+	//     owner: req.user,
+	//     user: student,
+	//     task
+	//   });
+	//
+	//   logEvent(MessageEvent, {
+	//     body: Messages.TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG,
+	//     message: Messages.TEMPLATE_SEND_MESSAGE,
+	//     owner: req.user,
+	//     user: student,
+	//     task
+	//   });
+	//
+	//   res.json(createResponse(rejectedTask));
+	// } catch (error) {
+	//   logError(error);
+	//   res.json(createResponse(error));
+	// }
 });
 
 // Distributing a reward to a student
