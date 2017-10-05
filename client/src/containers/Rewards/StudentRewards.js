@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 //components
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
+import Undoable from "../../components/Undoable";
 import LoadScreen from "../../components/LoadScreen";
 import Paper from "material-ui/Paper";
 import FlatButton from "material-ui/FlatButton";
@@ -119,14 +120,20 @@ class StudentRewards extends React.Component {
             <p>Description: {reward.description || "None"}</p>
             <p>Kind of reward: {reward.cost ? "Loot" : "Point"}</p>
             <p>Cost: {reward.cost || reward.value || "None"}</p>
-            <p>Available: {reward.status || "Unknown"}</p>
+            <p>Available: {reward.available ? "YES" : "NO"}</p>
             <p>Supply: {reward.supply || "Unlimited"}</p>
-            <FlatButton
-              onClick={() => this.onPurchase(reward)}
+            <Undoable
               disabled={this.props.user.points < reward.cost ? true : false}
-              primary={this.props.user.points > reward.cost ? true : false}
-              label="purchase"
-            />
+              resolve={() => this.onPurchase(reward)}
+              wait={2}
+            >
+              <FlatButton
+                // onClick={() => this.onPurchase(reward)}
+                disabled={this.props.user.points < reward.cost ? true : false}
+                primary={this.props.user.points > reward.cost ? true : false}
+                label="purchase"
+              />
+            </Undoable>
           </CardText>
         </Card>
       );

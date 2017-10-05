@@ -3,7 +3,7 @@ import React from "react";
 import { Card, CardHeader, CardText } from "material-ui";
 import Dialog from "material-ui/Dialog";
 import Paper from "material-ui/Paper";
-import FlatButton from "material-ui/FlatButton";
+import RaisedButton from "material-ui/RaisedButton";
 
 import StudentModal from "../components/StudentModal";
 
@@ -17,7 +17,7 @@ class MenuCard extends React.Component {
   render() {
     const { title, value, description, classroom } = this.props.task;
     return (
-      <Card style={{ "margin-bottom": "20px" }}>
+      <Card style={{ "margin-bottom": "20px", "background-color": "#85DCDC" }}>
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
@@ -26,28 +26,25 @@ class MenuCard extends React.Component {
             "background-color": "#1a8484"
           }}
           iconStyle={{ color: "white" }}
-          titleStyle={{ color: "white" }}
+          titleStyle={{ color: "white", "font-weight": "bold" }}
         />
-        <CardText expandable={true} style={{ "background-color": "#85DCDC" }}>
-          <div class="menu-card-container">
-            <p>{description}</p>
-            <div>
-              <StudentModal />
+        <CardText expandable={true}>
+          <Paper style={{ padding: "20px" }}>
+            <div class="menu-card-container">
+              <p>{description}</p>
+              <div>
+                <StudentModal />
+
+                <div className="menu-card-button-container">
+                  <RaisedButton label="Edit" />
+                  <RaisedButton
+                    label="Delete"
+                    style={{ "margin-left": "20px" }}
+                  />
+                </div>
+              </div>
             </div>
-            <div className="menu-card-button-container">
-              <FlatButton
-                label="Edit"
-                backgroundColor="#96cd28"
-                hoverColor="#D8F996"
-              />
-              <FlatButton
-                label="Delete"
-                labelStyle={{ color: "white" }}
-                backgroundColor="#DC2B2B"
-                hoverColor="#FF9A9A"
-              />
-            </div>
-          </div>
+          </Paper>
         </CardText>
       </Card>
     );
