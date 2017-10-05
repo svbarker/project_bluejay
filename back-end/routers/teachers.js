@@ -332,7 +332,7 @@ router.patch('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
 });
 
 // Distributing a reward to a student
-router.patch('/:te_id/student/:st_id/distribute/:r_id', async (req, res) => {
+router.patch('/:te_id/student/:st_id/distribute', async (req, res) => {
 	try {
 		const teacher = await getResource(
 			req.params.te_id,

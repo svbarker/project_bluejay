@@ -53,6 +53,18 @@ const autoPopulate = function(next) {
 		{
 			path: 'notifications',
 			model: 'Event'
+		},
+		{
+			path: 'classrooms',
+			model: 'Classroom'
+		},
+		{
+			path: 'tasks',
+			model: 'Task'
+		},
+		{
+			path: 'rewards',
+			model: 'Reward'
 		}
 	]);
 	next();
