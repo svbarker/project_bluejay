@@ -135,7 +135,6 @@ router.patch('/:te_id/student/:st_id/assign/:t_id', async (req, res) => {
 			throw new Error(`No task found using that id.`);
 		}
 
-		// TODO: FIX THIS
 		if (student.hasTask(task)) {
 			throw new Error(`Student is already assigned that task.`);
 		}
@@ -169,6 +168,64 @@ router.patch('/:te_id/student/:st_id/assign/:t_id', async (req, res) => {
 	}
 });
 
+// Assigning a task to a classroom
+router.patch('/:te_id/classroom/:cl_id/assign/:t_id', async (req, res) => {
+	try {
+		const teacher = await getResource(
+			req.params.te_id,
+			Teacher.findById.bind(Teacher)
+		);
+
+		let classroom = await teacher.getClassroom(req.params.cl_id);
+		if (!classroom) {
+			throw new Error(`That teacher doesn't have a classroom with that id`);
+		}
+
+		let task = await Task.findById(req.params.t_id);
+		if (!task) {
+			throw new Error(`No task found using that id.`);
+		}
+
+		// Pull students from classroom.
+		const studentsAssigned = [];
+		const students = await classroom.getPopulatedStudents();
+		console.log(students);
+		students.forEach(async student => {
+			console.log(student);
+			if (student.hasTask(task)) return;
+
+			studentsAssigned.push(student);
+
+			// Create new assigned task from root task.
+			let assignedTask = new AssignedTask(task.toNewObject());
+			await assignedTask.save();
+			student.addTask(assignedTask);
+			task.addStudent(student);
+
+			// Create log events.
+			logEvent(TaskEvent, {
+				message: Messages.TEMPLATE_TASK_ASSIGN,
+				owner: req.user,
+				user: student,
+				task: assignedTask
+			});
+
+			logEvent(MessageEvent, {
+				body: Messages.TEMPLATE_TEACHER_TASK_ASSIGN_MSG,
+				message: Messages.TEMPLATE_SEND_MESSAGE,
+				owner: req.user,
+				user: student,
+				task: assignedTask
+			});
+		});
+
+		res.json(createResponse(studentsAssigned));
+	} catch (error) {
+		logError(error);
+		res.json(createResponse(error));
+	}
+});
+
 // Confirming completion of a student's task
 router.get('/:te_id/student/:st_id/complete/:t_id', async (req, res) => {
 	try {
@@ -191,6 +248,7 @@ router.get('/:te_id/student/:st_id/complete/:t_id', async (req, res) => {
 		const completedTask = new CompletedTask(task.toNewObject());
 		await completedTask.save();
 		student.replaceTask(req.params.t_id, completedTask);
+		task.removeStudent(student);
 
 		// Create log events.
 		logEvent(UserEvent, {
@@ -201,11 +259,11 @@ router.get('/:te_id/student/:st_id/complete/:t_id', async (req, res) => {
 		});
 
 		logEvent(MessageEvent, {
+			body: Messages.TEMPLATE_TEACHER_TASK_CONFIRM_COMPLETION_MSG,
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
 			user: student,
-			task,
-			body: Messages.TEMPLATE_TEACHER_TASK_CONFIRM_COMPLETION_MSG
+			task
 		});
 	} catch (error) {
 		logError(erro);
