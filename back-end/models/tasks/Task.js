@@ -80,5 +80,16 @@ TaskSchema.methods.addStudent = async function(student) {
 	await this.update({ students: this.students });
 };
 
+TaskSchema.methods.removeStudent = async function(student) {
+	const index = this.students.findIndex(stud => {
+		return stud.id === student.id;
+	});
+
+	if (index > -1) {
+		return this.students.splice(index, 1)[0];
+	}
+	return null;
+};
+
 const Task = mongoose.model('Task', TaskSchema);
 module.exports = Task;

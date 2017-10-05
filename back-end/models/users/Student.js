@@ -30,5 +30,16 @@ StudentSchema.methods.addTask = async function(task) {
 	await this.update({ tasks: this.tasks });
 };
 
+StudentSchema.methods.removeTask = async function(task) {
+	const index = this.tasks.findIndex(t => {
+		return t.id === task.id;
+	});
+
+	if (index > -1) {
+		return this.tasks.splice(index, 1)[0];
+	}
+	return null;
+};
+
 const Student = User.discriminator('Student', StudentSchema);
 module.exports = Student;

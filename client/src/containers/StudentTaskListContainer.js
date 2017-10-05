@@ -27,7 +27,7 @@ class StudentTaskListContainer extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    userId: state.user.id,
+    user: state.user,
     tasks: state.tasks
   };
 };

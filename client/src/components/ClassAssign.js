@@ -10,7 +10,7 @@ const assignTask = async (teacherId, classId, assignableId, type) => {
 	}
 
 	const response = await fetch(
-		`/api/teacher/${teacherId}/classroom/${classId}/${verb}/${assignableId}`,
+		`/api/teachers/${teacherId}/classroom/${classId}/${verb}/${assignableId}`,
 		{
 			method: "PATCH",
 			credentials: "include"
