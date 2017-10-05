@@ -28,14 +28,15 @@ const removeTask = id => ({
 
 export const hydrateTeacherTasks = userId => async dispatch => {
   try {
-    const response = await fetch(`api/teachers/${userId}/tasks`, {
+    let response = await fetch(`api/teachers/${userId}/tasks`, {
       method: "GET",
       credentials: "include"
     });
-
-    const tasks = await response.json();
-
-    dispatch(getTasks(tasks.apiData));
+    response = await response.json();
+    if (!response.success) {
+      throw new Error("There was a problem with your request.");
+    }
+    dispatch(getTasks(response.apiData));
   } catch (error) {
     console.log(error);
   }
@@ -43,15 +44,31 @@ export const hydrateTeacherTasks = userId => async dispatch => {
 
 export const hydrateStudentTasks = userId => async dispatch => {
   try {
-    console.log("userId:", userId);
-    const response = await fetch(`api/students/${userId}/tasks`, {
+    let response = await fetch(`api/students/${userId}/tasks`, {
       method: "GET",
       credentials: "include"
     });
+    response = await response.json();
+    if (!response.success) {
+      throw new Error("There was a problem with your request.");
+    }
+    dispatch(getTasks(response.apiData));
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    const tasks = await response.json();
-
-    dispatch(getTasks(tasks.apiData));
+export const completeTask = (s_id, t_id) => async dispatch => {
+  try {
+    let response = await fetch(`api/students/${s_id}/complete/${t_id}`, {
+      method: "POST",
+      credentials: "include"
+    });
+    response = await response.json();
+    if (!response.success) {
+      throw new Error("There was a problem with your request.");
+    }
+    dispatch(updateTask(t_id, response.apiData));
   } catch (error) {
     console.log(error);
   }

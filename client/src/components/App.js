@@ -23,7 +23,7 @@ class App extends Component {
   componentDidMount() {
     console.log("STATUS:", this.props.loading);
     //for testing porpoises
-    const userType = "Teacher";
+    const userType = "Student";
     //const userType = "Student";
     if (userType === "Teacher") {
       this.props.loginTeacher();
@@ -34,7 +34,7 @@ class App extends Component {
 
   render() {
     console.log(this.props.user);
-    const userType = "Teacher";
+    const userType = "Student";
 
     if (userType === "Teacher") {
       return (
@@ -76,7 +76,7 @@ class App extends Component {
                 <Route
                   path="/tasks"
                   component={() => (
-                    <StudentTaskListContainer userId={this.props.user.id} />
+                    <StudentTaskListContainer user={this.props.user} />
                   )}
                 />
                 <Route path="/rewards" component={StudentRewards} />

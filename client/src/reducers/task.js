@@ -13,13 +13,13 @@ const tasks = (state = [], action) => {
     case GET_ALL_TASKS:
       return [...action.data];
     case ADD_TASK:
-      return [...state.tasks, action.data];
+      return [...state, action.data];
     case UPDATE_TASK:
-      return state.tasks.map(task => {
-        return action.data.id === task.id ? action.data.task : task;
-      });
+      return [...state].map(
+        task => (action.data.id === task.id ? action.data.task : task)
+      );
     case REMOVE_TASK:
-      return state.tasks.filter(task => task.id !== action.data);
+      return state.filter(task => task._id !== action.data);
     default:
       return state;
   }
