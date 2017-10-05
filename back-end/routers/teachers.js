@@ -275,6 +275,11 @@ router.patch("/:te_id/student/:st_id/confirmTask/:t_id", async (req, res) => {
       task
     });
 
+    if (task.rewards) {
+      req.session.body = { rewards: task.rewards };
+      res.redirect(`/api/teachers/${teacher.id}/students/${student.id}/`);
+    }
+
     res.json(createResponse(completedTask));
   } catch (error) {
     logError(error);
@@ -436,8 +441,10 @@ router.patch("/:te_id/student/:st_id/rejectReward/:t_id", async (req, res) => {
 });
 
 // Distributing a reward to a student
-router.patch("/:te_id/student/:st_id/distribute/:r_id", async (req, res) => {
+router.patch("/:te_id/student/:st_id/distribute", async (req, res) => {
   try {
+    const rewardIds = req.body.rewards || req.session.body.rewards;
+
     const teacher = await getResource(
       req.params.te_id,
       Teacher.findById.bind(Teacher)
@@ -448,36 +455,46 @@ router.patch("/:te_id/student/:st_id/distribute/:r_id", async (req, res) => {
       throw new Error(`That teacher doesn't have a student with that id`);
     }
 
-    const reward = teacher.getReward(req.params.r_id);
-    if (!reward) {
-      throw new Error(`That teacher doesn't have a reward with that id`);
-    }
+    const distributedRewards = await Promise.all(
+      rewardIds.map(reward => {
+        return new Promise(async resolve => {
+          reward = teacher.getReward(reward);
 
-    const rewardType = [LootReward, PointReward].find(r => reward instanceof r);
-    if (!rewardType) {
-      throw new Error(`Invalid reward type`);
-    }
+          if (!reward) {
+            throw new Error(`That teacher doesn't have a reward with that id`);
+          }
 
-    // Clone reward and add to the students list.
-    const newReward = new rewardType(reward.toNewObject());
-    await newReward.save();
-    student.addReward(newReward);
+          const rewardType = [LootReward, PointReward].find(
+            r => reward instanceof r
+          );
+          if (!rewardType) {
+            throw new Error(`Invalid reward type`);
+          }
 
-    // Create log events.
-    logEvent(RewardEvent, {
-      message: Messages.TEMPLATE_REWARD_DISTRIBUTE,
-      owner: req.user,
-      user: student,
-      reward: newReward
-    });
+          // Clone reward and add to the students list.
+          const newReward = new rewardType(reward.toNewObject());
+          await newReward.save();
+          resolve(student.addReward(newReward));
 
-    logEvent(MessageEvent, {
-      body: Messages.TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG,
-      message: Messages.TEMPLATE_SEND_MESSAGE,
-      owner: req.user,
-      user: student,
-      reward: newReward
-    });
+          // Create log events.
+          logEvent(RewardEvent, {
+            message: Messages.TEMPLATE_REWARD_DISTRIBUTE,
+            owner: req.user,
+            user: student,
+            reward: newReward
+          });
+
+          logEvent(MessageEvent, {
+            body: Messages.TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG,
+            message: Messages.TEMPLATE_SEND_MESSAGE,
+            owner: req.user,
+            user: student,
+            reward: newReward
+          });
+        });
+      })
+    );
+    res.json(createResponse(distributedRewards));
   } catch (error) {
     logError(error);
     res.json(createResponse(error));

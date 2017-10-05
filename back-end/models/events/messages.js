@@ -8,15 +8,17 @@ module.exports = {
 	TEMPLATE_TEACHER_CREATE: `New teacher registered with credentials: %owner.email%, %owner.fname%, %owner.lname%.`,
 	TEMPLATE_TEACHER_READ: `Data retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%.`,
 	TEMPLATE_TEACHER_TASK_READ: `Task retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.taskList%]`,
-	TEMPLATE_TEACHER_TASK_ASSIGN_MSG: `%owner.profile.displayName% assigned you a task: %task.title%`,
-	TEMPLATE_TEACHER_TASK_CONFIRM_COMPLETION_MSG: `%owner.profile.displayName% confirmed your completion of task: %task.title%`,
-	TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG: `%owner.profile.displayName% rejected your completion of task: %task.title%`,
+
 	TEMPLATE_TEACHER_REWARD_READ: `Reward retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.rewardList%]`,
-	TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG: `%owner.profile.displayName% gave you a reward %reward.title%, congratulations!.`,
+
 	TEMPLATE_TEACHER_CLASSROOM_READ: `Classroom retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.classroomList%]`,
 	TEMPLATE_TEACHER_NOTIFICATION_READ: `Notification retrieval for teacher %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.notificationList%]`,
 	TEMPLATE_TEACHER_UPDATE: `%owner.profile.displayName% updated teacher %user.profile.displayName%. [%user.fields%] [%user.values%]`,
 	TEMPLATE_TEACHER_DELETE: `%owner.profile.displayName% deleted teacher %user.profile.displayName%.`,
+	TEMPLATE_TEACHER_TASK_ASSIGN_MSG: `%owner.profile.displayName% assigned you a task: %task.title%`,
+	TEMPLATE_TEACHER_TASK_CONFIRM_COMPLETION_MSG: `%owner.profile.displayName% confirmed your completion of task: %task.title%`,
+	TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG: `%owner.profile.displayName% rejected your completion of task: %task.title%`,
+	TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG: `%owner.profile.displayName% gave you a reward %reward.title%, congratulations!.`,
 
 	TEMPLATE_STUDENT_CREATE: `New student registered with credentials: %owner.email%, %owner.fname%, %owner.lname%.`,
 	TEMPLATE_STUDENT_READ: `Data retrieval for student %user.profile.displayName% initiated by %owner.profile.displayName%.`,
@@ -26,6 +28,7 @@ module.exports = {
 	TEMPLATE_STUDENT_NOTIFICATION_READ: `Notification retrieval for student %user.profile.displayName% initiated by %owner.profile.displayName%. [%user.notificationList%]`,
 	TEMPLATE_STUDENT_UPDATE: `%owner.profile.displayName% updated student %user.profile.displayName%. [%user.fields%] [%user.values%]`,
 	TEMPLATE_STUDENT_DELETE: `%owner.profile.displayName% deleted student %user.profile.displayName%.`,
+	TEMPLATE_STUDENT_REQUEST_COMPLETION_MSG: `%owner.profile.displayName% wants to complete task %task.title%.`,
 
 	TEMPLATE_CLASSROOM_CREATE: `%owner.profile.displayName% created new classroom named %class.title%.`,
 	TEMPLATE_CLASSROOM_READ: `Data retrieval for classroom %class.title% initiated by %owner.profile.displayName%.`,
@@ -43,6 +46,7 @@ module.exports = {
 	TEMPLATE_TASK_READ: `Data retrieval for task %task.title% initiated by %owner.profile.displayName%.`,
 	TEMPLATE_TASK_STUDENT_READ: `Student retrieval for task %task.title% initiated by %owner.profile.displayName%. [%task.studentList%]`,
 	TEMPLATE_TASK_ASSIGN: `%owner.profile.displayName% assigned task %task.title% to %user.profile.displayName%.`,
+	TEMPLATE_TASK_REQUEST_COMPLETION: `%owner.profile.displayName% requested completion of task %task.title%`,
 	TEMPLATE_TASK_CONFIRM_COMPLETION: `%owner.profile.displayName% confirmed completion of task %task.title% for %user.profile.displayName%.`,
 	TEMPLATE_TASK_REJECT_COMPLETION: `%owner.profile.displayName% rejected completion of task %task.title% for %user.profile.displayName%.`,
 	TEMPLATE_TASK_UPDATE: `%owner.profile.displayName% updated task %task.title%. [%task.fields%] [%task.values%]`,

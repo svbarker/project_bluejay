@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Event = require('./Event');
+const mongoose = require("mongoose");
+const Event = require("./Event");
 
 const RewardEventSchema = new mongoose.Schema(
 	{
@@ -10,13 +10,17 @@ const RewardEventSchema = new mongoose.Schema(
 		user: {
 			type: Object,
 			required: true
+		},
+		available: {
+			type: Boolean,
+			default: true
 		}
 	},
 	{
 		timestamps: true,
-		discriminatorKey: 'kind'
+		discriminatorKey: "kind"
 	}
 );
 
-const RewardEvent = Event.discriminator('RewardEvent', RewardEventSchema);
+const RewardEvent = Event.discriminator("RewardEvent", RewardEventSchema);
 module.exports = RewardEvent;

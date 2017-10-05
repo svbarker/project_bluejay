@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import StudentCard from "./StudentCard";
 import ClassAssign from "./ClassAssign";
-import DropDownMenu from "material-ui/DropDownMenu";
+import Paper from "material-ui/Paper";
+import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import "../styles/students.css";
 
@@ -30,19 +31,21 @@ class StudentList extends Component {
 		console.log(this.props);
 		return (
 			<div className="students-container">
-				<span>Current Class: </span>
-				<DropDownMenu
-					value={this.state.classIndex}
-					onChange={this.handleChange}
-				>
-					{this.props.classrooms.map((classroom, i) => (
-						<MenuItem value={i} primaryText={classroom.title} />
-					))}
-				</DropDownMenu>
-				<ClassAssign
-					currentClass={this.state.currentClass}
-					teacherId={this.props.teacherId}
-				/>
+				<Paper style={{ padding: "20px", "padding-top": "0" }}>
+					<SelectField
+						floatingLabelText="Current Class"
+						value={this.state.classIndex}
+						onChange={this.handleChange}
+					>
+						{this.props.classrooms.map((classroom, i) => (
+							<MenuItem value={i} primaryText={classroom.title} />
+						))}
+					</SelectField>
+					<ClassAssign
+						currentClass={this.state.currentClass}
+						teacherId={this.props.teacherId}
+					/>
+				</Paper>
 				<div className="student-card-container">
 					{!this.props.students ? null : (
 						this.props.students.map(student => (

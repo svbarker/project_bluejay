@@ -4,7 +4,8 @@ import TeacherNavbar from "../components/TeacherNavbar";
 const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
-    displayName: state.user.displayName
+    displayName: state.user.displayName,
+    notifications: state.notifications
   };
 };
 
