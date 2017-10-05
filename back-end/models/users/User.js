@@ -51,16 +51,16 @@ const autoPopulate = function(next) {
 			model: 'Profile'
 		},
 		{
-			path: 'notifications',
-			model: 'Event'
-		},
-		{
 			path: 'classrooms',
 			model: 'Classroom'
 		},
 		{
 			path: 'tasks',
 			model: 'Task'
+		},
+		{
+			path: 'notifications',
+			model: 'Event'
 		}
 	]);
 	next();
@@ -82,6 +82,16 @@ UserSchema.methods.validatePassword = function(password) {
 	return bcrypt.compareSync(password, this.passwordHash);
 };
 
+UserSchema.methods.toString = function() {
+	return this.fullname;
+};
+
+UserSchema.methods.getClassroom = function(id) {
+	return this.classrooms.find(c => {
+		return c.id === id;
+	});
+};
+
 UserSchema.methods.hasTask = function(task) {
 	return this.tasks.some(t => {
 		return t.title === task.title;
@@ -90,10 +100,6 @@ UserSchema.methods.hasTask = function(task) {
 
 UserSchema.methods.getTask = function(id) {
 	return this.tasks.find(t => t.id === id);
-};
-
-UserSchema.methods.toString = function() {
-	return this.fullname;
 };
 
 const User = mongoose.model('User', UserSchema);
