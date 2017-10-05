@@ -22,7 +22,7 @@ const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 class App extends Component {
   componentDidMount() {
     //for testing porpoises
-    const userType = "Teacher";
+    const userType = "Student";
     //const userType = "Student";
     if (userType === "Teacher") {
       this.props.loginTeacher();
@@ -51,7 +51,7 @@ class App extends Component {
                   path="/notifications"
                   component={NotificationsContainer}
                 />
-                <Route path="/" component={PageNotFound} />
+                {/* <Route path="/" component={PageNotFound} /> */}
               </Switch>
             </div>
           </Router>

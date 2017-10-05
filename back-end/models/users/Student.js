@@ -18,15 +18,16 @@ const StudentSchema = new mongoose.Schema(
 // 	return this.tasks.some(t => t.title === task.title);
 // };
 
-StudentSchema.methods.addTask = function(task) {
+StudentSchema.methods.addTask = async function(task) {
 	const index = this.tasks.findIndex(t => {
 		return t.id === task.id;
 	});
 	if (index > -1) {
 		this.tasks[index] = task;
 	} else {
-		this.tasks[0] = task;
+		this.tasks[this.tasks.length] = task;
 	}
+	await this.update({ tasks: this.tasks });
 };
 
 const Student = User.discriminator('Student', StudentSchema);

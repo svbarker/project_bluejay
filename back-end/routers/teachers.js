@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const {
 	Teacher,
+	Student,
 	Profile,
 	Classroom,
 	Task,
@@ -141,14 +142,10 @@ router.patch('/:te_id/student/:st_id/assign/:t_id', async (req, res) => {
 
 		// Create new assigned task from root task.
 		let assignedTask = new AssignedTask(task.toNewObject());
-
-		assignedTask.addStudent(student);
-		assignedTask = await assignedTask.save();
-
+		await assignedTask.save();
 		student.addTask(assignedTask);
-		console.log(student);
-		student = await student.save();
-		console.log(student);
+		task.addStudent(student);
+
 		// Create log events.
 		logEvent(TaskEvent, {
 			message: Messages.TEMPLATE_TASK_ASSIGN,

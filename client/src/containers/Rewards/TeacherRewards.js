@@ -1,9 +1,9 @@
+//TODO: SPLIT THIS UP INTO ONE CONTAINER AND TWO COMPONENTS
+
 import React from "react";
 import { connect } from "react-redux";
 
 //components
-// import TeacherOnly from "../components/TeacherOnly";
-// import StudentOnly from "../components/StudentOnly";
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
 import LoadScreen from "../../components/LoadScreen";
@@ -122,7 +122,6 @@ class TeacherRewards extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log("state in rewards = ", state);
   return {
     user: state.user,
     rewards: state.rewards,
