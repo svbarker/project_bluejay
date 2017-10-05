@@ -21,14 +21,15 @@ const assignTask = async (teacherId, classId, assignableId, type) => {
 
 const classTarget = {
 	drop(props, monitor) {
-		assignTask(
-			props.teacherId,
-			props.currentClass._id,
-			monitor.getItem().id,
-			monitor.getItem().type
-		).then(response => {
-			console.log(response);
-		});
+		return {
+			result: assignTask(
+				props.teacherId,
+				props.currentClass._id,
+				monitor.getItem().id,
+				monitor.getItem().type
+			),
+			name: props.currentClass.title
+		};
 	}
 };
 

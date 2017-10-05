@@ -18,12 +18,16 @@ TeacherSchema.methods.getAllStudents = async function() {
 	);
 	students = await User.find({ _id: students }).populate([
 		{
+			path: 'profile',
+			model: 'Profile'
+		},
+		{
 			path: 'tasks',
 			model: 'Task'
 		},
 		{
-			path: 'profile',
-			model: 'Profile'
+			path: 'rewards',
+			model: 'Reward'
 		}
 	]);
 	return students;
