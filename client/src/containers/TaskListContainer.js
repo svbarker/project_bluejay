@@ -15,13 +15,14 @@ class TaskListContainer extends React.Component {
   }
 
   render() {
-    return <TaskList tasks={this.props.tasks} />;
+    return <TaskList tasks={this.props.tasks} name={this.props.name} />;
   }
 }
 
 const mapStateToProps = state => {
   return {
-    tasks: state.tasks
+    tasks: state.tasks,
+    name: state.user.displayName
   };
 };
 const mapDispatchToProps = dispatch => {

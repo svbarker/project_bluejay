@@ -50,7 +50,7 @@ module.exports = {
 
 	TEMPLATE_REWARD_CREATE: `%owner.profile.displayName% created reward %reward.title%.`,
 	TEMPLATE_REWARD_READ: `Data retrieval for reward %reward.title% initiated by %owner.profile.displayName%.`,
-	TEMPLATE_REWARD_DISTRIBUTE: `%owner.profile.displayName% distributed reward %reward.title% to %user.profile.displayName%`,
+	TEMPLATE_REWARD_DISTRIBUTE: `%owner.profile.displayName% distributed reward %reward.title% to %user.profile.displayName%.`,
 	TEMPLATE_REWARD_UPDATE: `%owner.profile.displayName% updated reward %reward.title%. [%reward.fields%] [%reward.values%]`,
 	TEMPLATE_REWARD_DELETE: `%owner.profile.displayName% deleted reward %reward.title%.`,
 

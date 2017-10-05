@@ -51,7 +51,7 @@ class StudentCard extends Component {
 		const highlighted = isOver ? "highlighted" : "";
 		return connectDropTarget(
 			<div>
-				<Paper>
+				<Paper style={{ height: "100%" }}>
 					<div className={`student-card ${highlighted}`}>
 						<i className="fa fa-user-circle-o" aria-hidden="true" />
 						<h4>{this.props.student.profile.displayName}</h4>

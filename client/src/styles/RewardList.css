@@ -1,3 +1,7 @@
+.center {
+  margin: 0 auto;
+}
+
 .reward-container {
   max-width: 960px;
   padding: 20px;

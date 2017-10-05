@@ -103,7 +103,7 @@ class TeacherRewards extends React.Component {
       );
     });
     return (
-      <Paper className="reward-container">
+      <Paper className="reward-container center">
         {/* header */}
         <div className="reward-card-title">
           <h1>{this.props.user.displayName}'s Rewards</h1>

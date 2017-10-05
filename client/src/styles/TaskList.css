@@ -1,6 +1,11 @@
-.task-container {
+.task-container-outer {
 	max-width: 960px;
+
 	margin: auto;
+}
+
+.task-container {
+	padding: 20px;
 }
 
 .menu-card-container {

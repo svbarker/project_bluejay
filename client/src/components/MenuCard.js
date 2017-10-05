@@ -17,19 +17,18 @@ class MenuCard extends React.Component {
   render() {
     const { title, value, description, classroom } = this.props.task;
     return (
-      <Card style={{ "margin-bottom": "10px" }}>
+      <Card style={{ "margin-bottom": "20px" }}>
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
+          title={title}
           style={{
-            "background-color": "#1a8484",
-            color: "white"
+            "background-color": "#1a8484"
           }}
           iconStyle={{ color: "white" }}
-        >
-          {title} {value}
-        </CardHeader>
-        <CardText expandable={true}>
+          titleStyle={{ color: "white" }}
+        />
+        <CardText expandable={true} style={{ "background-color": "#85DCDC" }}>
           <div class="menu-card-container">
             <p>{description}</p>
             <div>
