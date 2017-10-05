@@ -90,9 +90,9 @@ class Assignable extends Component {
 				<Snackbar
 					open={this.state.open}
 					message={this.state.message}
-					action="undo"
-					autoHideDuration={3000}
+					autoHideDuration={1000}
 					onRequestClose={this.handleRequestClose}
+					bodyStyle={{ "background-color": "rgba(8, 90, 90, .4)" }}
 				/>
 			</div>
 		);
