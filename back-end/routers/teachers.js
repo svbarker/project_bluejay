@@ -141,7 +141,6 @@ router.patch('/:te_id/student/:st_id/assign/:t_id', async (req, res) => {
 
 		// Create new assigned task from root task.
 		let assignedTask = new AssignedTask(task.toNewObject());
-		console.log('ASSIGNED TASK:', assignedTask);
 		await assignedTask.save();
 		student.addTask(assignedTask);
 		task.addStudent(student);
@@ -281,7 +280,7 @@ router.patch('/:te_id/student/:st_id/complete/:t_id', async (req, res) => {
 });
 
 // Rejecting completion of a student's task (t_id must be instanceof AssignedTask|RejectedTask)
-router.get('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
+router.patch('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
 	try {
 		const teacher = await getResource(
 			req.params.te_id,
@@ -298,7 +297,7 @@ router.get('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
 			throw new Error(`That student doesn't have a task with that id`);
 		}
 
-		// Create completed task.
+		// Create rejected task.
 		const rejectedTask = new RejectedTask(task.toNewObject());
 		await rejectedTask.save();
 		student.removeTask(task);
@@ -323,6 +322,55 @@ router.get('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
 		});
 
 		res.json(createResponse(rejectedTask));
+	} catch (error) {
+		logError(error);
+		res.json(createResponse(error));
+	}
+});
+
+// Distributing a reward to a student
+router.patch('/:te_id/student/:st_id/distribute/:r_id', async (req, res) => {
+	try {
+		const teacher = await getResource(
+			req.params.te_id,
+			Teacher.findById.bind(Teacher)
+		);
+
+		const student = await teacher.getStudent(req.params.st_id);
+		if (!student) {
+			throw new Error(`That teacher doesn't have a student with that id`);
+		}
+
+		const reward = teacher.getReward(req.params);
+		if (!reward) {
+			throw new Error(`That teacher doesn't have a reward with that id`);
+		}
+
+		const rewardType = [LootReward, PointReward].find(r => reward instanceof r);
+		if (!rewardType) {
+			throw new Error(`Invalid reward type`);
+		}
+
+		// Clone reward and add to the students list.
+		const newReward = new rewardType(reward.toNewObject());
+		await newReward.save();
+		student.addReward(newReward);
+
+		// Create log events.
+		logEvent(RewardEvent, {
+			message: Messages.TEMPLATE_REWARD_DISTRIBUTE,
+			owner: req.user,
+			user: student,
+			reward: newReward
+		});
+
+		logEvent(MessageEvent, {
+			body: Messages.TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG,
+			message: Messages.TEMPLATE_SEND_MESSAGE,
+			owner: req.user,
+			user: student,
+			reward: newReward
+		});
 	} catch (error) {
 		logError(error);
 		res.json(createResponse(error));
