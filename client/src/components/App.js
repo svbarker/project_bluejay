@@ -21,8 +21,9 @@ const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
 class App extends Component {
   componentDidMount() {
+    console.log("STATUS:", this.props.loading);
     //for testing porpoises
-    const userType = "Student";
+    const userType = "Teacher";
     //const userType = "Student";
     if (userType === "Teacher") {
       this.props.loginTeacher();
@@ -33,7 +34,7 @@ class App extends Component {
 
   render() {
     console.log(this.props.user);
-    const userType = "Student";
+    const userType = "Teacher";
 
     if (userType === "Teacher") {
       return (
@@ -45,7 +46,12 @@ class App extends Component {
                 {/* do some login checking here */}
                 <Route exact path="/" component={DashboardMenu} />
                 <Route path="/students" component={StudentView} />
-                <Route path="/tasks" component={TaskListContainer} />
+                <Route
+                  path="/tasks"
+                  component={() => (
+                    <TaskListContainer userId={this.props.user.id} />
+                  )}
+                />
                 <Route path="/rewards" component={StudentRewards} />
                 <Route path="/report" component={() => <h1>Reports</h1>} />
                 <Route
@@ -67,7 +73,12 @@ class App extends Component {
               <Switch>
                 {/* do some login checking here */}
                 <Route exact path="/" component={StudentDashboardMenu} />
-                <Route path="/tasks" component={StudentTaskListContainer} />
+                <Route
+                  path="/tasks"
+                  component={() => (
+                    <StudentTaskListContainer userId={this.props.user.id} />
+                  )}
+                />
                 <Route path="/rewards" component={StudentRewards} />
                 <Route
                   path="/notifications"
