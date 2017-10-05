@@ -228,7 +228,6 @@ router.patch("/:te_id/classroom/:cl_id/assign/:t_id", async (req, res) => {
 });
 
 // Confirming completion of a student's task (t_id must be instanceof AssignedTask|RejectedTask)
-
 router.patch("/:te_id/student/:st_id/confirmTask/:t_id", async (req, res) => {
 	try {
 		const teacher = await getResource(
@@ -339,7 +338,6 @@ router.patch("/:te_id/student/:st_id/confirmReward/:t_id", async (req, res) => {
 });
 
 // Rejecting completion of a student's task (t_id must be instanceof AssignedTask|RejectedTask)
-
 router.patch("/:te_id/student/:st_id/rejectTask/:t_id", async (req, res) => {
 	try {
 		const teacher = await getResource(

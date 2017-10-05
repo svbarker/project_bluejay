@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 //components
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
+import Undoable from "../../components/Undoable";
 import LoadScreen from "../../components/LoadScreen";
 import Paper from "material-ui/Paper";
 import FlatButton from "material-ui/FlatButton";
@@ -90,10 +91,9 @@ class TeacherRewards extends React.Component {
             <p>Cost: {reward.cost || reward.value || "None"}</p>
             <p>Available: {reward.available ? "YES" : "NO"}</p>
             <p>Supply: {reward.supply || "Unlimited"}</p>
-            <FlatButton
-              onClick={() => this.props.removeReward(reward._id)}
-              label="delete"
-            />
+            <Undoable resolve={() => this.props.removeReward(reward._id)}>
+              <FlatButton label="delete" />
+            </Undoable>
             <FlatButton
               onClick={() => this.onToggleAvailability(reward)}
               label={reward.available ? "Make Unavailable" : "Make Available"}
