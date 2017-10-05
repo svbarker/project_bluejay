@@ -29,7 +29,7 @@ class StudentList extends Component {
 	render() {
 		console.log(this.props);
 		return (
-			<div>
+			<div className="students-container">
 				<span>Current Class: </span>
 				<DropDownMenu
 					value={this.state.classIndex}
