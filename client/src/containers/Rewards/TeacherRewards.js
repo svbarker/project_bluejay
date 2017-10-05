@@ -46,9 +46,11 @@ class TeacherRewards extends React.Component {
   onToggleAvailability = async reward => {
     //
     reward.available = !reward.available;
-    console.log("reward = ", reward);
+    // console.log("reward = ", reward);
     this.props.updateReward(reward._id, { updates: { status: "YES" } });
-    // this.props.updateReward(reward._id, { updates: { available: reward.available } });
+    // this.props.updateReward(reward._id, {
+    //   updates: { available: reward.available }
+    // });
     return null;
   };
   render = () => {
