@@ -17,31 +17,32 @@ class StudentTaskListMenuCard extends React.Component {
     const { markCompleted, user } = this.props;
 
     return (
-      <Card style={{ "margin-bottom": "10px" }}>
+      <Card style={{ "margin-bottom": "20px", "background-color": "#85DCDC" }}>
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
+          title={title}
           style={{
-            "background-color": "#1a8484",
-            color: "white"
+            "background-color": "#1a8484"
           }}
           iconStyle={{ color: "white" }}
-        >
-          {title} {value}
-        </CardHeader>
+          titleStyle={{ color: "white", "font-weight": "bold" }}
+        />
         <CardText expandable={true}>
-          <div class="menu-card-container">
-            <p>{description}</p>
-            <div className="menu-card-button-container">
-              <FlatButton
-                label="Mark Completed"
-                style={{ color: "rgb(255,255,255)" }}
-                onClick={markCompleted(user._id, _id)}
-                backgroundColor="#1a8484"
-                hoverColor="#3ca6a6"
-              />
+          <Paper style={{ padding: "20px" }}>
+            <div class="menu-card-container">
+              <p>{description}</p>
+              <div className="menu-card-button-container">
+                <FlatButton
+                  label="Mark Completed"
+                  style={{ color: "rgb(255,255,255)" }}
+                  onClick={markCompleted(user._id, _id)}
+                  backgroundColor="#1a8484"
+                  hoverColor="#3ca6a6"
+                />
+              </div>
             </div>
-          </div>
+          </Paper>
         </CardText>
       </Card>
     );

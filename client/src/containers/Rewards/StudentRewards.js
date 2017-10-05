@@ -105,7 +105,10 @@ class StudentRewards extends React.Component {
     /////////IF THE USER IS THE TEACHER
     const rewards = this.props.rewardOptions.map(reward => {
       return (
-        <Card className="reward-container">
+        <Card
+          className="reward-container"
+          style={{ "background-color": "#D8F996" }}
+        >
           <CardHeader
             title={reward.title}
             subtitle={`costs ${reward.cost || reward.value || "None"}`}
@@ -117,32 +120,34 @@ class StudentRewards extends React.Component {
             style={{ hoverColor: "none" }}
             expandable={true}
           >
-            <p>Description: {reward.description || "None"}</p>
-            <p>Kind of reward: {reward.cost ? "Loot" : "Point"}</p>
-            <p>Cost: {reward.cost || reward.value || "None"}</p>
-            <p>Available: {reward.available ? "YES" : "NO"}</p>
-            <p>Supply: {reward.supply || "Unlimited"}</p>
-            <Undoable
-              disabled={this.props.user.points < reward.cost ? true : false}
-              resolve={() => this.onPurchase(reward)}
-              wait={2}
-            >
-              <FlatButton
-                // onClick={() => this.onPurchase(reward)}
+            <Paper style={{ padding: "20px" }}>
+              <p>Description: {reward.description || "None"}</p>
+              <p>Kind of reward: {reward.cost ? "Loot" : "Point"}</p>
+              <p>Cost: {reward.cost || reward.value || "None"}</p>
+              <p>Available: {reward.available ? "YES" : "NO"}</p>
+              <p>Supply: {reward.supply || "Unlimited"}</p>
+              <Undoable
                 disabled={this.props.user.points < reward.cost ? true : false}
-                primary={this.props.user.points > reward.cost ? true : false}
-                label="purchase"
-              />
-            </Undoable>
+                resolve={() => this.onPurchase(reward)}
+                wait={2}
+              >
+                <FlatButton
+                  // onClick={() => this.onPurchase(reward)}
+                  disabled={this.props.user.points < reward.cost ? true : false}
+                  primary={this.props.user.points > reward.cost ? true : false}
+                  label="purchase"
+                />
+              </Undoable>
+            </Paper>
           </CardText>
         </Card>
       );
     });
     return (
-      <Paper className="reward-container center">
+      <Paper className="reward-container outer" style={{ padding: "20px" }}>
         {/* header */}
         <div className="reward-card-title">
-          <h1>{this.props.user.displayName}'s Rewards</h1>
+          <h2>{this.props.user.displayName}'s Rewards</h2>
           {/* <div onClick={this.onCreateReward}>
             <i class="fa fa-plus" aria-hidden="true" />
           </div> */}
