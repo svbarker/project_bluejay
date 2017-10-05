@@ -28,5 +28,11 @@ const RewardSchema = new mongoose.Schema(
 	}
 );
 
+RewardSchema.methods.toNewObject = function() {
+	const newObj = this.toObject();
+	delete newObj._id;
+	return newObj;
+};
+
 const Reward = mongoose.model('Reward', RewardSchema);
 module.exports = Reward;
