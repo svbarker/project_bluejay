@@ -29,7 +29,7 @@ class StudentList extends Component {
 	render() {
 		console.log(this.props);
 		return (
-			<div>
+			<div className="students-container">
 				<span>Current Class: </span>
 				<DropDownMenu
 					value={this.state.classIndex}
@@ -39,11 +39,14 @@ class StudentList extends Component {
 						<MenuItem value={i} primaryText={classroom.title} />
 					))}
 				</DropDownMenu>
-				<ClassAssign currentClass={this.state.currentClass} />
+				<ClassAssign
+					currentClass={this.state.currentClass}
+					teacherId={this.props.teacherId}
+				/>
 				<div className="student-card-container">
 					{!this.props.students ? null : (
 						this.props.students.map(student => (
-							<StudentCard student={student} />
+							<StudentCard student={student} teacherId={this.props.teacherId} />
 						))
 					)}
 				</div>

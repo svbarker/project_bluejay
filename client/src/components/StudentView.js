@@ -9,7 +9,7 @@ const StudentView = () => {
 	return (
 		<div className="student-view-container">
 			<StudentListContainer />
-			<div>
+			<div className="assignables-container">
 				<h2>Drag and drop to assign</h2>
 				<TaskAssignListContainer />
 				<RewardAssignListContainer />

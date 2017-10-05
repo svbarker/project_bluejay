@@ -10,7 +10,7 @@ const StudentDashboardMenu = () => {
   return (
     <div>
       <h1>Student Dashboard</h1>
-      <Paper id="student-dashboard" className="dashboard-menu">
+      <Paper id="student-dashboard" className="student-dashboard-menu">
         <Link to="/tasks">
           <Paper id="dashboard-menu-item2" className="dashboard-menu-item">
             <div className="dashboard-menu-grid">
