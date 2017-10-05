@@ -15,6 +15,16 @@ store = {
       description:
     }
   ]
+  //list of rewards that teachers are offering for a student
+  rewardOptions: [
+    {reward},
+    {reward}
+  ],
+  
+  rewards: [
+    {reward},
+    {reward}
+  ]
   tasks: [],
   student: [],
   isFetching: false,

@@ -8,7 +8,7 @@ const iconStyles = { marginTop: "25px", color: "#507c0c" };
 const getListItemStyle = n => ({
   margin: "50px 150px",
   paddingBottom: "20px",
-  border: `20px solid ${n.kind === "TaskEvent"
+  border: `20px solid ${n.task
     ? "rgba( 26,132,132,.2)"
     : "rgba(150,205, 40,.2)"}`
 });
@@ -25,29 +25,25 @@ const getIcon = n => {
     <i
       style={{
         ...iconStyles,
-        color: n.kind === "TaskEvent" ? "#1A8484 " : "#96CD28"
+        color: n.task ? "#1A8484 " : "#96CD28"
       }}
-      className={`${n.kind === "TaskEvent"
-        ? "fa fa-tasks"
-        : "fa fa-gift"} fa-2x`}
+      className={`${n.task ? "fa fa-tasks" : "fa fa-gift"} fa-2x`}
     />
   );
 };
 
 const getButton = (notification, userId, handler, action) => {
-  const taskId =
-    notification.kind === "TaskEvent"
-      ? notification.task._id
-      : notification.reward._id;
+  const taskId = notification.task
+    ? notification.task._id
+    : notification.reward._id;
   const getBackgroundColor = () => {
     if (action === "Accept") {
-      return notification.kind === "TaskEvent"
-        ? "rgba( 26,132,132,1)"
-        : "rgba(150,205, 40,1)";
+      return notification.task ? "rgba( 26,132,132,1)" : "rgba(150,205, 40,1)";
     } else {
       return "rgba(220, 43, 43,.8)";
     }
   };
+  const kind = notification.task ? "task" : "reward";
   return (
     <RaisedButton
       backgroundColor={getBackgroundColor()}
@@ -59,7 +55,8 @@ const getButton = (notification, userId, handler, action) => {
         userId,
         notification.owner._id,
         taskId,
-        notification._id
+        notification._id,
+        kind
       )}
     />
   );
@@ -81,7 +78,7 @@ const getActionIcon = type => {
 
 const getPendingMainText = (pendingType, n, undo, timeLeft) => (
   <span>
-    {`You ${pendingType} this ${n.kind === "TaskEvent" ? "task." : "reward."} `}
+    {`You ${pendingType} this ${n.task ? "task." : "reward."} `}
     <span
       onClick={undo(n._id)}
       style={{ color: "blue", textDecoration: "underline" }}
@@ -93,16 +90,14 @@ const getPendingMainText = (pendingType, n, undo, timeLeft) => (
 );
 
 const getMainText = n =>
-  `${n.owner.profile.fname} ${n.owner.profile.lname} ${n.kind === "TaskEvent"
+  `${n.owner.profile.fname} ${n.owner.profile.lname} ${n.task
     ? `completed this task:`
-    : `redeemed this reward:`} ${n.kind === "TaskEvent"
-    ? n.task.title
-    : n.reward.title}`;
+    : `redeemed this reward:`} ${n.task ? n.task.title : n.reward.title}`;
 
 const getSecondaryText = n => `${n.owner.profile.fname} says: ${n._message}`;
 
 const getHoverColor = n =>
-  n.kind === "TaskEvent" ? "rgba( 26,132,132,.2)" : "rgba(150,205, 40,.2)";
+  n.task ? "rgba( 26,132,132,.2)" : "rgba(150,205, 40,.2)";
 
 const Notifications = ({
   notifications,
@@ -140,14 +135,14 @@ const Notifications = ({
           primaryText: getMainText(n),
           secondaryText: getSecondaryText(n),
           hoverColor: getHoverColor(n),
-          onClick: takeToItem(n.kind, n._id),
+          onClick: takeToItem(n.task, n._id),
           secondaryTextLines: 2,
           leftIcon: getIcon(n),
           style: getListItemStyle(n),
           rightIcon: (
             <div style={listItemButtonsStyle}>
-              {getButton(n, user._id, acceptEvent, "Accept")}
-              {getButton(n, user._id, rejectEvent, "Reject")}
+              {getButton(n, user.id, acceptEvent, "Accept")}
+              {getButton(n, user.id, rejectEvent, "Reject")}
             </div>
           )
         };

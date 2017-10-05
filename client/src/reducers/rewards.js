@@ -3,6 +3,7 @@ import {
   GET_ONE_REWARD,
   ADD_REWARD,
   UPDATE_REWARD,
+  REDEEM_REWARD,
   REMOVE_REWARD
 } from "../actions/rewards";
 
