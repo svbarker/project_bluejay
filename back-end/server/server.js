@@ -47,5 +47,7 @@ io.on("connection", require("./sockets"));
 
 // start server
 process.env.NODE_ENV === "production"
-  ? server.listen(configs.port, configs.serverCallback)
-  : server.listen(configs.port, configs.host, configs.serverCallback);
+	? server.listen(configs.port, configs.serverCallback)
+	: server.listen(configs.port, configs.host, configs.serverCallback);
+
+module.exports = socketMap;
