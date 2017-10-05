@@ -3,7 +3,7 @@ import { loadStudents } from "../actions/student";
 import StudentList from "../components/StudentList";
 
 const mapStateToProps = state => {
-	console.log(state);
+	console.log("Student List state: ", state);
 	return {
 		teacherId: state.user.id,
 		students: state.students,
