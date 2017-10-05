@@ -22,7 +22,10 @@ module.exports = {
 			success: isError ? false : true
 		};
 		if (isError) {
-			response.apiError = data.message;
+			response.apiError = {
+				message: data.message,
+				stack: data.stack
+			};
 		} else {
 			response.apiData = data;
 		}

@@ -8,6 +8,7 @@ const {
 	Profile,
 	Classroom,
 	Task,
+	AssignedTask,
 	PointReward,
 	LootReward
 } = models;
@@ -139,18 +140,18 @@ mongooseeder.seed({
 
 		classrooms[0].students = [...students];
 		classrooms[1].students = [...students];
-		students = students.map(student => {
-			student.classrooms = [classrooms[0], classrooms[1]];
-			student.tasks = [tasks[1], tasks[2], tasks[3]];
-			student.rewards = [...rewards];
-			return student;
-		});
 
 		teachers = teachers.map(teacher => {
 			teacher.classrooms = [classrooms[0], classrooms[1]];
 			teacher.tasks = [...tasks];
 			teacher.rewards = [...rewards];
 			return teacher;
+		});
+
+		students = students.map(student => {
+			student.classrooms = [classrooms[0], classrooms[1]];
+			student.rewards = [...rewards];
+			return student;
 		});
 
 		const promiseArr = [];

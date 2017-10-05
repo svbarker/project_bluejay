@@ -33,7 +33,7 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.user);
+    const userType = "Teacher";
 
     if (userType === "Teacher") {
       return (

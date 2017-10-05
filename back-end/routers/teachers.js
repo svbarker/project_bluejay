@@ -117,7 +117,7 @@ router.get('/:id/tasks', async (req, res) => {
 	}
 });
 
-// Assigning a task to a student
+// Assigning a task to a student (t_id must be instanceof Task)
 router.patch('/:te_id/student/:st_id/assign/:t_id', async (req, res) => {
 	try {
 		const teacher = await getResource(
@@ -141,6 +141,7 @@ router.patch('/:te_id/student/:st_id/assign/:t_id', async (req, res) => {
 
 		// Create new assigned task from root task.
 		let assignedTask = new AssignedTask(task.toNewObject());
+		console.log('ASSIGNED TASK:', assignedTask);
 		await assignedTask.save();
 		student.addTask(assignedTask);
 		task.addStudent(student);
@@ -161,14 +162,14 @@ router.patch('/:te_id/student/:st_id/assign/:t_id', async (req, res) => {
 			task: assignedTask
 		});
 
-		res.json(createResponse());
+		res.json(createResponse(assignedTask));
 	} catch (error) {
 		logError(error);
 		res.json(createResponse(error));
 	}
 });
 
-// Assigning a task to a classroom
+// Assigning a task to a classroom (t_id must be instanceof Task)
 router.patch('/:te_id/classroom/:cl_id/assign/:t_id', async (req, res) => {
 	try {
 		const teacher = await getResource(
@@ -189,9 +190,7 @@ router.patch('/:te_id/classroom/:cl_id/assign/:t_id', async (req, res) => {
 		// Pull students from classroom.
 		const studentsAssigned = [];
 		const students = await classroom.getPopulatedStudents();
-		console.log(students);
 		students.forEach(async student => {
-			console.log(student);
 			if (student.hasTask(task)) return;
 
 			studentsAssigned.push(student);
@@ -226,32 +225,40 @@ router.patch('/:te_id/classroom/:cl_id/assign/:t_id', async (req, res) => {
 	}
 });
 
-// Confirming completion of a student's task
-router.get('/:te_id/student/:st_id/complete/:t_id', async (req, res) => {
+// Confirming completion of a student's task (t_id must be instanceof AssignedTask|RejectedTask)
+router.patch('/:te_id/student/:st_id/complete/:t_id', async (req, res) => {
 	try {
 		const teacher = await getResource(
 			req.params.te_id,
 			Teacher.findById.bind(Teacher)
 		);
 
-		const student = teacher.getStudent(req.params.st_id);
+		const student = await teacher.getStudent(req.params.st_id);
 		if (!student) {
 			throw new Error(`That teacher doesn't have a student with that id`);
 		}
 
-		const task = student.getTask(req.params.t_id);
+		const task = student.getTask(req.params.t_id); // Assigned or RejectedTask
 		if (!task) {
 			throw new Error(`That student doesn't have a task with that id`);
+		}
+
+		if (!(task instanceof AssignedTask) || !(task instanceof RejectedTask)) {
+			throw new Error(
+				`You can only complete tasks that are assigned or rejected`
+			);
 		}
 
 		// Create completed task.
 		const completedTask = new CompletedTask(task.toNewObject());
 		await completedTask.save();
-		student.replaceTask(req.params.t_id, completedTask);
-		task.removeStudent(student);
+		student.removeTask(task);
+		await task.remove();
+		student.addTask(completedTask);
+		task.removeStudent(teacher.getTaskByTitle(completedTask));
 
 		// Create log events.
-		logEvent(UserEvent, {
+		logEvent(TaskEvent, {
 			message: Messages.TEMPLATE_TASK_CONFIRM_COMPLETION,
 			owner: req.user,
 			user: student,
@@ -265,13 +272,15 @@ router.get('/:te_id/student/:st_id/complete/:t_id', async (req, res) => {
 			user: student,
 			task
 		});
+
+		res.json(createResponse(completedTask));
 	} catch (error) {
-		logError(erro);
+		logError(error);
 		res.json(createResponse(error));
 	}
 });
 
-// Rejecting completion of a student's task
+// Rejecting completion of a student's task (t_id must be instanceof AssignedTask|RejectedTask)
 router.get('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
 	try {
 		const teacher = await getResource(
@@ -279,7 +288,7 @@ router.get('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
 			Teacher.findById.bind(Teacher)
 		);
 
-		const student = teacher.getStudent(req.params.st_id);
+		const student = await teacher.getStudent(req.params.st_id);
 		if (!student) {
 			throw new Error(`That teacher doesn't have a student with that id`);
 		}
@@ -288,12 +297,16 @@ router.get('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
 		if (!task) {
 			throw new Error(`That student doesn't have a task with that id`);
 		}
-		// Create rejected task.
-		const rejectedTask = new RejectedTask(task.toNewObject());
-		student.replaceTask(req.params.t_id, rejectedTask);
 
-		// Create log event.
-		logEvent(UserEvent, {
+		// Create completed task.
+		const rejectedTask = new RejectedTask(task.toNewObject());
+		await rejectedTask.save();
+		student.removeTask(task);
+		student.addTask(rejectedTask);
+		task.removeStudent(teacher.getTaskByTitle(rejectedTask));
+
+		// Create log events.
+		logEvent(TaskEvent, {
 			message: Messages.TEMPLATE_TASK_REJECT_COMPLETION,
 			owner: req.user,
 			user: student,
@@ -301,22 +314,20 @@ router.get('/:te_id/student/:st_id/reject/:t_id', async (req, res) => {
 		});
 
 		logEvent(MessageEvent, {
+			body: Messages.TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG,
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
 			user: student,
-			task,
-			body: Messages.TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG
+			task
 		});
 
-		res.json(createResponse());
+		res.json(createResponse(rejectedTask));
 	} catch (error) {
-		logError(erro);
+		logError(error);
 		res.json(createResponse(error));
 	}
 });
-// Teacher: 59d52bfec574836cb7250eca
-// Student: 59d52bfec574836cb7250ec8
-// Task: 59d52bffc574836cb7250eec
+
 // reading a teacher's reward(s)
 router.get('/:id/rewards', async (req, res) => {
 	console.log('id = ', req.params.id);
