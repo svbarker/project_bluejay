@@ -19,10 +19,10 @@ class NotificationsContainer extends React.Component {
   }
 
   takeToItem = (item, id) => () => {
-    this.props.history.push(`/${item === "TaskEvent" ? "task" : "reward"}s`);
+    this.props.history.push(`/${item ? "task" : "reward"}s`);
   };
 
-  handleAction = action => (t_id, s_id, ta_id, n_id) => e => {
+  handleAction = action => (t_id, s_id, ta_id, n_id, type) => e => {
     e.stopPropagation();
     this.setState({
       pendingActions: [
@@ -42,7 +42,7 @@ class NotificationsContainer extends React.Component {
         ...this.state.actionTimeouts.filter(t => t.eventId !== n_id),
         {
           timeout: setTimeout(() => {
-            this.props[`${action}Event`](t_id, s_id, ta_id, n_id);
+            this.props[`${action}Event`](t_id, s_id, ta_id, n_id, type);
             this.setState({
               pendingActions: this.state.pendingActions.filter(
                 a => a.id !== n_id
@@ -78,6 +78,7 @@ class NotificationsContainer extends React.Component {
 
   componentDidMount() {
     this.props.hydrateNotifications(this.props.user.id);
+    window.addEventListener("onbeforeunload", this.componentWillUnmount);
   }
 
   componentWillUnmount() {
@@ -110,7 +111,6 @@ const mapStateToProps = state => {
     notifications: [
       {
         _message: "Thanks for giving me this task to complete!",
-        kind: "TaskEvent",
         _id: "1",
         owner: {
           profile: {
@@ -124,7 +124,6 @@ const mapStateToProps = state => {
       },
       {
         _message: "I love this awesome reward!",
-        kind: "RewardEvent",
         _id: "2",
         owner: {
           profile: {
@@ -138,7 +137,6 @@ const mapStateToProps = state => {
       },
       {
         _message: "Thanks for giving me this task to complete!",
-        kind: "TaskEvent",
         _id: "3",
         owner: {
           profile: {
@@ -152,7 +150,6 @@ const mapStateToProps = state => {
       },
       {
         _message: "I love this awesome reward!",
-        kind: "RewardEvent",
         _id: "4",
         owner: {
           profile: {
@@ -170,11 +167,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    confirmEvent: (t_id, s_id, ta_id, n_id) => {
-      dispatch(acceptEvent(t_id, s_id, ta_id, n_id));
+    confirmEvent: (t_id, s_id, ta_id, n_id, type) => {
+      dispatch(acceptEvent(t_id, s_id, ta_id, n_id, type));
     },
-    rejectEvent: (t_id, s_id, ta_id, n_id) => {
-      dispatch(rejectEvent(t_id, s_id, ta_id, n_id));
+    rejectEvent: (t_id, s_id, ta_id, n_id, type) => {
+      dispatch(rejectEvent(t_id, s_id, ta_id, n_id, type));
     },
     hydrateNotifications: id => {
       dispatch(fetchNotifications(id));
