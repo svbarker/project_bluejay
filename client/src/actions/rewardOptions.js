@@ -25,7 +25,6 @@ export const getStudentRewardOptions = classrooms => async dispatch => {
       });
     });
     let allResponses = await Promise.all(promiseOfRewards);
-    console.log("responses = ", allResponses);
     allResponses = allResponses.map(response => response.json());
     let allRewards = await Promise.all(allResponses);
     allRewards = allRewards.map(response => response.apiData);

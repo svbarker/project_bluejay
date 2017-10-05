@@ -169,7 +169,6 @@ class StudentRewards extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log("state in rewards  = ", state);
   return {
     user: state.user,
     rewards: state.rewards,
