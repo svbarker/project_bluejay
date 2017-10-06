@@ -54,5 +54,5 @@ class ClassAssign extends Component {
 		);
 	}
 }
-
+console.log("Class target: ", classTarget);
 export default DropTarget("assignable", classTarget, collect)(ClassAssign);

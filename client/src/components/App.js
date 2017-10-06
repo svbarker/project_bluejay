@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { withRouter } from "react-router";
 
 //Components
+import Login from "./Login";
 import DashboardMenu from "./DashboardMenu";
 import StudentDashboardMenu from "./StudentDashboardMenu";
 import NotificationsContainer from "../containers/NotificationsContainer";
@@ -20,8 +21,8 @@ import connect from "socket.io-client";
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
-const userType = "Student";
-// const userType = "Teacher";
+// const userType = "Student";
+const userType = "Teacher";
 
 class App extends Component {
   constructor(props) {
@@ -63,6 +64,8 @@ class App extends Component {
                   component={NotificationsContainer}
                 />
                 {/* <Route path="/" component={PageNotFound} /> */}
+                {/* Testing a login route over here */}
+                <Route path="/login" component={() => <Login />} />
               </Switch>
             </div>
           </Router>
