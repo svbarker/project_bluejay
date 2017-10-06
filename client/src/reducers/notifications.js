@@ -8,7 +8,7 @@ export const notificationInitState = [];
 const notifications = (state = [], action) => {
   switch (action.type) {
     case GET_ALL_NOTIFICATIONS:
-      return action.data;
+      return [...action.data];
     case REMOVE_NOTIFICATION:
       return state.notifications.filter(
         notification => notification.id !== action.data

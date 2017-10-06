@@ -3,7 +3,6 @@ import * as student from "./student";
 import * as task from "./task";
 import * as user from "./user";
 import * as classrooms from "./classrooms";
-import { emitLogin } from "../helpers/sockets";
 
 export const START_REQUEST = "START_REQUEST";
 export const FAILURE_REQUEST = "FAILURE_REQUEST";
@@ -21,7 +20,7 @@ export const failedRequest = error => {
   };
 };
 
-export const loginTeacher = () => async dispatch => {
+export const loginTeacher = socket => async dispatch => {
   console.log("LOGGING IN AS A TEACHER");
   try {
     const response = await fetch("/sessions", {
@@ -37,6 +36,7 @@ export const loginTeacher = () => async dispatch => {
     if (!teacher.success) {
       throw new Error("Something went wrong with your request.");
     }
+
     console.log("teacher = ", teacher);
     const userObj = {
       id: teacher.apiData._id,
@@ -44,7 +44,7 @@ export const loginTeacher = () => async dispatch => {
       displayName: teacher.apiData.profile.displayName
     };
 
-    emitLogin(userObj.id);
+    socket.emit("login", userObj.id);
     dispatch(user.setUser(userObj));
     dispatch(classrooms.getClassrooms(teacher.apiData.classrooms));
   } catch (error) {
@@ -53,7 +53,7 @@ export const loginTeacher = () => async dispatch => {
 };
 
 //placeholder
-export const loginStudent = () => async dispatch => {
+export const loginStudent = socket => async dispatch => {
   console.log("LOGGING IN AS A STUDENT");
   try {
     const response = await fetch("/sessions", {
@@ -77,7 +77,7 @@ export const loginStudent = () => async dispatch => {
     };
     console.log("logged in as ", loggedInUser);
 
-    emitLogin(userObj.id);
+    socket.emit("login", userObj.id);
     dispatch(user.setUser(userObj));
     dispatch(classrooms.getClassrooms(loggedInUser.apiData.classrooms));
   } catch (error) {

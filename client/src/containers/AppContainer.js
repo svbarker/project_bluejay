@@ -3,11 +3,11 @@ import App from "../components/App";
 import { loginTeacher, loginStudent } from "../actions";
 
 const mapDispatchToProps = dispatch => ({
-  loginTeacher: () => {
-    dispatch(loginTeacher());
+  loginTeacher: socket => {
+    dispatch(loginTeacher(socket));
   },
-  loginStudent: () => {
-    dispatch(loginStudent());
+  loginStudent: socket => {
+    dispatch(loginStudent(socket));
   }
 });
 

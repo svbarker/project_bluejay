@@ -9,8 +9,9 @@ module.exports = io => client => {
 		);
 	});
 
-	client.on("assign", async data => {
+	client.on("SEND_NOTIFICATION", async data => {
+		console.log("Notification received...");
 		const student = await User.findById(data);
-		io.to(student.socketId).emit("notification");
+		io.to(student.socketId).emit("REFRESH_NOTIFICATIONS");
 	});
 };
