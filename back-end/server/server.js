@@ -43,9 +43,9 @@ app.use("/sessions", require("../routers/sessions"));
 app.use("/api/:resource", require("../routers")(io));
 
 // web sockets
-io.on("connection", require("./sockets"));
+io.on("connection", require("./sockets")(io));
 
 // start server
 process.env.NODE_ENV === "production"
-  ? server.listen(configs.port, configs.serverCallback)
-  : server.listen(configs.port, configs.host, configs.serverCallback);
+	? server.listen(configs.port, configs.serverCallback)
+	: server.listen(configs.port, configs.host, configs.serverCallback);

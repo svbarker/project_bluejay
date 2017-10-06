@@ -3,6 +3,7 @@ import * as student from "./student";
 import * as task from "./task";
 import * as user from "./user";
 import * as classrooms from "./classrooms";
+import { emitLogin } from "../helpers/sockets";
 
 export const START_REQUEST = "START_REQUEST";
 export const FAILURE_REQUEST = "FAILURE_REQUEST";
@@ -43,6 +44,7 @@ export const loginTeacher = () => async dispatch => {
       displayName: teacher.apiData.profile.displayName
     };
 
+    emitLogin(userObj.id);
     dispatch(user.setUser(userObj));
     dispatch(classrooms.getClassrooms(teacher.apiData.classrooms));
   } catch (error) {
@@ -74,6 +76,8 @@ export const loginStudent = () => async dispatch => {
       displayName: loggedInUser.apiData.profile.displayName
     };
     console.log("logged in as ", loggedInUser);
+
+    emitLogin(userObj.id);
     dispatch(user.setUser(userObj));
     dispatch(classrooms.getClassrooms(loggedInUser.apiData.classrooms));
   } catch (error) {
