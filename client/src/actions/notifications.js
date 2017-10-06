@@ -24,7 +24,22 @@ export const fetchNotifications = id => async dispatch => {
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
-    dispatch(getAllNotifications(response));
+    dispatch(getAllNotifications(response.apiData));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchStudentNotifications = id => async dispatch => {
+  try {
+    let response = await fetch(`/api/students/${id}/notifications`, {
+      method: "GET"
+    });
+    response = await response.json();
+    if (!response.success) {
+      throw new Error(response.apiError.message);
+    }
+    dispatch(getAllNotifications(response.apiData));
   } catch (error) {
     console.log(error);
   }

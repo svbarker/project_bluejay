@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import {
   acceptEvent,
   rejectEvent,
-  fetchNotifications
+  fetchStudentNotifications
 } from "../actions/notifications";
 
 class NotificationsContainer extends React.Component {
@@ -34,64 +34,7 @@ class NotificationsContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    notifications: [
-      {
-        _message: "Great job!",
-        kind: "TaskEvent",
-        _id: "1",
-        owner: {
-          profile: {
-            fname: "The teacher",
-            lname: ""
-          }
-        },
-        task: {
-          title: "One Difficult Task"
-        }
-      },
-      {
-        _message: "Congrats!",
-        kind: "RewardEvent",
-        _id: "2",
-        owner: {
-          profile: {
-            fname: "The teacher",
-            lname: ""
-          }
-        },
-        reward: {
-          title: "One Awesome Reward"
-        }
-      },
-      {
-        _message: "Great job!",
-        kind: "TaskEvent",
-        _id: "3",
-        owner: {
-          profile: {
-            fname: "The teacher",
-            lname: ""
-          }
-        },
-        task: {
-          title: "One Difficult Task"
-        }
-      },
-      {
-        _message: "Congrats!",
-        kind: "RewardEvent",
-        _id: "4",
-        owner: {
-          profile: {
-            fname: "The teacher",
-            lname: ""
-          }
-        },
-        reward: {
-          title: "One Awesome Reward"
-        }
-      }
-    ]
+    notifications: state.notifications
   };
 };
 
@@ -104,7 +47,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(rejectEvent(t_id, s_id, ta_id, n_id));
     },
     hydrateNotifications: id => {
-      dispatch(fetchNotifications(id));
+      dispatch(fetchStudentNotifications(id));
     }
   };
 };
