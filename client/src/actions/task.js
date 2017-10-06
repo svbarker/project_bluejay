@@ -58,6 +58,22 @@ export const hydrateStudentTasks = userId => async dispatch => {
     console.log(error);
   }
 };
+export const unAssignTask = (task, studentId) => async dispatch => {
+  try {
+    let response = await fetch(`api/task/${task._id}/unassign/${studentId}`, {
+      method: "PATCH",
+      credentials: "include"
+    });
+    response = await response.json();
+    if (!response.success) {
+      throw new Error(response.apiError.message);
+    }
+    // dispatch(updateTask(t_id, response.apiData));
+  } catch (error) {
+    //dispatch error
+    console.log(error);
+  }
+};
 
 export const completeTask = (s_id, t_id) => async dispatch => {
   try {

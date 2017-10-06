@@ -1,5 +1,7 @@
 import React from "react";
 
+//components
+import Undoable from "./Undoable";
 import { Card, CardHeader, CardText } from "material-ui";
 import Dialog from "material-ui/Dialog";
 import Paper from "material-ui/Paper";
@@ -39,7 +41,11 @@ class TaskCard extends React.Component {
             <div className="menu-card-container">
               <p>{description}</p>
               <div>
-                <StudentModal students={students} />
+                <StudentModal
+                  unAssignAll={this.props.unAssignAll}
+                  unAssignOne={this.props.unAssignOne}
+                  students={students}
+                />
 
                 <div className="menu-card-button-container">
                   <RaisedButton label="Edit" />
