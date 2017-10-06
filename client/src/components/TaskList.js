@@ -18,8 +18,8 @@ const TaskList = props => {
       // console.log("students of task = ", studentsAssignedTask);
       return (
         <TaskCard
-          unAssignAll={() => {
-            props.unAssignAll(task);
+          unAssignAll={students => {
+            props.unAssignAll(task, students);
           }}
           unAssignOne={student => {
             props.unAssignOne(task, student);

@@ -5,7 +5,11 @@ import { connect } from "react-redux";
 import TaskList from "../components/TaskList";
 //actions
 import { loadStudents } from "../actions/student";
-import { hydrateTeacherTasks, unAssignTask } from "../actions/task";
+import {
+  hydrateTeacherTasks,
+  unAssignTask,
+  bulkUnassignTask
+} from "../actions/task";
 
 class TaskListContainer extends React.Component {
   constructor(props) {
@@ -59,16 +63,21 @@ class TaskListContainer extends React.Component {
   };
   //unassigment functionality passed all the way down
   //to taskCard, and StudentModal
-  onUnAssignAll = task => {
-    //call this for every student
-    // this.props.unAssignTask
-    console.log("unassignAll clicked, task = ", task);
+  onUnAssignAll = (task, students = null) => {
+    let studentIds = students.map(student => student._id);
+    this.props.bulkUnassignTask(task, studentIds);
   };
 
-  onUnAssignOne = (task, student) => {
+  onUnAssignOne = (task, studentId) => {
     //call this for the student
     // this.props.unAssignTask
-    console.log("unassignOne clicked, task = ", task, ", student = ", student);
+    console.log(
+      "unassignOne clicked, task = ",
+      task,
+      ", student = ",
+      studentId
+    );
+    this.props.unAssignTask(task, studentId);
   };
 
   render() {
@@ -107,6 +116,9 @@ const mapDispatchToProps = dispatch => {
     },
     unAssignTask: (task, studentId) => {
       dispatch(unAssignTask(task, studentId));
+    },
+    bulkUnassignTask: (task, studentIds) => {
+      dispatch(bulkUnassignTask(task, studentIds));
     }
   };
 };

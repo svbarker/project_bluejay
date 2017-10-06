@@ -136,8 +136,37 @@ router.patch("/:id", async (req, res) => {
     res.json(createResponse(error));
   }
 });
-//TODO:
-//MAKE UNASSIGN TASK FROM STUDENT ROUTE
+//STATUS: NOT INTEGRATED WITH LOGGER & || req.session things
+//UNASSIGN TASK FROM STUDENT ROUTE
+router.patch("/:id/unassign/:s_id", async (req, res) => {
+  try {
+    // Get the task.
+    let task = await getResource(req.params.id, Task.findById.bind(Task));
+
+    // Get the student.
+    let student = await getResource(
+      req.params.s_id,
+      Student.findById.bind(Student)
+    );
+    //remove student from task's list of students
+    task.students = task.students.filter(currentStudent => {
+      return currentStudent.id !== student.id;
+    });
+    await task.save();
+    //remove task from the students list of tasks
+    student.tasks = student.tasks.filter(currentTask => {
+      return currentTask.id !== task.id;
+    });
+    await student.save();
+    //assuming no errors, sending no response
+    res.json(createResponse(student.id));
+  } catch (error) {
+    logError(error);
+    res.json(createResponse(error));
+  }
+});
+
+//ASSIGN A TASK TO A STUDENT
 router.patch("/:id/assign/:s_id", async (req, res) => {
   try {
     // Get the task.

@@ -94,7 +94,11 @@ class StudentsModal extends React.Component {
           <i className="fa fa-ellipsis-h" />
         </List>
         <Dialog
-          title={<ModalTitle onClick={this.props.unAssignAll} />}
+          title={
+            <ModalTitle
+              onClick={() => this.props.unAssignAll(this.props.students)}
+            />
+          }
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
