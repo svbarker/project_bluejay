@@ -1,11 +1,19 @@
 import React from "react";
+
+//components
+import Undoable from "./Undoable";
 import Paper from "material-ui/Paper";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import { List, ListItem } from "material-ui/List";
 
 const StudentItem = ({ onClick, student }) => {
-  const unassignButton = <FlatButton label="Unassign" onClick={onClick} />;
+  const unassignButton = (
+    // <Undoable wait={2} resolve={onClick}>
+    //   <FlatButton label="Unassign" />
+    // </Undoable>
+    <FlatButton label="Unassign" onClick={onClick} />
+  );
   return (
     <ListItem
       primaryText={student.profile.displayName}
@@ -44,19 +52,23 @@ class StudentsModal extends React.Component {
     this.setState({ open: false });
   };
 
-  unassignAll = task => {
-    //
-  };
-
-  unassignOne = (task, student) => {
-    //
-  };
+  // unassignAll = task => {
+  //   //
+  // };
+  //
+  // unassignOne = (task, student) => {
+  //   //
+  // };
 
   render() {
     //check the amount and render ellipsis if necessary
     //make the expanded list items for the modal
     const listOfStudentItems = this.props.students.map(student => (
-      <StudentItem student={student} onClick={this.unassignOne} />
+      <StudentItem
+        key={student._id}
+        student={student}
+        onClick={() => this.props.unAssignOne(student._id)}
+      />
     ));
     //make the small list of names that goes into the task card,
     let nameList = [];
@@ -69,7 +81,9 @@ class StudentsModal extends React.Component {
       nameList = Array(defaultNameListSize)
         .fill(true)
         .map((nothing, idx) => (
-          <ListItem>{this.props.students[idx].profile.displayName}</ListItem>
+          <ListItem key={this.props.students[idx]._id}>
+            {this.props.students[idx].profile.displayName}
+          </ListItem>
         ));
     }
 
@@ -80,7 +94,7 @@ class StudentsModal extends React.Component {
           <i className="fa fa-ellipsis-h" />
         </List>
         <Dialog
-          title={<ModalTitle onClick={this.unassignAll} />}
+          title={<ModalTitle onClick={this.props.unAssignAll} />}
           open={this.state.open}
           onRequestClose={this.handleClose}
         >

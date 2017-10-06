@@ -5,15 +5,14 @@ import { connect } from "react-redux";
 import TaskList from "../components/TaskList";
 //actions
 import { loadStudents } from "../actions/student";
-import { hydrateTeacherTasks } from "../actions/task";
+import { hydrateTeacherTasks, unAssignTask } from "../actions/task";
 
 class TaskListContainer extends React.Component {
   constructor(props) {
     super(props);
+    //hotfix
     if (props.students.length) {
-      // console.log("have students");
       if (props.tasks.length) {
-        // console.log("have tasks");
         this.state = {
           loaded: true
         };
@@ -29,6 +28,7 @@ class TaskListContainer extends React.Component {
   }
   componentDidMount() {
     this.props.hydrateTasks(this.props.userId);
+    //hotfix
     if (!this.props.students.length) {
       if (this.props.classrooms.length) {
         this.props.classrooms.forEach(async classroom => {
@@ -55,13 +55,28 @@ class TaskListContainer extends React.Component {
 
   //when a task card is clicked hydrate the students for that task
   hydrateStudentList = task => {
-    //
+    //don't think this is needed anymore...
+  };
+  //unassigment functionality passed all the way down
+  //to taskCard, and StudentModal
+  onUnAssignAll = task => {
+    //call this for every student
+    // this.props.unAssignTask
+    console.log("unassignAll clicked, task = ", task);
+  };
+
+  onUnAssignOne = (task, student) => {
+    //call this for the student
+    // this.props.unAssignTask
+    console.log("unassignOne clicked, task = ", task, ", student = ", student);
   };
 
   render() {
     if (this.state.loaded) {
       return (
         <TaskList
+          unAssignAll={this.onUnAssignAll}
+          unAssignOne={this.onUnAssignOne}
           tasks={this.props.tasks}
           students={this.props.students}
           hydrateStudentList={this.hydrateStudentList}
@@ -89,6 +104,9 @@ const mapDispatchToProps = dispatch => {
     },
     hydrateTasks: id => {
       dispatch(hydrateTeacherTasks(id));
+    },
+    unAssignTask: (task, studentId) => {
+      dispatch(unAssignTask(task, studentId));
     }
   };
 };
