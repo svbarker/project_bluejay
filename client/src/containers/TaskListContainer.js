@@ -8,13 +8,26 @@ import { loadStudents } from "../actions/student";
 import { hydrateTeacherTasks } from "../actions/task";
 
 class TaskListContainer extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      loaded: false
-    };
+  constructor(props) {
+    super(props);
+    if (props.students.length) {
+      // console.log("have students");
+      if (props.tasks.length) {
+        // console.log("have tasks");
+        this.state = {
+          loaded: true
+        };
+      }
+      this.state = {
+        loaded: true
+      };
+    } else {
+      this.state = {
+        loaded: false
+      };
+    }
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.hydrateTasks(this.props.userId);
   }
   componentWillReceiveProps(props) {

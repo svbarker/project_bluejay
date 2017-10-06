@@ -14,7 +14,7 @@ const TaskList = ({ name, tasks, students, hydrateStudentList }) => {
       const studentsAssignedTask = task.students.map(studentId =>
         students.find(student => student._id === studentId)
       );
-      console.log("students of task = ", studentsAssignedTask);
+      // console.log("students of task = ", studentsAssignedTask);
       return (
         <TaskCard
           hydrateStudentList={() => hydrateStudentList(task)}
