@@ -24,6 +24,7 @@ export const fetchNotifications = id => async dispatch => {
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
+    dispatch(getAllNotifications(response));
   } catch (error) {
     console.log(error);
   }
@@ -37,8 +38,7 @@ export const acceptEvent = (
   type
 ) => async dispatch => {
   try {
-    console.log("type = ", type);
-    type = type[0].toUppercase().concat(type.slice(1));
+    type = type[0].toUpperCase().concat(type.slice(1));
     let response = await fetch(
       `/api/teachers/${t_id}/student/${s_id}/confirm${type}/${ta_id}`,
       { method: "PATCH" }
@@ -70,8 +70,7 @@ export const rejectEvent = (
   type
 ) => async dispatch => {
   try {
-    console.log("type = ", type);
-    type = type[0].toUppercase().concat(type.slice(1));
+    type = type[0].toUpperCase().concat(type.slice(1));
     let response = await fetch(
       `/api/teachers/${t_id}/student/${s_id}/reject${type}/${ta_id}`,
       { method: "PATCH" }

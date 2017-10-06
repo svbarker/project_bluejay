@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema(
       required: true
     },
     passwordHash: String,
+    socketId: String,
     profile: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Profile"

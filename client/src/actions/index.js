@@ -20,7 +20,7 @@ export const failedRequest = error => {
   };
 };
 
-export const loginTeacher = () => async dispatch => {
+export const loginTeacher = socket => async dispatch => {
   console.log("LOGGING IN AS A TEACHER");
   try {
     const response = await fetch("/sessions", {
@@ -36,6 +36,7 @@ export const loginTeacher = () => async dispatch => {
     if (!teacher.success) {
       throw new Error("Something went wrong with your request.");
     }
+
     console.log("teacher = ", teacher);
     const userObj = {
       id: teacher.apiData._id,
@@ -43,6 +44,7 @@ export const loginTeacher = () => async dispatch => {
       displayName: teacher.apiData.profile.displayName
     };
 
+    socket.emit("login", userObj.id);
     dispatch(user.setUser(userObj));
     dispatch(classrooms.getClassrooms(teacher.apiData.classrooms));
   } catch (error) {
@@ -51,7 +53,7 @@ export const loginTeacher = () => async dispatch => {
 };
 
 //placeholder
-export const loginStudent = () => async dispatch => {
+export const loginStudent = socket => async dispatch => {
   console.log("LOGGING IN AS A STUDENT");
   try {
     const response = await fetch("/sessions", {
@@ -74,6 +76,8 @@ export const loginStudent = () => async dispatch => {
       displayName: loggedInUser.apiData.profile.displayName
     };
     console.log("logged in as ", loggedInUser);
+
+    socket.emit("login", userObj.id);
     dispatch(user.setUser(userObj));
     dispatch(classrooms.getClassrooms(loggedInUser.apiData.classrooms));
   } catch (error) {

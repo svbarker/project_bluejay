@@ -1,6 +1,7 @@
 import React from "react";
 import Notifications from "../components/Notifications";
 import { connect } from "react-redux";
+import * as Events from "../actions/events";
 
 import {
   acceptEvent,
@@ -43,6 +44,8 @@ class NotificationsContainer extends React.Component {
         {
           timeout: setTimeout(() => {
             this.props[`${action}Event`](t_id, s_id, ta_id, n_id, type);
+            console.log("Notification props: ", this.props);
+            this.props.socket.emit(Event.SEND_NOTIFICATION, s_id);
             this.setState({
               pendingActions: this.state.pendingActions.filter(
                 a => a.id !== n_id
@@ -105,63 +108,11 @@ class NotificationsContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
+    ...ownProps,
     user: state.user,
-    notifications: [
-      {
-        _message: "Thanks for giving me this task to complete!",
-        _id: "1",
-        owner: {
-          profile: {
-            fname: "Bob",
-            lname: "Hope"
-          }
-        },
-        task: {
-          title: "One Difficult Task"
-        }
-      },
-      {
-        _message: "I love this awesome reward!",
-        _id: "2",
-        owner: {
-          profile: {
-            fname: "Bob",
-            lname: "Saget"
-          }
-        },
-        reward: {
-          title: "One Awesome Reward"
-        }
-      },
-      {
-        _message: "Thanks for giving me this task to complete!",
-        _id: "3",
-        owner: {
-          profile: {
-            fname: "Bob",
-            lname: "The Builder"
-          }
-        },
-        task: {
-          title: "One Difficult Task"
-        }
-      },
-      {
-        _message: "I love this awesome reward!",
-        _id: "4",
-        owner: {
-          profile: {
-            fname: "Bob",
-            lname: "Bob Bob Bob-Bobera Ann"
-          }
-        },
-        reward: {
-          title: "One Awesome Reward"
-        }
-      }
-    ]
+    notifications: state.notifications
   };
 };
 
