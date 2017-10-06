@@ -56,7 +56,7 @@ class TeacherNavbar extends Component {
               <li>
                 <i className="fa fa-comment" aria-hidden="true" />
               </li>
-              <h6>{this.props.notifications.length}</h6>
+              {this.props.notifications.length}
             </NavLink>
             <NavLink to="/profile">
               <li>

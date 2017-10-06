@@ -27,6 +27,7 @@ const removeTask = id => ({
 });
 
 export const hydrateTeacherTasks = userId => async dispatch => {
+  console.log("attempting to hydrate teacher tasks ");
   try {
     let response = await fetch(`api/teachers/${userId}/tasks`, {
       method: "GET",

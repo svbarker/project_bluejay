@@ -45,7 +45,7 @@ class App extends Component {
         <div className="App">
           <Router>
             <div>
-              {/* <TeacherNavbarContainerWithRouter socket={this.socket} /> */}
+              <TeacherNavbarContainerWithRouter socket={this.socket} />
               <Switch>
                 {/* do some login checking here */}
                 <Route exact path="/" component={DashboardMenu} />
@@ -73,7 +73,7 @@ class App extends Component {
         <div className="App">
           <Router>
             <div>
-              {/* <StudentNavbarContainerWithRouter socket={this.socket} /> */}
+              <StudentNavbarContainerWithRouter socket={this.socket} />
               <Switch>
                 {/* do some login checking here */}
                 <Route exact path="/" component={StudentDashboardMenu} />
