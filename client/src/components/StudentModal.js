@@ -69,7 +69,9 @@ class StudentsModal extends React.Component {
       nameList = Array(defaultNameListSize)
         .fill(true)
         .map((nothing, idx) => (
-          <ListItem>{this.props.students[idx].profile.displayName}</ListItem>
+          <ListItem key={this.props.students[idx]._id}>
+            {this.props.students[idx].profile.displayName}
+          </ListItem>
         ));
     }
 

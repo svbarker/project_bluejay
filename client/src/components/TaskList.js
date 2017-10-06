@@ -19,6 +19,7 @@ const TaskList = ({ name, tasks, students, hydrateStudentList }) => {
         <TaskCard
           hydrateStudentList={() => hydrateStudentList(task)}
           students={studentsAssignedTask}
+          key={task._id}
           task={task}
         />
       );

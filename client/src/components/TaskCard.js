@@ -28,7 +28,7 @@ class TaskCard extends React.Component {
           showExpandableButton={true}
           title={title}
           style={{
-            "background-color": "#1a8484"
+            backgroundColor: "#1a8484"
           }}
           iconStyle={{ color: "white" }}
           titleStyle={{ color: "white", fontWeight: "bold" }}

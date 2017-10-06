@@ -10,10 +10,9 @@ import { hydrateTeacherTasks } from "../actions/task";
 class TaskListContainer extends React.Component {
   constructor(props) {
     super(props);
+    //hotfix
     if (props.students.length) {
-      // console.log("have students");
       if (props.tasks.length) {
-        // console.log("have tasks");
         this.state = {
           loaded: true
         };
@@ -29,6 +28,7 @@ class TaskListContainer extends React.Component {
   }
   componentDidMount() {
     this.props.hydrateTasks(this.props.userId);
+    //hotfix
     if (!this.props.students.length) {
       if (this.props.classrooms.length) {
         this.props.classrooms.forEach(async classroom => {
@@ -55,7 +55,7 @@ class TaskListContainer extends React.Component {
 
   //when a task card is clicked hydrate the students for that task
   hydrateStudentList = task => {
-    //
+    //don't think this is needed anymore...
   };
 
   render() {
