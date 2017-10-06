@@ -3,7 +3,9 @@ import {
   GET_ONE_STUDENT,
   ADD_STUDENT,
   UPDATE_STUDENT,
-  REMOVE_STUDENT
+  REMOVE_STUDENT,
+  UNASSIGN_TASK,
+  BULK_UNASSIGN_TASK
 } from "../actions/student";
 
 export const studentInitState = [];
@@ -17,6 +19,8 @@ const students = (state = studentInitState, action) => {
     //     ...state,
     //     isFetching: true
     //   };
+    //I think add update and remove may be broken
+    //state appears to be = [{student}] not {students: [{student}]}
     case ADD_STUDENT:
       return [...state.students, action.data];
     case UPDATE_STUDENT:
@@ -25,6 +29,33 @@ const students = (state = studentInitState, action) => {
       });
     case REMOVE_STUDENT:
       return state.students.filter(student => student.id !== action.data);
+    case UNASSIGN_TASK:
+      // console.log("state in reducer = ", state);
+      //uncertain that this works
+      return state.map(student => {
+        if (student._id === action.data.studentId) {
+          student.tasks = student.tasks.filter(
+            task => task._id !== action.data.taskId
+          );
+          return student;
+        } else {
+          return student;
+        }
+      });
+    case BULK_UNASSIGN_TASK:
+      //NOT IMPLEMENTED YET
+      // return state.map(student => {
+      //   if (student._id === action.data.studentId) {
+      //     student.tasks = student.tasks.filter(
+      //       task => task._id !== action.data.taskId
+      //     );
+      //     return student;
+      //   } else {
+      //     return student;
+      //   }
+      // });
+      return state;
+
     default:
       return state;
   }
