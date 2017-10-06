@@ -24,6 +24,8 @@ export const fetchNotifications = id => async dispatch => {
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
+
+    console.log(response);
     dispatch(getAllNotifications(response.apiData));
   } catch (error) {
     console.log(error);

@@ -169,5 +169,11 @@ UserSchema.methods.removeReward = async function(reward) {
   return reward;
 };
 
+UserSchema.methods.addNotification = async function(notification) {
+  this.notifications.push(notification);
+  await this.update({ notifications: this.notifications });
+  return notification;
+};
+
 const User = mongoose.model("User", UserSchema);
 module.exports = User;

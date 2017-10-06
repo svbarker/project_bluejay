@@ -1,9 +1,10 @@
 const router = require("express").Router();
-const { Student, Profile, Classroom } = require("../models");
+const { Student, Profile, Classroom, Teacher } = require("../models");
 const { createResponse } = require("../server/util");
 const { getResource, logEvent, logError } = require("../server/util");
 const {
   UserEvent,
+  TaskEvent,
   ProfileEvent,
   Messages,
   MessageEvent
@@ -108,7 +109,6 @@ router.get("/:id/tasks", async (req, res) => {
 // completing a student's task(s)
 router.patch("/:id/complete/:t_id", async (req, res) => {
   try {
-    console.log(req.params.id);
     const student = await getResource(
       req.params.id,
       Student.findById.bind(Student)
@@ -123,20 +123,27 @@ router.patch("/:id/complete/:t_id", async (req, res) => {
       throw new Error(`That student doesn't have a task with that id`);
     }
 
+    const teacher = await getResource(
+      task.teacher,
+      Teacher.findById.bind(Teacher)
+    );
+
     // Create log events
-    logEvent(UserEvent, {
+    logEvent(TaskEvent, {
       message: Messages.TEMPLATE_TASK_REQUEST_COMPLETION,
       owner: req.user,
       task
     });
 
-    logEvent(MessageEvent, {
+    let newMessage = logEvent(MessageEvent, {
       body: Messages.TEMPLATE_STUDENT_REQUEST_COMPLETION_MSG,
       message: Messages.TEMPLATE_SEND_MESSAGE,
       owner: req.user,
-      user: student,
+      user: teacher,
       task
     });
+
+    const message = await teacher.addNotification(newMessage);
     if (router.socket) {
       router.socket.emit(Events.REFRESH_NOTIFICATIONS);
     }

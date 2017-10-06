@@ -84,6 +84,7 @@ export const completeTask = (s_id, t_id, socket) => async dispatch => {
       credentials: "include"
     });
     response = await response.json();
+    console.log(response);
     if (!response.success) {
       throw new Error(response.apiError.message);
     }

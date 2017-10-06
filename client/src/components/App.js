@@ -21,8 +21,8 @@ import connect from "socket.io-client";
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
-const userType = "Student";
-// const userType = "Teacher";
+// const userType = "Student";
+const userType = "Teacher";
 
 class App extends Component {
   constructor(props) {
