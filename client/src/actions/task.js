@@ -1,3 +1,5 @@
+import * as Event from "./events";
+
 export const GET_ALL_TASKS = "GET_ALL_TASKS";
 export const GET_ONE_TASK = "GET_ONE_TASK";
 export const ADD_TASK = "ADD_TASK";
@@ -75,7 +77,7 @@ export const unAssignTask = (task, studentId) => async dispatch => {
   }
 };
 
-export const completeTask = (s_id, t_id) => async dispatch => {
+export const completeTask = (s_id, t_id, socket) => async dispatch => {
   try {
     let response = await fetch(`api/students/${s_id}/complete/${t_id}`, {
       method: "PATCH",
@@ -85,7 +87,8 @@ export const completeTask = (s_id, t_id) => async dispatch => {
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
-    dispatch(updateTask(t_id, response.apiData));
+    socket.emit(Event.SEND_NOTIFICATION, response.apiData.teacher);
+    // dispatch(updateTask(t_id, response.apiData));
   } catch (error) {
     console.log(error);
   }

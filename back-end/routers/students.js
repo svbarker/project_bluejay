@@ -108,6 +108,7 @@ router.get("/:id/tasks", async (req, res) => {
 // completing a student's task(s)
 router.patch("/:id/complete/:t_id", async (req, res) => {
   try {
+    console.log(req.params.id);
     const student = await getResource(
       req.params.id,
       Student.findById.bind(Student)
@@ -117,7 +118,7 @@ router.patch("/:id/complete/:t_id", async (req, res) => {
       throw new Error(`No student found with that id`);
     }
 
-    const task = student.getTask(req.params.t_id);
+    const task = await student.getTask(req.params.t_id);
     if (!task) {
       throw new Error(`That student doesn't have a task with that id`);
     }
@@ -140,7 +141,7 @@ router.patch("/:id/complete/:t_id", async (req, res) => {
       router.socket.emit(Events.REFRESH_NOTIFICATIONS);
     }
 
-    res.json(createResponse());
+    res.json(createResponse(task));
   } catch (error) {
     logError(error);
     res.json(createResponse(error));
