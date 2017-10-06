@@ -7,17 +7,22 @@ import RaisedButton from "material-ui/RaisedButton";
 
 import StudentModal from "../components/StudentModal";
 
-class MenuCard extends React.Component {
+class TaskCard extends React.Component {
   constructor(props) {
     super(props);
   }
   componentDidMount() {
     ///
   }
+  hydrateList = () => {
+    console.log("grabbing students for a task");
+  };
+  //what is this
   render() {
     const { title, value, description, classroom } = this.props.task;
+    const { students } = this.props;
     return (
-      <Card style={{ "margin-bottom": "20px", "background-color": "#85DCDC" }}>
+      <Card style={{ marginBottom: "20px", backgroundColor: "#85DCDC" }}>
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
@@ -26,21 +31,19 @@ class MenuCard extends React.Component {
             "background-color": "#1a8484"
           }}
           iconStyle={{ color: "white" }}
-          titleStyle={{ color: "white", "font-weight": "bold" }}
+          titleStyle={{ color: "white", fontWeight: "bold" }}
+          onClick={this.hydrateList}
         />
         <CardText expandable={true}>
           <Paper style={{ padding: "20px" }}>
-            <div class="menu-card-container">
+            <div className="menu-card-container">
               <p>{description}</p>
               <div>
-                <StudentModal />
+                <StudentModal students={students} />
 
                 <div className="menu-card-button-container">
                   <RaisedButton label="Edit" />
-                  <RaisedButton
-                    label="Delete"
-                    style={{ "margin-left": "20px" }}
-                  />
+                  <RaisedButton label="Delete" style={{ marginLeft: "20px" }} />
                 </div>
               </div>
             </div>
@@ -51,4 +54,4 @@ class MenuCard extends React.Component {
   }
 }
 
-export default MenuCard;
+export default TaskCard;

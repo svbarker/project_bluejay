@@ -4,11 +4,11 @@ import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import { List, ListItem } from "material-ui/List";
 
-const StudentItem = ({ onClick }) => {
+const StudentItem = ({ onClick, student }) => {
   const unassignButton = <FlatButton label="Unassign" onClick={onClick} />;
   return (
     <ListItem
-      primaryText={"Student1"}
+      primaryText={student.profile.displayName}
       secondaryText={"assigned on [insert date]"}
       rightIconButton={unassignButton}
       hoverColor="none"
@@ -30,8 +30,8 @@ const ModalTitle = ({ onClick }) => {
 };
 
 class StudentsModal extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       open: false
     };
@@ -44,20 +44,39 @@ class StudentsModal extends React.Component {
     this.setState({ open: false });
   };
 
-  unassignAll = () => {
+  unassignAll = task => {
     //
   };
 
-  unassignOne = () => {
+  unassignOne = (task, student) => {
     //
   };
 
   render() {
     //check the amount and render ellipsis if necessary
+    //make the expanded list items for the modal
+    const listOfStudentItems = this.props.students.map(student => (
+      <StudentItem student={student} onClick={this.unassignOne} />
+    ));
+    //make the small list of names that goes into the task card,
+    let nameList = [];
+    let defaultNameListSize = 3;
+    if (defaultNameListSize >= this.props.students.length) {
+      nameList = this.props.students.map(student => (
+        <ListItem key={student._id}>{student.profile.displayName}</ListItem>
+      ));
+    } else {
+      nameList = Array(defaultNameListSize)
+        .fill(true)
+        .map((nothing, idx) => (
+          <ListItem>{this.props.students[idx].profile.displayName}</ListItem>
+        ));
+    }
+
     return (
       <div>
         <List className="horizontalCenterChildren" onClick={this.handleOpen}>
-          <ListItem>Student 1</ListItem>
+          {nameList}
           <i className="fa fa-ellipsis-h" />
         </List>
         <Dialog
@@ -65,11 +84,7 @@ class StudentsModal extends React.Component {
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
-          <List>
-            <StudentItem onClick={this.unassignOne} />
-            <StudentItem onClick={this.unassignOne} />
-            <StudentItem onClick={this.unassignOne} />
-          </List>
+          <List>{listOfStudentItems}</List>
         </Dialog>
       </div>
     );
