@@ -85,7 +85,10 @@ class App extends Component {
                 <Route
                   path="/tasks"
                   component={() => (
-                    <StudentTaskListContainer user={this.props.user} />
+                    <StudentTaskListContainer
+                      user={this.props.user}
+                      socket={this.socket}
+                    />
                   )}
                 />
                 <Route path="/rewards" component={StudentRewards} />

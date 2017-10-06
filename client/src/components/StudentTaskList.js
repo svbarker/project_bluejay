@@ -13,7 +13,6 @@ const TaskList = props => {
   const rejectedTasks = props.tasks.filter(
     task => task.status === "RejectedTask"
   );
-
   return (
     <div className="task-container-outer">
       <Paper>
@@ -29,6 +28,7 @@ const TaskList = props => {
                 markCompleted={props.markCompleted}
                 task={task}
                 user={props.user}
+                socket={props.socket}
               />
             ))
           )}
@@ -41,6 +41,7 @@ const TaskList = props => {
                   markCompleted={props.markCompleted}
                   task={task}
                   user={props.user}
+                  socket={props.socket}
                 />
               </div>
             ))
@@ -54,6 +55,7 @@ const TaskList = props => {
                   markCompleted={props.markCompleted}
                   task={task}
                   user={props.user}
+                  socket={props.socket}
                 />
               </div>
             ))

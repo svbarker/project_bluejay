@@ -22,6 +22,7 @@ class StudentTaskListContainer extends React.Component {
         hydrateTasks={this.props.hydrateTasks}
         markCompleted={this.props.markCompleted}
         user={this.props.user}
+        socket={this.props.socket}
       />
     );
   }
@@ -37,8 +38,8 @@ const mapDispatchToProps = dispatch => {
     hydrateTasks: id => {
       dispatch(hydrateStudentTasks(id));
     },
-    markCompleted: (s_id, t_id) => (s_id, t_id) => {
-      dispatch(completeTask(s_id, t_id));
+    markCompleted: (s_id, t_id, socket) => {
+      dispatch(completeTask(s_id, t_id, socket));
     }
   };
 };
