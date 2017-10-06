@@ -29,6 +29,13 @@ class TaskListContainer extends React.Component {
   }
   componentDidMount() {
     this.props.hydrateTasks(this.props.userId);
+    if (!this.props.students.length) {
+      if (this.props.classrooms.length) {
+        this.props.classrooms.forEach(async classroom => {
+          this.props.loadStudents(classroom._id);
+        });
+      }
+    }
   }
   componentWillReceiveProps(props) {
     if (props.userId) {
