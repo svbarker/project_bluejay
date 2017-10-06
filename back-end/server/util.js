@@ -33,6 +33,7 @@ module.exports = {
 		return response;
 	},
 	log: async event => {
+		console.log("The event!!!", event);
 		event = await event.save();
 		console.log(`[${event.createdAt}]: ${event}`);
 	},

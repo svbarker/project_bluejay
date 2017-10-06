@@ -33,12 +33,7 @@ const UserSchema = new mongoose.Schema(
         ref: "Reward"
       }
     ],
-    notifications: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Event"
-      }
-    ]
+    notifications: []
   },
   {
     timestamps: true,

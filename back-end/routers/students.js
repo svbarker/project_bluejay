@@ -135,6 +135,8 @@ router.patch("/:id/complete/:t_id", async (req, res) => {
       task
     });
 
+    console.log("after task event");
+
     let newMessage = logEvent(MessageEvent, {
       body: Messages.TEMPLATE_STUDENT_REQUEST_COMPLETION_MSG,
       message: Messages.TEMPLATE_SEND_MESSAGE,
@@ -143,7 +145,10 @@ router.patch("/:id/complete/:t_id", async (req, res) => {
       task
     });
 
-    const message = await teacher.addNotification(newMessage);
+    console.log("after message event");
+
+    teacher.addNotification(newMessage);
+    console.log("Hey I added the notification!");
     if (router.socket) {
       router.socket.emit(Events.REFRESH_NOTIFICATIONS);
     }
