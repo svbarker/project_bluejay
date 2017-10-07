@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema(
       required: true
     },
     passwordHash: String,
+    socketId: String,
     profile: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Profile"
@@ -32,12 +33,7 @@ const UserSchema = new mongoose.Schema(
         ref: "Reward"
       }
     ],
-    notifications: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Event"
-      }
-    ]
+    notifications: []
   },
   {
     timestamps: true,
@@ -166,6 +162,12 @@ UserSchema.methods.removeReward = async function(reward) {
     await this.update({ rewards: this.rewards });
   }
   return reward;
+};
+
+UserSchema.methods.addNotification = async function(notification) {
+  this.notifications.push(notification);
+  await this.update({ notifications: this.notifications });
+  return notification;
 };
 
 const User = mongoose.model("User", UserSchema);

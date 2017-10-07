@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const models = require('../');
+const mongoose = require("mongoose");
+const models = require("../");
 const { Student, Teacher } = models;
 
 const EventSchema = new mongoose.Schema(
@@ -19,7 +19,7 @@ const EventSchema = new mongoose.Schema(
 	},
 	{
 		timestamps: true,
-		discriminatorKey: 'kind'
+		discriminatorKey: "kind"
 	}
 );
 
@@ -28,7 +28,7 @@ function templateParser(val) {
 	const regex = /%(.+?)%/gi;
 	let matches;
 	while ((matches = regex.exec(val)) !== null) {
-		const [first, second, third] = matches[1].split('.');
+		const [first, second, third] = matches[1].split(".");
 		if (
 			!first ||
 			(first && !second) ||
@@ -47,9 +47,9 @@ function templateParser(val) {
 	}
 }
 
-EventSchema.virtual('message').set(templateParser);
+EventSchema.virtual("message").set(templateParser);
 
-EventSchema.virtual('message').get(function() {
+EventSchema.virtual("message").get(function() {
 	return this._message;
 });
 
@@ -57,7 +57,7 @@ EventSchema.methods.toString = function() {
 	return this._message;
 };
 
-EventSchema.pre('save', async function(next) {
+EventSchema.pre("save", async function(next) {
 	const thisObj = this.toObject();
 	const modelNames = Object.keys(models).map(key => key.toLowerCase());
 	for (let key in thisObj) {
@@ -69,5 +69,5 @@ EventSchema.pre('save', async function(next) {
 	next(this);
 });
 
-const Event = mongoose.model('Event', EventSchema);
+const Event = mongoose.model("Event", EventSchema);
 module.exports = Event;

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { withRouter } from "react-router";
 
 //Components
+import Login from "./Login";
 import DashboardMenu from "./DashboardMenu";
 import StudentDashboardMenu from "./StudentDashboardMenu";
 import NotificationsContainer from "../containers/NotificationsContainer";
@@ -20,7 +21,7 @@ import connect from "socket.io-client";
 const TeacherNavbarContainerWithRouter = withRouter(TeacherNavbarContainer);
 const StudentNavbarContainerWithRouter = withRouter(StudentNavbarContainer);
 
-const userType = "Student";
+const userType = "Teacher";
 // const userType = "Teacher";
 
 class App extends Component {
@@ -31,12 +32,11 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		this.socket.emit("CORRELATE_SOCKET", { foo: "bar" });
 		//for testing porpoises
 		if (userType === "Teacher") {
-			this.props.loginTeacher();
+			this.props.loginTeacher(this.socket);
 		} else if (userType === "Student") {
-			this.props.loginStudent();
+			this.props.loginStudent(this.socket);
 		}
 	}
 
@@ -60,9 +60,12 @@ class App extends Component {
 								<Route path="/report" component={() => <h1>Reports</h1>} />
 								<Route
 									path="/notifications"
-									component={NotificationsContainer}
+									component={() =>
+										<NotificationsContainer socket={this.socket} />}
 								/>
 								{/* <Route path="/" component={PageNotFound} /> */}
+								{/* Testing a login route over here */}
+								<Route path="/login" component={() => <Login />} />
 							</Switch>
 						</div>
 					</Router>
@@ -80,7 +83,10 @@ class App extends Component {
 								<Route
 									path="/tasks"
 									component={() =>
-										<StudentTaskListContainer user={this.props.user} />}
+										<StudentTaskListContainer
+											user={this.props.user}
+											socket={this.socket}
+										/>}
 								/>
 								<Route path="/rewards" component={StudentRewards} />
 								<Route

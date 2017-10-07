@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Event = require('./Event');
+const mongoose = require("mongoose");
+const Event = require("./Event");
 
 const TaskEventSchema = new mongoose.Schema(
 	{
@@ -13,9 +13,9 @@ const TaskEventSchema = new mongoose.Schema(
 	},
 	{
 		timestamps: true,
-		discriminatorKey: 'kind'
+		discriminatorKey: "kind"
 	}
 );
 
-const TaskEvent = Event.discriminator('TaskEvent', TaskEventSchema);
+const TaskEvent = Event.discriminator("TaskEvent", TaskEventSchema);
 module.exports = TaskEvent;

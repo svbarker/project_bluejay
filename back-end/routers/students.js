@@ -1,9 +1,10 @@
 const router = require("express").Router();
-const { Student, Profile, Classroom } = require("../models");
+const { Student, Profile, Classroom, Teacher } = require("../models");
 const { createResponse } = require("../server/util");
 const { getResource, logEvent, logError } = require("../server/util");
 const {
   UserEvent,
+  TaskEvent,
   ProfileEvent,
   Messages,
   MessageEvent
@@ -117,30 +118,42 @@ router.patch("/:id/complete/:t_id", async (req, res) => {
       throw new Error(`No student found with that id`);
     }
 
-    const task = student.getTask(req.params.t_id);
+    const task = await student.getTask(req.params.t_id);
     if (!task) {
       throw new Error(`That student doesn't have a task with that id`);
     }
 
+    const teacher = await getResource(
+      task.teacher,
+      Teacher.findById.bind(Teacher)
+    );
+
     // Create log events
-    logEvent(UserEvent, {
+    logEvent(TaskEvent, {
       message: Messages.TEMPLATE_TASK_REQUEST_COMPLETION,
       owner: req.user,
       task
     });
 
-    logEvent(MessageEvent, {
+    console.log("after task event");
+
+    let newMessage = logEvent(MessageEvent, {
       body: Messages.TEMPLATE_STUDENT_REQUEST_COMPLETION_MSG,
       message: Messages.TEMPLATE_SEND_MESSAGE,
       owner: req.user,
-      user: student,
+      user: teacher,
       task
     });
+
+    console.log("after message event");
+
+    teacher.addNotification(newMessage);
+    console.log("Hey I added the notification!");
     if (router.socket) {
       router.socket.emit(Events.REFRESH_NOTIFICATIONS);
     }
 
-    res.json(createResponse());
+    res.json(createResponse(task));
   } catch (error) {
     logError(error);
     res.json(createResponse(error));

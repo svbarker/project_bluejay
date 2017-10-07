@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Event = require('./Event');
+const mongoose = require("mongoose");
+const Event = require("./Event");
 
 const MessageEventSchema = new mongoose.Schema(
 	{
@@ -19,7 +19,7 @@ const MessageEventSchema = new mongoose.Schema(
 	},
 	{
 		timestamps: true,
-		discriminatorKey: 'kind'
+		discriminatorKey: "kind"
 	}
 );
 
@@ -29,8 +29,7 @@ function bodyTemplateParser(val) {
 	let matches;
 
 	while ((matches = regex.exec(val)) !== null) {
-		const [first, second, third] = matches[1].split('.');
-
+		const [first, second, third] = matches[1].split(".");
 		if (
 			!first ||
 			(first && !second) ||
@@ -48,11 +47,11 @@ function bodyTemplateParser(val) {
 	}
 }
 
-MessageEventSchema.virtual('body').set(bodyTemplateParser);
+MessageEventSchema.virtual("body").set(bodyTemplateParser);
 
-MessageEventSchema.virtual('body').get(function() {
+MessageEventSchema.virtual("body").get(function() {
 	return this._body;
 });
 
-const MessageEvent = Event.discriminator('MessageEvent', MessageEventSchema);
+const MessageEvent = Event.discriminator("MessageEvent", MessageEventSchema);
 module.exports = MessageEvent;

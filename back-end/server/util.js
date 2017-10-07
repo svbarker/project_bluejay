@@ -1,8 +1,8 @@
-const { ErrorEvent, Messages } = require('../models/events');
+const { ErrorEvent, Messages } = require("../models/events");
 module.exports = {
 	getResource: async function(_id, method, options, populate) {
 		if (!_id) {
-			throw new Error('No id supplied for resource method.');
+			throw new Error("No id supplied for resource method.");
 		}
 		let resource;
 		if (populate) {
@@ -11,7 +11,7 @@ module.exports = {
 			resource = await method(_id, options);
 		}
 		if (!resource) {
-			throw new Error('No resource found with that id.');
+			throw new Error("No resource found with that id.");
 		}
 		return resource;
 	},
@@ -50,6 +50,7 @@ module.exports = {
 	logError: error => {
 		const newEvent = new ErrorEvent({
 			message: Messages.INTERNAL_ERROR,
+			owner: {},
 			error
 		});
 		module.exports.log(newEvent);

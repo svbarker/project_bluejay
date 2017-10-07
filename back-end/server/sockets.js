@@ -1,16 +1,15 @@
-const socketMap = {};
+const { User } = require("../models");
+const Events = require("../../client/src/actions/events");
 
-module.exports = client => {
-	console.log("PRE-CORRELATE", client.id);
-	client.on("CORRELATE_SOCKET", function(data) {
-		console.log("POST-CORRELATE", this.id);
-		socketMap[userId] = client;
-		delete socketMap[this.id];
+module.exports = io => client => {
+	client.on(Events.USER_LOGGED_IN, data => {
+		User.findByIdAndUpdate(data, { socketId: client.id });
+		io.to(client.id).emit(Events.REFRESH_NOTIFICATIONS);
 	});
-	socketMap[client.id] = client;
-};
 
-// {
-// userId => client,
-// userId => client,
-// }
+	// client.on("SEND_NOTIFICATION", async data => {
+	// 	console.log("Notification received...");
+	// 	const student = await User.findById(data);
+	// 	io.to(student.socketId).emit(Events.REFRESH_NOTIFICATIONS);
+	// });
+};

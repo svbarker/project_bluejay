@@ -1,14 +1,22 @@
 import React from "react";
+
+//components
+import Undoable from "./Undoable";
 import Paper from "material-ui/Paper";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import { List, ListItem } from "material-ui/List";
 
-const StudentItem = ({ onClick }) => {
-  const unassignButton = <FlatButton label="Unassign" onClick={onClick} />;
+const StudentItem = ({ onClick, student }) => {
+  const unassignButton = (
+    // <Undoable wait={2} resolve={onClick}>
+    //   <FlatButton label="Unassign" />
+    // </Undoable>
+    <FlatButton label="Unassign" onClick={onClick} />
+  );
   return (
     <ListItem
-      primaryText={"Student1"}
+      primaryText={student.profile.displayName}
       secondaryText={"assigned on [insert date]"}
       rightIconButton={unassignButton}
       hoverColor="none"
@@ -30,8 +38,8 @@ const ModalTitle = ({ onClick }) => {
 };
 
 class StudentsModal extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       open: false
     };
@@ -44,32 +52,57 @@ class StudentsModal extends React.Component {
     this.setState({ open: false });
   };
 
-  unassignAll = () => {
-    //
-  };
-
-  unassignOne = () => {
-    //
-  };
+  // unassignAll = task => {
+  //   //
+  // };
+  //
+  // unassignOne = (task, student) => {
+  //   //
+  // };
 
   render() {
     //check the amount and render ellipsis if necessary
+    //make the expanded list items for the modal
+    const listOfStudentItems = this.props.students.map(student => (
+      <StudentItem
+        key={student._id}
+        student={student}
+        onClick={() => this.props.unAssignOne(student._id)}
+      />
+    ));
+    //make the small list of names that goes into the task card,
+    let nameList = [];
+    let defaultNameListSize = 3;
+    if (defaultNameListSize >= this.props.students.length) {
+      nameList = this.props.students.map(student => (
+        <ListItem key={student._id}>{student.profile.displayName}</ListItem>
+      ));
+    } else {
+      nameList = Array(defaultNameListSize)
+        .fill(true)
+        .map((nothing, idx) => (
+          <ListItem key={this.props.students[idx]._id}>
+            {this.props.students[idx].profile.displayName}
+          </ListItem>
+        ));
+    }
+
     return (
       <div>
         <List className="horizontalCenterChildren" onClick={this.handleOpen}>
-          <ListItem>Student 1</ListItem>
+          {nameList}
           <i className="fa fa-ellipsis-h" />
         </List>
         <Dialog
-          title={<ModalTitle onClick={this.unassignAll} />}
+          title={
+            <ModalTitle
+              onClick={() => this.props.unAssignAll(this.props.students)}
+            />
+          }
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
-          <List>
-            <StudentItem onClick={this.unassignOne} />
-            <StudentItem onClick={this.unassignOne} />
-            <StudentItem onClick={this.unassignOne} />
-          </List>
+          <List>{listOfStudentItems}</List>
         </Dialog>
       </div>
     );
