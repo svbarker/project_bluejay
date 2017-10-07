@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
-import sNavbar from "./sNavbar";
+import SNavbar from "./SNavbar";
+import { withRouter } from "react-router";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -10,6 +11,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const StudentNavbarContainer = connect(mapStateToProps, null)(sNavbar);
+const StudentNavbarContainer = connect(mapStateToProps, null)(SNavbar);
 
-export default StudentNavbarContainer;
+export default withRouter(StudentNavbarContainer);

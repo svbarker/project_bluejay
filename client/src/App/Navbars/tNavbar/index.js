@@ -1,2 +1,2 @@
-import tNavbarContainer from "./tNavbarContainer";
-export default tNavbarContainer;
+import TNavbarContainer from "./TNavbarContainer";
+export default TNavbarContainer;

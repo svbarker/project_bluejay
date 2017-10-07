@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
-import tNavbar from "./tNavbar";
+import TNavbar from "./TNavbar";
+import { withRouter } from "react-router";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -10,6 +11,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const TeacherNavbarContainer = connect(mapStateToProps, null)(tNavbar);
+const TeacherNavbarContainer = connect(mapStateToProps, null)(TNavbar);
 
-export default TeacherNavbarContainer;
+export default withRouter(TeacherNavbarContainer);

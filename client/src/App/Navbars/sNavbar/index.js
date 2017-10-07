@@ -1,2 +1,2 @@
-import sNavbarContainer from "./sNavbarContainer";
-export default sNavbarContainer;
+import SNavbarContainer from "./SNavbarContainer";
+export default SNavbarContainer;

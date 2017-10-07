@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import AppContainer from "./App/AppContainer";
-import registerServiceWorker from "./registerServiceWorker";
+import registerServiceWorker from "./serviceWorker/registerServiceWorker";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import thunk from "redux-thunk";
-import reducers from "./reducers";
+import reducers from "./redux/reducers";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 const store = createStore(reducers, applyMiddleware(thunk));
