@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import TEACHERNavbar from "./TEACHERNavbar";
+import tNavbar from "./tNavbar";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -10,6 +10,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const TeacherNavbarContainer = connect(mapStateToProps, null)(TEACHERNavbar);
+const TeacherNavbarContainer = connect(mapStateToProps, null)(tNavbar);
 
 export default TeacherNavbarContainer;
