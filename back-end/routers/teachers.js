@@ -160,6 +160,10 @@ router.patch("/:te_id/student/:st_id/assign/:t_id", async (req, res) => {
 		});
 		await user.addNotification(event);
 
+		if (req.socket && user.socketId) {
+			req.socket.to(user.socketId).emit(Events.REFRESH_NOTIFICATIONS);
+		}
+
 		res.json(createResponse(assignedTask));
 	} catch (error) {
 		logError(error);
@@ -263,7 +267,7 @@ router.patch("/:te_id/student/:st_id/confirmTask/:t_id", async (req, res) => {
 			message: Messages.TEMPLATE_TASK_CONFIRM_COMPLETION,
 			owner: req.user,
 			user,
-			task
+			completedTask
 		});
 
 		const event = logEvent(MessageEvent, {
@@ -271,7 +275,7 @@ router.patch("/:te_id/student/:st_id/confirmTask/:t_id", async (req, res) => {
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
 			user,
-			task
+			completedTask
 		});
 		await user.addNotification(event);
 
@@ -373,7 +377,7 @@ router.patch("/:te_id/student/:st_id/rejectTask/:t_id", async (req, res) => {
 			message: Messages.TEMPLATE_TASK_REJECT_COMPLETION,
 			owner: req.user,
 			user,
-			task
+			rejectedTask
 		});
 
 		const event = logEvent(MessageEvent, {
@@ -381,7 +385,7 @@ router.patch("/:te_id/student/:st_id/rejectTask/:t_id", async (req, res) => {
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
 			user,
-			task
+			rejectedTask
 		});
 		await user.addNotification(event);
 
