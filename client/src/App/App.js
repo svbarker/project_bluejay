@@ -21,74 +21,75 @@ const userType = "Teacher";
 // const userType = "Teacher";
 
 class App extends Component {
-	constructor(props) {
-		super(props);
+  constructor(props) {
+    super(props);
 
-		this.socket = connect("/");
-	}
+    this.socket = connect("/");
+  }
 
-	componentDidMount() {
-		//for testing porpoises
-		if (userType === "Teacher") {
-			this.props.loginTeacher(this.socket);
-		} else if (userType === "Student") {
-			this.props.loginStudent(this.socket);
-		}
-	}
+  componentDidMount() {
+    //for testing porpoises
+    if (userType === "Teacher") {
+      this.props.loginTeacher(this.socket);
+    } else if (userType === "Student") {
+      this.props.loginStudent(this.socket);
+    }
+  }
 
-	render() {
-		if (userType === "Teacher") {
-			return (
-				<div className="App">
-					<Router>
-						<div>
-							<TNavbar socket={this.socket} />
-							<Switch>
-								{/* do some login checking here */}
-								<Route exact path="/" component={TDashboard} />
-								<Route path="/students" component={TStudents} />
-								<Route
-									path="/tasks"
-									component={() => <TTasks userId={this.props.user.id} />}
-								/>
-								<Route path="/rewards" component={TRewards} />
-								<Route path="/report" component={() => <h1>Reports</h1>} />
-								<Route
-									path="/notifications"
-									component={() => <TNotifications socket={this.socket} />}
-								/>
-								{/* <Route path="/" component={PageNotFound} /> */}
-								{/* Testing a login route over here */}
-								<Route path="/login" component={() => <Login />} />
-							</Switch>
-						</div>
-					</Router>
-				</div>
-			);
-		} else {
-			return (
-				<div className="App">
-					<Router>
-						<div>
-							<SNavbar socket={this.socket} />
-							<Switch>
-								{/* do some login checking here */}
-								<Route exact path="/" component={SDashboard} />
-								<Route
-									path="/tasks"
-									component={() =>
-										<STasks user={this.props.user} socket={this.socket} />}
-								/>
-								<Route path="/rewards" component={SRewards} />
-								<Route path="/notifications" component={SNotifications} />
-								<Route path="/" component={PageNotFound} />
-							</Switch>
-						</div>
-					</Router>
-				</div>
-			);
-		}
-	}
+  render() {
+    if (userType === "Teacher") {
+      return (
+        <div className="App">
+          <Router>
+            <div>
+              <TNavbar socket={this.socket} />
+              <Switch>
+                {/* do some login checking here */}
+                <Route exact path="/" component={TDashboard} />
+                <Route path="/students" component={TStudents} />
+                <Route
+                  path="/tasks"
+                  component={() => <TTasks userId={this.props.user.id} />}
+                />
+                <Route path="/rewards" component={TRewards} />
+                <Route path="/report" component={() => <h1>Reports</h1>} />
+                <Route
+                  path="/notifications"
+                  component={() => <TNotifications socket={this.socket} />}
+                />
+                {/* <Route path="/" component={PageNotFound} /> */}
+                {/* Testing a login route over here */}
+                <Route path="/login" component={() => <Login />} />
+              </Switch>
+            </div>
+          </Router>
+        </div>
+      );
+    } else {
+      return (
+        <div className="App">
+          <Router>
+            <div>
+              <SNavbar socket={this.socket} />
+              <Switch>
+                {/* do some login checking here */}
+                <Route exact path="/" component={SDashboard} />
+                <Route
+                  path="/tasks"
+                  component={() => (
+                    <STasks user={this.props.user} socket={this.socket} />
+                  )}
+                />
+                <Route path="/rewards" component={SRewards} />
+                <Route path="/notifications" component={SNotifications} />
+                <Route path="/" component={PageNotFound} />
+              </Switch>
+            </div>
+          </Router>
+        </div>
+      );
+    }
+  }
 }
 
 export default App;

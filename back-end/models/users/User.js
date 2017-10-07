@@ -94,7 +94,7 @@ UserSchema.methods.getClassroom = function(id) {
 };
 
 UserSchema.methods.hasTask = function(task) {
-	return this.tasks.some(t => {
+	return this.tasks.some(async t => {
 		return t.title === task.title;
 	});
 };
@@ -174,6 +174,7 @@ UserSchema.methods.addNotification = async function(notification) {
 UserSchema.methods.cleanForLog = function() {
 	const obj = this.toObject();
 	return {
+		id: obj._id,
 		email: obj.email,
 		profile: obj.profile,
 		kind: obj.kind
