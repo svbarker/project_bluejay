@@ -9,8 +9,8 @@ const getListItemStyle = n => ({
   margin: "50px 150px",
   paddingBottom: "20px",
   border: `20px solid ${n.task
-    ? "rgba( 26,132,132,.2)"
-    : "rgba(150,205, 40,.2)"}`
+    ? "rgba( 26,132,132,.5)"
+    : "rgba(150,205, 40,.5)"}`
 });
 
 const pendingListItemStyle = {
@@ -40,7 +40,7 @@ const getButton = (notification, userId, handler, action) => {
     if (action === "Accept") {
       return notification.task ? "rgba( 26,132,132,1)" : "rgba(150,205, 40,1)";
     } else {
-      return "rgba(220, 43, 43,.8)";
+      return "rgba(220, 43, 43,.9)";
     }
   };
   const kind = notification.task ? "task" : "reward";
@@ -97,7 +97,7 @@ const getMainText = n =>
 const getSecondaryText = n => `${n.owner.profile.fname} says: ${n._message}`;
 
 const getHoverColor = n =>
-  n.task ? "rgba( 26,132,132,.2)" : "rgba(150,205, 40,.2)";
+  n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205, 40,.3)";
 
 const Notifications = ({
   notifications,
