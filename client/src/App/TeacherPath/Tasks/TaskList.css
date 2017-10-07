@@ -1,0 +1,32 @@
+.task-container-outer {
+	max-width: 960px;
+	margin: 0 auto;
+}
+
+.task-container {
+	padding: 20px;
+}
+
+.menu-card-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-column-gap: 20px;
+}
+
+.menu-card-button-container {
+	width: 100%;
+	text-align: right;
+	margin-top: 10px;
+}
+
+.modal-title-container {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	grid-column-gap: 10px;
+	align-items: center;
+	margin: 20px;
+}
+
+.modal-title-button {
+	justify-self: end;
+}
