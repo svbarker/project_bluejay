@@ -53,7 +53,7 @@ const getButton = (notification, userId, handler, action) => {
       label={`${action}`}
       onClick={handler(
         userId,
-        notification.owner._id,
+        notification.owner.id,
         taskId,
         notification._id,
         kind

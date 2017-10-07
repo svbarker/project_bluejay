@@ -137,7 +137,7 @@ class StudentRewards extends React.Component {
       );
     });
     return (
-      <Paper className="reward-container outer" style={{ padding: "20px" }}>
+      <Paper className="reward-container center">
         {/* header */}
         <div className="reward-card-title">
           <h1>{this.props.user.displayName}'s Rewards</h1>

@@ -2,6 +2,7 @@ import React from "react";
 import Notifications from "./TNotifications";
 import { connect } from "react-redux";
 import * as Events from "../../../redux/actions/events";
+import { withRouter } from "react-router-dom";
 
 import {
   acceptEvent,
@@ -44,8 +45,6 @@ class NotificationsContainer extends React.Component {
         {
           timeout: setTimeout(() => {
             this.props[`${action}Event`](t_id, s_id, ta_id, n_id, type);
-            console.log("Notification props: ", this.props);
-            this.props.socket.emit(Event.SEND_NOTIFICATION, s_id);
             this.setState({
               pendingActions: this.state.pendingActions.filter(
                 a => a.id !== n_id
@@ -57,7 +56,8 @@ class NotificationsContainer extends React.Component {
           t_id,
           s_id,
           ta_id,
-          action
+          action,
+          type
         }
       ]
     });
@@ -89,7 +89,13 @@ class NotificationsContainer extends React.Component {
     timeouts.forEach(t => {
       clearTimeout(t.timeout);
       clearInterval(t.interval);
-      this.props[`${t.action}Event`](t.t_id, t.s_id, t.ta_id, t.eventId);
+      this.props[`${t.action}Event`](
+        t.t_id,
+        t.s_id,
+        t.ta_id,
+        t.eventId,
+        t.type
+      );
     });
   }
 
@@ -130,6 +136,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  NotificationsContainer
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(NotificationsContainer)
 );
