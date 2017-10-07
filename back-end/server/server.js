@@ -24,7 +24,6 @@ app.use(mw.mongooseConnect);
 app.use(passport.initialize());
 app.use(passport.session());
 // app.use("/api", mw.authCheck);
-// app.use(mw.logger);
 
 require("../routers/teachers");
 
@@ -47,5 +46,5 @@ io.on("connection", require("./sockets")(io));
 
 // start server
 process.env.NODE_ENV === "production"
-	? server.listen(configs.port, configs.serverCallback)
-	: server.listen(configs.port, configs.host, configs.serverCallback);
+  ? server.listen(configs.port, configs.serverCallback)
+  : server.listen(configs.port, configs.host, configs.serverCallback);
