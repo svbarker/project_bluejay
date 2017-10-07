@@ -30,6 +30,11 @@ passport.serializeUser(configs.serialize);
 passport.deserializeUser(configs.deserialize);
 passport.use(new localStrategy(require("../strategies/local")));
 
+app.use((req, res, next) => {
+	req.socket = io;
+	next();
+});
+
 // serve static resource
 // app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
@@ -44,5 +49,5 @@ io.on("connection", require("./sockets")(io));
 
 // start server
 process.env.NODE_ENV === "production"
-  ? server.listen(configs.port, configs.serverCallback)
-  : server.listen(configs.port, configs.host, configs.serverCallback);
+	? server.listen(configs.port, configs.serverCallback)
+	: server.listen(configs.port, configs.host, configs.serverCallback);

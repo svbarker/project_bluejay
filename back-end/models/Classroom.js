@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
-const { Student } = require('./users');
+const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
+const { Student } = require("./users");
 
 const ClassroomSchema = new mongoose.Schema(
 	{
@@ -16,13 +16,13 @@ const ClassroomSchema = new mongoose.Schema(
 		students: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Student'
+				ref: "Student"
 			}
 		],
 		teachers: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Teacher'
+				ref: "Teacher"
 			}
 		]
 	},
@@ -34,26 +34,26 @@ const ClassroomSchema = new mongoose.Schema(
 const autoPopulate = function(next) {
 	this.populate([
 		{
-			path: 'students',
+			path: "students",
 			populate: {
-				path: 'profile',
-				model: 'Profile'
+				path: "profile",
+				model: "Profile"
 			}
 		},
 		{
-			path: 'teachers',
+			path: "teachers",
 			populate: {
-				path: 'profile',
-				model: 'Profile'
+				path: "profile",
+				model: "Profile"
 			}
 		}
 	]);
 	next();
 };
 
-ClassroomSchema.pre('findOne', autoPopulate);
-ClassroomSchema.pre('findOneAndUpdate', autoPopulate);
-ClassroomSchema.pre('findOneAndRemove', autoPopulate);
+ClassroomSchema.pre("findOne", autoPopulate);
+ClassroomSchema.pre("findOneAndUpdate", autoPopulate);
+ClassroomSchema.pre("findOneAndRemove", autoPopulate);
 
 ClassroomSchema.methods.addStudent = async function(student) {
 	const index = this.students.findIndex(stud => {
@@ -105,8 +105,8 @@ ClassroomSchema.methods.removeTeacher = async function(teacher) {
 
 ClassroomSchema.methods.getPopulatedStudents = async function() {
 	return await Student.find({ _id: this.students }).populate({
-		path: 'profile',
-		model: 'Profile'
+		path: "profile",
+		model: "Profile"
 	});
 };
 
@@ -116,5 +116,14 @@ ClassroomSchema.methods.toString = function() {
 	return `${this.title}`;
 };
 
-const Classroom = mongoose.model('Classroom', ClassroomSchema);
+ClassroomSchema.methods.cleanForLog = function() {
+	const obj = this.toObject();
+	console.log("cleaning classroom");
+	obj.students = obj.students.map(student => student._id);
+	obj.teachers = obj.teachers.map(teacher => teacher._id);
+
+	return obj;
+};
+
+const Classroom = mongoose.model("Classroom", ClassroomSchema);
 module.exports = Classroom;

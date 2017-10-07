@@ -73,7 +73,7 @@ router.post("/", async (req, res) => {
 // reading a teacher
 router.get("/:id", async (req, res) => {
 	try {
-		const teacher = await getResource(
+		const user = await getResource(
 			req.params.id,
 			Teacher.findById.bind(Teacher)
 		);
@@ -82,10 +82,10 @@ router.get("/:id", async (req, res) => {
 		logEvent(UserEvent, {
 			message: Messages.TEMPLATE_TEACHER_READ,
 			owner: req.user,
-			user: teacher
+			user
 		});
 
-		res.json(createResponse(teacher));
+		res.json(createResponse(user));
 	} catch (error) {
 		logError(error);
 		res.json(createResponse(error));
@@ -95,20 +95,20 @@ router.get("/:id", async (req, res) => {
 // reading a teacher's task(s)
 router.get("/:id/tasks", async (req, res) => {
 	try {
-		const teacher = await getResource(
+		const user = await getResource(
 			req.params.id,
 			Teacher.findById.bind(Teacher)
 		);
 
 		// Create log event.
-		teacher.taskList = teacher.tasks.join(",");
+		user.taskList = user.tasks.join(",");
 		logEvent(UserEvent, {
 			message: Messages.TEMPLATE_TEACHER_TASK_READ,
 			owner: req.user,
-			user: teacher
+			user
 		});
 
-		res.json(createResponse(teacher.tasks));
+		res.json(createResponse(user.tasks));
 	} catch (error) {
 		logError(error);
 		res.json(createResponse(error));
@@ -123,8 +123,8 @@ router.patch("/:te_id/student/:st_id/assign/:t_id", async (req, res) => {
 			Teacher.findById.bind(Teacher)
 		);
 
-		let student = await teacher.getStudent(req.params.st_id);
-		if (!student) {
+		let user = await teacher.getStudent(req.params.st_id);
+		if (!user) {
 			throw new Error(`That teacher doesn't have a student with that id`);
 		}
 
@@ -133,31 +133,32 @@ router.patch("/:te_id/student/:st_id/assign/:t_id", async (req, res) => {
 			throw new Error(`No task found using that id.`);
 		}
 
-		if (student.hasTask(task)) {
+		if (user.hasTask(task)) {
 			throw new Error(`Student is already assigned that task.`);
 		}
 
 		// Create new assigned task from root task.
 		let assignedTask = new AssignedTask(task.toNewObject());
 		await assignedTask.save();
-		student.addTask(assignedTask);
-		task.addStudent(student);
+		user.addTask(assignedTask);
+		task.addStudent(user);
 
 		// Create log events.
 		logEvent(TaskEvent, {
 			message: Messages.TEMPLATE_TASK_ASSIGN,
 			owner: req.user,
-			user: student,
+			user,
 			task: assignedTask
 		});
 
-		logEvent(MessageEvent, {
+		const event = logEvent(MessageEvent, {
 			body: Messages.TEMPLATE_TEACHER_TASK_ASSIGN_MSG,
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
-			user: student,
+			user,
 			task: assignedTask
 		});
+		await user.addNotification(event);
 
 		res.json(createResponse(assignedTask));
 	} catch (error) {
@@ -187,32 +188,33 @@ router.patch("/:te_id/classroom/:cl_id/assign/:t_id", async (req, res) => {
 		// Pull students from classroom.
 		const studentsAssigned = [];
 		const students = await classroom.getPopulatedStudents();
-		students.forEach(async student => {
-			if (student.hasTask(task)) return;
+		students.forEach(async user => {
+			if (user.hasTask(task)) return;
 
-			studentsAssigned.push(student);
+			studentsAssigned.push(user);
 
 			// Create new assigned task from root task.
 			let assignedTask = new AssignedTask(task.toNewObject());
 			await assignedTask.save();
-			student.addTask(assignedTask);
-			task.addStudent(student);
+			user.addTask(assignedTask);
+			task.addStudent(user);
 
 			// Create log events.
 			logEvent(TaskEvent, {
 				message: Messages.TEMPLATE_TASK_ASSIGN,
 				owner: req.user,
-				user: student,
+				user,
 				task: assignedTask
 			});
 
-			logEvent(MessageEvent, {
+			const event = logEvent(MessageEvent, {
 				body: Messages.TEMPLATE_TEACHER_TASK_ASSIGN_MSG,
 				message: Messages.TEMPLATE_SEND_MESSAGE,
 				owner: req.user,
-				user: student,
+				user,
 				task: assignedTask
 			});
+			await user.addNotification(event);
 		});
 
 		res.json(createResponse(studentsAssigned));
@@ -230,12 +232,12 @@ router.patch("/:te_id/student/:st_id/confirmTask/:t_id", async (req, res) => {
 			Teacher.findById.bind(Teacher)
 		);
 
-		const student = await teacher.getStudent(req.params.st_id);
-		if (!student) {
+		const user = await teacher.getStudent(req.params.st_id);
+		if (!user) {
 			throw new Error(`That teacher doesn't have a student with that id`);
 		}
 
-		const task = student.getTask(req.params.t_id); // Assigned or RejectedTask
+		const task = user.getTask(req.params.t_id); // Assigned or RejectedTask
 		if (!task) {
 			throw new Error(`That student doesn't have a task with that id`);
 		}
@@ -249,30 +251,31 @@ router.patch("/:te_id/student/:st_id/confirmTask/:t_id", async (req, res) => {
 		// Create completed task.
 		const completedTask = new CompletedTask(task.toNewObject());
 		await completedTask.save();
-		student.removeTask(task);
+		user.removeTask(task);
 		await task.remove();
-		student.addTask(completedTask);
+		user.addTask(completedTask);
 		task.removeStudent(teacher.getTaskByTitle(completedTask));
 
 		// Create log events.
 		logEvent(TaskEvent, {
 			message: Messages.TEMPLATE_TASK_CONFIRM_COMPLETION,
 			owner: req.user,
-			user: student,
+			user,
 			task
 		});
 
-		logEvent(MessageEvent, {
+		const event = logEvent(MessageEvent, {
 			body: Messages.TEMPLATE_TEACHER_TASK_CONFIRM_COMPLETION_MSG,
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
-			user: student,
+			user,
 			task
 		});
+		await user.addNotification(event);
 
 		if (task.rewards) {
 			req.session.body = { rewards: task.rewards };
-			res.redirect(`/api/teachers/${teacher.id}/students/${student.id}/`);
+			res.redirect(`/api/teachers/${teacher.id}/students/${user.id}/`);
 		}
 
 		res.json(createResponse(completedTask));
@@ -345,12 +348,12 @@ router.patch("/:te_id/student/:st_id/rejectTask/:t_id", async (req, res) => {
 			Teacher.findById.bind(Teacher)
 		);
 
-		const student = await teacher.getStudent(req.params.st_id);
-		if (!student) {
+		const user = await teacher.getStudent(req.params.st_id);
+		if (!user) {
 			throw new Error(`That teacher doesn't have a student with that id`);
 		}
 
-		const task = student.getTask(req.params.t_id);
+		const task = user.getTask(req.params.t_id);
 		if (!task) {
 			throw new Error(`That student doesn't have a task with that id`);
 		}
@@ -358,26 +361,27 @@ router.patch("/:te_id/student/:st_id/rejectTask/:t_id", async (req, res) => {
 		// Create rejected task.
 		const rejectedTask = new RejectedTask(task.toNewObject());
 		await rejectedTask.save();
-		student.removeTask(task);
+		user.removeTask(task);
 		await task.remove();
-		student.addTask(rejectedTask);
+		user.addTask(rejectedTask);
 		task.removeStudent(teacher.getTaskByTitle(rejectedTask));
 
 		// Create log events.
 		logEvent(TaskEvent, {
 			message: Messages.TEMPLATE_TASK_REJECT_COMPLETION,
 			owner: req.user,
-			user: student,
+			user,
 			task
 		});
 
-		logEvent(MessageEvent, {
+		const event = logEvent(MessageEvent, {
 			body: Messages.TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG,
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
-			user: student,
+			user,
 			task
 		});
+		await user.addNotification(event);
 
 		res.json(createResponse(rejectedTask));
 	} catch (error) {
@@ -479,13 +483,14 @@ router.patch("/:te_id/student/:st_id/distribute", async (req, res) => {
 						reward: newReward
 					});
 
-					logEvent(MessageEvent, {
+					const event = logEvent(MessageEvent, {
 						body: Messages.TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG,
 						message: Messages.TEMPLATE_SEND_MESSAGE,
 						owner: req.user,
 						user: student,
 						reward: newReward
 					});
+					await student.addNotification(event);
 				});
 			})
 		);
@@ -551,7 +556,13 @@ router.get("/:id/notifications", async (req, res) => {
 		);
 
 		// Create log event.
-		teacher.notificationList = teacher.notifications.join(",") || "None found";
+		teacher.notificationList =
+			teacher.notifications
+				.map(el => {
+					console.log(el._message);
+					el._message;
+				})
+				.join(",") || "None found";
 		logEvent(UserEvent, {
 			message: Messages.TEMPLATE_TEACHER_NOTIFICATION_READ,
 			owner: req.user,

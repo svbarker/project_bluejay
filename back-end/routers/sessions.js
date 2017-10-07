@@ -6,7 +6,6 @@ const { ErrorEvent, UserEvent, Messages } = require("../models/events");
 
 // passport login route
 router.post("/", async (req, res, next) => {
-	console.log(router.socket);
 	try {
 		await passport.authenticate("local", async (err, user, info) => {
 			try {

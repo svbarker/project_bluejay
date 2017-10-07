@@ -13,15 +13,15 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 const store = createStore(reducers, applyMiddleware(thunk));
 
 const Index = () => {
-  return (
-    <MuiThemeProvider>
-      <Provider store={store}>
-        <Router>
-          <AppContainer />
-        </Router>
-      </Provider>
-    </MuiThemeProvider>
-  );
+	return (
+		<MuiThemeProvider>
+			<Provider store={store}>
+				<Router>
+					<AppContainer />
+				</Router>
+			</Provider>
+		</MuiThemeProvider>
+	);
 };
 
 ReactDOM.render(<Index />, document.getElementById("root"));

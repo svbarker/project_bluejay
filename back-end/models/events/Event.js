@@ -53,6 +53,21 @@ EventSchema.virtual("message").get(function() {
 	return this._message;
 });
 
+EventSchema.methods.cleanForLog = function() {
+	const thisObj = this.toObject();
+	const modelNames = Object.keys(models).map(key => key.toLowerCase());
+	for (let key in thisObj) {
+		if (key !== "owner" && !modelNames.some(name => name.startsWith(key)))
+			continue;
+		if (this[key].cleanForLog && typeof this[key].cleanForLog === "function") {
+			thisObj[key] = this[key].cleanForLog();
+		} else {
+			thisObj[key] = this[key].toObject();
+		}
+	}
+	return thisObj;
+};
+
 EventSchema.methods.toString = function() {
 	return this._message;
 };
@@ -61,12 +76,15 @@ EventSchema.pre("save", async function(next) {
 	const thisObj = this.toObject();
 	const modelNames = Object.keys(models).map(key => key.toLowerCase());
 	for (let key in thisObj) {
-		if (!modelNames.some(name => name.startsWith(key))) continue;
-		this[key] = this[key].toObject();
-		delete this[key]._id;
+		if (key !== "owner" && !modelNames.some(name => name.startsWith(key)))
+			continue;
+		if (this[key].cleanForLog && typeof this[key].cleanForLog === "function") {
+			this[key] = this[key].cleanForLog();
+		} else {
+			if (key !== "owner") this[key] = this[key].toObject();
+		}
 	}
-
-	next(this);
+	next();
 });
 
 const Event = mongoose.model("Event", EventSchema);
