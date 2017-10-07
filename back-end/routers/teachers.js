@@ -189,6 +189,8 @@ router.patch("/:te_id/classroom/:cl_id/assign/:t_id", async (req, res) => {
 		const studentsAssigned = [];
 		const students = await classroom.getPopulatedStudents();
 		students.forEach(async user => {
+			user.tasks = await Task.find({ _id: user.tasks });
+			console.log(user.tasks);
 			if (user.hasTask(task)) return;
 
 			studentsAssigned.push(user);
