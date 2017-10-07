@@ -17,7 +17,7 @@ import TRewards from "./teacherViews/TRewards";
 import PageNotFound from "./GlobalComponents/PageNotFound";
 import connect from "socket.io-client";
 
-const userType = "Teacher";
+const userType = "Student";
 // const userType = "Teacher";
 
 class App extends Component {

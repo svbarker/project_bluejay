@@ -137,11 +137,12 @@ router.patch("/:id/complete/:t_id", async (req, res) => {
 			user,
 			task
 		});
-
+		console.log("EVENT: ", event);
+		console.log("TASK: ", task);
 		await user.addNotification(event);
-
-		if (router.socket) {
-			router.socket.emit(Events.REFRESH_NOTIFICATIONS);
+		if (req.socket && user.socketId) {
+			console.log("REFRESH NOTIFYS");
+			req.socket.to(user.socketId).emit(Events.REFRESH_NOTIFICATIONS);
 		}
 
 		res.json(createResponse(task));
