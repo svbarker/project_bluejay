@@ -1,5 +1,5 @@
 import React from "react";
-import sNotifications from "./SNotifications";
+import Notifications from "./SNotifications";
 import { connect } from "react-redux";
 
 import {
@@ -27,7 +27,7 @@ class NotificationsContainer extends React.Component {
       notifications: this.props.notifications,
       user: this.props.user
     };
-    return <sNotifications {...NotificationsProps} />;
+    return <Notifications {...NotificationsProps} />;
   }
 }
 

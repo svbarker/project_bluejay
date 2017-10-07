@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import STaskList from "./STaskList";
+import TaskList from "./STaskList";
 
 import { hydrateStudentTasks, completeTask } from "../../../redux/actions/task";
 
@@ -16,7 +16,7 @@ class StudentTaskListContainer extends React.Component {
 
   render() {
     return (
-      <sTaskList
+      <TaskList
         userId={this.props.user.id}
         tasks={this.props.tasks}
         hydrateTasks={this.props.hydrateTasks}
