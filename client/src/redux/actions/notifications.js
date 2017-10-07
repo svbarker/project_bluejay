@@ -74,6 +74,7 @@ export const acceptEvent = (
       throw new Error(response.apiError.message);
     }
     // remove from teacher's notifications
+
     response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
       credentials: "include",
       method: "DELETE"

@@ -8,9 +8,9 @@ const iconStyles = { marginTop: "25px", color: "#507c0c" };
 const getListItemStyle = n => ({
   margin: "50px 150px",
   paddingBottom: "20px",
-  border: `20px solid ${n.task
-    ? "rgba( 26,132,132,.5)"
-    : "rgba(150,205, 40,.5)"}`
+  border: `10px solid ${n.task
+    ? "rgba( 26,132,132,.9)"
+    : "rgba(150,205, 40,.9)"}`
 });
 
 const pendingListItemStyle = {
