@@ -11,7 +11,9 @@ class StudentNavbar extends Component {
   constructor(props) {
     super(props);
     this.props.socket.on(Events.REFRESH_NOTIFICATIONS, () => {
-      this.props.fetchStudentNotifications(this.props.userId);
+      console.log("RECEIVED REFRESH NOTIFICAIONTS SOCKET");
+      this.props.refreshPoints();
+      this.props.fetchStudentNotifications(this.props.user.id);
     });
   }
 
@@ -21,6 +23,7 @@ class StudentNavbar extends Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <div className="navbar">
         <div className="navbar-left">

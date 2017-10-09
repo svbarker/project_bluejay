@@ -12,6 +12,15 @@ export const updatePoints = points => ({
   data: points
 });
 
-const editUser = () => () => {
-  //
+export const refreshPoints = () => async dispatch => {
+  try {
+    let response = await fetch(`/api/students/points`, {
+      method: "GET",
+      credentials: "include"
+    });
+    response = await response.json();
+    dispatch(updatePoints(response.apiData));
+  } catch (error) {
+    console.error(error);
+  }
 };

@@ -3,6 +3,7 @@ import SNavbar from "./SNavbar";
 import { withRouter } from "react-router";
 import { logoutUser } from "../../../redux/actions";
 import { fetchStudentNotifications } from "../../../redux/actions/notifications";
+import { refreshPoints } from "../../../redux/actions/user";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -10,7 +11,8 @@ const mapStateToProps = (state, ownProps) => {
     points: state.user.points,
     displayName: state.user.displayName,
     avatar: state.user.avatar,
-    notifications: state.notifications
+    notifications: state.notifications,
+    user: state.user
   };
 };
 
@@ -21,6 +23,9 @@ const mapDispatchToProps = dispatch => {
     },
     fetchStudentNotifications: id => {
       dispatch(fetchStudentNotifications(id));
+    },
+    refreshPoints: () => {
+      dispatch(refreshPoints());
     }
   };
 };

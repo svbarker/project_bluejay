@@ -181,6 +181,16 @@ router.get("/:id/rewards", async (req, res) => {
   }
 });
 
+router.get("/points", async (req, res) => {
+  try {
+    const student = req.user;
+    res.json(createResponse(student.points));
+  } catch (error) {
+    logError(error);
+    res.json(createResponse(error));
+  }
+});
+
 // purchase a reward
 router.patch("/:s_id/purchase/:r_id", async (req, res) => {
   try {

@@ -13,7 +13,7 @@ const user = (state = {}, action) => {
     case UPDATE_POINTS:
       return {
         ...state,
-        points: action.data.points
+        points: action.data
       };
     default:
       return state;
