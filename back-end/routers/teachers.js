@@ -244,6 +244,7 @@ router.patch("/:te_id/student/:st_id/confirmTask/:t_id", async (req, res) => {
 		}
 
 		const task = user.getTask(req.params.t_id); // Assigned or RejectedTask
+		console.log(task instanceof AssignedTask);
 		if (!task) {
 			throw new Error(`That student doesn't have a task with that id`);
 		}
@@ -665,13 +666,15 @@ router.delete("/:t_id/notifications/:n_id", async (req, res) => {
 	try {
 		const teacher = await getResource(
 			req.params.t_id,
-			Teacher.findByIdAndRemove.bind(Teacher)
+			Teacher.findById.bind(Teacher)
 		);
-
-		teacher.notifications = teacher.notifications.filter(
-			notification => notification._id !== req.params.n_id
-		);
-		await teacher.save();
+		await teacher.update({
+			$set: {
+				notifications: teacher.notifications.filter(
+					notification => notification._id !== req.params.n_id
+				)
+			}
+		});
 		res.json(createResponse(teacher.notifications));
 	} catch (error) {
 		logError(error);
