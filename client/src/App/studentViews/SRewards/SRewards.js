@@ -39,9 +39,14 @@ class StudentRewards extends React.Component {
       loading: false
     });
   };
+
   onPurchase = rewardId => {
-    this.props.redeemReward(this.props.user.id, rewardId);
+    this.props.redeemReward(this.props.userId, rewardId);
   };
+
+  componentDidMount() {
+    // this.getRewards();
+  }
 
   render = () => {
     if (this.state.loading) {
@@ -50,7 +55,7 @@ class StudentRewards extends React.Component {
         !this.state.fetchingRewards
       ) {
         //go fetch some data
-        this.getRewards();
+        // this.getRewards();
       }
       //display load screen
       return <LoadScreen />;
