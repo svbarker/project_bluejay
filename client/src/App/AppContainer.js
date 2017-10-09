@@ -14,7 +14,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => {
   return {
     user: state.user,
-    loading: state.status.isFetching
+    status: state.status
   };
 };
 

@@ -7,23 +7,30 @@ import rewardOptions from "./rewardOptions";
 import notifications from "./notifications";
 import classrooms from "./classrooms";
 
-import { START_REQUEST, FAILURE_REQUEST } from "../actions/index";
+import { START_REQUEST, END_REQUEST } from "../actions/index";
 
-const status = {
+const initialState = {
   isFetching: false,
   error: null
 };
-const reducer = (state = status, action) => {
+
+const status = (state = status, action) => {
   switch (action.type) {
-    case FAILURE_REQUEST:
+    case END_REQUEST:
       return {
         ...state,
-        error: action.data
+        status: {
+          isFetching: false,
+          error: action.data
+        }
       };
     case START_REQUEST:
       return {
         ...state,
-        error: action.data
+        status: {
+          isFetching: true,
+          error: null
+        }
       };
     default:
       return state;
@@ -38,7 +45,7 @@ const rootReducer = combineReducers({
   rewardOptions,
   notifications,
   classrooms,
-  status: reducer
+  status
 });
 
 export default rootReducer;

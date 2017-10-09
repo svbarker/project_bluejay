@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Login from "../../GlobalComponents/Login";
 import FlatButton from "material-ui/FlatButton";
+import "./TLogin.css";
 
 class TLogin extends Component {
 	handleLogin = e => {
@@ -15,9 +16,9 @@ class TLogin extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="login-container">
 				<h3>
-					Don't have an account? <FlatButton label="Sign In" />
+					Don't have an account? <FlatButton label="Sign Up" />
 				</h3>
 				<Login onSubmit={this.handleLogin} />
 			</div>

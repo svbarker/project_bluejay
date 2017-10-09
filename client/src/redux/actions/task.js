@@ -1,6 +1,6 @@
 import * as Event from "./events";
 import { unassignTask, bulkUnassign } from "./student";
-import { startRequest, failedRequest } from "./index";
+import { startRequest, endRequest } from "./index";
 export const GET_ALL_TASKS = "GET_ALL_TASKS";
 export const GET_ONE_TASK = "GET_ONE_TASK";
 export const ADD_TASK = "ADD_TASK";
@@ -94,12 +94,13 @@ export const unAssignTask = (task, studentId) => async dispatch => {
       throw new Error(response.apiError.message);
     }
     //update the student and the task
-    dispatch(unassignTask(studentId, task._id));
-    dispatch(unassignStudent(studentId, task._id));
+    await dispatch(unassignTask(studentId, task._id));
+    await dispatch(unassignStudent(studentId, task._id));
+    dispatch(endRequest(null));
   } catch (error) {
     //dispatch error
     console.error(error);
-    dispatch(failedRequest(error));
+    dispatch(endRequest(error));
   }
 };
 export const bulkUnassignTask = (task, studentIds) => async dispatch => {
@@ -139,16 +140,17 @@ export const bulkUnassignTask = (task, studentIds) => async dispatch => {
     serverResponse = await serverResponse.json();
     if (serverResponse.success) {
       //update the students and the tasks
-      dispatch(bulkUnassign(studentIds)); //a student redux store action
-      dispatch(bulkUnassignStudents(task._id)); //a task redux store action
+      await dispatch(bulkUnassign(studentIds)); //a student redux store action
+      await dispatch(bulkUnassignStudents(task._id)); //a task redux store action
+      dispatch(endRequest(null));
     } else {
       console.error("problems in Bulk Unassign");
       console.log("serverResponse = ", serverResponse);
-      dispatch(failedRequest(serverResponse.apiError));
+      dispatch(endRequest(serverResponse.apiError));
     }
   } catch (error) {
     //dispatch error
-    dispatch(failedRequest(error));
+    dispatch(endRequest(error));
     console.log(error);
   }
 };

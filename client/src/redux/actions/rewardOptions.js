@@ -1,4 +1,4 @@
-import { startRequest, failedRequest } from "./index";
+import { startRequest, endRequest } from "./index";
 export const GET_ALL_REWARD_OPTIONS = "GET_ALL_REWARD_OPTIONS";
 
 export const getAllRewardOptions = options => {
@@ -39,9 +39,10 @@ export const getStudentRewardOptions = classrooms => async dispatch => {
 		flatListORewards = flatListORewards.filter(reward =>
 			reward.hasOwnProperty("cost")
 		);
-		dispatch(getAllRewardOptions(flatListORewards));
+		await dispatch(getAllRewardOptions(flatListORewards));
+		dispatch(endRequest(null));
 	} catch (e) {
 		console.error(e);
-		dispatch(failedRequest(e));
+		dispatch(endRequest(e));
 	}
 };

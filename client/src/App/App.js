@@ -15,6 +15,7 @@ import STasks from "./studentViews/STasks";
 import SRewards from "./studentViews/SRewards";
 import TRewards from "./teacherViews/TRewards";
 import PageNotFound from "./GlobalComponents/PageNotFound";
+import LoadScreen from "./GlobalComponents/LoadScreen";
 import connect from "socket.io-client";
 
 // const userType = "Student";
@@ -32,10 +33,9 @@ class App extends Component {
 	}
 
 	render() {
-		if (!this.props.user.id) {
-			return (
-				<TLogin loginTeacher={this.props.loginUser} socket={this.socket} />
-			);
+		console.log("rendering... ", this.props.status.isFetching);
+		if (this.props.status.isFetching) {
+			return <LoadScreen />;
 		} else if (this.props.user.kind === "Teacher") {
 			return (
 				<div className="App">
@@ -64,7 +64,7 @@ class App extends Component {
 					</Router>
 				</div>
 			);
-		} else {
+		} else if (this.props.user.kind === "Student") {
 			return (
 				<div className="App">
 					<Router>
@@ -86,6 +86,10 @@ class App extends Component {
 						</div>
 					</Router>
 				</div>
+			);
+		} else {
+			return (
+				<TLogin loginTeacher={this.props.loginUser} socket={this.socket} />
 			);
 		}
 	}
