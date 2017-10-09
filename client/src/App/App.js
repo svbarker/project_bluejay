@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 import TNavbar from "./Navbars/TNavbar";
 import SNavbar from "./Navbars/SNavbar";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 
 //Components
+import Register from "./GlobalComponents/Register";
 import LoginContainer from "./GlobalComponents/LoginContainer";
 import TDashboard from "./teacherViews/TDashboard";
 import SDashboard from "./studentViews/SDashboard";
@@ -22,7 +28,6 @@ import connect from "socket.io-client";
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.socket = connect("/");
   }
 
@@ -101,7 +106,18 @@ class App extends Component {
         </div>
       );
     } else {
-      return <LoginContainer socket={this.socket} />;
+      return (
+        <Router>
+          <Switch>
+            <Route
+              path="/login"
+              component={() => <LoginContainer socket={this.socket} />}
+            />
+            <Route path="/register" component={Register} />
+            <Redirect from="/" to="/login" />
+          </Switch>
+        </Router>
+      );
     }
   }
 }
