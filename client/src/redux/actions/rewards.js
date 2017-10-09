@@ -76,11 +76,13 @@ export const createReward = (teacherId, reward) => async dispatch => {
   //check for server errors
   // console.log("response from createReward API = ", data);
   if (!data.success) {
+    dispatch(endRequest(data.apiError));
     console.error(data.apiError);
     return;
   }
   //TODO: double check that we're getting this back from server
   dispatch(addReward(data.apiData));
+  dispatch(endRequest(null));
 };
 
 //get all the rewards for a teacher
@@ -109,9 +111,11 @@ export const getAllRewards = (userId, userKind) => async dispatch => {
   response = await response.json();
   if (!response.success) {
     console.error(response.apiError);
+    dispatch(endRequest(response.apiError));
     return null;
   }
   dispatch(getRewards(response.apiData));
+  dispatch(endRequest(null));
 };
 
 //works??

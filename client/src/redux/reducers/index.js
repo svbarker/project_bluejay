@@ -18,11 +18,8 @@ const status = (state = status, action) => {
   switch (action.type) {
     case END_REQUEST:
       return {
-        ...state,
-        status: {
-          isFetching: false,
-          error: action.data
-        }
+        isFetching: false,
+        error: action.data
       };
     case START_REQUEST:
       return {
