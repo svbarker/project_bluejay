@@ -1,13 +1,13 @@
 import { connect } from "react-redux";
 import App from "./App";
-import { loginTeacher, loginStudent } from "../redux/actions";
+import { loginUser, returningUser } from "../redux/actions";
 
 const mapDispatchToProps = dispatch => ({
-  loginTeacher: socket => {
-    dispatch(loginTeacher(socket));
+  loginUser: (email, password, socket) => {
+    dispatch(loginUser(email, password, socket));
   },
-  loginStudent: socket => {
-    dispatch(loginStudent(socket));
+  returningUser: socket => {
+    dispatch(returningUser(socket));
   }
 });
 

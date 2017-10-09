@@ -3,6 +3,8 @@ const { createResponse } = require("../server/util");
 const passport = require("passport");
 const { getResource, logEvent, logError } = require("../server/util");
 const { ErrorEvent, UserEvent, Messages } = require("../models/events");
+const mw = require("../server/middleware");
+const { User } = require("../models");
 
 // passport login route
 router.post("/", async (req, res, next) => {
@@ -28,6 +30,21 @@ router.post("/", async (req, res, next) => {
 				res.json(createResponse(err));
 			}
 		})(req, res, next);
+	} catch (error) {
+		logError(error);
+		res.json(createResponse(error));
+	}
+});
+
+//get data to hydrate front end if user has persisting session
+router.get("/", mw.authCheck, async (req, res, next) => {
+	try {
+		if (!req.user) {
+			return res.end();
+		}
+
+		const user = await User.findById(req.user.id);
+		res.json(createResponse(user));
 	} catch (error) {
 		logError(error);
 		res.json(createResponse(error));

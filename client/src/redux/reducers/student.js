@@ -30,8 +30,7 @@ const students = (state = studentInitState, action) => {
     case REMOVE_STUDENT:
       return state.students.filter(student => student.id !== action.data);
     case UNASSIGN_TASK:
-      // console.log("state in reducer = ", state);
-      //uncertain that this works
+      //TODO: implement this by returning new student objects maybe?
       return state.map(student => {
         if (student._id === action.data.studentId) {
           student.tasks = student.tasks.filter(
@@ -43,17 +42,17 @@ const students = (state = studentInitState, action) => {
         }
       });
     case BULK_UNASSIGN_TASK:
-      //NOT IMPLEMENTED YET
-      // return state.map(student => {
-      //   if (student._id === action.data.studentId) {
-      //     student.tasks = student.tasks.filter(
-      //       task => task._id !== action.data.taskId
-      //     );
-      //     return student;
-      //   } else {
-      //     return student;
-      //   }
-      // });
+      //remove the task from all the appropriate students
+      return state.map(student => {
+        if (action.data.studentIds.includes(student._id)) {
+          student.tasks = student.tasks.filter(
+            task => task._id !== action.data.taskId
+          );
+          return student;
+        } else {
+          return student;
+        }
+      });
       return state;
 
     default:

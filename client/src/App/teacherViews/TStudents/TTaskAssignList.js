@@ -13,19 +13,19 @@ class TaskAssignList extends Component {
   render() {
     return (
       <div>
-        <Card style={{ "background-color": "#85dcdc" }}>
+        <Card style={{ backgroundColor: "#85dcdc" }}>
           <CardHeader
             actAsExpander={true}
             showExpandableButton={true}
             style={{
-              "background-color": "#1a8484"
+              backgroundColor: "#1a8484"
             }}
             iconStyle={{ color: "white" }}
             title="Tasks"
             titleStyle={{
               color: "white",
-              "font-weight": "bold",
-              "font-size": "16px"
+              fontWeight: "bold",
+              fontSize: "16px"
             }}
           />
           <CardText expandable={true}>

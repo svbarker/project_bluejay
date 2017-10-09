@@ -154,12 +154,59 @@ router.patch("/:id/unassign/:s_id", async (req, res) => {
     });
     await task.save();
     //remove task from the students list of tasks
+    //NOTE:
+    //probably need to integrate this with how we're doing assigned tasks
+    //removing tasks by title now
     student.tasks = student.tasks.filter(currentTask => {
-      return currentTask.id !== task.id;
+      return currentTask.title !== task.title;
     });
     await student.save();
     //assuming no errors, sending no response
     res.json(createResponse(student.id));
+  } catch (error) {
+    logError(error);
+    res.json(createResponse(error));
+  }
+});
+//STATUS: NOT INTEGRATED WITH LOGGER & || req.session things
+//BULK-UNASSIGN TASK FROM STUDENT ROUTE
+router.patch("/:id/bulkunassign", async (req, res) => {
+  try {
+    let { studentIds } = req.body;
+    let students;
+    let promiseOfStudents = [];
+
+    // Get the task.
+    let task = await getResource(req.params.id, Task.findById.bind(Task));
+
+    // Get the students.
+    promiseOfStudents = studentIds.map(id =>
+      getResource(id, Student.findById.bind(Student))
+    );
+    students = await Promise.all(promiseOfStudents);
+    //this O(n^2) runtime though, stank nasty
+
+    //remove students from task's list of students
+    students.forEach(async student => {
+      task.students = task.students.filter(currentStudent => {
+        return currentStudent.id !== student.id;
+      });
+    });
+    await task.save();
+
+    //remove task from the students list of tasks
+    //NOTE:
+    //probably need to integrate this with how we're doing assigned tasks
+    //removing tasks by title now
+    students.forEach(async student => {
+      student.tasks = student.tasks.filter(assignedTask => {
+        return assignedTask.title !== task.title;
+      });
+      await student.save();
+    });
+
+    //assuming no errors, sending no response
+    res.json(createResponse(studentIds));
   } catch (error) {
     logError(error);
     res.json(createResponse(error));
