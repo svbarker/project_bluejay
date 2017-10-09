@@ -62,18 +62,19 @@ export const acceptEvent = (
     }
     type = type[0].toUpperCase().concat(type.slice(1));
     const url = `/api/teachers/${t_id}/student/${s_id}/confirm${type}/${ta_id}`;
-    console.log(url);
-    let response = await fetch(url, {
-      credentials: "include",
-      method: "PATCH"
-    });
-    console.log(url, "---2");
+    let response = await fetch(
+      `/api/teachers/${t_id}/student/${s_id}/confirm${type}/${ta_id}`,
+      {
+        credentials: "include",
+        method: "PATCH"
+      }
+    );
     response = await response.json();
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
-    // dispatch(???);
     // remove from teacher's notifications
+
     response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
       credentials: "include",
       method: "DELETE"
