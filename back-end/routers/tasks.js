@@ -165,6 +165,50 @@ router.patch("/:id/unassign/:s_id", async (req, res) => {
     res.json(createResponse(error));
   }
 });
+//THIS IS BROKEN
+//STATUS: NOT INTEGRATED WITH LOGGER & || req.session things
+//BULK-UNASSIGN TASK FROM STUDENT ROUTE
+router.patch("/:id/bulkunassign", async (req, res) => {
+  try {
+    let { studentIds } = req.body;
+    let students;
+    let promiseOfStudents = [];
+
+    // Get the task.
+    let task = await getResource(req.params.id, Task.findById.bind(Task));
+
+    // Get the students.
+    promiseOfStudents = studentIds.map(id =>
+      getResource(id, Student.findById.bind(Student))
+    );
+    students = await Promise.all(promiseOfStudents);
+    //this O(n^2) runtime though, stank nasty
+
+    //remove students from task's list of students
+    students.forEach(async student => {
+      task.students = task.students.filter(currentStudent => {
+        return currentStudent.id !== student.id;
+      });
+    });
+    await task.save();
+
+    //remove task from the students list of tasks
+    //********THIS ISN'T WORKING
+    students.forEach(async student => {
+      student.tasks = student.tasks.filter(currentTask => {
+        return currentTask.id !== task.id;
+      });
+      await student.save();
+    });
+    //********THIS ISN'T WORKING
+
+    //assuming no errors, sending no response
+    res.json(createResponse(studentIds));
+  } catch (error) {
+    logError(error);
+    res.json(createResponse(error));
+  }
+});
 
 //ASSIGN A TASK TO A STUDENT
 router.patch("/:id/assign/:s_id", async (req, res) => {

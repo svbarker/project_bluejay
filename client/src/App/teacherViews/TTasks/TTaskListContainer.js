@@ -57,26 +57,13 @@ class TaskListContainer extends React.Component {
     }
   }
 
-  //when a task card is clicked hydrate the students for that task
-  hydrateStudentList = task => {
-    //don't think this is needed anymore...
-  };
   //unassigment functionality passed all the way down
   //to taskCard, and StudentModal
   onUnAssignAll = (task, students = null) => {
     let studentIds = students.map(student => student._id);
     this.props.bulkUnassignTask(task, studentIds);
   };
-
-  onUnAssignOne = (task, studentId) => {
-    //call this for the student
-    // this.props.unAssignTask
-    console.log(
-      "unassignOne clicked, task = ",
-      task,
-      ", student = ",
-      studentId
-    );
+  onUnAssignOne = async (task, studentId) => {
     this.props.unAssignTask(task, studentId);
   };
 

@@ -15,7 +15,6 @@ const TaskList = props => {
       const studentsAssignedTask = task.students.map(studentId =>
         students.find(student => student._id === studentId)
       );
-      // console.log("students of task = ", studentsAssignedTask);
       return (
         <TaskCard
           unAssignAll={students => {

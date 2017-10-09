@@ -17,16 +17,16 @@ class StudentTaskListMenuCard extends React.Component {
     const { markCompleted, user, socket } = this.props;
 
     return (
-      <Card style={{ "margin-bottom": "20px", "background-color": "#85DCDC" }}>
+      <Card style={{ marginBottom: "20px", backgroundColor: "#85DCDC" }}>
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
           title={title}
           style={{
-            "background-color": "#1a8484"
+            backgroundColor: "#1a8484"
           }}
           iconStyle={{ color: "white" }}
-          titleStyle={{ color: "white", "font-weight": "bold" }}
+          titleStyle={{ color: "white", fontWeight: "bold" }}
         />
         <CardText expandable={true}>
           <Paper style={{ padding: "20px" }}>
