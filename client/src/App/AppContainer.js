@@ -4,7 +4,7 @@ import { loginUser, returningUser } from "../redux/actions";
 
 const mapDispatchToProps = dispatch => ({
   loginUser: (email, password, socket) => {
-    dispatch(loginUser(email, password, socket));
+    return dispatch(loginUser(email, password, socket));
   },
   returningUser: socket => {
     dispatch(returningUser(socket));

@@ -4,7 +4,7 @@ import SNavbar from "./Navbars/SNavbar";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 //Components
-import TLogin from "./teacherViews/TLogin";
+import LoginContainer from "./GlobalComponents/LoginContainer";
 import TDashboard from "./teacherViews/TDashboard";
 import SDashboard from "./studentViews/SDashboard";
 import TNotifications from "./teacherViews/TNotifications";
@@ -59,7 +59,10 @@ class App extends Component {
                 />
                 {/* <Route path="/" component={PageNotFound} /> */}
                 {/* Testing a login route over here */}
-                <Route path="/login" component={() => <TLogin />} />
+                <Route
+                  path="/login"
+                  component={() => <LoginContainer socket={this.socket} />}
+                />
               </Switch>
             </div>
           </Router>
@@ -98,9 +101,7 @@ class App extends Component {
         </div>
       );
     } else {
-      return (
-        <TLogin loginTeacher={this.props.loginUser} socket={this.socket} />
-      );
+      return <LoginContainer socket={this.socket} />;
     }
   }
 }

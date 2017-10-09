@@ -3,3 +3,8 @@
 	text-align: center;
 	margin: 0 auto;
 }
+
+.login-container span {
+	color: red;
+	font-size: 12px;
+}

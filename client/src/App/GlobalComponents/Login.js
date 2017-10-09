@@ -1,84 +1,53 @@
 import React, { Component } from "react";
-import validator from "validator";
 import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
+import FlatButton from "material-ui/FlatButton";
+import LoggedOutNavbar from "../Navbars/LoggedOutNavbar";
+import "./Login.css";
 
-class Login extends Component {
-	constructor(props) {
-		super(props);
+const Login = ({
+	validate,
+	onSubmit,
+	emailError,
+	passwordError,
+	submitError
+}) => {
+	return (
+		<div>
+			<LoggedOutNavbar />
+			<div className="login-container">
+				<h3>
+					Don't have an account? <FlatButton label="Sign Up" />
+				</h3>
+				<Paper style={{ padding: "20px" }}>
+					<h2>Login to Continue</h2>
 
-		this.state = {
-			emailError: null,
-			passwordError: null,
-			submitError: null
-		};
-	}
-
-	emailValidate = email => {
-		let error = validator.isEmpty(email) ? "Email is required." : null;
-		error =
-			error ||
-			(validator.isEmail(email) ? null : "Please enter a valid email.");
-
-		this.setState({ emailError: error });
-	};
-
-	passwordValidate = password => {
-		const error = validator.isEmpty(password) ? "Password is required." : null;
-
-		this.setState({ passwordError: error });
-	};
-
-	validate = e => {
-		this[`${e.target.id}Validate`](e.target.value);
-	};
-
-	handleSubmit = async e => {
-		e.preventDefault();
-		console.log(e.target);
-		this.emailValidate(e.target.email.value);
-		console.log(e.target, "part 2");
-		this.passwordValidate(e.target.password.value);
-
-		if (!this.state.emailError && !this.state.passwordError) {
-			const error = await this.props.onSubmit(
-				e.target.email.value,
-				e.target.password.value,
-				this.props.socket
-			);
-
-			console.log(error);
-			this.setState({ submitError: error });
-		}
-	};
-
-	render() {
-		return (
-			<Paper style={{ padding: "20px" }}>
-				<h2>Login to Continue</h2>
-				<form onSubmit={this.handleSubmit}>
-					<TextField
-						floatingLabelText="Email"
-						type="email"
-						id="email"
-						errorText={this.state.emailError}
-						onBlur={this.validate}
-					/>
-					<br />
-					<TextField
-						floatingLabelText="Password"
-						type="password"
-						id="password"
-						errorText={this.state.passwordError}
-						onBlur={this.validate}
-					/>
-					<br />
-					<RaisedButton label="login" type="submit" />
-				</form>
-			</Paper>
-		);
-	}
-}
+					<form onSubmit={onSubmit}>
+						{!submitError ? null : <span>{submitError.message}</span>}
+						<br />
+						<TextField
+							floatingLabelText="Email"
+							type="email"
+							id="email"
+							errorText={emailError}
+							onBlur={validate}
+						/>
+						<br />
+						<TextField
+							floatingLabelText="Password"
+							type="password"
+							id="password"
+							errorText={passwordError}
+							onBlur={validate}
+						/>
+						<br />
+						<RaisedButton label="login" type="submit" />
+					</form>
+				</Paper>
+			</div>
+		</div>
+	);
+};
 
 export default Login;

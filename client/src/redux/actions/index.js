@@ -40,8 +40,8 @@ export const loginUser = (email, password, socket) => async dispatch => {
 		console.log(loggedInUser);
 		setUser(loggedInUser, dispatch, socket);
 	} catch (error) {
-		return error.message;
 		dispatch(endRequest(error));
+		return error.message;
 	}
 };
 
@@ -62,7 +62,7 @@ export const returningUser = socket => async dispatch => {
 		setUser(loggedInUser, dispatch, socket);
 	} catch (error) {
 		console.log(error);
-		dispatch(endRequest(error));
+		dispatch(endRequest(null));
 	}
 };
 
