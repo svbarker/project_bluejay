@@ -31,14 +31,18 @@ class StudentList extends Component {
     console.log(this.props);
     return (
       <div className="students-container">
-        <Paper style={{ padding: "20px", "padding-top": "0" }}>
+        <Paper style={{ padding: "20px", paddingTop: "0" }}>
           <SelectField
             floatingLabelText="Current Class"
             value={this.state.classIndex}
             onChange={this.handleChange}
           >
             {this.props.classrooms.map((classroom, i) => (
-              <MenuItem value={i} primaryText={classroom.title} />
+              <MenuItem
+                key={classroom._id}
+                value={i}
+                primaryText={classroom.title}
+              />
             ))}
           </SelectField>
           <ClassAssign
@@ -49,7 +53,11 @@ class StudentList extends Component {
         <div className="student-card-container">
           {!this.props.students ? null : (
             this.props.students.map(student => (
-              <StudentCard student={student} teacherId={this.props.teacherId} />
+              <StudentCard
+                key={student._id}
+                student={student}
+                teacherId={this.props.teacherId}
+              />
             ))
           )}
         </div>

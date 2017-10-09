@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { NavLink } from "react-router-dom";
 import Paper from "material-ui/Paper";
 import Avatar from "material-ui/Avatar";
 import { List, ListItem } from "material-ui/List";
@@ -8,8 +9,6 @@ import Chip from "material-ui/Chip";
 
 //actions
 import { getAllRewards } from "../../../redux/actions/rewards";
-
-// const SRewardsWallet = () => <h5>Suprah Awesome Wallet Here</h5>;
 
 class SRewardsWallet extends React.Component {
   constructor(props) {
@@ -23,7 +22,9 @@ class SRewardsWallet extends React.Component {
     if (this.props.rewards.length) {
       pendingRewards = this.props.rewards.map(reward => (
         <ListItem key={reward._id}>
-          <Chip>{reward.title}</Chip>
+          <NavLink to="/rewards">
+            <Chip>{reward.title}</Chip>
+          </NavLink>
         </ListItem>
       ));
     } else {
