@@ -104,31 +104,7 @@ export const unAssignTask = (task, studentId) => async dispatch => {
   }
 };
 export const bulkUnassignTask = (task, studentIds) => async dispatch => {
-  dispatch(startRequest());
   try {
-    ///****old code
-    // console.log(studentIds);
-    // let calls = studentIds.map(studentId => {
-    //   return fetch(`api/tasks/${task._id}/unassign/${studentId}`, {
-    //     method: "PATCH",
-    //     credentials: "include"
-    //   });
-    // });
-    // console.log("calls = ", calls);
-    // let responses = await Promise.all(calls);
-    // console.log("responses =", responses);
-    // let data = responses.map(response => response.json());
-    // let unpackedData = await Promise.all(data);
-
-    //
-    // if (unpackedData.every(data => data.success)) {
-    //   dispatch(bulkUnassign(studentIds, task._id));
-    // } else {
-    //   console.error("problems in Bulk Unassign");
-    //   console.log("unpackedData = ", unpackedData);
-    //   dispatch(failedRequest("problems in Bulk Unassign"));
-    // }
-    ///****old code
     let serverResponse = await fetch(`api/tasks/${task._id}/bulkunassign`, {
       method: "PATCH",
       credentials: "include",
@@ -155,6 +131,36 @@ export const bulkUnassignTask = (task, studentIds) => async dispatch => {
   }
 };
 
+export const assignTask = (
+  teacherId,
+  studentId,
+  assignableId,
+  type
+) => async dispatch => {
+  try {
+    let verb;
+    if (type === "tasks") {
+      verb = "assign";
+    } else if (type === "rewards") {
+      verb = "distribute";
+    }
+
+    let response = await fetch(
+      `/api/teachers/${teacherId}/students/${studentId}/${verb}/${assignableId}`,
+      {
+        method: "PATCH",
+        credentials: "include"
+      }
+    );
+    response = await response.json();
+    if (!response.success) {
+      throw new Error(response.apiError.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const completeTask = (s_id, t_id, socket) => async dispatch => {
   try {
     let response = await fetch(`api/students/${s_id}/complete/${t_id}`, {
@@ -162,7 +168,6 @@ export const completeTask = (s_id, t_id, socket) => async dispatch => {
       credentials: "include"
     });
     response = await response.json();
-    console.log(response);
     if (!response.success) {
       throw new Error(response.apiError.message);
     }

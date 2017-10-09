@@ -10,6 +10,16 @@ import Chip from "material-ui/Chip";
 //actions
 import { getAllRewards } from "../../../redux/actions/rewards";
 
+const headingStyle = {
+  color: "white",
+  backgroundColor: "#97cb39",
+  padding: "20px"
+};
+
+const ListItemStyle = {
+  padding: "10px"
+};
+
 class SRewardsWallet extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +31,7 @@ class SRewardsWallet extends React.Component {
     let pendingRewards;
     if (this.props.rewards.length) {
       pendingRewards = this.props.rewards.map(reward => (
-        <ListItem key={reward._id}>
+        <ListItem style={ListItemStyle} hoverColor="#1a8484" key={reward._id}>
           <NavLink to="/rewards">
             <Chip>{reward.title}</Chip>
           </NavLink>
@@ -32,9 +42,11 @@ class SRewardsWallet extends React.Component {
     }
 
     return (
-      <Paper>
-        <h1>Pending Rewards</h1>
-        <Divider />
+      <Paper style={{ backgroundColor: "#97cb39" }}>
+        <Paper style={headingStyle}>
+          <h1>Pending Rewards</h1>
+        </Paper>
+        <Divider inset={true} />
         <List>{pendingRewards}</List>
       </Paper>
     );

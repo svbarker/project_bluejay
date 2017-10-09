@@ -20,7 +20,8 @@ const {
   TaskEvent,
   RewardEvent,
   MessageEvent,
-  Messages
+  Messages,
+  Events
 } = require("../models/events");
 
 // creating a teacher
@@ -221,6 +222,9 @@ router.patch("/:te_id/classroom/:cl_id/assign/:t_id", async (req, res) => {
         task: assignedTask
       });
       await user.addNotifications(event);
+      if (req.socket && user.socketId) {
+        req.socket.to(user.socketId).emit(Events.REFRESH_NOTIFICATIONS);
+      }
     });
 
     res.json(createResponse(studentsAssigned));
@@ -501,6 +505,7 @@ router.patch("/:te_id/students/:st_id/distribute", async (req, res) => {
             reward: newReward
           });
           await student.addReward(newReward);
+
           resolve(event);
         });
       })

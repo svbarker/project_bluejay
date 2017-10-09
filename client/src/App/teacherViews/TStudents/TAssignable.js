@@ -50,6 +50,7 @@ class Assignable extends Component {
 
   async componentWillReceiveProps(nextProps) {
     if (nextProps.dropResult) {
+      console.log(nextProps.dropResult.result);
       const result = await nextProps.dropResult.result;
       let message;
       if (result.success) {
@@ -89,7 +90,7 @@ class Assignable extends Component {
         </Paper>
         <Snackbar
           open={this.state.open}
-          message={this.state.message}
+          message={this.state.message || "none"}
           autoHideDuration={1000}
           onRequestClose={this.handleRequestClose}
           bodyStyle={{ backgroundColor: "rgba(8, 90, 90, .4)" }}
