@@ -3,6 +3,10 @@ import { NavLink } from "react-router-dom";
 import Badge from "material-ui/Badge";
 import * as Events from "../../../redux/actions/events";
 
+import IconMenu from "material-ui/IconMenu";
+import MenuItem from "material-ui/MenuItem";
+import IconButton from "material-ui/IconButton";
+
 class StudentNavbar extends Component {
   constructor(props) {
     super(props);
@@ -50,11 +54,27 @@ class StudentNavbar extends Component {
                 {this.props.notifications.length}
               </li>
             </NavLink>
-            <NavLink to="/profile">
-              <li>
-                <i className="fa fa-user" aria-hidden="true" />
-              </li>
-            </NavLink>
+            <li>
+              <IconMenu
+                iconButtonElement={
+                  <IconButton>
+                    <i className="fa fa-user" aria-hidden="true" />
+                  </IconButton>
+                }
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                targetOrigin={{ horizontal: "right", vertical: "top" }}
+              >
+                <NavLink to="/rewardsWallet">
+                  <MenuItem primaryText="RewardsWallet" />
+                </NavLink>
+                <NavLink to="/">
+                  <MenuItem primaryText="Other great places" />
+                </NavLink>
+                <NavLink to="/secretpage">
+                  <MenuItem primaryText="Other great places" />
+                </NavLink>
+              </IconMenu>
+            </li>
             <a href="" onClick={this.logout}>
               <li>
                 <i className="fa fa-sign-out" aria-hidden="true" />

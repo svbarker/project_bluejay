@@ -53,7 +53,7 @@ class StudentRewards extends React.Component {
     //TODO: ADD IN-PLACE EDITING FOR DESCRIPTION/ COST/VALUE
     //TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
     /////////IF THE USER IS THE TEACHER
-    const rewards = this.props.rewardOptions.map(reward => {
+    const rewardOptions = this.props.rewardOptions.map(reward => {
       return (
         <Card
           className="reward-container"
@@ -103,7 +103,7 @@ class StudentRewards extends React.Component {
           <FlatButton label="Get More" onClick={this.getMoarPoints} />
         </div>
         {/* Rewards List */}
-        <List className="reward-list">{rewards}</List>
+        <List className="reward-list">{rewardOptions}</List>
       </Paper>
     );
   };
