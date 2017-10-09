@@ -4,7 +4,7 @@ import SNavbar from "./Navbars/SNavbar";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 //Components
-import Login from "./GlobalComponents/Login";
+import TLogin from "./teacherViews/TLogin";
 import TDashboard from "./teacherViews/TDashboard";
 import SDashboard from "./studentViews/SDashboard";
 import TNotifications from "./teacherViews/TNotifications";
@@ -18,7 +18,7 @@ import PageNotFound from "./GlobalComponents/PageNotFound";
 import connect from "socket.io-client";
 
 // const userType = "Student";
-const userType = "Teacher";
+// const userType = "Teacher";
 
 class App extends Component {
 	constructor(props) {
@@ -28,16 +28,15 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		//for testing porpoises
-		if (userType === "Teacher") {
-			this.props.loginTeacher(this.socket);
-		} else if (userType === "Student") {
-			this.props.loginStudent(this.socket);
-		}
+		this.props.returningUser(this.socket);
 	}
 
 	render() {
-		if (userType === "Teacher") {
+		if (!this.props.user.id) {
+			return (
+				<TLogin loginTeacher={this.props.loginUser} socket={this.socket} />
+			);
+		} else if (this.props.user.kind === "Teacher") {
 			return (
 				<div className="App">
 					<Router>
@@ -59,7 +58,7 @@ class App extends Component {
 								/>
 								{/* <Route path="/" component={PageNotFound} /> */}
 								{/* Testing a login route over here */}
-								<Route path="/login" component={() => <Login />} />
+								<Route path="/login" component={() => <TLogin />} />
 							</Switch>
 						</div>
 					</Router>
@@ -76,8 +75,9 @@ class App extends Component {
 								<Route exact path="/" component={SDashboard} />
 								<Route
 									path="/tasks"
-									component={() =>
-										<STasks user={this.props.user} socket={this.socket} />}
+									component={() => (
+										<STasks user={this.props.user} socket={this.socket} />
+									)}
 								/>
 								<Route path="/rewards" component={SRewards} />
 								<Route path="/notifications" component={SNotifications} />

@@ -21,8 +21,7 @@ export const failedRequest = error => {
 	};
 };
 
-export const loginTeacher = socket => async dispatch => {
-	console.log("LOGGING IN AS A TEACHER");
+export const loginUser = (email, password, socket) => async dispatch => {
 	try {
 		const response = await fetch("/sessions", {
 			method: "POST",
@@ -30,58 +29,67 @@ export const loginTeacher = socket => async dispatch => {
 			headers: {
 				"Content-Type": "application/json"
 			},
-			body: JSON.stringify({ username: "teacher1@teach.com", password: "foo" })
-		});
-
-		const teacher = await response.json();
-		if (!teacher.success) {
-			throw new Error("Something went wrong with your request.");
-		}
-
-		console.log("teacher = ", teacher);
-		const userObj = {
-			id: teacher.apiData._id,
-			kind: teacher.apiData.kind,
-			displayName: teacher.apiData.profile.displayName
-		};
-
-		socket.emit(Events.USER_LOGGED_IN, userObj.id);
-		dispatch(user.setUser(userObj));
-		dispatch(classrooms.getClassrooms(teacher.apiData.classrooms));
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-//placeholder
-export const loginStudent = socket => async dispatch => {
-	console.log("LOGGING IN AS A STUDENT");
-	try {
-		const response = await fetch("/sessions", {
-			method: "POST",
-			credentials: "include",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({ username: "student1@learn.com", password: "foo" })
+			body: JSON.stringify({ username: email, password: password })
 		});
 
 		const loggedInUser = await response.json();
 		if (!loggedInUser.success) {
 			throw new Error("Something went wrong with your request.");
 		}
-		const userObj = {
+		setUser(loggedInUser, dispatch, socket);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const returningUser = socket => async dispatch => {
+	try {
+		const response = await fetch("/sessions", {
+			method: "GET",
+			credentials: "include"
+		});
+
+		const loggedInUser = await response.json();
+
+		if (!loggedInUser.success) {
+			throw new Error("Something went wrong with your request.");
+		}
+
+		setUser(loggedInUser, dispatch, socket);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const setUser = (loggedInUser, dispatch, socket) => {
+	let userObj;
+
+	if (loggedInUser.apiData.kind === "Teacher") {
+		console.log("I'm a teacher");
+		userObj = {
+			id: loggedInUser.apiData._id,
+			kind: loggedInUser.apiData.kind,
+			displayName: loggedInUser.apiData.profile.displayName
+		};
+	} else if (loggedInUser.apiData.kind === "Student") {
+		userObj = {
 			id: loggedInUser.apiData._id,
 			kind: loggedInUser.apiData.kind,
 			points: loggedInUser.apiData.points,
 			displayName: loggedInUser.apiData.profile.displayName
 		};
-		console.log("logged in as ", loggedInUser);
-
-		socket.emit(Events.USER_LOGGED_IN, userObj.id);
-		dispatch(user.setUser(userObj));
-		dispatch(classrooms.getClassrooms(loggedInUser.apiData.classrooms));
-	} catch (error) {
-		console.log(error);
 	}
+
+	socket.emit(Events.USER_LOGGED_IN, userObj.id);
+	dispatch(user.setUser(userObj));
+	dispatch(classrooms.getClassrooms(loggedInUser.apiData.classrooms));
+};
+
+export const logoutUser = () => dispatch => {
+	const response = fetch("/sessions", {
+		method: "DELETE",
+		credentials: "include"
+	});
+
+	dispatch(user.setUser({}));
 };

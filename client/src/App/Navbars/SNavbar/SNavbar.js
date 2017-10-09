@@ -1,14 +1,22 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import Badge from "material-ui/Badge";
+import * as Events from "../../../redux/actions/events";
 
 class StudentNavbar extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
+		console.log(this.props.socket.id);
+		this.props.socket.on(Events.REFRESH_NOTIFICATIONS, () => {
+			console.log("REFRESHING!!!");
+			console.log("ID: ", this.props.userId);
+			this.props.fetchNotifications(this.props.userId);
+		});
 	}
 
 	logout = e => {
 		e.preventDefault();
+		this.props.logoutUser();
 	};
 
 	render() {
@@ -16,16 +24,12 @@ class StudentNavbar extends Component {
 			<div className="navbar">
 				<div className="navbar-left">
 					<NavLink to="/">
-						<h1>
-							{"Kids' Productivity App"}
-						</h1>
+						<h1>{"Kids' Productivity App"}</h1>
 					</NavLink>
 				</div>
 				<div className="navbar-mid">
 					<ul>
-						<li>
-							{this.props.points} points
-						</li>
+						<li>{this.props.points} points</li>
 						<NavLink to="/tasks">
 							<li>
 								<i className="fa fa-tasks" aria-hidden="true" />
@@ -46,6 +50,7 @@ class StudentNavbar extends Component {
 						<NavLink to="/notifications">
 							<li>
 								<i className="fa fa-comment" aria-hidden="true" />
+								{this.props.notifications.length}
 							</li>
 						</NavLink>
 						<NavLink to="/profile">
