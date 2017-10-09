@@ -32,7 +32,7 @@ const removeReward = id => ({
 
 //NOT IMPLEMENTED
 export const redeemReward = (studentId, rewardId) => async dispatch => {
-  dispatch(startRequest());
+  // dispatch(startRequest());
   let response;
   try {
     response = await fetch(`/api/students/${studentId}/redeem/${rewardId}`, {
@@ -47,14 +47,14 @@ export const redeemReward = (studentId, rewardId) => async dispatch => {
     dispatch(addReward(data.apiData));
   } catch (e) {
     console.error(e);
-    dispatch(endRequest(e));
+    // dispatch(endRequest(e));
   }
 };
 
 //NOT WORKING
 //create a new kind of reward
 export const createReward = (teacherId, reward) => async dispatch => {
-  dispatch(startRequest());
+  // dispatch(startRequest());
   const newReward = {
     kind: reward.kind || "loot",
     description: reward.description || "new reward",
@@ -82,12 +82,12 @@ export const createReward = (teacherId, reward) => async dispatch => {
   }
   //TODO: double check that we're getting this back from server
   dispatch(addReward(data.apiData));
-  dispatch(endRequest(null));
+  // dispatch(endRequest(null));
 };
 
 //get all the rewards for a teacher
 export const getAllRewards = (userId, userKind) => async dispatch => {
-  dispatch(startRequest());
+  // dispatch(startRequest());
 
   //use correct input for students and teachers
   let endpoint = `/api/teachers/${userId}/rewards`;
@@ -115,12 +115,12 @@ export const getAllRewards = (userId, userKind) => async dispatch => {
     return null;
   }
   dispatch(getRewards(response.apiData));
-  dispatch(endRequest(null));
+  // dispatch(endRequest(null));
 };
 
 //works??
 export const editReward = (id, updates) => async dispatch => {
-  dispatch(startRequest());
+  // dispatch(startRequest());
   // console.log("new reward = ", updates);
   let response = await fetch(`/api/rewards/${id}`, {
     method: "PATCH",
@@ -139,14 +139,14 @@ export const editReward = (id, updates) => async dispatch => {
     dispatch(endRequest(response.apiError));
   } else {
     await dispatch(updateReward(response.apiData._id, response.apiData));
-    dispatch(endRequest(null));
+    // dispatch(endRequest(null));
   }
 };
 
 //NOT TESTED
 //TESTED, NON-FUNCTIONING, API => 500
 export const deleteReward = id => async dispatch => {
-  dispatch(startRequest());
+  // dispatch(startRequest());
   const response = await fetch(`/api/rewards/${id}`, {
     method: "DELETE",
     credentials: "include",
@@ -165,6 +165,6 @@ export const deleteReward = id => async dispatch => {
   } else {
     //delete from redux
     await dispatch(removeReward(data.apiData._id));
-    dispatch(endRequest);
+    // dispatch(endRequest);
   }
 };

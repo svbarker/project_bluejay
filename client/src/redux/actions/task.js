@@ -83,7 +83,7 @@ export const hydrateStudentTasks = userId => async dispatch => {
 
 //unassign a single task from a student
 export const unAssignTask = (task, studentId) => async dispatch => {
-  dispatch(startRequest());
+  // dispatch(startRequest());
   try {
     let response = await fetch(`api/tasks/${task._id}/unassign/${studentId}`, {
       method: "PATCH",
@@ -96,11 +96,11 @@ export const unAssignTask = (task, studentId) => async dispatch => {
     //update the student and the task
     await dispatch(unassignTask(studentId, task._id));
     await dispatch(unassignStudent(studentId, task._id));
-    dispatch(endRequest(null));
+    // dispatch(endRequest(null));
   } catch (error) {
     //dispatch error
     console.error(error);
-    dispatch(endRequest(error));
+    // dispatch(endRequest(error));
   }
 };
 export const bulkUnassignTask = (task, studentIds) => async dispatch => {
@@ -142,7 +142,7 @@ export const bulkUnassignTask = (task, studentIds) => async dispatch => {
       //update the students and the tasks
       await dispatch(bulkUnassign(studentIds)); //a student redux store action
       await dispatch(bulkUnassignStudents(task._id)); //a task redux store action
-      dispatch(endRequest(null));
+      // dispatch(endRequest(null));
     } else {
       console.error("problems in Bulk Unassign");
       console.log("serverResponse = ", serverResponse);
@@ -150,7 +150,7 @@ export const bulkUnassignTask = (task, studentIds) => async dispatch => {
     }
   } catch (error) {
     //dispatch error
-    dispatch(endRequest(error));
+    // dispatch(endRequest(error));
     console.log(error);
   }
 };

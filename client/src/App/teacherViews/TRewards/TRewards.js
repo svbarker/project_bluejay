@@ -31,14 +31,15 @@ class TeacherRewards extends React.Component {
       loading: true
     };
   }
-  //grab all the rewards
-  getRewards = async () => {
+
+  async componentDidMount() {
     await this.props.fetchRewards(this.props.user.id, this.props.user.kind);
     this.setState({
       fetchingRewards: false,
       loading: false
     });
-  };
+  }
+
   onCreateReward = async rewardInput => {
     this.props.createReward(this.props.user.id, rewardInput);
   };
@@ -56,14 +57,6 @@ class TeacherRewards extends React.Component {
   };
   render = () => {
     if (this.state.loading) {
-      if (
-        Object.keys(this.props.user).length !== 0 &&
-        !this.state.fetchingRewards
-      ) {
-        //go fetch some data
-        this.getRewards();
-      }
-      //display load screen
       return <LoadScreen />;
     }
 
@@ -145,9 +138,9 @@ class TeacherRewards extends React.Component {
   };
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user,
+    ...ownProps,
     rewards: state.rewards,
     classrooms: state.classrooms
   };

@@ -31,33 +31,22 @@ class StudentRewards extends React.Component {
       loading: true
     };
   }
-  //grab all the rewards
-  getRewards = async () => {
-    await this.props.getStudentRewardOptions(this.props.classrooms);
-    this.setState({
-      fetchingRewards: false,
-      loading: false
-    });
-  };
 
   onPurchase = rewardId => {
     this.props.redeemReward(this.props.userId, rewardId);
   };
 
-  componentDidMount() {
-    this.getRewards();
+  async componentDidMount() {
+    //grab all the rewards
+    await this.props.getStudentRewardOptions(this.props.classrooms);
+    this.setState({
+      fetchingRewards: false,
+      loading: false
+    });
   }
 
   render = () => {
     if (this.state.loading) {
-      if (
-        Object.keys(this.props.user).length !== 0 &&
-        !this.state.fetchingRewards
-      ) {
-        //go fetch some data
-        // this.getRewards();
-      }
-      //display load screen
       return <LoadScreen />;
     }
 
