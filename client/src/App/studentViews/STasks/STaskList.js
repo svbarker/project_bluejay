@@ -24,7 +24,7 @@ const TaskList = props => {
           {!assignedTasks.length ? null : (
             assignedTasks.map(task => (
               <STaskListMenuCard
-                key={task.id}
+                key={task._id}
                 markCompleted={props.markCompleted}
                 task={task}
                 user={props.user}
@@ -34,7 +34,7 @@ const TaskList = props => {
           )}
           {!completedTasks.length ? null : (
             completedTasks.map(task => (
-              <div>
+              <div key={task._id}>
                 <h1>Completed Tasks</h1>
                 <STaskListMenuCard
                   key={task.id}
@@ -48,7 +48,7 @@ const TaskList = props => {
           )}
           {!rejectedTasks.length ? null : (
             rejectedTasks.map(task => (
-              <div>
+              <div key={task._id}>
                 <h1>Rejected Tasks</h1>
                 <STaskListMenuCard
                   key={task.id}

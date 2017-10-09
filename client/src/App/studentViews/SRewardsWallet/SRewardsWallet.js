@@ -21,9 +21,8 @@ class SRewardsWallet extends React.Component {
   render = () => {
     let pendingRewards;
     if (this.props.rewards.length) {
-      // console.log("rewards = ", this.props.rewards);
       pendingRewards = this.props.rewards.map(reward => (
-        <ListItem>
+        <ListItem key={reward._id}>
           <Chip>{reward.title}</Chip>
         </ListItem>
       ));
@@ -31,7 +30,6 @@ class SRewardsWallet extends React.Component {
       pendingRewards = <h3>Sorry...you have no rewards pending.</h3>;
     }
 
-    // console.log("rewards = ", this.props.rewards);
     return (
       <Paper>
         <h1>Pending Rewards</h1>

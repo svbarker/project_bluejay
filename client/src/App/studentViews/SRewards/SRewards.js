@@ -58,6 +58,7 @@ class StudentRewards extends React.Component {
         <Card
           className="reward-container"
           style={{ backgroundColor: "#D8F996" }}
+          key={reward._id}
         >
           <CardHeader
             title={reward.title}
