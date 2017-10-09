@@ -94,7 +94,7 @@ UserSchema.methods.getClassroom = function(id) {
 };
 
 UserSchema.methods.hasTask = function(task) {
-	return this.tasks.some(async t => {
+	return this.tasks.some(t => {
 		return t.title === task.title;
 	});
 };
@@ -104,7 +104,11 @@ UserSchema.methods.getTask = function(id) {
 };
 
 UserSchema.methods.getTaskByTitle = function(task) {
-	return this.tasks.find(t => t.title === task.title);
+	console.log(task);
+	return this.tasks.find(t => {
+		console.log(t.title);
+		return t.title === task.title;
+	});
 };
 
 UserSchema.methods.getReward = function(id) {
@@ -124,6 +128,7 @@ UserSchema.methods.addTask = async function(task) {
 	} else {
 		this.tasks[this.tasks.length] = task;
 	}
+	console.log(this.tasks);
 	await this.update({ tasks: this.tasks });
 	return task;
 };
