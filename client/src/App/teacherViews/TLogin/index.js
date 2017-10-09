@@ -5,16 +5,6 @@ import FlatButton from "material-ui/FlatButton";
 import "./TLogin.css";
 
 class TLogin extends Component {
-	handleLogin = e => {
-		e.preventDefault();
-		console.log(this.props.socket);
-		this.props.loginTeacher(
-			e.target.email.value,
-			e.target.password.value,
-			this.props.socket
-		);
-	};
-
 	render() {
 		return (
 			<div>
@@ -23,7 +13,10 @@ class TLogin extends Component {
 					<h3>
 						Don't have an account? <FlatButton label="Sign Up" />
 					</h3>
-					<Login onSubmit={this.handleLogin} />
+					<Login
+						onSubmit={this.props.loginTeacher}
+						socket={this.props.socket}
+					/>
 				</div>
 			</div>
 		);
