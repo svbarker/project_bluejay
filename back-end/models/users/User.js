@@ -104,9 +104,7 @@ UserSchema.methods.getTask = function(id) {
 };
 
 UserSchema.methods.getTaskByTitle = function(task) {
-	console.log(task);
 	return this.tasks.find(t => {
-		console.log(t.title);
 		return t.title === task.title;
 	});
 };
@@ -128,7 +126,6 @@ UserSchema.methods.addTask = async function(task) {
 	} else {
 		this.tasks[this.tasks.length] = task;
 	}
-	console.log(this.tasks);
 	await this.update({ tasks: this.tasks });
 	return task;
 };
@@ -169,11 +166,20 @@ UserSchema.methods.removeReward = async function(reward) {
 	return reward;
 };
 
-UserSchema.methods.addNotification = async function(notification) {
-	await this.update({
-		notifications: [...this.notifications, notification.cleanForLog()]
-	});
-	return notification;
+UserSchema.methods.addNotifications = async function(notifications) {
+	if (Array.isArray(notifications)) {
+		console.log("CLEANED: ", notifications.map(n => n.cleanForLog()));
+		await this.update({
+			notifications: this.notifications.concat(
+				notifications.map(n => n.cleanForLog())
+			)
+		});
+	} else {
+		await this.update({
+			notifications: [...this.notifications, notifications.cleanForLog()]
+		});
+	}
+	return notifications;
 };
 
 UserSchema.methods.cleanForLog = function() {

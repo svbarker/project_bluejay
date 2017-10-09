@@ -9,6 +9,8 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const localStrategy = require("passport-local").Strategy;
 
+const routers = require("../routers/teachers");
+
 // connect to database
 require("../mongoose/connect")();
 
