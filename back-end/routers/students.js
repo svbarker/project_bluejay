@@ -1,5 +1,12 @@
 const router = require("express").Router();
-const { Student, Profile, Classroom, Teacher } = require("../models");
+const {
+  Student,
+  Profile,
+  Classroom,
+  Teacher,
+  Reward,
+  LootReward
+} = require("../models");
 const { createResponse } = require("../server/util");
 const { getResource, logEvent, logError } = require("../server/util");
 const {
@@ -7,7 +14,8 @@ const {
   TaskEvent,
   ProfileEvent,
   Messages,
-  MessageEvent
+  MessageEvent,
+  RewardEvent
 } = require("../models/events");
 const Events = require("../../client/src/redux/actions/events");
 
@@ -173,13 +181,38 @@ router.get("/:id/rewards", async (req, res) => {
   }
 });
 
-router.patch("/:s_id/purchase/:r_id", (req, res) => {
+// purchase a reward
+router.patch("/:s_id/purchase/:r_id", async (req, res) => {
   try {
-    // get student
-    // get reward
-    // check points
-    // throw err
-    // set
+    const student = await Student.findById(req.params.s_id);
+
+    const reward = await Reward.findById(req.params.r_id);
+
+    console.log(student.points);
+    console.log(reward.cost);
+
+    if (student.points < reward.cost) {
+      throw new Error("You do not have enough points to purchase this.");
+    }
+
+    const newReward = new LootReward(reward.toNewObject());
+
+    student.addReward(newReward);
+
+    logEvent(RewardEvent, {
+      message: Messages.TEMPLATE_REWARD_PURCHASE,
+      owner: req.user,
+      reward
+    });
+
+    logEvent(MessageEvent, {
+      body: Messages.TEMPLATE,
+      message: Messages.TEMPLATE_SEND_MESSAGE,
+      owner: req.user,
+      reward
+    });
+
+    res.json(createResponse());
   } catch (error) {
     logError(error);
     res.json(createResponse(error));

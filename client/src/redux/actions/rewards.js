@@ -30,6 +30,19 @@ const removeReward = id => ({
   data: id
 });
 
+export const purchaseReward = (studentId, rewardId) => async dispatch => {
+  try {
+    let response = await fetch(
+      `/api/students/${studentId}/purchase/${rewardId}`,
+      { method: "PATCH", credentials: "include" }
+    );
+    response = await response.json();
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 //NOT IMPLEMENTED
 export const redeemReward = (studentId, rewardId) => async dispatch => {
   // dispatch(startRequest());

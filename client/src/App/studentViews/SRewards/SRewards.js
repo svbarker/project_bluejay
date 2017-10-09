@@ -14,7 +14,7 @@ import "./SRewardList.css";
 
 //actions
 import {
-  redeemReward,
+  purchaseReward,
   createReward,
   getAllRewards,
   editReward,
@@ -33,7 +33,7 @@ class StudentRewards extends React.Component {
   }
 
   onPurchase = rewardId => {
-    this.props.redeemReward(this.props.userId, rewardId);
+    this.props.purchaseReward(this.props.user.id, rewardId);
   };
 
   async componentDidMount() {
@@ -134,8 +134,8 @@ const mapDispatchToProps = dispatch => {
     getStudentRewardOptions: classrooms => {
       dispatch(getStudentRewardOptions(classrooms));
     },
-    redeemReward: (studentId, rewardId) => {
-      dispatch(redeemReward(studentId, rewardId));
+    purchaseReward: (studentId, rewardId) => {
+      dispatch(purchaseReward(studentId, rewardId));
     }
   };
 };

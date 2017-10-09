@@ -29,6 +29,7 @@ module.exports = {
   TEMPLATE_STUDENT_UPDATE: `%owner.profile.displayName% updated student %user.profile.displayName%. [%user.fields%] [%user.values%]`,
   TEMPLATE_STUDENT_DELETE: `%owner.profile.displayName% deleted student %user.profile.displayName%.`,
   TEMPLATE_STUDENT_REQUEST_COMPLETION_MSG: `%owner.profile.displayName% wants to complete task %task.title%.`,
+  TEMPLATE_STUDENT_REWARD_PURCHASE_MSG: `You purchased reward %reward.title%. Go you!`,
 
   TEMPLATE_CLASSROOM_CREATE: `%owner.profile.displayName% created new classroom named %class.title%.`,
   TEMPLATE_CLASSROOM_READ: `Data retrieval for classroom %class.title% initiated by %owner.profile.displayName%.`,
@@ -58,6 +59,7 @@ module.exports = {
   TEMPLATE_REWARD_DISTRIBUTE: `%owner.profile.displayName% distributed reward %reward.title% to %user.profile.displayName%.`,
   TEMPLATE_REWARD_UPDATE: `%owner.profile.displayName% updated reward %reward.title%. [%reward.fields%] [%reward.values%]`,
   TEMPLATE_REWARD_DELETE: `%owner.profile.displayName% deleted reward %reward.title%.`,
+  TEMPLATE_REWARD_PURCHASE: `%owner.profile.displayName% purchased reward %reward.title%`,
 
   TEMPLATE_SEND_MESSAGE: `%owner.profile.displayName% sent a message to %user.profile.displayName%`
 };

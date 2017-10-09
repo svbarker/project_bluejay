@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Reward, User, Teacher, Classroom } = require("../models");
+const { Reward, User, Teacher, Classroom, LootReward } = require("../models");
 const { createResponse } = require("../server/util");
 const { getResource, logEvent, logError } = require("../server/util");
 const {
@@ -62,7 +62,7 @@ router.get("/rewardOptions", async (req, res) => {
     let found = {};
     rewards = rewards.filter(reward => {
       let result = false;
-      if (!found[reward._id]) {
+      if (!found[reward._id] && reward instanceof LootReward) {
         found[reward._id] = true;
         result = reward;
       }
