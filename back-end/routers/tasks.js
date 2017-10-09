@@ -154,8 +154,11 @@ router.patch("/:id/unassign/:s_id", async (req, res) => {
     });
     await task.save();
     //remove task from the students list of tasks
+    //NOTE:
+    //probably need to integrate this with how we're doing assigned tasks
+    //removing tasks by title now
     student.tasks = student.tasks.filter(currentTask => {
-      return currentTask.id !== task.id;
+      return currentTask.title !== task.title;
     });
     await student.save();
     //assuming no errors, sending no response
@@ -165,7 +168,6 @@ router.patch("/:id/unassign/:s_id", async (req, res) => {
     res.json(createResponse(error));
   }
 });
-//THIS IS BROKEN
 //STATUS: NOT INTEGRATED WITH LOGGER & || req.session things
 //BULK-UNASSIGN TASK FROM STUDENT ROUTE
 router.patch("/:id/bulkunassign", async (req, res) => {
@@ -193,14 +195,15 @@ router.patch("/:id/bulkunassign", async (req, res) => {
     await task.save();
 
     //remove task from the students list of tasks
-    //********THIS ISN'T WORKING
+    //NOTE:
+    //probably need to integrate this with how we're doing assigned tasks
+    //removing tasks by title now
     students.forEach(async student => {
-      student.tasks = student.tasks.filter(currentTask => {
-        return currentTask.id !== task.id;
+      student.tasks = student.tasks.filter(assignedTask => {
+        return assignedTask.title !== task.title;
       });
       await student.save();
     });
-    //********THIS ISN'T WORKING
 
     //assuming no errors, sending no response
     res.json(createResponse(studentIds));
