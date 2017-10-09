@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import Paper from "material-ui/Paper";
 import Avatar from "material-ui/Avatar";
+import { List, ListItem } from "material-ui/List";
+import Divider from "material-ui/Divider";
 import Chip from "material-ui/Chip";
 
 //actions
@@ -14,19 +16,27 @@ class SRewardsWallet extends React.Component {
     super(props);
   }
   componentDidMount = () => {
-    // this.props.fetchRewards(this.props.userId, "Student");
+    this.props.fetchRewards(this.props.userId, "Student");
   };
   render = () => {
-    // const pendingRewards = this.props.fakeData.map(reward => (
-    //   <Chip>{reward.title}</Chip>
-    // ));
+    let pendingRewards;
+    if (this.props.rewards.length) {
+      // console.log("rewards = ", this.props.rewards);
+      pendingRewards = this.props.rewards.map(reward => (
+        <ListItem>
+          <Chip>{reward.title}</Chip>
+        </ListItem>
+      ));
+    } else {
+      pendingRewards = <h3>Sorry...you have no rewards pending.</h3>;
+    }
 
+    // console.log("rewards = ", this.props.rewards);
     return (
       <Paper>
-        {/* {pendingRewards} */}
-        <div>
-          <Chip>Pending Reward</Chip>
-        </div>
+        <h1>Pending Rewards</h1>
+        <Divider />
+        <List>{pendingRewards}</List>
       </Paper>
     );
   };
