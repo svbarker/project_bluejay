@@ -184,19 +184,18 @@ router.get("/:id/rewards", async (req, res) => {
 // purchase a reward
 router.patch("/:s_id/purchase/:r_id", async (req, res) => {
   try {
-    const student = await Student.findById(req.params.s_id);
-
-    const reward = await Reward.findById(req.params.r_id);
-
-    console.log(student.points);
-    console.log(reward.cost);
-
+    const student = await getResource(
+      req.params.s_id,
+      Student.findById.bind(Student)
+    );
+    const reward = await getResource(
+      req.params.r_id,
+      Reward.findById.bind(Student)
+    );
     if (student.points < reward.cost) {
       throw new Error("You do not have enough points to purchase this.");
     }
-
     const newReward = new LootReward(reward.toNewObject());
-
     student.addReward(newReward);
 
     logEvent(RewardEvent, {
