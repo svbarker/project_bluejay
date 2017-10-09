@@ -35,12 +35,13 @@ export const loginUser = (email, password, socket) => async dispatch => {
 
 		const loggedInUser = await response.json();
 		if (!loggedInUser.success) {
-			throw new Error("Something went wrong with your request.");
+			throw new Error(loggedInUser.apiError.message);
 		}
+		console.log(loggedInUser);
 		setUser(loggedInUser, dispatch, socket);
 	} catch (error) {
-		console.log(error);
 		dispatch(endRequest(error));
+		return error.message;
 	}
 };
 
@@ -61,7 +62,7 @@ export const returningUser = socket => async dispatch => {
 		setUser(loggedInUser, dispatch, socket);
 	} catch (error) {
 		console.log(error);
-		dispatch(endRequest(error));
+		dispatch(endRequest(null));
 	}
 };
 
