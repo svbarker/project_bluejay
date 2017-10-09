@@ -5,11 +5,13 @@ import RaisedButton from "material-ui/RaisedButton";
 
 const Login = ({ onSubmit }) => {
 	return (
-		<Paper>
+		<Paper style={{ padding: "20px" }}>
 			<h2>Login to Continue</h2>
 			<form onSubmit={onSubmit}>
 				<TextField floatingLabelText="Email" type="email" id="email" />
+				<br />
 				<TextField floatingLabelText="Password" type="password" id="password" />
+				<br />
 				<RaisedButton label="login" type="submit" />
 			</form>
 		</Paper>

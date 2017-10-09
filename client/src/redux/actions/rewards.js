@@ -1,4 +1,4 @@
-import { startRequest, failedRequest } from "./index";
+import { startRequest, endRequest } from "./index";
 
 export const GET_ALL_REWARDS = "GET_ALL_REWARDS";
 export const GET_ONE_REWARD = "GET_ONE_REWARD";
@@ -47,7 +47,7 @@ export const redeemReward = (studentId, rewardId) => async dispatch => {
     dispatch(addReward(data.apiData));
   } catch (e) {
     console.error(e);
-    dispatch(failedRequest(e));
+    dispatch(endRequest(e));
   }
 };
 
@@ -132,9 +132,10 @@ export const editReward = (id, updates) => async dispatch => {
   //do some things
   if (!response.success) {
     console.error(response.apiError);
-    dispatch(failedRequest(response.apiError));
+    dispatch(endRequest(response.apiError));
   } else {
-    dispatch(updateReward(response.apiData._id, response.apiData));
+    await dispatch(updateReward(response.apiData._id, response.apiData));
+    dispatch(endRequest(null));
   }
 };
 
@@ -156,9 +157,10 @@ export const deleteReward = id => async dispatch => {
   // console.log("data = ", data);
   if (!data.success) {
     console.error(data);
-    dispatch(failedRequest(data));
+    dispatch(endRequest(data));
   } else {
     //delete from redux
-    dispatch(removeReward(data.apiData._id));
+    await dispatch(removeReward(data.apiData._id));
+    dispatch(endRequest);
   }
 };

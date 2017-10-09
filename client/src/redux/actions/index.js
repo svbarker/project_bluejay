@@ -6,7 +6,7 @@ import * as classrooms from "./classrooms";
 import * as Events from "./events";
 
 export const START_REQUEST = "START_REQUEST";
-export const FAILURE_REQUEST = "FAILURE_REQUEST";
+export const END_REQUEST = "END_REQUEST";
 
 export const startRequest = () => {
 	return {
@@ -14,15 +14,16 @@ export const startRequest = () => {
 		data: null
 	};
 };
-export const failedRequest = error => {
+export const endRequest = error => {
 	return {
-		type: FAILURE_REQUEST,
+		type: END_REQUEST,
 		data: error
 	};
 };
 
 export const loginUser = (email, password, socket) => async dispatch => {
 	try {
+		dispatch(startRequest());
 		const response = await fetch("/sessions", {
 			method: "POST",
 			credentials: "include",
@@ -39,11 +40,13 @@ export const loginUser = (email, password, socket) => async dispatch => {
 		setUser(loggedInUser, dispatch, socket);
 	} catch (error) {
 		console.log(error);
+		dispatch(endRequest(error));
 	}
 };
 
 export const returningUser = socket => async dispatch => {
 	try {
+		dispatch(startRequest());
 		const response = await fetch("/sessions", {
 			method: "GET",
 			credentials: "include"
@@ -58,10 +61,11 @@ export const returningUser = socket => async dispatch => {
 		setUser(loggedInUser, dispatch, socket);
 	} catch (error) {
 		console.log(error);
+		dispatch(endRequest(error));
 	}
 };
 
-const setUser = (loggedInUser, dispatch, socket) => {
+const setUser = async (loggedInUser, dispatch, socket) => {
 	let userObj;
 
 	if (loggedInUser.apiData.kind === "Teacher") {
@@ -81,8 +85,9 @@ const setUser = (loggedInUser, dispatch, socket) => {
 	}
 
 	socket.emit(Events.USER_LOGGED_IN, userObj.id);
-	dispatch(user.setUser(userObj));
-	dispatch(classrooms.getClassrooms(loggedInUser.apiData.classrooms));
+	await dispatch(user.setUser(userObj));
+	await dispatch(classrooms.getClassrooms(loggedInUser.apiData.classrooms));
+	dispatch(endRequest(null));
 };
 
 export const logoutUser = () => dispatch => {
