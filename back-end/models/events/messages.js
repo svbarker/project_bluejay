@@ -53,7 +53,7 @@ module.exports = {
   TEMPLATE_TASK_DELETE: `%owner.profile.displayName% deleted task %task.title%.`,
 
   TEMPLATE_REWARD_CREATE: `%owner.profile.displayName% created reward %reward.title%.`,
-  TEMPLATE_FETCH_ALL_REWARDS: `%owner.profile.displayName$ fetched all rewards. [%reward.rewardList%]`,
+  TEMPLATE_FETCH_ALL_REWARD_OPTIONS: `%owner.profile.displayName$ fetched all reward options. [%reward.rewardList%]`,
   TEMPLATE_REWARD_READ: `Data retrieval for reward %reward.title% initiated by %owner.profile.displayName%.`,
   TEMPLATE_REWARD_DISTRIBUTE: `%owner.profile.displayName% distributed reward %reward.title% to %user.profile.displayName%.`,
   TEMPLATE_REWARD_UPDATE: `%owner.profile.displayName% updated reward %reward.title%. [%reward.fields%] [%reward.values%]`,

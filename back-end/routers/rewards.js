@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Reward, User, Teacher } = require("../models");
+const { Reward, User, Teacher, Classroom } = require("../models");
 const { createResponse } = require("../server/util");
 const { getResource, logEvent, logError } = require("../server/util");
 const {
@@ -36,44 +36,72 @@ router.post("/", async (req, res) => {
   }
 });
 
-// reading a reward
-router.get("/:id?", async (req, res) => {
+router.get("/rewardOptions", async (req, res) => {
   try {
-    if (!req.params.id) {
-      const teachers = Teacher.find().populate("rewards");
+    const user = req.user;
 
-      const rewards = teachers.reduce(
-        (rewards, teacher) => rewards.concat(teacher.rewards),
-        []
-      );
+    let promises = user.classrooms.map(room =>
+      Classroom.findById(room._id).populate({
+        path: "teachers",
+        model: "Teacher",
+        populate: { path: "rewards", model: "Reward" }
+      })
+    );
 
-      const reward = {
-        rewardList: rewards.join(","),
-        rewards
-      };
+    let classrooms = await Promise.all(promises);
 
-      logEvent(RewardEvent, {
-        message: Messages.TEMPLATE_FETCH_ALL_REWARDS,
-        owner: req.user,
-        reward
-      });
+    let rewards = classrooms.reduce(
+      (rewards, room) =>
+        room.teachers.reduce(
+          (array, teacher) => array.concat(teacher.rewards),
+          []
+        ),
+      []
+    );
 
-      res.json(createResponse(rewards));
-    } else {
-      const reward = await getResource(
-        req.params.id,
-        Reward.findById.bind(Reward)
-      );
+    let found = {};
+    rewards = rewards.filter(reward => {
+      let result = false;
+      if (!found[reward._id]) {
+        found[reward._id] = true;
+        result = reward;
+      }
+      return result;
+    });
 
-      // Create log event.
-      logEvent(RewardEvent, {
-        message: Messages.TEMPLATE_REWARD_READ,
-        owner: req.user,
-        reward
-      });
+    const reward = {
+      rewardList: rewards.join(",")
+    };
 
-      res.json(createResponse(reward));
-    }
+    logEvent(RewardEvent, {
+      message: Messages.TEMPLATE_FETCH_ALL_REWARD_OPTIONS,
+      owner: req.user,
+      reward
+    });
+
+    res.json(createResponse(rewards));
+  } catch (error) {
+    logError(error);
+    res.json(createResponse(error));
+  }
+});
+
+// reading a reward
+router.get("/:id", async (req, res) => {
+  try {
+    const reward = await getResource(
+      req.params.id,
+      Reward.findById.bind(Reward)
+    );
+
+    // Create log event.
+    logEvent(RewardEvent, {
+      message: Messages.TEMPLATE_REWARD_READ,
+      owner: req.user,
+      reward
+    });
+
+    res.json(createResponse(reward));
   } catch (error) {
     logError(error);
     res.json(createResponse(error));
