@@ -23,8 +23,6 @@ const status = (state = status, action) => {
       };
     case START_REQUEST:
       return {
-        ...state,
-        status: {
           isFetching: true,
           error: null
         }
