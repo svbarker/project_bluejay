@@ -39,47 +39,10 @@ class StudentRewards extends React.Component {
       loading: false
     });
   };
-  onPurchase = async reward => {
-    //check points
-    if ((reward.value || reward.cost) > this.props.user.points) {
-      //no canz buyz, button should be disabled already
-      //show error if not possible
-    } else {
-      //else purchase
-      // this.props.redeemReward(reward, this.props.user.id);
-      let points = this.props.user.points - (reward.cost || reward.value);
-      let response = await fetch(`api/students/${this.props.user.id}`, {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          updates: { points }
-        })
-      });
-      let data = await response.json();
-      //open a purchased message
-      this.forceUpdate();
-    }
+  onPurchase = rewardId => {
+    this.props.redeemReward(this.props.user.id, rewardId);
   };
-  //A TEST FUNCTION OF THE STUDENTS PATCH FUNCTIONALITY,
-  //
-  getMoarPoints = async change => {
-    let points = this.props.user.points++;
-    let response = await fetch(`api/students/${this.props.user.id}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        updates: { points }
-      })
-    });
-    let data = await response.json();
-    this.forceUpdate();
-  };
+
   render = () => {
     if (this.state.loading) {
       if (
@@ -121,7 +84,7 @@ class StudentRewards extends React.Component {
               <p>Supply: {reward.supply || "Unlimited"}</p>
               <Undoable
                 disabled={this.props.user.points < reward.cost ? true : false}
-                resolve={() => this.onPurchase(reward)}
+                resolve={() => this.onPurchase(reward._id)}
                 wait={2}
               >
                 <FlatButton
@@ -177,8 +140,8 @@ const mapDispatchToProps = dispatch => {
     getStudentRewardOptions: classrooms => {
       dispatch(getStudentRewardOptions(classrooms));
     },
-    redeemReward: (reward, studentId) => {
-      dispatch(redeemReward(reward, studentId));
+    redeemReward: (studentId, rewardId) => {
+      dispatch(redeemReward(studentId, rewardId));
     }
   };
 };

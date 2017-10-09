@@ -27,7 +27,7 @@ export const fetchNotifications = id => async dispatch => {
     }
 
     console.log(response);
-    dispatch(getAllNotifications(response.apiData));
+    dispatch(getAllNotifications(response.apiData.reverse()));
   } catch (error) {
     console.log(error);
   }
@@ -43,7 +43,7 @@ export const fetchStudentNotifications = id => async dispatch => {
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
-    dispatch(getAllNotifications(response.apiData));
+    dispatch(getAllNotifications(response.apiData.reverse()));
   } catch (error) {
     console.log(error);
   }
@@ -61,9 +61,8 @@ export const acceptEvent = (
       console.log("fetch parameters all good!");
     }
     type = type[0].toUpperCase().concat(type.slice(1));
-    const url = `/api/teachers/${t_id}/student/${s_id}/confirm${type}/${ta_id}`;
     let response = await fetch(
-      `/api/teachers/${t_id}/student/${s_id}/confirm${type}/${ta_id}`,
+      `/api/teachers/${t_id}/students/${s_id}/confirm${type}/${ta_id}`,
       {
         credentials: "include",
         method: "PATCH"
@@ -99,7 +98,7 @@ export const rejectEvent = (
   try {
     type = type[0].toUpperCase().concat(type.slice(1));
     let response = await fetch(
-      `/api/teachers/${t_id}/student/${s_id}/reject${type}/${ta_id}`,
+      `/api/teachers/${t_id}/students/${s_id}/reject${type}/${ta_id}`,
       { credentials: "include", method: "PATCH" }
     );
     response = await response.json();

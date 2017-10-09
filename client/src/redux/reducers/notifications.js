@@ -10,9 +10,7 @@ const notifications = (state = [], action) => {
     case GET_ALL_NOTIFICATIONS:
       return [...action.data];
     case REMOVE_NOTIFICATION:
-      return state.notifications.filter(
-        notification => notification.id !== action.data
-      );
+      return state.filter(notification => notification._id !== action.data);
     default:
       return state;
   }

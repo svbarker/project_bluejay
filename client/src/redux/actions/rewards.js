@@ -30,28 +30,21 @@ const removeReward = id => ({
   data: id
 });
 
-///let the students purchase a reward
 //NOT IMPLEMENTED
-export const redeemReward = (reward, studentId) => async dispatch => {
+export const redeemReward = (studentId, rewardId) => async dispatch => {
   dispatch(startRequest());
-  //make a copy of the reward
-  const copy = new reward.toNewObj();
   let response;
   try {
-    response = await fetch(`/api/students/${studentId}/rewards`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: copy
+    response = await fetch(`/api/students/${studentId}/redeem/${rewardId}`, {
+      method: "PATCH",
+      credentials: "include"
     });
+
     const data = await response.json();
     if (!data.success) {
-      throw data.apiData;
+      throw new Error(data.apiError.message);
     }
-    const newReward = data.apiData;
-    dispatch(addReward(newReward));
+    dispatch(addReward(data.apiData));
   } catch (e) {
     console.error(e);
     dispatch(failedRequest(e));
