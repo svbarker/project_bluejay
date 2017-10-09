@@ -45,7 +45,7 @@ class StudentRewards extends React.Component {
   };
 
   componentDidMount() {
-    // this.getRewards();
+    this.getRewards();
   }
 
   render = () => {
