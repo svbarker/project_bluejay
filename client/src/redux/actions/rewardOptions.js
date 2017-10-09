@@ -10,36 +10,15 @@ export const getAllRewardOptions = options => {
 
 //get all the rewards for a student that their teachers are offering
 // //get all the rewards a student could ever choose from
-export const getStudentRewardOptions = classrooms => async dispatch => {
-  const flatTeachers = classrooms.reduce((all, classroom) => {
-    return all.concat(classroom.teachers);
-  }, []);
-  const uniqueTeachers = new Set(flatTeachers);
-  // dispatch(startRequest());
-  //TODO: HANDLE ERRORS BETTER
+export const getStudentRewardOptions = () => async dispatch => {
   try {
-    // console.log("teachers = ", [...uniqueTeachers.values()]);
-    const promiseOfRewards = [...uniqueTeachers.values()].map(teacher => {
-      return fetch(`/api/teachers/${teacher}/rewards`, {
-        credentials: "include",
-        method: "GET"
-      });
+    let response = await fetch(`/api/rewards/rewardOptions`, {
+      credentials: "include",
+      method: "GET"
     });
-    let allResponses = await Promise.all(promiseOfRewards);
-    allResponses = allResponses.map(response => response.json());
-    let allRewards = await Promise.all(allResponses);
-    allRewards = allRewards.map(response => response.apiData);
-    //NOTE: THIS LIST CURRENTLY INCLUDES DUPLICATES, AND BLOWS UP REACT
-    let flatListORewards = allRewards.reduce(
-      (list, rewardArr) => list.concat(rewardArr),
-      []
-    );
-    //filter out the point rewards, by checking for the cost property
-    ////because currently only loot rewards have a cost
-    flatListORewards = flatListORewards.filter(reward =>
-      reward.hasOwnProperty("cost")
-    );
-    await dispatch(getAllRewardOptions(flatListORewards));
+    response = await response.json();
+    console.log(response);
+    dispatch(getAllRewardOptions(response.apiData));
     // dispatch(endRequest(null));
   } catch (e) {
     console.error(e);

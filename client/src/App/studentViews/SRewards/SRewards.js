@@ -14,7 +14,7 @@ import "./SRewardList.css";
 
 //actions
 import {
-  redeemReward,
+  purchaseReward,
   createReward,
   getAllRewards,
   editReward,
@@ -33,7 +33,7 @@ class StudentRewards extends React.Component {
   }
 
   onPurchase = rewardId => {
-    this.props.redeemReward(this.props.userId, rewardId);
+    this.props.purchaseReward(this.props.user.id, rewardId);
   };
 
   async componentDidMount() {
@@ -53,7 +53,7 @@ class StudentRewards extends React.Component {
     //TODO: ADD IN-PLACE EDITING FOR DESCRIPTION/ COST/VALUE
     //TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
     /////////IF THE USER IS THE TEACHER
-    const rewards = this.props.rewardOptions.map(reward => {
+    const rewardOptions = this.props.rewardOptions.map(reward => {
       return (
         <Card
           className="reward-container"
@@ -103,7 +103,7 @@ class StudentRewards extends React.Component {
           <FlatButton label="Get More" onClick={this.getMoarPoints} />
         </div>
         {/* Rewards List */}
-        <List className="reward-list">{rewards}</List>
+        <List className="reward-list">{rewardOptions}</List>
       </Paper>
     );
   };
@@ -134,8 +134,8 @@ const mapDispatchToProps = dispatch => {
     getStudentRewardOptions: classrooms => {
       dispatch(getStudentRewardOptions(classrooms));
     },
-    redeemReward: (studentId, rewardId) => {
-      dispatch(redeemReward(studentId, rewardId));
+    purchaseReward: (studentId, rewardId) => {
+      dispatch(purchaseReward(studentId, rewardId));
     }
   };
 };
