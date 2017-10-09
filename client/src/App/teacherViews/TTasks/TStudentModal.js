@@ -9,11 +9,13 @@ import { List, ListItem } from "material-ui/List";
 
 const StudentItem = ({ onClick, student }) => {
   const unassignButton = (
-    // <Undoable wait={2} resolve={onClick}>
-    //   <FlatButton label="Unassign" />
-    // </Undoable>
-    <FlatButton label="Unassign" onClick={onClick} />
+    <div>
+      <Undoable wait={2} resolve={onClick}>
+        <FlatButton label="Unassign" />
+      </Undoable>
+    </div>
   );
+
   return (
     <ListItem
       primaryText={student.profile.displayName}
@@ -31,7 +33,9 @@ const ModalTitle = ({ onClick }) => {
         <h1>Full list of students</h1>
       </div>
       <div className="modal-title-button">
-        <FlatButton onClick={onClick} label="Unassign All" />
+        <Undoable wait={2} tickDown={true} resolve={onClick}>
+          <FlatButton label="Unassign All" />
+        </Undoable>
       </div>
     </div>
   );
@@ -51,14 +55,6 @@ class StudentsModal extends React.Component {
   handleClose = () => {
     this.setState({ open: false });
   };
-
-  // unassignAll = task => {
-  //   //
-  // };
-  //
-  // unassignOne = (task, student) => {
-  //   //
-  // };
 
   render() {
     //check the amount and render ellipsis if necessary
