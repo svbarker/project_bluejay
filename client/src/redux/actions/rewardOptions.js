@@ -17,9 +17,7 @@ export const getStudentRewardOptions = () => async dispatch => {
       method: "GET"
     });
     response = await response.json();
-    console.log(response);
     dispatch(getAllRewardOptions(response.apiData));
-    // dispatch(endRequest(null));
   } catch (e) {
     console.error(e);
     // dispatch(endRequest(e));

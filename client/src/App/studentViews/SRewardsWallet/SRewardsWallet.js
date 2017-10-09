@@ -1,32 +1,41 @@
 import React from "react";
 import { connect } from "react-redux";
+import { NavLink } from "react-router-dom";
 import Paper from "material-ui/Paper";
 import Avatar from "material-ui/Avatar";
+import { List, ListItem } from "material-ui/List";
+import Divider from "material-ui/Divider";
 import Chip from "material-ui/Chip";
 
 //actions
 import { getAllRewards } from "../../../redux/actions/rewards";
-
-// const SRewardsWallet = () => <h5>Suprah Awesome Wallet Here</h5>;
 
 class SRewardsWallet extends React.Component {
   constructor(props) {
     super(props);
   }
   componentDidMount = () => {
-    // this.props.fetchRewards(this.props.userId, "Student");
+    this.props.fetchRewards(this.props.userId, "Student");
   };
   render = () => {
-    // const pendingRewards = this.props.fakeData.map(reward => (
-    //   <Chip>{reward.title}</Chip>
-    // ));
+    let pendingRewards;
+    if (this.props.rewards.length) {
+      pendingRewards = this.props.rewards.map(reward => (
+        <ListItem key={reward._id}>
+          <NavLink to="/rewards">
+            <Chip>{reward.title}</Chip>
+          </NavLink>
+        </ListItem>
+      ));
+    } else {
+      pendingRewards = <h3>Sorry...you have no rewards pending.</h3>;
+    }
 
     return (
       <Paper>
-        {/* {pendingRewards} */}
-        <div>
-          <Chip>Pending Reward</Chip>
-        </div>
+        <h1>Pending Rewards</h1>
+        <Divider />
+        <List>{pendingRewards}</List>
       </Paper>
     );
   };
