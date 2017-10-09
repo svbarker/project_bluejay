@@ -73,7 +73,7 @@ class TeacherRewards extends React.Component {
         >
           <CardHeader
             title={reward.title}
-            titleStyle={{ "font-weight": "bold" }}
+            titleStyle={{ fontWeight: "bold" }}
             subtitle={`costs ${reward.cost || reward.value || "None"}`}
             className="reward-card-header"
             actAsExpander={true}
