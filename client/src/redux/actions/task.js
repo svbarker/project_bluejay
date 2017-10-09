@@ -139,8 +139,8 @@ export const bulkUnassignTask = (task, studentIds) => async dispatch => {
     serverResponse = await serverResponse.json();
     if (serverResponse.success) {
       //update the students and the tasks
-      dispatch(bulkUnassign(serverResponse.apiData));
-      dispatch(bulkUnassignStudents(task._id));
+      dispatch(bulkUnassign(studentIds)); //a student redux store action
+      dispatch(bulkUnassignStudents(task._id)); //a task redux store action
     } else {
       console.error("problems in Bulk Unassign");
       console.log("serverResponse = ", serverResponse);

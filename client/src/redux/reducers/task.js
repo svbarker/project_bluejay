@@ -35,8 +35,8 @@ const tasks = (state = [], action) => {
       });
     case BULK_UNASSIGN_STUDENTS:
       return state.map(task => {
-        if (task._id === action.data.taskId) {
-          task.student = [];
+        if (task._id === action.data) {
+          task.students = [];
           return task;
         } else {
           return task;
