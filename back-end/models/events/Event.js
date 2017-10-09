@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const models = require("../");
-const { Student, Teacher } = models;
+const models = require("../index");
+console.log(models);
 
 const EventSchema = new mongoose.Schema(
 	{
@@ -55,14 +55,19 @@ EventSchema.virtual("message").get(function() {
 
 EventSchema.methods.cleanForLog = function() {
 	const thisObj = this.toObject();
-	const modelNames = Object.keys(models).map(key => key.toLowerCase());
+	const modelNames = ["user", "reward", "task", "profile", "classroom"];
+	console.log(modelNames);
 	for (let key in thisObj) {
 		if (key !== "owner" && !modelNames.some(name => name.startsWith(key)))
 			continue;
+		console.log(key);
 		if (this[key].cleanForLog && typeof this[key].cleanForLog === "function") {
+			console.log("cleaning: ", key);
 			thisObj[key] = this[key].cleanForLog();
 		} else {
-			thisObj[key] = this[key].toObject();
+			if (this[key].toObject && typeof this[key].toObject === "function") {
+				thisObj[key] = this[key].toObject();
+			}
 		}
 	}
 	return thisObj;

@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Student = require('../users/Student');
+const mongoose = require("mongoose");
+const Student = require("../users/Student");
 const TaskSchema = new mongoose.Schema(
 	{
 		title: {
@@ -13,49 +13,49 @@ const TaskSchema = new mongoose.Schema(
 		rewards: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Reward'
+				ref: "Reward"
 			}
 		],
 		teacher: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Teacher'
+			ref: "Teacher"
 		},
 		students: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Student'
+				ref: "Student"
 			}
 		],
 		classroom: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Classroom'
+				ref: "Classroom"
 			}
 		]
 	},
 	{
 		timestamps: true,
-		discriminatorKey: 'status'
+		discriminatorKey: "status"
 	}
 );
 
 const autoPopulate = function(next) {
 	this.populate([
 		{
-			path: 'students',
-			Model: 'Student',
+			path: "students",
+			Model: "Student",
 			populate: {
-				path: 'profile',
-				model: 'Profile'
+				path: "profile",
+				model: "Profile"
 			}
 		}
 	]);
 	next();
 };
 
-TaskSchema.pre('findOne', autoPopulate);
-TaskSchema.pre('findOneAndUpdate', autoPopulate);
-TaskSchema.pre('findOneAndRemove', autoPopulate);
+TaskSchema.pre("findOne", autoPopulate);
+TaskSchema.pre("findOneAndUpdate", autoPopulate);
+TaskSchema.pre("findOneAndRemove", autoPopulate);
 
 TaskSchema.methods.toString = function() {
 	return `${this.title}`;
@@ -92,5 +92,16 @@ TaskSchema.methods.removeStudent = async function(student) {
 	return null;
 };
 
-const Task = mongoose.model('Task', TaskSchema);
+TaskSchema.methods.cleanForLog = function() {
+	const obj = this.toObject();
+	return {
+		id: obj._id,
+		title: obj.title,
+		description: obj.description,
+		teacher: obj.teacher,
+		status: obj.status
+	};
+};
+
+const Task = mongoose.model("Task", TaskSchema);
 module.exports = Task;
