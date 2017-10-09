@@ -9,6 +9,7 @@ import TextField from "material-ui/TextField";
 // };
 
 //A click to edit in place component
+//Supply me a onSubmit property (called when 'Enter' is pressed or onBlur)
 
 class Editable extends React.Component {
   constructor(props) {
@@ -18,19 +19,30 @@ class Editable extends React.Component {
     };
   }
   onClick = e => {
-    // console.log("you clicked me!");
     this.setState({ editMode: true });
   };
+  isValidInput = string => string.length > 0;
+
   //clicking away allows for resetting
   onBlur = e => {
-    if (e.target.value.length > 0) {
-      this.setState({ editMode: false });
-      this.props.onSubmit(e.target.value);
+    if (this.isValidInput(e.target.value)) {
+      this.setState({ editMode: false, text: e.target.value });
+      this.props.onSubmit(e);
     } else {
       this.setState({ editMode: false });
     }
   };
-  render() {
+  onKeyDown = e => {
+    if (e.key === "Enter") {
+      if (this.isValidInput(e.target.value)) {
+        this.setState({ editMode: false, text: e.target.value });
+        this.props.onSubmit(e);
+      } else {
+        this.setState({ editMode: false });
+      }
+    }
+  };
+  render = () => {
     if (this.state.editMode) {
       return (
         <TextField
@@ -39,6 +51,7 @@ class Editable extends React.Component {
           }}
           name={this.props.name}
           onBlur={this.onBlur}
+          onKeyDown={this.onKeyDown}
           floatingLabelText={this.props.label || ""}
           defaultValue={this.props.text}
           multiLine={this.props.multiline || true}
@@ -52,7 +65,7 @@ class Editable extends React.Component {
         </div>
       );
     }
-  }
+  };
 }
 
 export default Editable;
