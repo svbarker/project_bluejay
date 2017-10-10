@@ -11,7 +11,7 @@ import RaisedButton from "material-ui/RaisedButton";
 const ModalTitle = props => {
   return (
     <div className="modal-title-container">
-      <h1>Edit THAT TASK</h1>
+      <h1>Modify your task</h1>
     </div>
   );
 };
@@ -22,7 +22,9 @@ class TEditTaskModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      title: this.props.task.title,
+      description: this.props.task.description
     };
   }
   handleOpen = () => {
@@ -34,8 +36,14 @@ class TEditTaskModal extends React.Component {
   };
   onSave = e => {
     console.log("saving");
-    console.log("event = ", e.target);
+    this.props.onSubmit({
+      title: this.state.title,
+      description: this.state.description
+    });
     this.setState({ open: false });
+  };
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
   render() {
     const actions = [
@@ -67,7 +75,8 @@ class TEditTaskModal extends React.Component {
               floatingLabelFixed={true}
               underlineShow={false}
               name="title"
-              defaultValue={this.props.task.title}
+              value={this.state.title}
+              onChange={this.onChange}
             />
             <TextField
               floatingLabelText="description"
@@ -76,7 +85,8 @@ class TEditTaskModal extends React.Component {
               underlineShow={false}
               multiLine={true}
               name="description"
-              defaultValue={this.props.task.description}
+              value={this.state.description}
+              onChange={this.onChange}
             />
           </div>
         </Dialog>

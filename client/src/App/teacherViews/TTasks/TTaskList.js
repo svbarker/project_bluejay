@@ -24,6 +24,7 @@ const TaskList = props => {
             props.unAssignOne(task, student);
           }}
           deleteTask={() => props.deleteTask(task._id)}
+          editTask={props.editTask}
           hydrateStudentList={() => hydrateStudentList(task)}
           students={studentsAssignedTask}
           key={task._id}

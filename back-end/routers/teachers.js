@@ -757,7 +757,6 @@ router.delete("/:teacherId/tasks/:taskId", async (req, res) => {
       Teacher.findById.bind(Teacher)
     );
 
-    console.log("teacher = ", teacher);
     await teacher.update({
       tasks: teacher.tasks.filter(task => task.id !== req.params.taskId)
     });

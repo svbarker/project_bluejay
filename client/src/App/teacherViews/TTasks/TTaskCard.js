@@ -20,6 +20,10 @@ class TaskCard extends React.Component {
   hydrateList = () => {
     console.log("grabbing students for a task");
   };
+  //when the edit modal sends an edit add the task id
+  onSubmit = taskUpdates =>
+    this.props.editTask(this.props.task._id, taskUpdates);
+
   //what is this
   render() {
     const { title, value, description, classroom } = this.props.task;
@@ -49,7 +53,11 @@ class TaskCard extends React.Component {
                 />
 
                 <div className="menu-card-button-container">
-                  <TEditTaskModal open={true} task={this.props.task} />
+                  <TEditTaskModal
+                    open={true}
+                    task={this.props.task}
+                    onSubmit={this.onSubmit}
+                  />
                   <Undoable wait={1} resolve={() => this.props.deleteTask()}>
                     <RaisedButton
                       label="Delete"

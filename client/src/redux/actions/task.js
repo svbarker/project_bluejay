@@ -133,7 +133,6 @@ export const bulkUnassignTask = (task, studentIds) => async dispatch => {
 
 //delete a task from a teacher
 export const deleteTask = (teacherId, taskId) => async dispatch => {
-  console.log("deleting a task");
   try {
     let serverResponse = await fetch(
       `api/teachers/${teacherId}/tasks/${taskId}`,
@@ -147,7 +146,6 @@ export const deleteTask = (teacherId, taskId) => async dispatch => {
     );
     serverResponse = await serverResponse.json();
     if (serverResponse.success) {
-      console.log(serverResponse.apiData);
       dispatch(removeTask(serverResponse.apiData));
     } else if (!serverResponse.success) {
       console.error(serverResponse.apiError);
@@ -158,12 +156,33 @@ export const deleteTask = (teacherId, taskId) => async dispatch => {
   }
 };
 
-export const editTask = (teacherId, taskId) => async dispatch => {
-  console.log("updating a task");
+//Teacher editing a task's fields
+export const editTask = (taskId, taskUpdates) => async dispatch => {
   try {
-    ///
+    let serverResponse = await fetch(`api/tasks/${taskId}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ updates: taskUpdates })
+    });
+    serverResponse = await serverResponse.json();
+    if (serverResponse.success) {
+      //server send back the old task, so update it before you store it in redux
+      let oldTask = serverResponse.apiData;
+      for (let key in taskUpdates) {
+        if (taskUpdates.hasOwnProperty(key)) {
+          oldTask[key] = taskUpdates[key];
+        }
+      }
+      dispatch(updateTask(oldTask._id, oldTask));
+    } else if (!serverResponse.success) {
+      console.error(serverResponse.apiError);
+    }
   } catch (e) {
-    ///
+    console.error(e);
+    throw e;
   }
 };
 
