@@ -2,10 +2,13 @@ const router = require("express").Router();
 const { createResponse } = require("../server/util");
 const { Teacher, Profile } = require("../models");
 const { Messages } = require("../models/events");
+const { logEvent, logError } = require("../server/util");
+const { UserEvent, ProfileEvent } = require("../models/events");
 
 // creating a teacher
 router.post("/", async (req, res) => {
 	try {
+		console.log("Body: ", req.body);
 		const { email, password, title, about, fname, lname, gender } = req.body;
 		if (!email || !password) {
 			throw new Error("No email or password supplied");

@@ -3,7 +3,7 @@ import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
 import FlatButton from "material-ui/FlatButton";
-import LoggedOutNavbar from "../Navbars/LoggedOutNavbar";
+import { Link } from "react-router-dom";
 import "./Login.css";
 
 const Login = ({
@@ -15,10 +15,12 @@ const Login = ({
 }) => {
 	return (
 		<div>
-			<LoggedOutNavbar />
 			<div className="login-container">
 				<h3>
-					Don't have an account? <FlatButton label="Sign Up" />
+					Don't have an account?{" "}
+					<Link to="/register">
+						<FlatButton label="Sign Up" />
+					</Link>
 				</h3>
 				<Paper style={{ padding: "20px" }}>
 					<h2>Login to Continue</h2>

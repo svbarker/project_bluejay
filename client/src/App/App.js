@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TNavbar from "./Navbars/TNavbar";
 import SNavbar from "./Navbars/SNavbar";
+import LoggedOutNavbar from "./Navbars/LoggedOutNavbar";
 import {
   BrowserRouter as Router,
   Route,
@@ -9,7 +10,7 @@ import {
 } from "react-router-dom";
 
 //Components
-import Register from "./GlobalComponents/Register";
+import RegisterContainer from "./GlobalComponents/RegisterContainer";
 import LoginContainer from "./GlobalComponents/LoginContainer";
 import TDashboard from "./teacherViews/TDashboard";
 import SDashboard from "./studentViews/SDashboard";
@@ -47,7 +48,6 @@ class App extends Component {
               <TNavbar socket={this.socket} />
               <Switch>
                 {/* do some login checking here */}
-                <Redirect from="/login" to="/" />
                 <Route exact path="/" component={TDashboard} />
                 <Route path="/students" component={TStudents} />
                 <Route
@@ -65,10 +65,7 @@ class App extends Component {
                 />
                 {/* <Route path="/" component={PageNotFound} /> */}
                 {/* Testing a login route over here */}
-                <Route
-                  path="/login"
-                  component={() => <LoginContainer socket={this.socket} />}
-                />
+                <Redirect from="/" to="/" />
               </Switch>
             </div>
           </Router>
@@ -108,22 +105,26 @@ class App extends Component {
         </div>
       );
     } else {
-      return <LoginContainer socket={this.socket} />;
+      return (
+        <Router>
+          <div>
+            <LoggedOutNavbar />
+            <Switch>
+              <Route
+                path="/login"
+                component={() => <LoginContainer socket={this.socket} />}
+              />
+              <Route
+                path="/register"
+                component={() => <RegisterContainer socket={this.socket} />}
+              />
+              <Redirect from="/" to="/login" />
+            </Switch>
+          </div>
+        </Router>
+      );
     }
   }
 }
 
 export default App;
-
-/*
-<Router>
-          <Switch>
-            <Route
-              path="/login"
-              component={() => <LoginContainer socket={this.socket} />}
-            />
-            <Route path="/register" component={Register} />
-            <Redirect from="/" to="/login" />
-          </Switch>
-        </Router>
-*/
