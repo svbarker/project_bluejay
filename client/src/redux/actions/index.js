@@ -70,7 +70,6 @@ const setUser = async (loggedInUser, dispatch, socket) => {
 	let userObj;
 
 	if (loggedInUser.apiData.kind === "Teacher") {
-		console.log("I'm a teacher");
 		userObj = {
 			id: loggedInUser.apiData._id,
 			kind: loggedInUser.apiData.kind,
@@ -84,6 +83,8 @@ const setUser = async (loggedInUser, dispatch, socket) => {
 			displayName: loggedInUser.apiData.profile.displayName
 		};
 	}
+
+	console.log("User object: ", userObj);
 
 	socket.emit(Events.USER_LOGGED_IN, userObj.id);
 	await dispatch(user.setUser(userObj));

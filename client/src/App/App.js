@@ -47,6 +47,7 @@ class App extends Component {
               <TNavbar socket={this.socket} />
               <Switch>
                 {/* do some login checking here */}
+                <Redirect from="/login" to="/" />
                 <Route exact path="/" component={TDashboard} />
                 <Route path="/students" component={TStudents} />
                 <Route
@@ -81,6 +82,7 @@ class App extends Component {
               <SNavbar socket={this.socket} />
               <Switch>
                 {/* do some login checking here */}
+                <Redirect from="/login" to="/" />
                 <Route exact path="/" component={SDashboard} />
                 <Route
                   path="/tasks"
@@ -106,8 +108,15 @@ class App extends Component {
         </div>
       );
     } else {
-      return (
-        <Router>
+      return <LoginContainer socket={this.socket} />;
+    }
+  }
+}
+
+export default App;
+
+/*
+<Router>
           <Switch>
             <Route
               path="/login"
@@ -117,9 +126,4 @@ class App extends Component {
             <Redirect from="/" to="/login" />
           </Switch>
         </Router>
-      );
-    }
-  }
-}
-
-export default App;
+*/
