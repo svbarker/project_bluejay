@@ -103,11 +103,13 @@ ClassroomSchema.methods.removeTeacher = async function(teacher) {
 	return null;
 };
 
-ClassroomSchema.methods.getPopulatedStudents = async function() {
-	return await Student.find({ _id: this.students }).populate({
-		path: "profile",
-		model: "Profile"
-	});
+ClassroomSchema.methods.getPopulatedStudents = async function(populate) {
+	return await Student.find({ _id: this.students }).populate(
+		populate || {
+			path: "profile",
+			model: "Profile"
+		}
+	);
 };
 
 ClassroomSchema.plugin(uniqueValidator);

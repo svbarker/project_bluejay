@@ -177,12 +177,12 @@ router.patch("/:te_id/classroom/:cl_id/assign/:t_id", async (req, res) => {
 			Teacher.findById.bind(Teacher)
 		);
 
-		let classroom = await teacher.getClassroom(req.params.cl_id);
+		const classroom = await teacher.getClassroom(req.params.cl_id);
 		if (!classroom) {
 			throw new Error(`That teacher doesn't have a classroom with that id`);
 		}
 
-		let task = await Task.findById(req.params.t_id);
+		const task = await Task.findById(req.params.t_id);
 		if (!task) {
 			throw new Error(`No task found using that id.`);
 		}
@@ -487,6 +487,7 @@ router.patch("/:te_id/students/:st_id/distribute", async (req, res) => {
 					// Clone reward and add to the students list.
 					const newReward = new rewardType(reward.toNewObject());
 					await newReward.save();
+					await student.addReward(newReward);
 
 					// Create log events.
 					logEvent(RewardEvent, {
@@ -503,7 +504,6 @@ router.patch("/:te_id/students/:st_id/distribute", async (req, res) => {
 						user: student,
 						reward: newReward
 					});
-					await student.addReward(newReward);
 
 					resolve(event);
 				});
@@ -515,6 +515,85 @@ router.patch("/:te_id/students/:st_id/distribute", async (req, res) => {
 		refreshNotsClientSide(req, student);
 
 		res.json(createResponse());
+	} catch (error) {
+		logError(error);
+		res.json(createResponse(error));
+	}
+});
+
+// Distributing a reward to a classroom
+router.patch("/:te_id/classroom/:cl_id/distribute", async (req, res) => {
+	try {
+		const rewardIds = req.body.rewards || req.session.body.rewards;
+
+		const teacher = await getResource(
+			req.params.te_id,
+			Teacher.findById.bind(Teacher)
+		);
+
+		const classroom = await teacher.getClassroom(req.params.cl_id);
+		if (!classroom) {
+			throw new Error(`That teacher doesn't have a classroom with that id`);
+		}
+
+		const students = await classroom.getPopulatedStudents();
+		if (!students || !students.length) {
+			throw new Error(`That classroom doesn't have any students`);
+		}
+
+		const studentsRewarded = [];
+		students.forEach(async student => {
+			studentsRewarded.push(student);
+
+			const notsArr = await Promise.all(
+				rewardIds.map(reward => {
+					return new Promise(async resolve => {
+						reward = teacher.getReward(reward);
+
+						if (!reward) {
+							throw new Error(
+								`That teacher doesn't have a reward with that id`
+							);
+						}
+
+						const rewardType = [LootReward, PointReward].find(
+							r => reward instanceof r
+						);
+						if (!rewardType) {
+							throw new Error(`Invalid reward type`);
+						}
+
+						// Clone reward and add to the students list.
+						const newReward = new rewardType(reward.toNewObject());
+						await newReward.save();
+						await student.addReward(newReward);
+
+						// Create log events.
+						logEvent(RewardEvent, {
+							message: Messages.TEMPLATE_REWARD_DISTRIBUTE,
+							owner: req.user,
+							user: student,
+							reward: newReward
+						});
+
+						const event = await logEvent(MessageEvent, {
+							body: Messages.TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG,
+							message: Messages.TEMPLATE_SEND_MESSAGE,
+							owner: req.user,
+							user: student,
+							reward: newReward
+						});
+
+						resolve(event);
+					});
+				})
+			);
+			student.addNotifications(notsArr);
+
+			refreshNotsClientSide(req, student);
+		});
+
+		res.json(createResponse(studentsRewarded));
 	} catch (error) {
 		logError(error);
 		res.json(createResponse(error));
