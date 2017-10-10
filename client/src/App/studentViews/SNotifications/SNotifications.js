@@ -88,29 +88,31 @@ const getDateHeader = (n, dates) => {
 const Notifications = ({ notifications, takeToItem, user }) => {
   let dates = [];
   return (
-    <List>
-      {notifications.map(n => {
-        let date = getDateHeader(n, dates);
+    <div>
+      <List>
+        {notifications.map(n => {
+          let date = getDateHeader(n, dates);
 
-        const ListItemProps = {
-          key: n._id,
-          primaryText: getMainText(n),
-          secondaryText: getSecondaryText(n),
-          hoverColor: getHoverColor(n),
-          onClick: takeToItem(n.task, n._id),
-          secondaryTextLines: 2,
-          leftIcon: getIcon(n),
-          style: getListItemStyle(n)
-        };
+          const ListItemProps = {
+            key: n._id,
+            primaryText: getMainText(n),
+            secondaryText: getSecondaryText(n),
+            hoverColor: getHoverColor(n),
+            onClick: takeToItem(n.task, n._id),
+            secondaryTextLines: 2,
+            leftIcon: getIcon(n),
+            style: getListItemStyle(n)
+          };
 
-        return (
-          <div style={topMargin}>
-            {date}
-            <ListItem {...ListItemProps} />
-          </div>
-        );
-      })}
-    </List>
+          return (
+            <div style={topMargin}>
+              {date}
+              <ListItem {...ListItemProps} />
+            </div>
+          );
+        })}
+      </List>
+    </div>
   );
 };
 

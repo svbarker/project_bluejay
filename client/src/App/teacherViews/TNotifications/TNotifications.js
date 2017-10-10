@@ -102,6 +102,13 @@ const getSecondaryText = n =>
 const getHoverColor = n =>
   n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205, 40,.3)";
 
+const isPending = (n, pendingIds) => pendingIds.includes(n._id);
+
+const getPendingData = (n, pendings) => {
+  let pendingObj = pendings.filter(p => p.id === n._id)[0];
+  return [pendingObj.type, pendingObj.timeLeft];
+};
+
 const topMargin = {
   marginTop: "50px"
 };
@@ -165,9 +172,8 @@ const Notifications = ({
       {notifications.map(n => {
         let date = getDateHeader(n, dates);
 
-        if (pendingIds.includes(n._id)) {
-          let pendingType = pendings.filter(p => p.id === n._id)[0]["type"];
-          let timeLeft = pendings.filter(p => p.id === n._id)[0]["timeLeft"];
+        if (isPending(n, pendingIds)) {
+          const [pendingType, timeLeft] = getPendingData(n, pendings);
 
           const pendingListItemProps = {
             key: n._id,
@@ -179,7 +185,12 @@ const Notifications = ({
             style: pendingListItemStyle
           };
 
-          return <ListItem {...pendingListItemProps} />;
+          return (
+            <div>
+              {date}
+              <ListItem {...pendingListItemProps} />
+            </div>
+          );
         }
 
         const ListItemProps = {
