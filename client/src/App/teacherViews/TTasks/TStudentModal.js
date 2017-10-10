@@ -48,6 +48,7 @@ class StudentsModal extends React.Component {
       open: false
     };
   }
+
   handleOpen = () => {
     this.setState({ open: true });
   };

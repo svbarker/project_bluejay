@@ -26,3 +26,29 @@ const removeClassroom = id => ({
 	type: REMOVE_CLASSROOM,
 	data: id
 });
+
+export const addStudentToClassroom = (id, studentData) => async dispatch => {
+	try {
+		studentData.password = "foo";
+		const response = fetch(`/api/classrooms/${id}/student`, {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(studentData)
+		});
+
+		console.log(response);
+
+		const classroom = await response.json();
+
+		if (!classroom.success) {
+			throw new Error(classroom.apiError.message);
+		}
+
+		dispatch(updateClassroom(id, classroom.apiData));
+	} catch (error) {
+		console.log(error);
+	}
+};
