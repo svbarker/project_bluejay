@@ -50,7 +50,6 @@ class StudentCard extends Component {
 					zDepth={2}
 					style={{
 						height: "100%",
-						margin: "10%",
 						borderRadius: "1em",
 						border: highlighted ? "5px dashed #960d0d" : "5px solid #085a5a"
 					}}
