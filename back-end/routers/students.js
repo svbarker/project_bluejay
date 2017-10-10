@@ -181,7 +181,7 @@ router.get("/:id/rewards", async (req, res) => {
   }
 });
 
-router.get("/points", async (req, res) => {
+router.get("/student/points", async (req, res) => {
   try {
     const student = req.user;
     res.json(createResponse(student.points));
