@@ -17,7 +17,6 @@ const {
 	MessageEvent,
 	RewardEvent
 } = require("../models/events");
-const Events = require("../../client/src/redux/actions/events");
 
 // creating a student
 router.post("/", async (req, res) => {
