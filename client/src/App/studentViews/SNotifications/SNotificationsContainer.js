@@ -14,7 +14,14 @@ class NotificationsContainer extends React.Component {
   }
 
   takeToItem = (item, id) => () => {
-    this.props.history.push(`/${item === "TaskEvent" ? "task" : "reward"}s`);
+    if (item) {
+      this.props.history.push(
+        `/${item.status === "AssignedTask" ? "task" : "reward"}s`
+      );
+    } else {
+      console.log("problems in taskToItem of SNotifications");
+      this.props.history.push(`/rewards`);
+    }
   };
 
   componentDidMount() {
