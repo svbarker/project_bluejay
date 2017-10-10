@@ -45,6 +45,8 @@ class LoginContainer extends Component {
         e.target.password.value,
         this.props.socket
       );
+      console.log(this.props.firstLocation);
+      this.props.history.push(this.props.firstLocation);
     }
   };
 
@@ -72,4 +74,6 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(LoginContainer)
+);

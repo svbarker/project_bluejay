@@ -30,11 +30,15 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.socket = connect("/");
+
+    this.state = {
+      firstLocation: window.location.pathname
+    };
   }
 
-  async componentWillMount() {
+  componentWillMount() {
     if (/connect.sid/.test(document.cookie)) {
-      await this.props.returningUser(this.socket);
+      this.props.returningUser(this.socket);
     }
   }
 
@@ -46,6 +50,7 @@ class App extends Component {
         <Router>
           <div className="App">
             <TNavbar socket={this.socket} />
+
             <Switch>
               {/* do some login checking here */}
               <Route exact path="/" component={TDashboard} />
@@ -111,7 +116,12 @@ class App extends Component {
             <Switch>
               <Route
                 path="/login"
-                component={() => <LoginContainer socket={this.socket} />}
+                component={() => (
+                  <LoginContainer
+                    socket={this.socket}
+                    firstLocation={this.state.firstLocation}
+                  />
+                )}
               />
               <Route
                 path="/register"
