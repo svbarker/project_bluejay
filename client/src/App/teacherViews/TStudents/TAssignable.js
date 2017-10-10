@@ -50,6 +50,7 @@ class Assignable extends Component {
 
   async componentWillReceiveProps(nextProps) {
     if (nextProps.dropResult) {
+      console.log("NEXT PROPS:", nextProps);
       console.log(nextProps.dropResult.result);
       const result = await nextProps.dropResult.result;
       let message;

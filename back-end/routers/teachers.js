@@ -20,9 +20,9 @@ const {
   TaskEvent,
   RewardEvent,
   MessageEvent,
-  Messages,
-  Events
+  Messages
 } = require("../models/events");
+const Events = require("../../client/src/redux/actions/events");
 
 // creating a teacher
 router.post("/", async (req, res) => {

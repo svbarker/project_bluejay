@@ -3,10 +3,10 @@ import Paper from "material-ui/Paper";
 import { DropTarget } from "react-dnd";
 import { assignTask } from "../../../redux/actions/task";
 import { connect } from "react-redux";
-import store from "../../../store";
+// import store from "../../../store";
 
 const assign = (teacherId, studentId, assignableId, type) => {
-  store.dispatch(assignTask(teacherId, studentId, assignableId, type));
+  return assignTask(teacherId, studentId, assignableId, type)();
 };
 
 const studentTarget = {
