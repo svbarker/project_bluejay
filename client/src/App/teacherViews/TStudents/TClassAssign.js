@@ -20,9 +20,9 @@ const assignTask = async (teacherId, classId, assignableId, type) => {
 				headers: {
 					"Content-Type": "application/json"
 				},
-				body: {
+				body: JSON.stringify({
 					rewards: [assignableId]
-				}
+				})
 			}
 		);
 		return await response.json();
