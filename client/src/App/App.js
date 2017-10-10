@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TNavbar from "./Navbars/TNavbar";
 import SNavbar from "./Navbars/SNavbar";
+import LoggedOutNavbar from "./Navbars/LoggedOutNavbar";
 import {
   BrowserRouter as Router,
   Route,
@@ -108,22 +109,23 @@ class App extends Component {
         </div>
       );
     } else {
-      return <LoginContainer socket={this.socket} />;
+      return (
+        <Router>
+          <div>
+            <LoggedOutNavbar />
+            <Switch>
+              <Route
+                path="/login"
+                component={() => <LoginContainer socket={this.socket} />}
+              />
+              <Route path="/register" component={Register} />
+              <Redirect from="/" to="/login" />
+            </Switch>
+          </div>
+        </Router>
+      );
     }
   }
 }
 
 export default App;
-
-/*
-<Router>
-          <Switch>
-            <Route
-              path="/login"
-              component={() => <LoginContainer socket={this.socket} />}
-            />
-            <Route path="/register" component={Register} />
-            <Redirect from="/" to="/login" />
-          </Switch>
-        </Router>
-*/

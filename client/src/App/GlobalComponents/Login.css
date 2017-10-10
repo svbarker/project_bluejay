@@ -8,3 +8,19 @@
 	color: red;
 	font-size: 12px;
 }
+
+.registration-container {
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.registration-form-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 20px;
+}
+
+.registration-form-container fieldset {
+	border: 2px solid #ccc;
+	border-radius: 5px;
+}
