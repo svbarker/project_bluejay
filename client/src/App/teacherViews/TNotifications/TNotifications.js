@@ -6,7 +6,7 @@ import { red500, yellow500, blue500 } from "material-ui/styles/colors";
 const iconStyles = { marginTop: "25px", color: "#507c0c" };
 
 const getListItemStyle = n => ({
-  margin: "50px 150px",
+  margin: "0px 150px",
   paddingBottom: "20px",
   border: `10px solid ${n.task
     ? "rgba( 26,132,132,.9)"
@@ -94,10 +94,59 @@ const getMainText = n =>
     ? `completed this task:`
     : `redeemed this reward:`} ${n.task ? n.task.title : n.reward.title}`;
 
-const getSecondaryText = n => `${n._message}`;
+const getSecondaryText = n =>
+  n.task
+    ? `Description: ${n.task.description}`
+    : `Description: ${n.reward.description}`;
 
 const getHoverColor = n =>
   n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205, 40,.3)";
+
+const topMargin = {
+  marginTop: "50px"
+};
+
+const months = {
+  1: "January",
+  2: "February",
+  3: "March",
+  4: "April",
+  5: "May",
+  6: "June",
+  7: "July",
+  8: "August",
+  9: "September",
+  10: "October",
+  11: "November",
+  12: "December"
+};
+
+const parseDate = date => {
+  const dateArr = date.split("-");
+  const dateHeader = months[dateArr[1]]
+    .concat(` ${dateArr[2]},`)
+    .concat(` ${dateArr[0]}`);
+  return (
+    <h4
+      style={{
+        margin: "50px 150px 20px 150px"
+      }}
+    >
+      {dateHeader}
+    </h4>
+  );
+};
+
+const getDateHeader = (n, dates) => {
+  let date = n.createdAt.split("T")[0];
+  if (!dates.includes(date)) {
+    dates.push(date);
+    date = parseDate(date);
+  } else {
+    date = null;
+  }
+  return date;
+};
 
 const Notifications = ({
   notifications,
@@ -108,11 +157,14 @@ const Notifications = ({
   pendings,
   undo
 }) => {
+  let dates = [];
   const pendingIds = pendings.map(p => p.id);
 
   return (
     <List>
       {notifications.map(n => {
+        let date = getDateHeader(n, dates);
+
         if (pendingIds.includes(n._id)) {
           let pendingType = pendings.filter(p => p.id === n._id)[0]["type"];
           let timeLeft = pendings.filter(p => p.id === n._id)[0]["timeLeft"];
@@ -149,7 +201,12 @@ const Notifications = ({
 
         console.log(n);
 
-        return <ListItem {...ListItemProps} />;
+        return (
+          <div style={topMargin}>
+            {date}
+            <ListItem {...ListItemProps} />
+          </div>
+        );
       })}
     </List>
   );
