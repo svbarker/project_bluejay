@@ -22,7 +22,15 @@ const Login = ({
 						<FlatButton label="Sign Up" />
 					</Link>
 				</h3>
-				<Paper rounded={true} style={{ padding: "20px", borderRadius: "3em" }}>
+				<Paper
+					zDepth={5}
+					rounded={true}
+					style={{
+						padding: "20px",
+						border: "3px dashed #ccc",
+						borderRadius: "3em"
+					}}
+				>
 					<h2>Login to Continue</h2>
 
 					<form onSubmit={onSubmit}>

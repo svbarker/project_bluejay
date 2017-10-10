@@ -26,7 +26,7 @@ class StudentNavbar extends Component {
 	render() {
 		console.log(this.props);
 		return (
-			<div className="navbar">
+			<div className="navbar navbar-base">
 				<div className="navbar-left">
 					<NavLink to="/">
 						<h1>
