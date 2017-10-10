@@ -69,11 +69,11 @@ class TaskListContainer extends React.Component {
     this.props.unAssignTask(task, studentId);
   };
   onDelete = (teacherId, taskId) => {
-    console.log("deleting ", teacherId, taskId);
+    // console.log("deleting ", teacherId, taskId);
     this.props.deleteTask(teacherId, taskId);
   };
   onEdit = (taskId, taskUpdates) => {
-    console.log("editing", taskId, taskUpdates);
+    // console.log("editing", taskId, taskUpdates);
     this.props.editTask(taskId, taskUpdates);
   };
   render() {

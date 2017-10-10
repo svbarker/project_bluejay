@@ -35,7 +35,7 @@ class TEditTaskModal extends React.Component {
     this.setState({ open: false });
   };
   onSave = e => {
-    console.log("saving");
+    // console.log("saving");
     this.props.onSubmit({
       title: this.state.title,
       description: this.state.description
