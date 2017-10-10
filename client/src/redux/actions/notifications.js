@@ -1,5 +1,6 @@
 export const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION";
 export const GET_ALL_NOTIFICATIONS = "GET_ALL_NOTIFICATIONS";
+export const CLEAR_ALL_NOTIFICATIONS = "CLEAR_ALL_NOTIFICATIONS";
 
 const removeNotification = data => {
   return {
@@ -12,6 +13,12 @@ const getAllNotifications = data => {
   return {
     type: GET_ALL_NOTIFICATIONS,
     data
+  };
+};
+
+const clearAllNotifications = () => {
+  return {
+    type: CLEAR_ALL_NOTIFICATIONS
   };
 };
 
@@ -43,8 +50,23 @@ export const fetchStudentNotifications = id => async dispatch => {
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
-    console.log("FETCH NOTIFICATIONS RSPONSE:", response);
     dispatch(getAllNotifications(response.apiData.reverse()));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const clearAllStudentNotifications = () => async dispatch => {
+  try {
+    let response = await fetch(`/clear/notifications`, {
+      credentials: "include",
+      method: "PATCH"
+    });
+    response = await response.json();
+    if (!response.success) {
+      throw new Error(response.apiError.message);
+    }
+    dispatch(clearAllNotifications());
   } catch (error) {
     console.log(error);
   }

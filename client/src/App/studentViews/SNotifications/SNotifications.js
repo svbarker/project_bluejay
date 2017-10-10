@@ -5,16 +5,38 @@ import FontIcon from "material-ui/FontIcon";
 import { red500, yellow500, blue500 } from "material-ui/styles/colors";
 const iconStyles = { marginTop: "25px", color: "#507c0c" };
 
+const getClearAllButton = (notifications, handler) => {
+  return (
+    <RaisedButton
+      disabled={!notifications.length}
+      backgroundColor={"rgba(150,13,13,1)"}
+      hoverColor={"rgba(137,0,0,1)"}
+      style={{ margin: "30px 0px 0px 100px" }}
+      labelColor={"rgb(255,255,255)"}
+      label={`Clear All Notifications`}
+      onClick={handler()}
+    />
+  );
+};
+
 const getListItemStyle = n => ({
   margin: "0px 150px",
   paddingBottom: "20px",
   border: `10px solid ${/reject/.exec(n._body)
     ? "rgba(150,13,13,1)"
-    : n.task ? "rgba( 26,132,132,.9)" : "rgba(150,205, 40,.9)"}`
+    : n.task ? "rgba( 26,132,132,.9)" : "rgba(150,205, 40,.9)"}`,
+  borderRadius: "50px"
 });
 
 const getIcon = n => {
   return (
+    // <div>
+    //   {/reject/.exec(n._body) ? (
+    //     <i
+    //       style={{ color: "rgba(150,13,13,1)" }}
+    //       className={"fa fa-window-close fa-2x"}
+    //     />
+    //   ) : null}
     <i
       style={{
         ...iconStyles,
@@ -40,7 +62,7 @@ const getHoverColor = n =>
     : n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205,40,.3)";
 
 const topMargin = {
-  marginTop: "50px"
+  marginTop: "30px"
 };
 
 const months = {
@@ -64,13 +86,13 @@ const parseDate = date => {
     .concat(` ${dateArr[2]},`)
     .concat(` ${dateArr[0]}`);
   return (
-    <h4
+    <h3
       style={{
         margin: "50px 150px 20px 150px"
       }}
     >
       {dateHeader}
-    </h4>
+    </h3>
   );
 };
 
@@ -85,10 +107,11 @@ const getDateHeader = (n, dates) => {
   return date;
 };
 
-const Notifications = ({ notifications, takeToItem, user }) => {
+const Notifications = ({ notifications, takeToItem, user, clearAll }) => {
   let dates = [];
   return (
     <div>
+      {getClearAllButton(notifications, clearAll)}
       <List>
         {notifications.map(n => {
           let date = getDateHeader(n, dates);
@@ -98,7 +121,7 @@ const Notifications = ({ notifications, takeToItem, user }) => {
             primaryText: getMainText(n),
             secondaryText: getSecondaryText(n),
             hoverColor: getHoverColor(n),
-            onClick: takeToItem(n.task, n._id),
+            onClick: takeToItem(n),
             secondaryTextLines: 2,
             leftIcon: getIcon(n),
             style: getListItemStyle(n)

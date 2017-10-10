@@ -8,7 +8,9 @@ import { loadStudents } from "../../../redux/actions/student";
 import {
   hydrateTeacherTasks,
   unAssignTask,
-  bulkUnassignTask
+  bulkUnassignTask,
+  editTask,
+  deleteTask
 } from "../../../redux/actions/task";
 
 class TaskListContainer extends React.Component {
@@ -66,7 +68,14 @@ class TaskListContainer extends React.Component {
   onUnAssignOne = async (task, studentId) => {
     this.props.unAssignTask(task, studentId);
   };
-
+  onDelete = (teacherId, taskId) => {
+    // console.log("deleting ", teacherId, taskId);
+    this.props.deleteTask(teacherId, taskId);
+  };
+  onEdit = (taskId, taskUpdates) => {
+    // console.log("editing", taskId, taskUpdates);
+    this.props.editTask(taskId, taskUpdates);
+  };
   render() {
     if (this.state.loaded) {
       return (
@@ -75,6 +84,8 @@ class TaskListContainer extends React.Component {
           unAssignOne={this.onUnAssignOne}
           tasks={this.props.tasks}
           students={this.props.students}
+          deleteTask={taskId => this.onDelete(this.props.userId, taskId)}
+          editTask={this.onEdit}
           hydrateStudentList={this.hydrateStudentList}
           name={this.props.name}
         />
@@ -106,7 +117,9 @@ const mapDispatchToProps = dispatch => {
     },
     bulkUnassignTask: (task, studentIds) => {
       dispatch(bulkUnassignTask(task, studentIds));
-    }
+    },
+    deleteTask: (teacherId, taskId) => dispatch(deleteTask(teacherId, taskId)),
+    editTask: (taskId, taskUpdates) => dispatch(editTask(taskId, taskUpdates))
   };
 };
 

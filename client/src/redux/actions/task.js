@@ -131,31 +131,71 @@ export const bulkUnassignTask = (task, studentIds) => async dispatch => {
   }
 };
 
-export const assignTask = (
-  teacherId,
-  studentId,
-  assignableId,
-  type
-) => async dispatch => {
+//delete a task from a teacher
+export const deleteTask = (teacherId, taskId) => async dispatch => {
   try {
-    let verb;
-    if (type === "tasks") {
-      verb = "assign";
-    } else if (type === "rewards") {
-      verb = "distribute";
+    let serverResponse = await fetch(
+      `api/teachers/${teacherId}/tasks/${taskId}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    serverResponse = await serverResponse.json();
+    if (serverResponse.success) {
+      dispatch(removeTask(serverResponse.apiData));
+    } else if (!serverResponse.success) {
+      console.error(serverResponse.apiError);
     }
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
 
+//Teacher editing a task's fields
+export const editTask = (taskId, taskUpdates) => async dispatch => {
+  try {
+    let serverResponse = await fetch(`api/tasks/${taskId}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ updates: taskUpdates })
+    });
+    serverResponse = await serverResponse.json();
+    if (serverResponse.success) {
+      //server send back the old task, so update it before you store it in redux
+      let oldTask = serverResponse.apiData;
+      for (let key in taskUpdates) {
+        if (taskUpdates.hasOwnProperty(key)) {
+          oldTask[key] = taskUpdates[key];
+        }
+      }
+      dispatch(updateTask(oldTask._id, oldTask));
+    } else if (!serverResponse.success) {
+      console.error(serverResponse.apiError);
+    }
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
+
+export const assignTask = (teacherId, studentId, taskId) => async dispatch => {
+  try {
     let response = await fetch(
-      `/api/teachers/${teacherId}/students/${studentId}/${verb}/${assignableId}`,
+      `/api/teachers/${teacherId}/students/${studentId}/assign/${taskId}`,
       {
         method: "PATCH",
         credentials: "include"
       }
     );
     return await response.json();
-    if (!response.success) {
-      throw new Error(response.apiError.message);
-    }
   } catch (error) {
     console.error(error);
   }

@@ -2,21 +2,31 @@ import React, { Component } from "react";
 import { DropTarget } from "react-dnd";
 
 const assignTask = async (teacherId, classId, assignableId, type) => {
-	let verb;
 	if (type === "tasks") {
-		verb = "assign";
+		const response = await fetch(
+			`/api/teachers/${teacherId}/classroom/${classId}/assign/${assignableId}`,
+			{
+				method: "PATCH",
+				credentials: "include"
+			}
+		);
+		return await response.json();
 	} else if (type === "rewards") {
-		verb = "distribute";
+		const response = await fetch(
+			`/api/teachers/${teacherId}/classroom/${classId}/distribute`,
+			{
+				method: "PATCH",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					rewards: [assignableId]
+				})
+			}
+		);
+		return await response.json();
 	}
-
-	const response = await fetch(
-		`/api/teachers/${teacherId}/classroom/${classId}/${verb}/${assignableId}`,
-		{
-			method: "PATCH",
-			credentials: "include"
-		}
-	);
-	return await response.json();
 };
 
 const classTarget = {

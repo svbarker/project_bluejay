@@ -6,15 +6,17 @@ import { red500, yellow500, blue500 } from "material-ui/styles/colors";
 const iconStyles = { marginTop: "25px", color: "#507c0c" };
 
 const getListItemStyle = n => ({
-  margin: "0px 150px",
+  margin: "0px 150px 0 400px",
   paddingBottom: "20px",
   border: `10px solid ${n.task
     ? "rgba( 26,132,132,.9)"
-    : "rgba(150,205, 40,.9)"}`
+    : "rgba(150,205, 40,.9)"}`,
+  borderRadius: "50px"
 });
 
 const pendingListItemStyle = {
-  margin: "30px 150px",
+  margin: "0px 150px 0 400px",
+  borderRadius: "50px",
   paddingBottom: "20px"
 };
 
@@ -40,25 +42,27 @@ const getButton = (notification, userId, handler, action) => {
     if (action === "Accept") {
       return notification.task ? "rgba( 26,132,132,1)" : "rgba(150,205, 40,1)";
     } else {
-      return "rgba(220, 43, 43,.9)";
+      return "rgba(220, 43, 43,1)";
     }
   };
   const kind = notification.task ? "task" : "reward";
   return (
-    <RaisedButton
-      backgroundColor={getBackgroundColor()}
-      style={{ marginBottom: "10px" }}
-      fullWidth={true}
-      labelColor={"rgb(255,255,255)"}
-      label={`${action}`}
-      onClick={handler(
-        userId,
-        notification.owner.id,
-        taskId,
-        notification._id,
-        kind
-      )}
-    />
+    <div style={{ marginRight: "800px", marginLeft: "-800px" }}>
+      <RaisedButton
+        backgroundColor={getBackgroundColor()}
+        style={{ marginBottom: "10px" }}
+        fullWidth={true}
+        labelColor={"rgb(255,255,255)"}
+        label={`${action}`}
+        onClick={handler(
+          userId,
+          notification.owner.id,
+          taskId,
+          notification._id,
+          kind
+        )}
+      />
+    </div>
   );
 };
 
@@ -92,7 +96,8 @@ const getPendingMainText = (pendingType, n, undo, timeLeft) => (
 const getMainText = n =>
   `${n.owner.profile.fname} ${n.owner.profile.lname} ${n.task
     ? `completed this task:`
-    : `redeemed this reward:`} ${n.task ? n.task.title : n.reward.title}`;
+    : `redeemed this reward:`}
+    ${n.task ? n.task.title : n.reward.title}`;
 
 const getSecondaryText = n =>
   n.task
@@ -110,7 +115,7 @@ const getPendingData = (n, pendings) => {
 };
 
 const topMargin = {
-  marginTop: "50px"
+  marginTop: "30px"
 };
 
 const months = {
@@ -134,13 +139,13 @@ const parseDate = date => {
     .concat(` ${dateArr[2]},`)
     .concat(` ${dateArr[0]}`);
   return (
-    <h4
+    <h3
       style={{
         margin: "50px 150px 20px 150px"
       }}
     >
       {dateHeader}
-    </h4>
+    </h3>
   );
 };
 
@@ -186,7 +191,7 @@ const Notifications = ({
           };
 
           return (
-            <div>
+            <div style={topMargin}>
               {date}
               <ListItem {...pendingListItemProps} />
             </div>
@@ -209,8 +214,6 @@ const Notifications = ({
             </div>
           )
         };
-
-        console.log(n);
 
         return (
           <div style={topMargin}>

@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import Paper from "material-ui/Paper";
 import { DropTarget } from "react-dnd";
 import { assignTask } from "../../../redux/actions/task";
+import { distributeReward } from "../../../redux/actions/rewards";
 import { connect } from "react-redux";
 // import store from "../../../store";
 
 const assign = (teacherId, studentId, assignableId, type) => {
-  return assignTask(teacherId, studentId, assignableId, type)();
+  console.log("Type: ", type);
+  if (type === "tasks") {
+    return assignTask(teacherId, studentId, assignableId)();
+  } else if (type === "rewards") {
+    return distributeReward(teacherId, studentId, assignableId)();
+  }
 };
 
 const studentTarget = {

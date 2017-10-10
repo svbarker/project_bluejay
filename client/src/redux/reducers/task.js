@@ -18,7 +18,7 @@ const tasks = (state = [], action) => {
       return [...state, action.data];
     case UPDATE_TASK:
       return [...state].map(
-        task => (action.data.id === task.id ? action.data.task : task)
+        task => (action.data.id === task._id ? action.data.task : task)
       );
     case REMOVE_TASK:
       return state.filter(task => task._id !== action.data);
