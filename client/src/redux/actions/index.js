@@ -52,7 +52,7 @@ export const loginUser = (email, password, socket) => async dispatch => {
 			throw new Error(loggedInUser.apiError.message);
 		}
 		console.log(loggedInUser);
-		setUser(loggedInUser, dispatch, socket);
+		dispatch(setUser(loggedInUser, socket));
 	} catch (error) {
 		dispatch(endRequest(error));
 		return error.message;
