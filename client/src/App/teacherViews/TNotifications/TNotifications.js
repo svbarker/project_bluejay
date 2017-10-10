@@ -20,7 +20,12 @@ const pendingListItemStyle = {
   paddingBottom: "20px"
 };
 
-const listItemButtonsStyle = { marginRight: "50px", width: "200px" };
+const listItemButtonsStyle = {
+  marginTop: "20px",
+  width: "200px",
+  position: "absolute",
+  left: "180px"
+};
 
 const getIcon = n => {
   return (
@@ -47,7 +52,7 @@ const getButton = (notification, userId, handler, action) => {
   };
   const kind = notification.task ? "task" : "reward";
   return (
-    <div style={{ marginRight: "800px", marginLeft: "-800px" }}>
+    <div style={{ margin: "0" }}>
       <RaisedButton
         backgroundColor={getBackgroundColor()}
         style={{ marginBottom: "10px" }}
@@ -139,13 +144,13 @@ const parseDate = date => {
     .concat(` ${dateArr[2]},`)
     .concat(` ${dateArr[0]}`);
   return (
-    <h3
+    <h2
       style={{
         margin: "50px 150px 20px 150px"
       }}
     >
       {dateHeader}
-    </h3>
+    </h2>
   );
 };
 
@@ -206,18 +211,16 @@ const Notifications = ({
           onClick: takeToItem(n.task, n._id),
           secondaryTextLines: 2,
           leftIcon: getIcon(n),
-          style: getListItemStyle(n),
-          rightIcon: (
-            <div style={listItemButtonsStyle}>
-              {getButton(n, user.id, acceptEvent, "Accept")}
-              {getButton(n, user.id, rejectEvent, "Reject")}
-            </div>
-          )
+          style: getListItemStyle(n)
         };
 
         return (
           <div style={topMargin}>
             {date}
+            <div style={listItemButtonsStyle}>
+              {getButton(n, user.id, acceptEvent, "Accept")}
+              {getButton(n, user.id, rejectEvent, "Reject")}
+            </div>
             <ListItem {...ListItemProps} />
           </div>
         );

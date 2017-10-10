@@ -12,6 +12,7 @@ import {
   editTask,
   deleteTask
 } from "../../../redux/actions/task";
+import { getAllRewards } from "../../../redux/actions/rewards";
 
 class TaskListContainer extends React.Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class TaskListContainer extends React.Component {
   }
   componentDidMount() {
     this.props.hydrateTasks(this.props.userId);
+    this.props.getAllRewards(this.props.userId, "Teacher");
     //hotfix
     if (!this.props.students.length) {
       if (this.props.classrooms.length) {
@@ -76,6 +78,19 @@ class TaskListContainer extends React.Component {
     // console.log("editing", taskId, taskUpdates);
     this.props.editTask(taskId, taskUpdates);
   };
+  onRemoveReward = (task, rewardId) => {
+    //setup what the rewards should include before passing to edit
+    const taskUpdates = {
+      rewards: task.rewards.filter(reward_id => reward_id !== rewardId)
+    };
+    this.props.editTask(task._id, taskUpdates);
+  };
+  onAddReward = (task, rewardId) => {
+    console.log("adding ", rewardId);
+    this.props.editTask(task._id, {
+      rewards: task.rewards.slice().concat(rewardId)
+    });
+  };
   render() {
     if (this.state.loaded) {
       return (
@@ -83,6 +98,9 @@ class TaskListContainer extends React.Component {
           unAssignAll={this.onUnAssignAll}
           unAssignOne={this.onUnAssignOne}
           tasks={this.props.tasks}
+          allRewards={this.props.rewards}
+          onRemoveReward={this.onRemoveReward}
+          onAddReward={this.onAddReward}
           students={this.props.students}
           deleteTask={taskId => this.onDelete(this.props.userId, taskId)}
           editTask={this.onEdit}
@@ -101,7 +119,8 @@ const mapStateToProps = state => {
     tasks: state.tasks,
     students: state.students,
     classrooms: state.classrooms,
-    name: state.user.displayName
+    name: state.user.displayName,
+    rewards: state.rewards
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -119,7 +138,9 @@ const mapDispatchToProps = dispatch => {
       dispatch(bulkUnassignTask(task, studentIds));
     },
     deleteTask: (teacherId, taskId) => dispatch(deleteTask(teacherId, taskId)),
-    editTask: (taskId, taskUpdates) => dispatch(editTask(taskId, taskUpdates))
+    editTask: (taskId, taskUpdates) => dispatch(editTask(taskId, taskUpdates)),
+    getAllRewards: (userId, userKind) =>
+      dispatch(getAllRewards(userId, userKind))
   };
 };
 

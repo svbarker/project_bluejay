@@ -72,6 +72,22 @@ export const clearAllStudentNotifications = () => async dispatch => {
   }
 };
 
+export const clearNotification = n_id => async dispatch => {
+  try {
+    let response = await fetch(`/notifications/clear/${n_id}`, {
+      credentials: "include",
+      method: "PATCH"
+    });
+    response = await response.json();
+    if (!response.success) {
+      throw new Error(response.apiError.message);
+    }
+    dispatch(removeNotification(n_id));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const acceptEvent = (
   t_id,
   s_id,
@@ -95,8 +111,6 @@ export const acceptEvent = (
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
-    // remove from teacher's notifications
-
     response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
       credentials: "include",
       method: "DELETE"
@@ -128,8 +142,6 @@ export const rejectEvent = (
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
-    // dispatch(???);
-    // remove from teacher's notifications
     response = await fetch(`/api/teachers/${t_id}/notifications/${n_id}`, {
       credentials: "include",
       method: "DELETE"

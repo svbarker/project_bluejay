@@ -10,7 +10,8 @@ module.exports = {
   session: {
     secret: process.env.SECRET,
     saveUninitialized: true,
-    resave: false
+    resave: false,
+    cookie: { httpOnly: false }
   },
   serialize: (user, done) => {
     done(null, user._id);

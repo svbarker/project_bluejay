@@ -23,6 +23,9 @@ const TaskList = props => {
 					unAssignOne={student => {
 						props.unAssignOne(task, student);
 					}}
+					allRewards={props.allRewards}
+					onRemoveReward={rewardId => props.onRemoveReward(task, rewardId)}
+					onAddReward={rewardId => props.onAddReward(task, rewardId)}
 					deleteTask={() => props.deleteTask(task._id)}
 					editTask={props.editTask}
 					hydrateStudentList={() => hydrateStudentList(task)}

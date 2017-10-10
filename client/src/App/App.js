@@ -30,14 +30,19 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.socket = connect("/");
+
+		this.state = {
+			firstLocation: window.location.pathname
+		};
 	}
 
-	componentDidMount() {
-		this.props.returningUser(this.socket);
+	componentWillMount() {
+		if (/connect.sid/.test(document.cookie)) {
+			this.props.returningUser(this.socket);
+		}
 	}
 
 	render() {
-		console.log("rendering... ", this.props.status.isFetching);
 		if (this.props.status.isFetching) {
 			return <LoadScreen />;
 		} else if (this.props.user.kind === "Teacher") {
@@ -45,6 +50,7 @@ class App extends Component {
 				<Router>
 					<div className="App">
 						<TNavbar socket={this.socket} />
+
 						<Switch>
 							{/* do some login checking here */}
 							<Route exact path="/" component={TDashboard} />
@@ -102,13 +108,17 @@ class App extends Component {
 			);
 		} else {
 			return (
-				<div>
-					<LoggedOutNavbar />
-					<Router>
+				<Router>
+					<div>
+						<LoggedOutNavbar />
 						<Switch>
 							<Route
 								path="/login"
-								component={() => <LoginContainer socket={this.socket} />}
+								component={() =>
+									<LoginContainer
+										socket={this.socket}
+										firstLocation={this.state.firstLocation}
+									/>}
 							/>
 							<Route
 								path="/register"
@@ -116,8 +126,8 @@ class App extends Component {
 							/>
 							<Redirect from="/" to="/login" />
 						</Switch>
-					</Router>
-				</div>
+					</div>
+				</Router>
 			);
 		}
 	}
