@@ -139,7 +139,7 @@ router.patch("/:te_id/students/:st_id/assign/:t_id", async (req, res) => {
 
 		// Create new assigned task from root task.
 		let assignedTask = new AssignedTask(task.toNewObject());
-		await assignedTask.save();
+		assignedTask = await assignedTask.save();
 		user.addTask(assignedTask);
 		task.addStudent(user);
 
@@ -151,7 +151,7 @@ router.patch("/:te_id/students/:st_id/assign/:t_id", async (req, res) => {
 			task: assignedTask
 		});
 
-		const event = logEvent(MessageEvent, {
+		const event = await logEvent(MessageEvent, {
 			body: Messages.TEMPLATE_TEACHER_TASK_ASSIGN_MSG,
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
@@ -577,19 +577,12 @@ router.get("/:id/notifications", async (req, res) => {
 
 		// Create log event.
 		teacher.notificationList =
-			teacher.notifications
-				.map(el => {
-					console.log(el._message);
-					return el._message;
-				})
-				.join(",") || "None found";
+			teacher.notifications.map(el => el._message).join(",") || "None found";
 		logEvent(UserEvent, {
 			message: Messages.TEMPLATE_TEACHER_NOTIFICATION_READ,
 			owner: req.user,
 			user: teacher
 		});
-
-		console.log(teacher);
 
 		res.json(createResponse(teacher.notifications));
 	} catch (error) {

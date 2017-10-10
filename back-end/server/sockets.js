@@ -3,7 +3,6 @@ const Events = require("../../client/src/redux/actions/events");
 
 module.exports = io => client => {
 	client.on(Events.USER_LOGGED_IN, async data => {
-		console.log("ID: ", data);
 		await User.findByIdAndUpdate(
 			data,
 			{ $set: { socketId: client.id } },

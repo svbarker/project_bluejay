@@ -118,10 +118,8 @@ ClassroomSchema.methods.toString = function() {
 
 ClassroomSchema.methods.cleanForLog = function() {
 	const obj = this.toObject();
-	console.log("cleaning classroom");
 	obj.students = obj.students.map(student => student._id);
 	obj.teachers = obj.teachers.map(teacher => teacher._id);
-
 	return obj;
 };
 

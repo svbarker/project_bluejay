@@ -168,7 +168,6 @@ UserSchema.methods.removeReward = async function(reward) {
 
 UserSchema.methods.addNotifications = async function(notifications) {
 	if (Array.isArray(notifications)) {
-		console.log("CLEANED: ", notifications.map(n => n.cleanForLog()));
 		await this.update({
 			notifications: this.notifications.concat(
 				notifications.map(n => n.cleanForLog())
