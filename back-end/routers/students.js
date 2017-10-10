@@ -137,7 +137,7 @@ router.patch("/:id/complete/:t_id", async (req, res) => {
 			task
 		});
 
-		const event = logEvent(MessageEvent, {
+		const event = await logEvent(MessageEvent, {
 			body: Messages.TEMPLATE_STUDENT_REQUEST_COMPLETION_MSG,
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
@@ -213,7 +213,7 @@ router.patch("/:s_id/purchase/:r_id", async (req, res) => {
 			reward
 		});
 
-		const event = logEvent(MessageEvent, {
+		const event = await logEvent(MessageEvent, {
 			body: Messages.TEMPLATE_STUDENT_REWARD_PURCHASE_MSG,
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
@@ -256,7 +256,7 @@ router.patch("/:s_id/redeem/:r_id", async (req, res) => {
 			user: student
 		});
 
-		const event = logEvent(MessageEvent, {
+		const event = await logEvent(MessageEvent, {
 			body: Messages.TEMPLATE_STUDENT_REDEEM_REWARD_MSG,
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,

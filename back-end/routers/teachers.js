@@ -139,7 +139,7 @@ router.patch("/:te_id/students/:st_id/assign/:t_id", async (req, res) => {
 
 		// Create new assigned task from root task.
 		let assignedTask = new AssignedTask(task.toNewObject());
-		assignedTask = await assignedTask.save();
+		await assignedTask.save();
 		user.addTask(assignedTask);
 		task.addStudent(user);
 
@@ -210,7 +210,7 @@ router.patch("/:te_id/classroom/:cl_id/assign/:t_id", async (req, res) => {
 				task: assignedTask
 			});
 
-			const event = logEvent(MessageEvent, {
+			const event = await logEvent(MessageEvent, {
 				body: Messages.TEMPLATE_TEACHER_TASK_ASSIGN_MSG,
 				message: Messages.TEMPLATE_SEND_MESSAGE,
 				owner: req.user,
@@ -269,7 +269,7 @@ router.patch("/:te_id/students/:st_id/confirmTask/:t_id", async (req, res) => {
 			task: completedTask
 		});
 
-		const event = logEvent(MessageEvent, {
+		const event = await logEvent(MessageEvent, {
 			body: Messages.TEMPLATE_TEACHER_TASK_CONFIRM_COMPLETION_MSG,
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
@@ -386,7 +386,7 @@ router.patch("/:te_id/students/:st_id/rejectTask/:t_id", async (req, res) => {
 			task: rejectedTask
 		});
 
-		const event = logEvent(MessageEvent, {
+		const event = await logEvent(MessageEvent, {
 			body: Messages.TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG,
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
@@ -496,7 +496,7 @@ router.patch("/:te_id/students/:st_id/distribute", async (req, res) => {
 						reward: newReward
 					});
 
-					const event = logEvent(MessageEvent, {
+					const event = await logEvent(MessageEvent, {
 						body: Messages.TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG,
 						message: Messages.TEMPLATE_SEND_MESSAGE,
 						owner: req.user,
