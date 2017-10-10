@@ -6,7 +6,8 @@ import {
   acceptEvent,
   rejectEvent,
   fetchStudentNotifications,
-  clearAllStudentNotifications
+  clearAllStudentNotifications,
+  clearNotification
 } from "../../../redux/actions/notifications";
 
 class NotificationsContainer extends React.Component {
@@ -27,7 +28,8 @@ class NotificationsContainer extends React.Component {
       takeToItem: this.takeToItem,
       notifications: this.props.notifications,
       user: this.props.user,
-      clearAll: this.props.clearAll
+      clearAll: this.props.clearAll,
+      clearNotification: this.props.clearNotification
     };
     return <Notifications {...NotificationsProps} />;
   }
@@ -53,6 +55,9 @@ const mapDispatchToProps = dispatch => {
     },
     clearAll: () => {
       dispatch(clearAllStudentNotifications());
+    },
+    clearNotification: n => () => {
+      dispatch(clearNotification(n._id));
     }
   };
 };
