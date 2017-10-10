@@ -152,7 +152,7 @@ export const assignTask = (
         credentials: "include"
       }
     );
-    response = await response.json();
+    return await response.json();
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
