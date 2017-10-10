@@ -32,16 +32,32 @@ const getMainText = n => n._body;
 //   ? n.task.title
 //   : n.reward.title}`;
 
-const getSecondaryText = n => `${n.owner.profile.fname} says: ${n._message}`;
+const getSecondaryText = n => `${n._message}`;
 
-const getHoverColor = n => {
-  n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205, 40,.3)";
+const getHoverColor = n =>
+  n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205,40,.3)";
+
+const dateStyle = {
+  margin: "0px 150px"
+};
+
+const topMargin = {
+  marginTop: "50px"
 };
 
 const Notifications = ({ notifications, takeToItem, user }) => {
+  let dates = [];
   return (
     <List>
       {notifications.map(n => {
+        console.log(n);
+        console.log(n.createdAt);
+        let date;
+        if (!dates.includes(n.createdAt)) {
+          dates.push(n.createdAt);
+          date = <h4 style={dateStyle}>{n.createdAt}</h4>;
+        }
+
         const ListItemProps = {
           key: n._id,
           primaryText: getMainText(n),
@@ -53,7 +69,12 @@ const Notifications = ({ notifications, takeToItem, user }) => {
           style: getListItemStyle(n)
         };
 
-        return <ListItem {...ListItemProps} />;
+        return (
+          <div style={topMargin}>
+            {date}
+            <ListItem {...ListItemProps} />
+          </div>
+        );
       })}
     </List>
   );
