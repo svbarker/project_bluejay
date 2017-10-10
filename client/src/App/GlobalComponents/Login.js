@@ -22,13 +22,18 @@ const Login = ({
 						<FlatButton label="Sign Up" />
 					</Link>
 				</h3>
-				<Paper style={{ padding: "20px" }}>
+				<Paper rounded={true} style={{ padding: "20px", borderRadius: "3em" }}>
 					<h2>Login to Continue</h2>
 
 					<form onSubmit={onSubmit}>
-						{!submitError ? null : <span>{submitError.message}</span>}
+						{!submitError
+							? null
+							: <span>
+									{submitError.message}
+								</span>}
 						<br />
 						<TextField
+							style={{ fontFamily: "Bree Serif" }}
 							floatingLabelText="Email"
 							type="email"
 							id="email"
@@ -37,6 +42,7 @@ const Login = ({
 						/>
 						<br />
 						<TextField
+							style={{ fontFamily: "Bree Serif" }}
 							floatingLabelText="Password"
 							type="password"
 							id="password"
@@ -44,7 +50,14 @@ const Login = ({
 							onBlur={validate}
 						/>
 						<br />
-						<RaisedButton label="login" type="submit" />
+						<RaisedButton
+							style={{ borderRadius: "1em", marginTop: "2em" }}
+							buttonStyle={{ borderRadius: "1em" }}
+							overlayStyle={{ borderRadius: "1em" }}
+							rippleStyle={{ borderRadius: "1em" }}
+							label="login"
+							type="submit"
+						/>
 					</form>
 				</Paper>
 			</div>

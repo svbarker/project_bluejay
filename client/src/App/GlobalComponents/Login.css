@@ -4,6 +4,10 @@
 	margin: 0 auto;
 }
 
+.login-container h2 {
+	font-family: "Luckiest Guy";
+}
+
 .login-container span {
 	color: red;
 	font-size: 12px;

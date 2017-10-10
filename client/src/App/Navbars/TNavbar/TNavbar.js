@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import Badge from "material-ui/Badge";
 import * as Events from "../../../redux/actions/events";
+import "../Navbar.css";
 
 class TeacherNavbar extends Component {
 	constructor(props) {
@@ -55,10 +56,15 @@ class TeacherNavbar extends Component {
 				<div className="navbar-right">
 					<ul>
 						<NavLink to="/notifications">
-							<li>
+							<li style={{ position: "relative" }}>
 								<i className="fa fa-comment" aria-hidden="true" />
+								<Badge
+									className="navbar-notification-badge"
+									style={{ position: "absolute" }}
+									badgeContent={this.props.notifications.length}
+									primary={true}
+								/>
 							</li>
-							{this.props.notifications.length}
 						</NavLink>
 						<NavLink to="/profile">
 							<li>
