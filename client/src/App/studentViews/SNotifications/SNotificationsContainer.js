@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import {
   acceptEvent,
   rejectEvent,
-  fetchStudentNotifications
+  fetchStudentNotifications,
+  clearAllStudentNotifications
 } from "../../../redux/actions/notifications";
 
 class NotificationsContainer extends React.Component {
@@ -13,15 +14,8 @@ class NotificationsContainer extends React.Component {
     super();
   }
 
-  takeToItem = (item, id) => () => {
-    if (item) {
-      this.props.history.push(
-        `/${item.status === "AssignedTask" ? "task" : "reward"}s`
-      );
-    } else {
-      console.log("problems in taskToItem of SNotifications");
-      this.props.history.push(`/rewards`);
-    }
+  takeToItem = n => () => {
+    this.props.history.push(`${n.task ? "task" : "reward"}s`);
   };
 
   componentDidMount() {
@@ -32,7 +26,8 @@ class NotificationsContainer extends React.Component {
     const NotificationsProps = {
       takeToItem: this.takeToItem,
       notifications: this.props.notifications,
-      user: this.props.user
+      user: this.props.user,
+      clearAll: this.props.clearAll
     };
     return <Notifications {...NotificationsProps} />;
   }
@@ -55,6 +50,9 @@ const mapDispatchToProps = dispatch => {
     },
     hydrateNotifications: id => {
       dispatch(fetchStudentNotifications(id));
+    },
+    clearAll: () => {
+      dispatch(clearAllStudentNotifications());
     }
   };
 };

@@ -10,7 +10,8 @@ const getListItemStyle = n => ({
   paddingBottom: "20px",
   border: `10px solid ${n.task
     ? "rgba( 26,132,132,.9)"
-    : "rgba(150,205, 40,.9)"}`
+    : "rgba(150,205, 40,.9)"}`,
+  borderRadius: "50px"
 });
 
 const pendingListItemStyle = {
@@ -40,7 +41,7 @@ const getButton = (notification, userId, handler, action) => {
     if (action === "Accept") {
       return notification.task ? "rgba( 26,132,132,1)" : "rgba(150,205, 40,1)";
     } else {
-      return "rgba(220, 43, 43,.9)";
+      return "rgba(220, 43, 43,1)";
     }
   };
   const kind = notification.task ? "task" : "reward";
@@ -92,7 +93,8 @@ const getPendingMainText = (pendingType, n, undo, timeLeft) => (
 const getMainText = n =>
   `${n.owner.profile.fname} ${n.owner.profile.lname} ${n.task
     ? `completed this task:`
-    : `redeemed this reward:`} ${n.task ? n.task.title : n.reward.title}`;
+    : `redeemed this reward:`} 
+    ${n.task ? n.task.title : n.reward.title}`;
 
 const getSecondaryText = n =>
   n.task
@@ -134,13 +136,13 @@ const parseDate = date => {
     .concat(` ${dateArr[2]},`)
     .concat(` ${dateArr[0]}`);
   return (
-    <h4
+    <h3
       style={{
         margin: "50px 150px 20px 150px"
       }}
     >
       {dateHeader}
-    </h4>
+    </h3>
   );
 };
 
