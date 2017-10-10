@@ -25,7 +25,9 @@ const getListItemStyle = n => ({
   border: `10px solid ${/reject/.exec(n._body)
     ? "rgba(150,13,13,1)"
     : n.task ? "rgba( 26,132,132,.9)" : "rgba(150,205, 40,.9)"}`,
-  borderRadius: "50px"
+  borderRadius: "50px",
+  backgroundColor: "white",
+  color: "black"
 });
 
 const getIcon = n => (

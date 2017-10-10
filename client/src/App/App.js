@@ -3,11 +3,12 @@ import TNavbar from "./Navbars/TNavbar";
 import SNavbar from "./Navbars/SNavbar";
 import LoggedOutNavbar from "./Navbars/LoggedOutNavbar";
 import {
-	BrowserRouter as Router,
-	Route,
-	Switch,
-	Redirect
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
 } from "react-router-dom";
+import connect from "socket.io-client";
 
 //Components
 import RegisterContainer from "./GlobalComponents/RegisterContainer";
@@ -24,113 +25,149 @@ import TRewards from "./teacherViews/TRewards";
 import SRewardsWallet from "./studentViews/SRewardsWallet";
 import PageNotFound from "./GlobalComponents/PageNotFound";
 import LoadScreen from "./GlobalComponents/LoadScreen";
-import connect from "socket.io-client";
+import SecretPage from "./GlobalComponents/SecretPage";
 
 class App extends Component {
-	constructor(props) {
-		super(props);
-		this.socket = connect("/");
+  constructor(props) {
+    super(props);
+    this.socket = connect("/");
 
-		this.state = {
-			firstLocation: window.location.pathname
-		};
-	}
+    this.state = {
+      firstLocation: window.location.pathname
+    };
+  }
 
-	componentWillMount() {
-		if (/connect.sid/.test(document.cookie)) {
-			this.props.returningUser(this.socket);
-		}
-	}
+  componentWillMount() {
+    if (/connect.sid/.test(document.cookie)) {
+      this.props.returningUser(this.socket);
+    }
+  }
 
-	render() {
-		if (this.props.status.isFetching) {
-			return <LoadScreen />;
-		} else if (this.props.user.kind === "Teacher") {
-			return (
-				<Router>
-					<div className="App">
-						<TNavbar socket={this.socket} />
+  componentWillReceiveProps() {
+    if (this.state.firstLocation !== null && this.props.user.kind) {
+      this.setState({
+        firstLocation: null
+      });
+    }
+  }
 
-						<Switch>
-							{/* do some login checking here */}
-							<Route exact path="/" component={TDashboard} />
-							<Route path="/students" component={TStudents} />
-							<Route
-								path="/tasks"
-								component={() => <TTasks userId={this.props.user.id} />}
-							/>
-							<Route
-								path="/rewards"
-								component={() => <TRewards user={this.props.user} />}
-							/>
-							<Route path="/report" component={() => <h1>Reports</h1>} />
-							<Route
-								path="/notifications"
-								component={() => <TNotifications socket={this.socket} />}
-							/>
-							{/* <Route path="/" component={PageNotFound} /> */}
-							{/* Testing a login route over here */}
-							<Redirect from="/" to="/" />
-						</Switch>
-					</div>
-				</Router>
-			);
-		} else if (this.props.user.kind === "Student") {
-			return (
-				<div className="App">
-					<Router>
-						<div>
-							<SNavbar socket={this.socket} />
-							<Switch>
-								{/* do some login checking here */}
-								<Redirect from="/login" to="/" />
-								<Route exact path="/" component={SDashboard} />
-								<Route
-									path="/tasks"
-									component={() =>
-										<STasks user={this.props.user} socket={this.socket} />}
-								/>
-								<Route
-									path="/rewards"
-									component={() => <SRewards user={this.props.user} />}
-								/>
-								<Route
-									path="/rewardsWallet"
-									component={() =>
-										<SRewardsWallet userId={this.props.user.id} />}
-								/>
-								<Route path="/notifications" component={SNotifications} />
-								<Route path="/" component={PageNotFound} />
-							</Switch>
-						</div>
-					</Router>
-				</div>
-			);
-		} else {
-			return (
-				<Router>
-					<div>
-						<LoggedOutNavbar />
-						<Switch>
-							<Route
-								path="/login"
-								component={() =>
-									<LoginContainer
-										socket={this.socket}
-										firstLocation={this.state.firstLocation}
-									/>}
-							/>
-							<Route
-								path="/register"
-								component={() => <RegisterContainer socket={this.socket} />}
-							/>
-							<Redirect from="/" to="/login" />
-						</Switch>
-					</div>
-				</Router>
-			);
-		}
-	}
+  render() {
+    const errorDisplay = this.props.status.error ? (
+      <div
+        style={{
+          position: "absolute",
+          top: "150px",
+          width: "100%",
+          textAlign: "center",
+          height: "200px"
+        }}
+      >
+        {this.props.status.error}
+      </div>
+    ) : null;
+    if (this.state.firstLocation !== null && this.props.user.kind) {
+      return (
+        <Router>
+          <Route>
+            <Redirect to={this.state.firstLocation} />
+          </Route>
+        </Router>
+      );
+    }
+    if (this.props.status.isFetching) {
+      return <LoadScreen />;
+    } else if (this.props.user.kind === "Teacher") {
+      return (
+        <Router>
+          <div className="App">
+            <TNavbar socket={this.socket} />
+            {errorDisplay}
+            <Switch>
+              {/* do some login checking here */}
+              <Route exact path="/" component={TDashboard} />
+              <Route path="/students" component={TStudents} />
+              <Route
+                path="/tasks"
+                component={() => <TTasks userId={this.props.user.id} />}
+              />
+              <Route
+                path="/rewards"
+                component={() => <TRewards user={this.props.user} />}
+              />
+              <Route path="/report" component={() => <h1>Reports</h1>} />
+              <Route
+                path="/notifications"
+                component={() => <TNotifications socket={this.socket} />}
+              />
+              {/* <Route path="/" component={PageNotFound} /> */}
+              {/* Testing a login route over here */}
+              <Redirect from="/" to="/" />
+            </Switch>
+          </div>
+        </Router>
+      );
+    } else if (this.props.user.kind === "Student") {
+      return (
+        <div className="App">
+          <Router>
+            <div>
+              <SNavbar socket={this.socket} />
+              {errorDisplay}
+              <Switch>
+                {/* do some login checking here */}
+                <Redirect from="/login" to="/" />
+                <Route exact path="/" component={SDashboard} />
+                <Route
+                  path="/tasks"
+                  component={() => (
+                    <STasks user={this.props.user} socket={this.socket} />
+                  )}
+                />
+                <Route
+                  path="/rewards"
+                  component={() => <SRewards user={this.props.user} />}
+                />
+                <Route
+                  path="/rewardsWallet"
+                  component={() => (
+                    <SRewardsWallet userId={this.props.user.id} />
+                  )}
+                />
+                <Route path="/notifications" component={SNotifications} />
+                <Route path="/secretpage" component={SecretPage} />
+                <Route path="/" component={PageNotFound} />
+              </Switch>
+            </div>
+          </Router>
+        </div>
+      );
+    } else {
+      return (
+        <Router>
+          <div>
+            <LoggedOutNavbar />
+            {errorDisplay}
+            <Switch>
+              <Route
+                path="/login"
+                component={() => (
+                  <LoginContainer
+                    socket={this.socket}
+                    firstLocation={this.state.firstLocation}
+                  />
+                )}
+              />
+              <Route
+                path="/register"
+                component={() => <RegisterContainer socket={this.socket} />}
+              />
+              <Redirect from="/" to="/login" />
+            </Switch>
+          </div>
+        </Router>
+      );
+    }
+  }
 }
 
 export default App;
