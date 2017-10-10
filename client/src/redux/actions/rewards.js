@@ -181,3 +181,26 @@ export const deleteReward = id => async dispatch => {
     // dispatch(endRequest);
   }
 };
+
+export const distributeReward = (
+  teacherId,
+  studentId,
+  rewardId
+) => async dispatch => {
+  try {
+    let response = await fetch(
+      `/api/teachers/${teacherId}/students/${studentId}/distribute`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ rewards: [rewardId] })
+      }
+    );
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};

@@ -55,7 +55,7 @@ class Assignable extends Component {
       const result = await nextProps.dropResult.result;
       let message;
       if (result.success) {
-        message = `Successfully assigned to ${nextProps.dropResult.name}`;
+        message = `Successfully given to ${nextProps.dropResult.name}`;
       } else {
         message = result.apiError.message;
       }

@@ -131,31 +131,16 @@ export const bulkUnassignTask = (task, studentIds) => async dispatch => {
   }
 };
 
-export const assignTask = (
-  teacherId,
-  studentId,
-  assignableId,
-  type
-) => async dispatch => {
+export const assignTask = (teacherId, studentId, taskId) => async dispatch => {
   try {
-    let verb;
-    if (type === "tasks") {
-      verb = "assign";
-    } else if (type === "rewards") {
-      verb = "distribute";
-    }
-
     let response = await fetch(
-      `/api/teachers/${teacherId}/students/${studentId}/${verb}/${assignableId}`,
+      `/api/teachers/${teacherId}/students/${studentId}/assign/${taskId}`,
       {
         method: "PATCH",
         credentials: "include"
       }
     );
     return await response.json();
-    if (!response.success) {
-      throw new Error(response.apiError.message);
-    }
   } catch (error) {
     console.error(error);
   }
