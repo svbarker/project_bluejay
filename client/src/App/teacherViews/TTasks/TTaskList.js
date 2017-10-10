@@ -6,7 +6,7 @@ import "./TTaskList.css";
 //removed menucard container
 //TODO: refactor this (Eric's) nonsense
 const TaskList = props => {
-  const { name, tasks, students, hydrateStudentList } = props;
+  const { name, tasks, students, hydrateStudentList, deleteTask } = props;
   let taskCards;
   if (tasks.length) {
     //tasks aren't populated with student info
@@ -23,6 +23,7 @@ const TaskList = props => {
           unAssignOne={student => {
             props.unAssignOne(task, student);
           }}
+          deleteTask={() => props.deleteTask(task._id)}
           hydrateStudentList={() => hydrateStudentList(task)}
           students={studentsAssignedTask}
           key={task._id}

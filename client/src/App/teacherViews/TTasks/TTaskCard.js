@@ -8,6 +8,7 @@ import Paper from "material-ui/Paper";
 import RaisedButton from "material-ui/RaisedButton";
 
 import StudentModal from "./TStudentModal";
+import TEditTaskModal from "./TEditTaskModal";
 
 class TaskCard extends React.Component {
   constructor(props) {
@@ -48,8 +49,13 @@ class TaskCard extends React.Component {
                 />
 
                 <div className="menu-card-button-container">
-                  <RaisedButton label="Edit" />
-                  <RaisedButton label="Delete" style={{ marginLeft: "20px" }} />
+                  <TEditTaskModal open={true} task={this.props.task} />
+                  <Undoable wait={1} resolve={() => this.props.deleteTask()}>
+                    <RaisedButton
+                      label="Delete"
+                      style={{ marginLeft: "20px" }}
+                    />
+                  </Undoable>
                 </div>
               </div>
             </div>

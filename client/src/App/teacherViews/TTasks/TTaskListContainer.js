@@ -8,7 +8,8 @@ import { loadStudents } from "../../../redux/actions/student";
 import {
   hydrateTeacherTasks,
   unAssignTask,
-  bulkUnassignTask
+  bulkUnassignTask,
+  deleteTask
 } from "../../../redux/actions/task";
 
 class TaskListContainer extends React.Component {
@@ -66,7 +67,10 @@ class TaskListContainer extends React.Component {
   onUnAssignOne = async (task, studentId) => {
     this.props.unAssignTask(task, studentId);
   };
-
+  onDelete = (teacherId, taskId) => {
+    console.log("deleting ", teacherId, taskId);
+    this.props.deleteTask(teacherId, taskId);
+  };
   render() {
     if (this.state.loaded) {
       return (
@@ -75,6 +79,7 @@ class TaskListContainer extends React.Component {
           unAssignOne={this.onUnAssignOne}
           tasks={this.props.tasks}
           students={this.props.students}
+          deleteTask={taskId => this.onDelete(this.props.userId, taskId)}
           hydrateStudentList={this.hydrateStudentList}
           name={this.props.name}
         />
@@ -106,7 +111,8 @@ const mapDispatchToProps = dispatch => {
     },
     bulkUnassignTask: (task, studentIds) => {
       dispatch(bulkUnassignTask(task, studentIds));
-    }
+    },
+    deleteTask: (teacherId, taskId) => dispatch(deleteTask(teacherId, taskId))
   };
 };
 

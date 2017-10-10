@@ -14,7 +14,7 @@ export const updatePoints = points => ({
 
 export const refreshPoints = () => async dispatch => {
   try {
-    let response = await fetch(`/api/students/points`, {
+    let response = await fetch(`/api/students/student/points`, {
       method: "GET",
       credentials: "include"
     });
