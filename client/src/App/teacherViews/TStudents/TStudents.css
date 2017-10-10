@@ -22,7 +22,7 @@
 
 .student-card-container {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: 10px;
 	margin-top: 10px;
 }
@@ -79,7 +79,7 @@
 
 .students-container-inner {
 	border: 5px dashed #ccc;
-	border-radius: 22px;
+	border-radius: 20px;
 	padding: 5px 15px;
 }
 
