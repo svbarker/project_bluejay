@@ -7,10 +7,11 @@
 	background-size: cover;
 }
 .dashboard-container h1 {
-	color: #333;
+	color: #085a5a !important;
+	text-shadow: 1px 1px 2px #888;
 	text-align: center;
 	font-family: "Bree Serif";
-	border-bottom: 1px solid #ccc;
+	/*border-bottom: 1px solid #085a5a;*/
 	margin: 0 25% .25em 25%;
 }
 
@@ -18,13 +19,16 @@
 	font-family: "Bree Serif";
 }
 .dashboard-menu {
-	border: 2px dashed #ccc;
-	background-color: red;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+	display: block;
 	text-decoration: none;
 	margin: 0 auto;
 	width: 80%;
+}
+.dashboard-menu-inner {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	width: 99.4%;
 	height: 300px;
 }
 .dashboard-menu-item {

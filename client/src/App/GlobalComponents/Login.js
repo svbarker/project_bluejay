@@ -14,21 +14,27 @@ const Login = ({
 	submitError
 }) => {
 	return (
-		<div>
-			<div className="login-container">
-				<h3>
-					Don't have an account?{" "}
-					<Link to="/register">
-						<FlatButton label="Sign Up" />
-					</Link>
-				</h3>
-				<Paper
-					zDepth={5}
-					rounded={true}
+		<div className="login-container">
+			<h3>
+				Don't have an account?{" "}
+				<Link to="/register">
+					<FlatButton label="Sign Up" />
+				</Link>
+			</h3>
+			<Paper
+				style={{
+					padding: "4px",
+
+					borderRadius: "3em"
+				}}
+				zDepth={5}
+				rounded={true}
+			>
+				<div
 					style={{
 						padding: "20px",
-						border: "3px dashed #ccc",
-						borderRadius: "3em"
+						border: "5px dashed #ccc",
+						borderRadius: "3.1em"
 					}}
 				>
 					<h2>Login to Continue</h2>
@@ -59,7 +65,11 @@ const Login = ({
 						/>
 						<br />
 						<RaisedButton
-							style={{ borderRadius: "1em", marginTop: "2em" }}
+							style={{
+								borderRadius: "1em",
+								marginTop: "2em"
+							}}
+							labelStyle={{ fontFamily: "Bree Serif" }}
 							buttonStyle={{ borderRadius: "1em" }}
 							overlayStyle={{ borderRadius: "1em" }}
 							rippleStyle={{ borderRadius: "1em" }}
@@ -67,8 +77,8 @@ const Login = ({
 							type="submit"
 						/>
 					</form>
-				</Paper>
-			</div>
+				</div>
+			</Paper>
 		</div>
 	);
 };

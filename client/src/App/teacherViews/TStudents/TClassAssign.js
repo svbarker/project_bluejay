@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import StudentCard from "./TStudentCard";
 import { DropTarget } from "react-dnd";
 
 const assignTask = async (teacherId, classId, assignableId, type) => {
@@ -58,7 +59,12 @@ class ClassAssign extends Component {
 		const { connectDropTarget, isOver } = this.props;
 		const highlighted = isOver ? "highlighted" : "";
 		return connectDropTarget(
-			<div className={`student-assign-all ${highlighted}`}>
+			<div
+				style={{
+					border: highlighted ? "5px dashed #960d0d" : "5px solid #960d0d"
+				}}
+				className={`student-assign-all ${highlighted}`}
+			>
 				<span>Assign to Class</span>
 			</div>
 		);

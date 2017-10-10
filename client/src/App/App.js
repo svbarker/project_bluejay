@@ -102,9 +102,9 @@ class App extends Component {
 			);
 		} else {
 			return (
-				<Router>
-					<div>
-						<LoggedOutNavbar />
+				<div>
+					<LoggedOutNavbar />
+					<Router>
 						<Switch>
 							<Route
 								path="/login"
@@ -116,8 +116,8 @@ class App extends Component {
 							/>
 							<Redirect from="/" to="/login" />
 						</Switch>
-					</div>
-				</Router>
+					</Router>
+				</div>
 			);
 		}
 	}
