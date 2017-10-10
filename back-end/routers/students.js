@@ -7,7 +7,7 @@ const {
   Reward,
   LootReward
 } = require("../models");
-const { createResponse } = require("../server/util");
+const { createResponse, refreshNotsClientSide } = require("../server/util");
 const { getResource, logEvent, logError } = require("../server/util");
 const {
   UserEvent,
@@ -145,11 +145,9 @@ router.patch("/:id/complete/:t_id", async (req, res) => {
       user,
       task
     });
-
     await user.addNotifications(event);
-    if (req.socket && user.socketId) {
-      req.socket.to(user.socketId).emit(Events.REFRESH_NOTIFICATIONS);
-    }
+
+    refreshNotsClientSide(req, user);
 
     res.json(createResponse(task));
   } catch (error) {
@@ -214,12 +212,15 @@ router.patch("/:s_id/purchase/:r_id", async (req, res) => {
       reward
     });
 
-    logEvent(MessageEvent, {
-      body: Messages.TEMPLATE,
+    const event = logEvent(MessageEvent, {
+      body: Messages.TEMPLATE_STUDENT_REWARD_PURCHASE_MSG,
       message: Messages.TEMPLATE_SEND_MESSAGE,
       owner: req.user,
       reward
     });
+    user.addNotifications(event);
+
+    refreshNotsClientSide(req, user);
 
     res.json(createResponse());
   } catch (error) {
@@ -232,8 +233,40 @@ router.patch("/:s_id/purchase/:r_id", async (req, res) => {
 router.patch("/:s_id/redeem/:r_id", async (req, res) => {
   try {
     // get student
+    const student = await getResource(
+      req.params.s_id,
+      Student.findById(Student)
+    );
+
     // get reward
+    const reward = student.getReward(req.params.r_id);
+    if (!reward) {
+      throw new Error(`You don't have that reward`);
+    }
+
     // set reward status to "pending"
+    reward.status = "Pending";
+    await reward.save();
+
+    // create log events
+    logEvent(RewardEvent, {
+      message: Messages.TEMPLATE_REWARD_REDEEM,
+      owner: req.user,
+      user: student
+    });
+
+    const event = logEvent(MessageEvent, {
+      body: Messages.TEMPLATE_STUDENT_REDEEM_REWARD_MSG,
+      message: Messages.TEMPLATE_SEND_MESSAGE,
+      owner: req.user,
+      user: student,
+      reward
+    });
+    student.addNotifications(event);
+
+    refreshNotsClientSide(req, student);
+
+    res.json(createResponse(reward));
   } catch (error) {
     logError(error);
     res.json(createResponse(error));

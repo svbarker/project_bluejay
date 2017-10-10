@@ -1,4 +1,5 @@
 const { ErrorEvent, Messages } = require("../models/events");
+const { Events } = require("../../client/src/redux/actions/events");
 module.exports = {
 	getResource: async function(_id, method, options, populate) {
 		if (!_id) {
@@ -55,5 +56,8 @@ module.exports = {
 		});
 		module.exports.log(newEvent);
 		return newEvent;
+	},
+	refreshNotsClientSide: (req, user) => {
+		req.socket.to(user.socketId).emit(Events.REFRESH_NOTIFICATIONS);
 	}
 };
