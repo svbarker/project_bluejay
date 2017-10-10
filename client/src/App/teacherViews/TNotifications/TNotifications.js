@@ -6,7 +6,7 @@ import { red500, yellow500, blue500 } from "material-ui/styles/colors";
 const iconStyles = { marginTop: "25px", color: "#507c0c" };
 
 const getListItemStyle = n => ({
-  margin: "0px 150px",
+  margin: "0px 150px 0 400px",
   paddingBottom: "20px",
   border: `10px solid ${n.task
     ? "rgba( 26,132,132,.9)"
@@ -15,7 +15,7 @@ const getListItemStyle = n => ({
 });
 
 const pendingListItemStyle = {
-  margin: "30px 150px",
+  margin: "30px 150px 0 400px",
   paddingBottom: "20px"
 };
 
@@ -46,20 +46,22 @@ const getButton = (notification, userId, handler, action) => {
   };
   const kind = notification.task ? "task" : "reward";
   return (
-    <RaisedButton
-      backgroundColor={getBackgroundColor()}
-      style={{ marginBottom: "10px" }}
-      fullWidth={true}
-      labelColor={"rgb(255,255,255)"}
-      label={`${action}`}
-      onClick={handler(
-        userId,
-        notification.owner.id,
-        taskId,
-        notification._id,
-        kind
-      )}
-    />
+    <div style={{ marginRight: "800px", marginLeft: "-800px" }}>
+      <RaisedButton
+        backgroundColor={getBackgroundColor()}
+        style={{ marginBottom: "10px" }}
+        fullWidth={true}
+        labelColor={"rgb(255,255,255)"}
+        label={`${action}`}
+        onClick={handler(
+          userId,
+          notification.owner.id,
+          taskId,
+          notification._id,
+          kind
+        )}
+      />
+    </div>
   );
 };
 
@@ -93,7 +95,7 @@ const getPendingMainText = (pendingType, n, undo, timeLeft) => (
 const getMainText = n =>
   `${n.owner.profile.fname} ${n.owner.profile.lname} ${n.task
     ? `completed this task:`
-    : `redeemed this reward:`} 
+    : `redeemed this reward:`}
     ${n.task ? n.task.title : n.reward.title}`;
 
 const getSecondaryText = n =>
@@ -211,8 +213,6 @@ const Notifications = ({
             </div>
           )
         };
-
-        console.log(n);
 
         return (
           <div style={topMargin}>
