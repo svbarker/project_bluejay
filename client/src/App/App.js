@@ -83,7 +83,6 @@ class App extends Component {
             <TNavbar socket={this.socket} />
             {errorDisplay}
             <Switch>
-              {/* do some login checking here */}
               <Route exact path="/" component={TDashboard} />
               <Route path="/students" component={TStudents} />
               <Route
@@ -99,8 +98,6 @@ class App extends Component {
                 path="/notifications"
                 component={() => <TNotifications socket={this.socket} />}
               />
-              {/* <Route path="/" component={PageNotFound} /> */}
-              {/* Testing a login route over here */}
               <Redirect from="/" to="/" />
             </Switch>
           </div>
@@ -134,8 +131,7 @@ class App extends Component {
                   )}
                 />
                 <Route path="/notifications" component={SNotifications} />
-                <Route path="/secretpage" component={SecretPage} />
-                <Route path="/" component={PageNotFound} />
+                <Redirect from="/" to="/" />
               </Switch>
             </div>
           </Router>
