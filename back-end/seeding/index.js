@@ -48,7 +48,8 @@ mongooseeder.seed({
 				classrooms: [],
 				tasks: [],
 				rewards: [],
-				notifications: []
+				notifications: [],
+				points: 1000
 			});
 			profiles.push(student.profile);
 			students.push(student);

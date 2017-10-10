@@ -13,7 +13,9 @@ module.exports = {
 			resource = await method(_id, options);
 		}
 		if (!resource) {
-			throw new Error("No resource found with that id.");
+			throw new Error(
+				`${method.name}: No resource found with that id. (${_id})`
+			);
 		}
 		return resource;
 	},
@@ -36,8 +38,9 @@ module.exports = {
 	log: async event => {
 		event = await event.save();
 		console.log(`[${event.createdAt}]: ${event}`);
+		return event;
 	},
-	logEvent: (type, options, internal = true) => {
+	logEvent: async (type, options, internal = true) => {
 		const newEvent = new type(
 			Object.assign(
 				{
@@ -46,17 +49,15 @@ module.exports = {
 				options
 			)
 		);
-		module.exports.log(newEvent);
-		return newEvent;
+		return await module.exports.log(newEvent);
 	},
-	logError: error => {
+	logError: async error => {
 		const newEvent = new ErrorEvent({
 			message: Messages.INTERNAL_ERROR,
 			owner: {},
 			error
 		});
-		module.exports.log(newEvent);
-		return newEvent;
+		return module.exports.log(newEvent);
 	},
 	refreshNotsClientSide: (req, user) => {
 		req.socket.to(user.socketId).emit(Events.REFRESH_NOTIFICATIONS);
