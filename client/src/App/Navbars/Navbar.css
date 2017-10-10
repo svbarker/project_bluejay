@@ -1,3 +1,8 @@
+.navbar-base {
+	border-bottom: 3px dashed #ccc;
+	box-shadow: 0 2px 8px #555;
+}
+
 .navbar-notification-badge {
 	font-family: "Bree Serif";
 	position: absolute;

@@ -30,46 +30,50 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.socket = connect("/");
+
+    this.state = {
+      firstLocation: window.location.pathname
+    };
   }
 
-  componentDidMount() {
-    this.props.returningUser(this.socket);
+  componentWillMount() {
+    if (/connect.sid/.test(document.cookie)) {
+      this.props.returningUser(this.socket);
+    }
   }
 
   render() {
-    console.log("rendering... ", this.props.status.isFetching);
     if (this.props.status.isFetching) {
       return <LoadScreen />;
     } else if (this.props.user.kind === "Teacher") {
       return (
-        <div className="App">
-          <Router>
-            <div>
-              <TNavbar socket={this.socket} />
-              <Switch>
-                {/* do some login checking here */}
-                <Route exact path="/" component={TDashboard} />
-                <Route path="/students" component={TStudents} />
-                <Route
-                  path="/tasks"
-                  component={() => <TTasks userId={this.props.user.id} />}
-                />
-                <Route
-                  path="/rewards"
-                  component={() => <TRewards user={this.props.user} />}
-                />
-                <Route path="/report" component={() => <h1>Reports</h1>} />
-                <Route
-                  path="/notifications"
-                  component={() => <TNotifications socket={this.socket} />}
-                />
-                {/* <Route path="/" component={PageNotFound} /> */}
-                {/* Testing a login route over here */}
-                <Redirect from="/" to="/" />
-              </Switch>
-            </div>
-          </Router>
-        </div>
+        <Router>
+          <div className="App">
+            <TNavbar socket={this.socket} />
+
+            <Switch>
+              {/* do some login checking here */}
+              <Route exact path="/" component={TDashboard} />
+              <Route path="/students" component={TStudents} />
+              <Route
+                path="/tasks"
+                component={() => <TTasks userId={this.props.user.id} />}
+              />
+              <Route
+                path="/rewards"
+                component={() => <TRewards user={this.props.user} />}
+              />
+              <Route path="/report" component={() => <h1>Reports</h1>} />
+              <Route
+                path="/notifications"
+                component={() => <TNotifications socket={this.socket} />}
+              />
+              {/* <Route path="/" component={PageNotFound} /> */}
+              {/* Testing a login route over here */}
+              <Redirect from="/" to="/" />
+            </Switch>
+          </div>
+        </Router>
       );
     } else if (this.props.user.kind === "Student") {
       return (
@@ -112,7 +116,12 @@ class App extends Component {
             <Switch>
               <Route
                 path="/login"
-                component={() => <LoginContainer socket={this.socket} />}
+                component={() => (
+                  <LoginContainer
+                    socket={this.socket}
+                    firstLocation={this.state.firstLocation}
+                  />
+                )}
               />
               <Route
                 path="/register"

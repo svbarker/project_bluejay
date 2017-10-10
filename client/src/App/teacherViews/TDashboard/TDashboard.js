@@ -10,7 +10,11 @@ const DashboardMenu = () => {
 	return (
 		<div className="dashboard-container">
 			<h1>Teacher Dashboard</h1>
-			<Paper className="dashboard-menu" style={{ borderRadius: "20px" }}>
+			<Paper
+				className="dashboard-menu"
+				style={{ borderRadius: "20px" }}
+				zDepth={4}
+			>
 				<Link to="/students">
 					<Paper id="dashboard-menu-item1" className="dashboard-menu-item">
 						<div className="dashboard-menu-grid">

@@ -14,7 +14,7 @@ const initialState = {
   error: null
 };
 
-const status = (state = status, action) => {
+const status = (state = initialState, action) => {
   switch (action.type) {
     case END_REQUEST:
       return {

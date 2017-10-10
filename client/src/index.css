@@ -3,11 +3,17 @@
 /*Bangers|Bree+Serif|Lobster|Luckiest+Guy|Ribeye+Marrow*/
 body {
 	margin: 0;
-	margin-top: 70px;
 	padding: 0;
 	font-family: "Cabin", sans-serif;
 	background-color: #eee;
 	height: 100vh;
+}
+
+#root {
+	height: 100%;
+}
+.App {
+	height: 100%;
 }
 
 a {

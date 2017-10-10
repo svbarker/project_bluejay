@@ -1,5 +1,10 @@
 /* DASHBOARD STYLES */
 .dashboard-container {
+	padding-top: 70px;
+	height: 100%;
+	background-color: #85dcdc;
+	/*background-image: url('https://triumphmodular.com/wp-content/uploads/2015/05/project-newton-oakhill-interior.jpg');*/
+	background-size: cover;
 }
 .dashboard-container h1 {
 	color: #333;
@@ -10,9 +15,10 @@
 }
 
 .dashboard-menu-grid h3 {
-	font-family: "Luckiest Guy";
+	font-family: "Bree Serif";
 }
 .dashboard-menu {
+	border: 2px dashed #ccc;
 	background-color: red;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
@@ -34,6 +40,9 @@
 	display: grid;
 	justify-items: center;
 	grid-template-rows: 1/3 1/3 1/3;
+}
+.dashboard-menu-grid:hover {
+	background-color: #efefef;
 }
 #dashboard-item-higher {
 	grid-row-start: 1;

@@ -14,7 +14,7 @@ const getClearAllButton = (notifications, handler) => {
       style={{ margin: "30px 0px 0px 100px" }}
       labelColor={"rgb(255,255,255)"}
       label={`Clear All Notifications`}
-      onClick={handler()}
+      onClick={handler}
     />
   );
 };
@@ -28,26 +28,44 @@ const getListItemStyle = n => ({
   borderRadius: "50px"
 });
 
-const getIcon = n => {
-  return (
-    // <div>
-    //   {/reject/.exec(n._body) ? (
-    //     <i
-    //       style={{ color: "rgba(150,13,13,1)" }}
-    //       className={"fa fa-window-close fa-2x"}
-    //     />
-    //   ) : null}
+const getIcon = n => (
+  <i
+    style={{
+      ...iconStyles,
+      color: /reject/.exec(n._body)
+        ? "rgba(150,13,13,1)"
+        : n.task ? "#1A8484 " : "#96CD28"
+    }}
+    className={`${n.task ? "fa fa-tasks" : "fa fa-gift"} fa-2x`}
+  />
+);
+
+const getRejectionIcon = n =>
+  /reject/.exec(n._body) ? (
     <i
       style={{
-        ...iconStyles,
-        color: /reject/.exec(n._body)
-          ? "rgba(150,13,13,1)"
-          : n.task ? "#1A8484 " : "#96CD28"
+        color: "rgba(150,13,13,1)",
+        position: "absolute",
+        left: "164px",
+        marginTop: "19px"
       }}
-      className={`${n.task ? "fa fa-tasks" : "fa fa-gift"} fa-2x`}
+      className={"fa fa-ban fa-4x"}
     />
-  );
-};
+  ) : null;
+
+const getClearNotificationButton = (n, handler) => (
+  <i
+    onClick={handler}
+    style={{
+      cursor: "pointer",
+      color: "rgba(150,13,13,1)",
+      position: "absolute",
+      left: "115px",
+      marginTop: "-5px"
+    }}
+    className={"fa fa-window-close fa-2x"}
+  />
+);
 
 const getMainText = n => n._body;
 
@@ -86,13 +104,13 @@ const parseDate = date => {
     .concat(` ${dateArr[2]},`)
     .concat(` ${dateArr[0]}`);
   return (
-    <h3
+    <h2
       style={{
         margin: "50px 150px 20px 150px"
       }}
     >
       {dateHeader}
-    </h3>
+    </h2>
   );
 };
 
@@ -107,7 +125,13 @@ const getDateHeader = (n, dates) => {
   return date;
 };
 
-const Notifications = ({ notifications, takeToItem, user, clearAll }) => {
+const Notifications = ({
+  notifications,
+  takeToItem,
+  user,
+  clearAll,
+  clearNotification
+}) => {
   let dates = [];
   return (
     <div>
@@ -130,6 +154,8 @@ const Notifications = ({ notifications, takeToItem, user, clearAll }) => {
           return (
             <div style={topMargin}>
               {date}
+              {getClearNotificationButton(n, clearNotification(n))}
+              {getRejectionIcon(n)}
               <ListItem {...ListItemProps} />
             </div>
           );

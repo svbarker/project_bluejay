@@ -1,11 +1,16 @@
 .login-container {
+	padding-top: 70px;
 	max-width: 600px;
 	text-align: center;
 	margin: 0 auto;
 }
 
 .login-container h2 {
-	font-family: "Luckiest Guy";
+	font-family: "Bree Serif";
+}
+
+.login-container h3 {
+	font-family: "Bree Serif";
 }
 
 .login-container span,
