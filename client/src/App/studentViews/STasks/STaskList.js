@@ -13,15 +13,18 @@ const TaskList = props => {
   const rejectedTasks = props.tasks.filter(
     task => task.status === "RejectedTask"
   );
+  const paperStyle = {
+    backgroundColor: "#eeeeee"
+  };
   return (
-    <div className="task-container-outer">
-      <Paper>
-        <div className="task-container">
-          <h2>{props.user.displayName}'s Tasks</h2>
-          <h3>
-            This page is actually working but seeded data doesnt match real data
-          </h3>
-          {!assignedTasks.length ? null : (
+    <Paper className="task-container-outer">
+      <div className="task-container">
+        <h1>{props.user.displayName}'s Tasks</h1>
+        <Paper style={paperStyle} className="student-task-paper">
+          <h2>Assigned Tasks</h2>
+          {!assignedTasks.length ? (
+            <p>No Assigned Tasks</p>
+          ) : (
             assignedTasks.map(task => (
               <STaskListMenuCard
                 key={task._id}
@@ -32,10 +35,14 @@ const TaskList = props => {
               />
             ))
           )}
-          {!completedTasks.length ? null : (
+        </Paper>
+        <Paper style={paperStyle} className="student-task-paper">
+          <h2>Completed Tasks</h2>
+          {!completedTasks.length ? (
+            <p>No Completed Tasks...Go GET BUSY!</p>
+          ) : (
             completedTasks.map(task => (
               <div key={task._id}>
-                <h1>Completed Tasks</h1>
                 <STaskListMenuCard
                   key={task.id}
                   markCompleted={props.markCompleted}
@@ -46,10 +53,14 @@ const TaskList = props => {
               </div>
             ))
           )}
-          {!rejectedTasks.length ? null : (
+        </Paper>
+        <Paper style={paperStyle} className="student-task-paper">
+          <h2>Rejected Tasks</h2>
+          {!rejectedTasks.length ? (
+            <p>No Rejected Tasks</p>
+          ) : (
             rejectedTasks.map(task => (
               <div key={task._id}>
-                <h1>Rejected Tasks</h1>
                 <STaskListMenuCard
                   key={task.id}
                   markCompleted={props.markCompleted}
@@ -60,9 +71,9 @@ const TaskList = props => {
               </div>
             ))
           )}
-        </div>
-      </Paper>
-    </div>
+        </Paper>
+      </div>
+    </Paper>
   );
 };
 

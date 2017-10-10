@@ -126,9 +126,6 @@ class TeacherRewards extends React.Component {
         {/* header */}
         <div className="reward-card-title">
           <h2>{this.props.user.displayName}'s Rewards</h2>
-          {/* <div onClick={this.onCreateReward}>
-            <i class="fa fa-plus" aria-hidden="true" />
-          </div> */}
           <CreateRewardModal onSubmit={this.onCreateReward} />
         </div>
         {/* Rewards List */}

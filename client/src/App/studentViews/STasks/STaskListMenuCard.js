@@ -30,7 +30,7 @@ class StudentTaskListMenuCard extends React.Component {
         />
         <CardText expandable={true}>
           <Paper style={{ padding: "20px" }}>
-            <div class="menu-card-container">
+            <div className="menu-card-container">
               <p>{description}</p>
               <div className="menu-card-button-container">
                 <FlatButton
