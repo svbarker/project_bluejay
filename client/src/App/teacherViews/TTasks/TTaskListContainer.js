@@ -70,12 +70,12 @@ class TaskListContainer extends React.Component {
   onUnAssignOne = async (task, studentId) => {
     this.props.unAssignTask(task, studentId);
   };
+  //delete a task
   onDelete = (teacherId, taskId) => {
-    // console.log("deleting ", teacherId, taskId);
     this.props.deleteTask(teacherId, taskId);
   };
+  //edit a task
   onEdit = (taskId, taskUpdates) => {
-    // console.log("editing", taskId, taskUpdates);
     this.props.editTask(taskId, taskUpdates);
   };
   onRemoveReward = (task, rewardId) => {
@@ -86,7 +86,6 @@ class TaskListContainer extends React.Component {
     this.props.editTask(task._id, taskUpdates);
   };
   onAddReward = (task, rewardId) => {
-    console.log("adding ", rewardId);
     this.props.editTask(task._id, {
       rewards: task.rewards.slice().concat(rewardId)
     });

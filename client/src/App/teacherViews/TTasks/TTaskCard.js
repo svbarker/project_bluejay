@@ -110,6 +110,7 @@ class TaskCard extends React.Component {
             </div>
           </Paper>
           <Divider />
+          {/* Rewards for a task view */}
           <Paper style={{ marginTop: "20px" }}>
             <div className="menu-card-container">
               {/* center this */}

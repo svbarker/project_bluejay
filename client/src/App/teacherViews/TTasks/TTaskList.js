@@ -6,49 +6,53 @@ import "./TTaskList.css";
 //removed menucard container
 //TODO: refactor this (Eric's) nonsense
 const TaskList = props => {
-	const { name, tasks, students, hydrateStudentList, deleteTask } = props;
-	let taskCards;
-	if (tasks.length) {
-		//tasks aren't populated with student info
-		//so insert pass the appropriate students down as props
-		taskCards = tasks.map(task => {
-			const studentsAssignedTask = task.students.map(studentId =>
-				students.find(student => student._id === studentId)
-			);
-			return (
-				<TaskCard
-					unAssignAll={students => {
-						props.unAssignAll(task, students);
-					}}
-					unAssignOne={student => {
-						props.unAssignOne(task, student);
-					}}
-					allRewards={props.allRewards}
-					onRemoveReward={rewardId => props.onRemoveReward(task, rewardId)}
-					onAddReward={rewardId => props.onAddReward(task, rewardId)}
-					deleteTask={() => props.deleteTask(task._id)}
-					editTask={props.editTask}
-					hydrateStudentList={() => hydrateStudentList(task)}
-					students={studentsAssignedTask}
-					key={task._id}
-					task={task}
-				/>
-			);
-		});
-	} else {
-		taskCards = null;
-	}
+  const { name, tasks, students, hydrateStudentList, deleteTask } = props;
+  let taskCards;
+  if (tasks.length) {
+    //tasks aren't populated with student info
+    //so insert pass the appropriate students down as props
+    taskCards = tasks.map(task => {
+      const studentsAssignedTask = task.students.map(studentOrId => {
+        //NOTE:
+        //at some points the redux store has task.students as ids
+        //at others it has them populated, so we do this.... or everything blows up
+        let studentId = studentOrId._id || studentOrId;
+        return students.find(student => student._id === studentId);
+      });
+      return (
+        <TaskCard
+          unAssignAll={students => {
+            props.unAssignAll(task, students);
+          }}
+          unAssignOne={student => {
+            props.unAssignOne(task, student);
+          }}
+          allRewards={props.allRewards}
+          onRemoveReward={rewardId => props.onRemoveReward(task, rewardId)}
+          onAddReward={rewardId => props.onAddReward(task, rewardId)}
+          deleteTask={() => props.deleteTask(task._id)}
+          editTask={props.editTask}
+          hydrateStudentList={() => hydrateStudentList(task)}
+          students={studentsAssignedTask}
+          key={task._id}
+          task={task}
+        />
+      );
+    });
+  } else {
+    taskCards = null;
+  }
 
-	return (
-		<div className="task-container-outer">
-			<Paper>
-				<div className="task-container">
-					<h2>{`${name}'s Tasks`}</h2>
-					{taskCards}
-				</div>
-			</Paper>
-		</div>
-	);
+  return (
+    <div className="task-container-outer">
+      <Paper>
+        <div className="task-container">
+          <h2>{`${name}'s Tasks`}</h2>
+          {taskCards}
+        </div>
+      </Paper>
+    </div>
+  );
 };
 
 export default TaskList;
