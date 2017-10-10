@@ -7,20 +7,45 @@ import RaisedButton from "material-ui/RaisedButton";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
-const Register = ({ handleRegister, handleChange, selectValue }) => {
+const Register = ({
+	handleSubmit,
+	handlePasswordChange,
+	handleSelectChange,
+	selectValue,
+	validate,
+	fnameError,
+	lnameError,
+	emailError,
+	passwordError,
+	passwordConfirmError,
+	submitError
+}) => {
 	return (
 		<div className="registration-container">
 			<Paper style={{ padding: "20px" }}>
 				<h2>Register your teacher account</h2>
-				<form className="registration-form-container" onSubmit={handleRegister}>
+				{!submitError ? null : (
+					<span>A user with that email already exists.</span>
+				)}
+				<form className="registration-form-container" onSubmit={handleSubmit}>
 					<div>
 						<fieldset>
 							<legend>Personal Information</legend>
-							<TextField floatingLabelText="First Name" id="fname" />
-							<TextField floatingLabelText="Last Name" id="lname" />
+							<TextField
+								floatingLabelText="First Name"
+								errorText={fnameError}
+								id="fname"
+								onBlur={validate}
+							/>
+							<TextField
+								floatingLabelText="Last Name"
+								errorText={lnameError}
+								id="lname"
+								onBlur={validate}
+							/>
 							<SelectField
 								floatingLabelText="Title"
-								onChange={handleChange}
+								onChange={handleSelectChange}
 								value={selectValue}
 								id="title"
 							>
@@ -29,7 +54,13 @@ const Register = ({ handleRegister, handleChange, selectValue }) => {
 								<MenuItem value={"Mrs."} primaryText="Mrs." />
 								<MenuItem value={"Ms."} primaryText="Ms." />
 							</SelectField>
-							<TextField type="email" floatingLabelText="Email" id="email" />
+							<TextField
+								type="email"
+								floatingLabelText="Email"
+								errorText={emailError}
+								id="email"
+								onBlur={validate}
+							/>
 						</fieldset>
 						<p>
 							Already have an account? <Link to="/login">Login</Link>
@@ -41,12 +72,17 @@ const Register = ({ handleRegister, handleChange, selectValue }) => {
 							<TextField
 								type="password"
 								floatingLabelText="Password"
+								errorText={passwordError}
 								id="password"
+								onChange={handlePasswordChange}
+								onBlur={validate}
 							/>
 							<TextField
 								type="password"
 								floatingLabelText="Confirm Password"
-								id="password-confirm"
+								errorText={passwordConfirmError}
+								id="passwordConfirm"
+								onBlur={validate}
 							/>
 						</fieldset>
 						<RaisedButton label="Create Account" type="submit" />

@@ -7,7 +7,8 @@ const UserSchema = new mongoose.Schema(
 	{
 		email: {
 			type: String,
-			required: true
+			required: true,
+			unique: true
 		},
 		passwordHash: String,
 		socketId: String,
@@ -70,6 +71,8 @@ const autoPopulate = function(next) {
 UserSchema.pre("findOne", autoPopulate);
 UserSchema.pre("findOneAndUpdate", autoPopulate);
 UserSchema.pre("findOneAndRemove", autoPopulate);
+
+UserSchema.plugin(uniqueValidator);
 
 UserSchema.virtual("fullname").get(function() {
 	return this.profile.fullname;

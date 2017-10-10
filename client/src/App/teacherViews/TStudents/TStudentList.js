@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import StudentCard from "./TStudentCard";
 import ClassAssign from "./TClassAssign";
+import AddStudentModal from "./TAddStudentModal";
 import Paper from "material-ui/Paper";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
+import FloatingActionButton from "material-ui/FloatingActionButton";
+import ContentAdd from "material-ui/svg-icons/content/add";
 import "./TStudents.css";
 
 class StudentList extends Component {
@@ -11,7 +14,8 @@ class StudentList extends Component {
 		super(props);
 		this.state = {
 			currentClass: null,
-			classIndex: 0
+			classIndex: 0,
+			open: false
 		};
 	}
 
@@ -25,6 +29,31 @@ class StudentList extends Component {
 			currentClass: this.props.classrooms[value],
 			classIndex: value
 		});
+	};
+
+	handleOpen = () => {
+		this.setState({ open: true });
+	};
+
+	handleClose = () => {
+		this.setState({ open: false });
+	};
+
+	handleSubmit = async e => {
+		e.preventDefault();
+		console.log("I am in handleSubmit at least");
+		const studentData = {
+			fname: e.target.fname.value,
+			lname: e.target.lname.value,
+			email: e.target.email.value
+		};
+
+		await this.props.addStudentToClassroom(
+			this.state.currentClass._id,
+			studentData
+		);
+		await this.handleClose();
+		await this.props.loadStudents(this.state.currentClass._id);
 	};
 
 	render() {
@@ -63,7 +92,20 @@ class StudentList extends Component {
 											teacherId={this.props.teacherId}
 										/>
 									)}
+							<div className="add-student">
+								<FloatingActionButton
+									backgroundColor="#960d0d"
+									onClick={this.handleOpen}
+								>
+									<ContentAdd />
+								</FloatingActionButton>
+							</div>
 						</div>
+						<AddStudentModal
+							handleClose={this.handleClose}
+							handleSubmit={this.handleSubmit}
+							open={this.state.open}
+						/>
 					</div>
 				</Paper>
 			</div>

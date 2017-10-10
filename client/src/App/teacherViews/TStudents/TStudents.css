@@ -87,3 +87,8 @@
 	color: #085a5a !important;
 	font-family: "Bangers";
 }
+
+.add-student {
+	justify-self: center;
+	padding-top: 20px;
+}

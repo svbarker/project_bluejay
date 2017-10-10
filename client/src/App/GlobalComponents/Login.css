@@ -14,7 +14,8 @@
 	font-family: "Bree Serif";
 }
 
-.login-container span {
+.login-container span,
+.registration-container span {
 	color: red;
 	font-size: 12px;
 }
