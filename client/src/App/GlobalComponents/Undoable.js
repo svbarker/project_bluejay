@@ -2,7 +2,8 @@ import React from "react";
 import FlatButton from "material-ui/FlatButton";
 
 //STATUSES: stable, pending, resolved
-//PASS ME A RESOLVE FUNCTION, AND A wait
+//PASS ME A
+//RESOLVE FUNCTION, AND A wait
 //this.props.wait = time until action resolves in seconds
 //this.props.tickDown = <Boolean> True, displays a countdown
 
@@ -23,7 +24,6 @@ class Undoable extends React.Component {
     this.setState({ status: "stable", tickDown: this.state.wait });
   };
   onComplete = () => {
-    console.log("calling resolve");
     this.props.resolve();
     this.setState({ status: "stable" });
   };

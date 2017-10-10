@@ -45,8 +45,9 @@ class LoginContainer extends Component {
         e.target.password.value,
         this.props.socket
       );
-      console.log(this.props.firstLocation);
-      this.props.history.push(this.props.firstLocation);
+      if (this.props.firstLocation) {
+        this.props.history.push(this.props.firstLocation);
+      }
     }
   };
 
