@@ -51,6 +51,19 @@ class App extends Component {
   }
 
   render() {
+    const errorDisplay = this.props.status.error ? (
+      <div
+        style={{
+          position: "absolute",
+          top: "150px",
+          width: "100%",
+          textAlign: "center",
+          height: "200px"
+        }}
+      >
+        {this.props.status.error}
+      </div>
+    ) : null;
     if (this.state.firstLocation !== null && this.props.user.kind) {
       return (
         <Router>
@@ -67,7 +80,7 @@ class App extends Component {
         <Router>
           <div className="App">
             <TNavbar socket={this.socket} />
-
+            {errorDisplay}
             <Switch>
               {/* do some login checking here */}
               <Route exact path="/" component={TDashboard} />
@@ -98,6 +111,7 @@ class App extends Component {
           <Router>
             <div>
               <SNavbar socket={this.socket} />
+              {errorDisplay}
               <Switch>
                 {/* do some login checking here */}
                 <Redirect from="/login" to="/" />
@@ -130,6 +144,7 @@ class App extends Component {
         <Router>
           <div>
             <LoggedOutNavbar />
+            {errorDisplay}
             <Switch>
               <Route
                 path="/login"
