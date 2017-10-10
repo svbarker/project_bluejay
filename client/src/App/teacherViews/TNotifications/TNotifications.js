@@ -15,7 +15,8 @@ const getListItemStyle = n => ({
 });
 
 const pendingListItemStyle = {
-  margin: "30px 150px 0 400px",
+  margin: "0px 150px 0 400px",
+  borderRadius: "50px",
   paddingBottom: "20px"
 };
 
@@ -114,7 +115,7 @@ const getPendingData = (n, pendings) => {
 };
 
 const topMargin = {
-  marginTop: "50px"
+  marginTop: "30px"
 };
 
 const months = {
@@ -190,7 +191,7 @@ const Notifications = ({
           };
 
           return (
-            <div>
+            <div style={topMargin}>
               {date}
               <ListItem {...pendingListItemProps} />
             </div>

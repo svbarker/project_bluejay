@@ -30,6 +30,13 @@ const getListItemStyle = n => ({
 
 const getIcon = n => {
   return (
+    // <div>
+    //   {/reject/.exec(n._body) ? (
+    //     <i
+    //       style={{ color: "rgba(150,13,13,1)" }}
+    //       className={"fa fa-window-close fa-2x"}
+    //     />
+    //   ) : null}
     <i
       style={{
         ...iconStyles,
@@ -55,7 +62,7 @@ const getHoverColor = n =>
     : n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205,40,.3)";
 
 const topMargin = {
-  marginTop: "50px"
+  marginTop: "30px"
 };
 
 const months = {
