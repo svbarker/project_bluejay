@@ -174,6 +174,11 @@ UserSchema.methods.addNotifications = async function(notifications) {
 			)
 		});
 	} else {
+		if (
+			!notifications.cleanForLog ||
+			typeof notifications.cleanForLog !== "function"
+		)
+			console.log("BLEH: ", notifications);
 		await this.update({
 			notifications: [...this.notifications, notifications.cleanForLog()]
 		});
