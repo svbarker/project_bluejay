@@ -17,7 +17,7 @@
 	text-align: center;
 	font-family: "Bree Serif";
 	/*border-bottom: 1px solid #085a5a;*/
-	margin: 0 25% .25em 25%;
+	margin: 0 25% 0.25em 25%;
 }
 
 .student-card-container {
@@ -73,7 +73,7 @@
 
 .students-container,
 .assignables-container {
-	/*max-height: calc(100vh - 70px);*/
+	max-height: calc(100vh - 80px);
 	overflow-y: auto;
 }
 
