@@ -14,13 +14,31 @@ export const updatePoints = points => ({
 
 export const refreshPoints = () => async dispatch => {
   try {
-    let response = await fetch(`/api/students/student/points`, {
+    let response = await fetch(`/api/students/points`, {
       method: "GET",
       credentials: "include"
     });
     response = await response.json();
-    console.log(response);
     dispatch(updatePoints(response.apiData));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createUser = async params => {
+  try {
+    const response = await fetch("/register", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    });
+
+    const user = await response.json();
+    console.log(user);
+    return user;
   } catch (error) {
     console.error(error);
   }

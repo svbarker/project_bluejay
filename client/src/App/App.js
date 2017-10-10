@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 
 //Components
-import Register from "./GlobalComponents/Register";
+import RegisterContainer from "./GlobalComponents/RegisterContainer";
 import LoginContainer from "./GlobalComponents/LoginContainer";
 import TDashboard from "./teacherViews/TDashboard";
 import SDashboard from "./studentViews/SDashboard";
@@ -48,7 +48,6 @@ class App extends Component {
               <TNavbar socket={this.socket} />
               <Switch>
                 {/* do some login checking here */}
-                <Redirect from="/login" to="/" />
                 <Route exact path="/" component={TDashboard} />
                 <Route path="/students" component={TStudents} />
                 <Route
@@ -66,10 +65,7 @@ class App extends Component {
                 />
                 {/* <Route path="/" component={PageNotFound} /> */}
                 {/* Testing a login route over here */}
-                <Route
-                  path="/login"
-                  component={() => <LoginContainer socket={this.socket} />}
-                />
+                <Redirect from="/" to="/" />
               </Switch>
             </div>
           </Router>
@@ -118,7 +114,10 @@ class App extends Component {
                 path="/login"
                 component={() => <LoginContainer socket={this.socket} />}
               />
-              <Route path="/register" component={Register} />
+              <Route
+                path="/register"
+                component={() => <RegisterContainer socket={this.socket} />}
+              />
               <Redirect from="/" to="/login" />
             </Switch>
           </div>

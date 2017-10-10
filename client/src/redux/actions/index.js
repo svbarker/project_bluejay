@@ -21,6 +21,20 @@ export const endRequest = error => {
 	};
 };
 
+export const registerUser = (params, socket) => async dispatch => {
+	try {
+		dispatch(startRequest());
+		console.log("In registerUser: ", params, socket);
+		const newUser = await user.createUser(params);
+		if (!newUser.success) throw new Error(newUser.apiError.message);
+		dispatch(returningUser(socket));
+	} catch (error) {
+		dispatch(endRequest(error));
+		console.log(error.message);
+		return error.message;
+	}
+};
+
 export const loginUser = (email, password, socket) => async dispatch => {
 	try {
 		dispatch(startRequest());
@@ -59,14 +73,14 @@ export const returningUser = socket => async dispatch => {
 			throw new Error("Something went wrong with your request.");
 		}
 
-		setUser(loggedInUser, dispatch, socket);
+		dispatch(setUser(loggedInUser, socket));
 	} catch (error) {
 		console.log(error);
 		dispatch(endRequest(null));
 	}
 };
 
-const setUser = async (loggedInUser, dispatch, socket) => {
+const setUser = (loggedInUser, socket) => async dispatch => {
 	let userObj;
 
 	if (loggedInUser.apiData.kind === "Teacher") {
@@ -85,7 +99,7 @@ const setUser = async (loggedInUser, dispatch, socket) => {
 	}
 
 	console.log("User object: ", userObj);
-
+	console.log("Made it deep into setting the user...");
 	socket.emit(Events.USER_LOGGED_IN, userObj.id);
 	await dispatch(user.setUser(userObj));
 	await dispatch(classrooms.getClassrooms(loggedInUser.apiData.classrooms));
