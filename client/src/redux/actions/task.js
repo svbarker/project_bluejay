@@ -131,6 +131,42 @@ export const bulkUnassignTask = (task, studentIds) => async dispatch => {
   }
 };
 
+//delete a task from a teacher
+export const deleteTask = (teacherId, taskId) => async dispatch => {
+  console.log("deleting a task");
+  try {
+    let serverResponse = await fetch(
+      `api/teachers/${teacherId}/tasks/${taskId}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    serverResponse = await serverResponse.json();
+    if (serverResponse.success) {
+      console.log(serverResponse.apiData);
+      dispatch(removeTask(serverResponse.apiData));
+    } else if (!serverResponse.success) {
+      console.error(serverResponse.apiError);
+    }
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
+
+export const editTask = (teacherId, taskId) => async dispatch => {
+  console.log("updating a task");
+  try {
+    ///
+  } catch (e) {
+    ///
+  }
+};
+
 export const assignTask = (
   teacherId,
   studentId,
