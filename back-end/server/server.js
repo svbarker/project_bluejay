@@ -40,6 +40,8 @@ app.use((req, res, next) => {
 // serve static resource
 // app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
+app.use("/register", require("../routers/register"));
+
 // session handling routes
 app.use("/sessions", require("../routers/sessions"));
 
