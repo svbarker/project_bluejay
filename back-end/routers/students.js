@@ -41,7 +41,8 @@ router.post("/", async (req, res) => {
 		// Create log events.
 		logEvent(UserEvent, {
 			message: Messages.TEMPLATE_STUDENT_CREATE,
-			owner: req.user
+			owner: req.user,
+			user: req.user
 		});
 		logEvent(ProfileEvent, {
 			message: Messages.TEMPLATE_PROFILE_CREATE,
@@ -53,7 +54,8 @@ router.post("/", async (req, res) => {
 		// Create log event.
 		logEvent(UserEvent, {
 			message: Messages.TEMPLATE_LOGGED_IN,
-			owner: student
+			owner: student,
+			user: req.user
 		});
 
 		res.json(createResponse(student));

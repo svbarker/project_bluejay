@@ -1,11 +1,11 @@
-const router = require('express').Router();
-const { Profile } = require('../models');
-const { createResponse } = require('../server/util');
-const { getResource, logEvent, logError } = require('../server/util');
-const { ProfileEvent, Messages } = require('../models/events');
+const router = require("express").Router();
+const { Profile } = require("../models");
+const { createResponse } = require("../server/util");
+const { getResource, logEvent, logError } = require("../server/util");
+const { ProfileEvent, Messages } = require("../models/events");
 
 // reading a profile
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
 	try {
 		const profile = await getResource(
 			req.params.id,
@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // updating a profile
-router.patch('/:id', async (req, res) => {
+router.patch("/:id", async (req, res) => {
 	try {
 		const { updates } = req.body;
 		const profile = await getResource(
@@ -37,8 +37,8 @@ router.patch('/:id', async (req, res) => {
 		);
 
 		// Create log event.
-		profile.fields = Object.keys(updates).join(',');
-		profile.values = Object.values(updates).join(',');
+		profile.fields = Object.keys(updates).join(",");
+		profile.values = Object.values(updates).join(",");
 		logEvent(ProfileEvent, {
 			message: Messages.TEMPLATE_PROFILE_UPDATE,
 			owner: req.user,
@@ -53,7 +53,7 @@ router.patch('/:id', async (req, res) => {
 });
 
 // deleting a profile
-router.delete('/:id', async (req, res) => {
+router.delete("/:id", async (req, res) => {
 	try {
 		const profile = await getResource(
 			req.params.id,
@@ -61,7 +61,7 @@ router.delete('/:id', async (req, res) => {
 		);
 
 		// Create log event.
-		logEvent(ClassroomEvent, {
+		logEvent(ProfileEvent, {
 			message: Messages.TEMPLATE_PROFILE_DELETE,
 			owner: req.user,
 			profile
