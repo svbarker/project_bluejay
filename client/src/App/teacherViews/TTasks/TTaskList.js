@@ -62,7 +62,6 @@ const TaskList = props => {
 						borderRadius: "20px"
 					}}
 				>
-					<h2>{`${name}'s Tasks`}</h2>
 					{taskCards}
 				</div>
 			</Paper>

@@ -1,16 +1,27 @@
-.outer {
-	margin: 0 auto;
-	max-width: 960px;
+.reward-container-outer {
+	padding-top: 70px;
+	width: 80%;
+	margin: auto;
+}
+
+.reward-container-outer h1 {
+	color: #085a5a !important;
+	text-shadow: 1px 1px 2px #888;
+	text-align: center;
+	font-family: "Bree Serif";
+	margin: 0 25% .25em 25%;
 }
 
 .reward-container {
-	margin-bottom: 20px;
+	padding: 20px;
+	color: #333;
 }
-.reward-card-header {
-	background-color: #96cd28;
-	color: white;
+
+.reward-paper {
+	border-bottom: 1px solid #ccc;
 }
-.reward-card-title {
+
+/*.reward-card-title {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -26,10 +37,10 @@
 .reward-item {
 	padding: 20px;
 	width: auto;
-	/*justify-content: center;*/
 }
 
 .reward-item-button-container {
 	justify-self: end;
 	grid-column-start: 2;
 }
+*/
