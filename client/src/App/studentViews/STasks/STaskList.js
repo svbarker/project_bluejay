@@ -138,7 +138,7 @@ const TaskList = props => {
 
   return (
     <div className="task-container-outer">
-      <h1>Your {props.selected} Tasks</h1>
+      <h1>{`${props.name}'s Tasks`}</h1>
       <div
         style={{
           display: "flex",

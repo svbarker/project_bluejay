@@ -35,6 +35,7 @@ class StudentTaskListContainer extends React.Component {
         socket={this.props.socket}
         selected={this.state.selected}
         navigateTo={this.navigateTo}
+        name={this.props.name}
       />
     );
   }
@@ -42,7 +43,8 @@ class StudentTaskListContainer extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    tasks: state.tasks
+    tasks: state.tasks,
+    name: state.user.displayName
   };
 };
 const mapDispatchToProps = dispatch => {
