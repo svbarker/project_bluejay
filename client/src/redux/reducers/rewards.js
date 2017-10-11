@@ -25,7 +25,7 @@ const rewards = (state = [], action) => {
       return newRewards;
     case ADD_REWARD:
       //UNTESTED
-      return [...state.rewards, action.data];
+      return [...state, action.data];
     case UPDATE_REWARD:
       return state.map(reward => {
         if (action.data.id === reward._id) return action.data.reward;

@@ -43,6 +43,7 @@ class TeacherRewardList extends React.Component {
   }
 
   onCreateReward = async rewardInput => {
+    console.log("running onCreate");
     this.props.createReward(this.props.user.id, rewardInput);
   };
   //change the availability of a reward
@@ -93,12 +94,9 @@ class TeacherRewardList extends React.Component {
               borderRadius: "20px"
             }}
           >
-            {/* header */}
-            {/* <div className="reward-card-title">
-              <h2>{this.props.user.displayName}'s Rewards</h2>
-               <CreateRewardModal onSubmit={this.onCreateReward} />
-
-            </div> */}
+            <div className="reward-card-title">
+              <CreateRewardModal onSubmit={this.onCreateReward} />
+            </div>
             {/* Rewards List */}
             {rewards}
           </div>
