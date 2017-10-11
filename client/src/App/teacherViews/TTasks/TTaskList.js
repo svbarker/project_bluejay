@@ -88,6 +88,7 @@ const TaskList = props => {
 				open={open}
 				handleClose={handleClose}
 				teacherId={teacherId}
+				rewards={props.allRewards}
 			/>
 		</div>
 	);

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { createTask } from "../../../redux/actions/task";
 import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
+import SelectField from "material-ui/SelectField";
 import RaisedButton from "material-ui/RaisedButton";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import ContentAdd from "material-ui/svg-icons/content/add";
@@ -27,6 +28,8 @@ class CreateTaskModal extends Component {
 		await this.props.createTask(params);
 		this.props.handleClose();
 	};
+
+	openRewardDropdown = () => {};
 
 	addReward = () => {
 		//do stuff here
@@ -61,7 +64,7 @@ class CreateTaskModal extends Component {
 								<FloatingActionButton
 									mini={true}
 									backgroundColor="#96CD28"
-									onClick={this.addReward}
+									onClick={this.openRewardDropdown}
 								>
 									<ContentAdd />
 								</FloatingActionButton>

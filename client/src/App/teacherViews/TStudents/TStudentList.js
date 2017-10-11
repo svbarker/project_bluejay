@@ -98,13 +98,16 @@ class StudentList extends Component {
                 ))}
               </SelectField>
             )}
+            <br />
             {!this.state.addingClass ? (
-              <a href="" onClick={this.toggleAddClass}>
-                Add a class
-              </a>
+              <p>
+                <a href="" onClick={this.toggleAddClass}>
+                  Add a class
+                </a>
+              </p>
             ) : (
               <form onSubmit={this.addClass}>
-                <TextField id="name" floatingLabelText="Class name" />
+                <TextField id="name" floatingLabelText="Class name" />{" "}
                 <FlatButton type="submit" label="Add" />
               </form>
             )}

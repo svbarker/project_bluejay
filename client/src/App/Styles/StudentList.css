@@ -84,6 +84,15 @@
 	padding: 5px 15px;
 }
 
+.students-container-inner a {
+	color: #ff9a9a;
+	font-style: italic;
+}
+
+.students-container-inner a:hover {
+	color: #dc2b2b;
+}
+
 .assignables-container {
 	color: #085a5a !important;
 	font-family: "Bangers";
