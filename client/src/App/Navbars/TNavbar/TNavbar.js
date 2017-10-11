@@ -7,7 +7,6 @@ import "../../Styles/Navbar.css";
 class TeacherNavbar extends Component {
 	constructor(props) {
 		super(props);
-		console.log("CONSTRUCTOR CALLED");
 		this.props.socket.on(Events.REFRESH_NOTIFICATIONS, () => {
 			this.props.fetchNotifications(this.props.userId);
 		});

@@ -69,7 +69,11 @@ class StudentNavbar extends Component {
 						<li>
 							<IconMenu
 								iconButtonElement={
-									<IconButton>
+									<IconButton
+										style={{
+											padding: "0"
+										}}
+									>
 										<i className="fa fa-user" aria-hidden="true" />
 									</IconButton>
 								}

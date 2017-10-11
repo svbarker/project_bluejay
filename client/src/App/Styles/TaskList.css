@@ -17,9 +17,6 @@
 	color: #333;
 }
 
-.student-task-paper {
-	border-bottom: 1px solid #ccc;
-}
 .menu-card-container {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -42,4 +39,30 @@
 
 .modal-title-button {
 	justify-self: end;
+}
+.rewards-chip-container {
+	display: grid;
+	grid-template-rows: 1fr 2fr;
+}
+
+.rewards-chip-header {
+	grid-row-start: 1;
+	grid-row-end: 2;
+	text-align: center;
+	padding: 10px;
+}
+.reward-chip {
+	height: 50px;
+	font-size: 8px;
+}
+.reward-chip p {
+	font-size: 12px;
+}
+.rewards-chip-list {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: wrap;
+	grid-row-start: 2;
+	padding: 8px;
 }

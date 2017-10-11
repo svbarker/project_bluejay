@@ -116,19 +116,18 @@ class TaskCard extends React.Component {
 					<Divider />
 					{/* Rewards for a task view */}
 					<Paper style={{ marginTop: "20px" }}>
-						<div className="menu-card-container">
+						<div className="rewards-chip-container">
 							{/* center this */}
-							<div style={{ textAlign: "center", padding: "10px" }}>
+							<div className="rewards-chip-header">
 								<h3>Rewards Given For Completing This Task</h3>
 							</div>
-							{rewards}
-							<DropDownAddReward
-								rewards={this.props.allRewards}
-								addReward={this.props.onAddReward}
-							/>
-							{/* <div style={{ display: "flex", flexDirection: "row" }}>
-                {rewards}
-              </div> */}
+							<div className="rewards-chip-list">
+								{rewards}
+								<DropDownAddReward
+									rewards={this.props.allRewards}
+									addReward={this.props.onAddReward}
+								/>
+							</div>
 						</div>
 					</Paper>
 				</CardText>
