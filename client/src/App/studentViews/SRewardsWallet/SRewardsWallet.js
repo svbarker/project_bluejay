@@ -3,6 +3,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import RaisedButton from "material-ui/RaisedButton";
+
 //components
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
@@ -22,7 +24,8 @@ class StudentRewardWallet extends React.Component {
     super(props);
     this.state = {
       fetchingRewards: false,
-      loading: true
+      loading: true,
+      selected: "Unredeemed"
     };
   }
 
@@ -35,7 +38,15 @@ class StudentRewardWallet extends React.Component {
     });
   }
 
+  navigateTo = selected => () => {
+    this.setState({
+      selected
+    });
+  };
+
   render = () => {
+    let navigateTo = this.navigateTo;
+
     if (this.state.loading) {
       return <LoadScreen />;
     }
@@ -59,10 +70,11 @@ class StudentRewardWallet extends React.Component {
       .filter(reward => reward.status === "Redeemed")
       .map(mapFunc);
 
-    return (
-      <div>
-        <div className="reward-container-outer">
-          <h1>Your Wallet</h1>
+    let page;
+
+    switch (this.state.selected) {
+      case "Unredeemed":
+        page = (
           <Paper
             className="dashboard-menu"
             style={{
@@ -83,8 +95,11 @@ class StudentRewardWallet extends React.Component {
               <List className="reward-list">{unredeemed}</List>
             </div>
           </Paper>
-        </div>
-        <div className="reward-container-outer">
+        );
+
+        break;
+      case "Pending":
+        page = (
           <Paper
             className="dashboard-menu"
             style={{
@@ -105,8 +120,11 @@ class StudentRewardWallet extends React.Component {
               <List className="reward-list">{pending}</List>
             </div>
           </Paper>
-        </div>
-        <div className="reward-container-outer">
+        );
+
+        break;
+      case "Redeemed":
+        page = (
           <Paper
             className="dashboard-menu"
             style={{
@@ -127,7 +145,43 @@ class StudentRewardWallet extends React.Component {
               <List className="reward-list">{redeemed}</List>
             </div>
           </Paper>
+        );
+        break;
+    }
+
+    return (
+      <div className="reward-container-outer">
+        <h1>{`${this.props.name}'s Wallet`}</h1>
+        <div
+          style={{
+            display: "flex",
+            flexFlow: "row nowrap",
+            justifyContent: "center"
+          }}
+        >
+          <RaisedButton
+            onClick={navigateTo("Unredeemed")}
+            backgroundColor={"rgba(150,13,13,1)"}
+            style={{ margin: "20px 20px" }}
+            labelColor={"white"}
+            label={"Unredeemed"}
+          />
+          <RaisedButton
+            onClick={navigateTo("Pending")}
+            backgroundColor={"rgba( 26,132,132,1)"}
+            style={{ margin: "20px 20px" }}
+            labelColor={"white"}
+            label={"Pending"}
+          />
+          <RaisedButton
+            onClick={navigateTo("Redeemed")}
+            backgroundColor={"rgba(150,205, 40,1)"}
+            style={{ margin: "20px 20px" }}
+            labelColor={"white"}
+            label={"Redeemed"}
+          />
         </div>
+        {page}
       </div>
     );
   };
@@ -135,7 +189,8 @@ class StudentRewardWallet extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    rewards: state.rewards
+    rewards: state.rewards,
+    name: state.user.displayName
   };
 };
 const mapDispatchToProps = dispatch => {
