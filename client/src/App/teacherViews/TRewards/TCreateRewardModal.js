@@ -5,6 +5,8 @@ import Editable from "../../GlobalComponents/Editable";
 import Dialog from "material-ui/Dialog";
 import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
 import RaisedButton from "material-ui/RaisedButton";
 
 export default class CreateRewardModal extends React.Component {
@@ -13,6 +15,7 @@ export default class CreateRewardModal extends React.Component {
     this.state = {
       open: false,
       valid: false,
+      title: "",
       description: "",
       kind: "Loot",
       cost: 0
@@ -22,20 +25,27 @@ export default class CreateRewardModal extends React.Component {
   handleOpen = () => {
     this.setState({ open: true });
   };
+  handleChange = (e, index, value) => {
+    this.setState({ kind: value });
+  };
 
   handleClose = () => {
-    const { description, kind, cost } = this.state;
-    if (this.state.valid) this.props.onSubmit({ description, kind, cost });
+    const { description, kind, cost, title } = this.state;
+    if (this.state.valid)
+      this.props.onSubmit({ description, kind, cost, title });
     this.setState({
       open: false,
+      title: "",
       description: "",
       kind: "Loot",
       cost: 0
     });
   };
   validate = () => {
-    if (this.state.description.length > 0) {
+    if (this.state.description.length > 0 && this.state.title.length > 0) {
       this.setState({ valid: true });
+    } else {
+      this.setState({ valid: false });
     }
   };
   onChange = e => {
@@ -76,24 +86,43 @@ export default class CreateRewardModal extends React.Component {
           <Paper style={{ padding: "20px", border: "10px solid #97cb39" }}>
             <TextField
               onChange={this.onChange}
+              value={this.state.title}
+              floatingLabelText="Title"
+              fullWidth={true}
+              multiLine={true}
+              name="title"
+            />
+            <TextField
+              onChange={this.onChange}
               value={this.state.description}
               floatingLabelText="Description"
               fullWidth={true}
               multiLine={true}
               name="description"
             />
-            <TextField
-              onChange={this.onChange}
-              value={this.state.cost}
-              floatingLabelText="Cost"
-              name="cost"
-            />
-            <TextField
-              onChange={this.onChange}
-              value={this.state.kind}
-              floatingLabelText="Kind"
-              name="kind"
-            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "space-evenly"
+              }}
+            >
+              <TextField
+                onChange={this.onChange}
+                value={this.state.cost}
+                floatingLabelText="Cost"
+                name="cost"
+              />
+              <SelectField
+                floatingLabelText="Kind"
+                value={this.state.kind}
+                onChange={this.handleChange}
+              >
+                <MenuItem value={"Loot"} primaryText="Loot" />
+                <MenuItem value={"Point"} primaryText="Point" />
+              </SelectField>
+            </div>
           </Paper>
         </Dialog>
       </div>
