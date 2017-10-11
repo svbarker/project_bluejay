@@ -6,10 +6,10 @@ import TaskAssignListContainer from "./TTaskAssignListContainer";
 import RewardAssignListContainer from "./TRewardAssignListContainer";
 import RaisedButton from "material-ui/RaisedButton";
 
-const StudentView = ({ selected, toggle }) => {
+const StudentView = ({ selected, toggle, name }) => {
   return (
     <div className="student-view-outer-container">
-      <h1>Your Students</h1>
+      <h1>{`${name}'s Students`}</h1>
       <div className="student-view-container">
         <StudentListContainer />
         <div style={{ textAlign: "center" }} className="assignables-container">
@@ -22,12 +22,14 @@ const StudentView = ({ selected, toggle }) => {
             }}
           >
             <RaisedButton
+              labelColor={"white"}
               backgroundColor={"#1a8484"}
               onClick={toggle("tasks")}
               label={"Tasks"}
               style={{ margin: "8px" }}
             />
             <RaisedButton
+              labelColor={"white"}
               backgroundColor={"#96cd28"}
               onClick={toggle("rewards")}
               label={"Rewards"}
