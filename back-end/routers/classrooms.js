@@ -219,7 +219,8 @@ router.post("/:cl_id/student", async (req, res) => {
 
 			logEvent(UserEvent, {
 				message: Messages.TEMPLATE_STUDENT_CREATE,
-				owner: req.user
+				owner: req.user,
+				user: req.user
 			});
 			logEvent(ProfileEvent, {
 				message: Messages.TEMPLATE_PROFILE_CREATE,

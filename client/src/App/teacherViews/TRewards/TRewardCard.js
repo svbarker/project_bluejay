@@ -37,7 +37,7 @@ class RewardCard extends React.Component {
 				<CardHeader
 					actAsExpander={true}
 					showExpandableButton={true}
-					title={`${cost || value || "None"} ${title}`}
+					title={`${title} (${cost || value || "None"} Points)`}
 					style={{
 						backgroundColor: "#96cd28"
 					}}
