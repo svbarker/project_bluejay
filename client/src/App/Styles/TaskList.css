@@ -63,3 +63,9 @@
   grid-row-start: 2;
   padding: 8px;
 }
+
+.create-task-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 20px;
+}

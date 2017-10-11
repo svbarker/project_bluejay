@@ -25,15 +25,29 @@ class CreateTaskModal extends Component {
 
 	render() {
 		return (
-			<Dialog open={this.props.open} modal={true}>
-				<h2>Create a Task</h2>
-
-				<form onSubmit={this.handleCreateTask}>
-					<TextField id="title" floatingLabelText="Title" />
-					<TextField id="description" floatingLabelText="Description" />
-
-					<RaisedButton type="submit" label="Create" />
-					<RaisedButton label="Cancel" onClick={this.props.handleClose} />
+			<Dialog title="Create a task" open={this.props.open} modal={true}>
+				<form
+					onSubmit={this.handleCreateTask}
+					className="create-task-container"
+				>
+					<div>
+						<TextField id="title" floatingLabelText="Title" />
+						<br />
+						<TextField
+							id="description"
+							floatingLabelText="Description"
+							multiLine={true}
+							rows={3}
+						/>
+					</div>
+					<div>
+						<h3>Rewards</h3>
+						<div>
+							<span>Things will go here</span>
+						</div>
+						<RaisedButton type="submit" label="Create" />
+						<RaisedButton label="Cancel" onClick={this.props.handleClose} />
+					</div>
 				</form>
 			</Dialog>
 		);
