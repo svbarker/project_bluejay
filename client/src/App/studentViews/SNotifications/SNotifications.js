@@ -6,10 +6,9 @@ import FontIcon from "material-ui/FontIcon";
 import { red500, yellow500, blue500 } from "material-ui/styles/colors";
 const iconStyles = { marginTop: "25px", color: "#507c0c" };
 
-const getClearAllButton = (notifications, handler) => {
-  return (
+const getClearAllButton = (notifications, handler) =>
+  notifications.length ? (
     <RaisedButton
-      disabled={!notifications.length}
       backgroundColor={"rgba(150,13,13,1)"}
       hoverColor={"rgba(137,0,0,1)"}
       style={{ margin: "30px 0px 0px 100px" }}
@@ -17,8 +16,7 @@ const getClearAllButton = (notifications, handler) => {
       label={`Clear All`}
       onClick={handler}
     />
-  );
-};
+  ) : null;
 
 const getListItemStyle = n => ({
   margin: "0px 150px 0 250px",
