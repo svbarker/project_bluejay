@@ -147,6 +147,7 @@ const TaskList = props => {
         }}
       >
         <RaisedButton
+          disabled={props.selected === "Assigned"}
           onClick={navigateTo("Assigned")}
           backgroundColor={"rgba( 26,132,132,1)"}
           style={{ margin: "20px 20px" }}
@@ -154,6 +155,7 @@ const TaskList = props => {
           label={"Assigned"}
         />
         <RaisedButton
+          disabled={props.selected === "Completed"}
           onClick={navigateTo("Completed")}
           backgroundColor={"rgba(150,205, 40,1)"}
           style={{ margin: "20px 20px" }}
@@ -161,6 +163,7 @@ const TaskList = props => {
           label={"Completed"}
         />
         <RaisedButton
+          disabled={props.selected === "Rejected"}
           onClick={navigateTo("Rejected")}
           backgroundColor={"rgba(150,13,13,1)"}
           style={{ margin: "20px 20px" }}

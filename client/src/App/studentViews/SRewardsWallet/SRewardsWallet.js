@@ -160,20 +160,23 @@ class StudentRewardWallet extends React.Component {
           }}
         >
           <RaisedButton
+            disabled={this.state.selected === "Unredeemed"}
             onClick={navigateTo("Unredeemed")}
-            backgroundColor={"rgba(150,13,13,1)"}
+            backgroundColor={"rgba( 26,132,132,1)"}
             style={{ margin: "20px 20px" }}
             labelColor={"white"}
             label={"Unredeemed"}
           />
           <RaisedButton
+            disabled={this.state.selected === "Pending"}
             onClick={navigateTo("Pending")}
-            backgroundColor={"rgba( 26,132,132,1)"}
+            backgroundColor={"rgba(150,13,13,1)"}
             style={{ margin: "20px 20px" }}
             labelColor={"white"}
             label={"Pending"}
           />
           <RaisedButton
+            disabled={this.state.selected === "Redeemed"}
             onClick={navigateTo("Redeemed")}
             backgroundColor={"rgba(150,205, 40,1)"}
             style={{ margin: "20px 20px" }}
