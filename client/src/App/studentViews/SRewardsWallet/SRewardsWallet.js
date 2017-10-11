@@ -8,7 +8,7 @@ import Divider from "material-ui/Divider";
 import Chip from "material-ui/Chip";
 
 //actions
-import { getAllRewards } from "../../../redux/actions/rewards";
+import { getAllRewards, redeemReward } from "../../../redux/actions/rewards";
 
 const headingStyle = {
   color: "white",
@@ -35,16 +35,21 @@ class SRewardsWallet extends React.Component {
           <NavLink to="/rewards">
             <Chip>{reward.title}</Chip>
           </NavLink>
+          <Chip
+            onClick={this.props.redeemReward(this.props.userId, reward._id)}
+          >
+            Redeem
+          </Chip>
         </ListItem>
       ));
     } else {
-      pendingRewards = <h3>Sorry...you have no rewards pending.</h3>;
+      pendingRewards = <h3>You have no rewards.</h3>;
     }
 
     return (
       <Paper style={{ backgroundColor: "#97cb39" }}>
         <Paper style={headingStyle}>
-          <h1>Pending Rewards</h1>
+          <h1>Rewards</h1>
         </Paper>
         <Divider inset={true} />
         <List>{pendingRewards}</List>
@@ -62,6 +67,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchRewards: (userId, userKind) => {
       dispatch(getAllRewards(userId, userKind));
+    },
+    redeemReward: (s_id, id) => () => {
+      dispatch(redeemReward(s_id, id));
     }
   };
 };
