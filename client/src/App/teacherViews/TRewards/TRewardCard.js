@@ -27,11 +27,11 @@ class RewardCard extends React.Component {
       value,
       description,
       classroom,
+      kind,
       cost,
       supply,
       available
     } = this.props.reward;
-
     return (
       <Card
         key={_id}
@@ -59,7 +59,10 @@ class RewardCard extends React.Component {
             <p>Kind of reward: {cost ? "Loot" : "Point"}</p>
             <p>Cost: {cost || value || "None"}</p>
 
-            <p>Available: {available ? "YES" : "NO"}</p>
+            {this.props.reward.kind === "LootReward" ? (
+              <p>Available: {available ? "YES" : "NO"}</p>
+            ) : null}
+
             <p>Supply: {supply || "Unlimited"}</p>
             <div
               style={{
@@ -77,11 +80,13 @@ class RewardCard extends React.Component {
               <Undoable resolve={() => this.props.removeReward(_id)}>
                 <RaisedButton label="delete" />
               </Undoable>
-              <RaisedButton
-                onClick={() =>
-                  this.props.onToggleAvailability(this.props.reward)}
-                label={available ? "Make Unavailable" : "Make Available"}
-              />
+              {this.props.reward.kind === "LootReward" ? (
+                <RaisedButton
+                  onClick={() =>
+                    this.props.onToggleAvailability(this.props.reward)}
+                  label={available ? "Make Unavailable" : "Make Available"}
+                />
+              ) : null}
             </div>
           </Paper>
         </CardText>
