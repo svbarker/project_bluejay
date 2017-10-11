@@ -1,2 +1,2 @@
-import TStudentView from "./TStudentView";
-export default TStudentView;
+import TStudentViewContainer from "./TStudentViewContainer";
+export default TStudentViewContainer;
