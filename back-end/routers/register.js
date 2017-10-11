@@ -42,9 +42,9 @@ router.post("/", async (req, res) => {
 
 		await req.login(teacher, () => {});
 		// Create log event.
-		logEvent(UserEvent, 
+		logEvent(UserEvent, {
 			message: Messages.TEMPLATE_LOGGED_IN,
-			owner: teacher
+			owner: teacher,
 			user: req.user
 		});
 
