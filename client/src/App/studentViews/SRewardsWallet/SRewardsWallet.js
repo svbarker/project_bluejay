@@ -18,143 +18,137 @@ import { getAllRewards, redeemReward } from "../../../redux/actions/rewards";
 import { loginTeacher, loginStudent } from "../../../redux/actions/index";
 
 class StudentRewardWallet extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			fetchingRewards: false,
-			loading: true
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      fetchingRewards: false,
+      loading: true
+    };
+  }
 
-	async componentDidMount() {
-		//grab all the rewards
-		await this.props.fetchRewards(this.props.userId, "Student");
-		this.setState({
-			fetchingRewards: false,
-			loading: false
-		});
-	}
+  async componentDidMount() {
+    //grab all the rewards
+    await this.props.fetchRewards(this.props.userId, "Student");
+    this.setState({
+      fetchingRewards: false,
+      loading: false
+    });
+  }
 
-	render = () => {
-		if (this.state.loading) {
-			return <LoadScreen />;
-		}
-		const mapFunc = reward => {
-			return (
-				<SRewardsWalletCard
-					reward={reward}
-					studentId={this.props.userId}
-					redeemReward={this.props.redeemReward}
-				/>
-			);
-		};
+  render = () => {
+    if (this.state.loading) {
+      return <LoadScreen />;
+    }
+    const mapFunc = reward => {
+      return reward.cost ? (
+        <SRewardsWalletCard
+          reward={reward}
+          studentId={this.props.userId}
+          redeemReward={this.props.redeemReward}
+        />
+      ) : null;
+    };
 
-		const unredeemed = this.props.rewards
-			.filter(reward => reward.status === "Unredeemed")
-			.map(mapFunc);
-		const pending = this.props.rewards
-			.filter(reward => reward.status === "Pending")
-			.map(mapFunc);
-		const redeemed = this.props.rewards
-			.filter(reward => reward.status === "Redeemed")
-			.map(mapFunc);
+    const unredeemed = this.props.rewards
+      .filter(reward => reward.status === "Unredeemed")
+      .map(mapFunc);
+    const pending = this.props.rewards
+      .filter(reward => reward.status === "Pending")
+      .map(mapFunc);
+    const redeemed = this.props.rewards
+      .filter(reward => reward.status === "Redeemed")
+      .map(mapFunc);
 
-		return (
-			<div>
-				<div className="reward-container-outer">
-					<h1>Your Wallet</h1>
-					<Paper
-						className="dashboard-menu"
-						style={{
-							padding: "4px",
-							borderRadius: "20px"
-						}}
-						zDepth={5}
-						rounded={true}
-					>
-						<div
-							className="reward-container"
-							style={{
-								border: "5px dashed #ccc",
-								borderRadius: "20px"
-							}}
-						>
-							<h2>Unredeemed</h2>
-							<List className="reward-list">
-								{unredeemed}
-							</List>
-						</div>
-					</Paper>
-				</div>
-				<div className="reward-container-outer">
-					<Paper
-						className="dashboard-menu"
-						style={{
-							padding: "4px",
-							borderRadius: "20px"
-						}}
-						zDepth={5}
-						rounded={true}
-					>
-						<div
-							className="reward-container"
-							style={{
-								border: "5px dashed #ccc",
-								borderRadius: "20px"
-							}}
-						>
-							<h2>Pending</h2>
-							<List className="reward-list">
-								{pending}
-							</List>
-						</div>
-					</Paper>
-				</div>
-				<div className="reward-container-outer">
-					<Paper
-						className="dashboard-menu"
-						style={{
-							padding: "4px",
-							borderRadius: "20px"
-						}}
-						zDepth={5}
-						rounded={true}
-					>
-						<div
-							className="reward-container"
-							style={{
-								border: "5px dashed #ccc",
-								borderRadius: "20px"
-							}}
-						>
-							<h2>Redeemed</h2>
-							<List className="reward-list">
-								{redeemed}
-							</List>
-						</div>
-					</Paper>
-				</div>
-			</div>
-		);
-	};
+    return (
+      <div>
+        <div className="reward-container-outer">
+          <h1>Your Wallet</h1>
+          <Paper
+            className="dashboard-menu"
+            style={{
+              padding: "4px",
+              borderRadius: "20px"
+            }}
+            zDepth={5}
+            rounded={true}
+          >
+            <div
+              className="reward-container"
+              style={{
+                border: "5px dashed #ccc",
+                borderRadius: "20px"
+              }}
+            >
+              <h2>Unredeemed</h2>
+              <List className="reward-list">{unredeemed}</List>
+            </div>
+          </Paper>
+        </div>
+        <div className="reward-container-outer">
+          <Paper
+            className="dashboard-menu"
+            style={{
+              padding: "4px",
+              borderRadius: "20px"
+            }}
+            zDepth={5}
+            rounded={true}
+          >
+            <div
+              className="reward-container"
+              style={{
+                border: "5px dashed #ccc",
+                borderRadius: "20px"
+              }}
+            >
+              <h2>Pending</h2>
+              <List className="reward-list">{pending}</List>
+            </div>
+          </Paper>
+        </div>
+        <div className="reward-container-outer">
+          <Paper
+            className="dashboard-menu"
+            style={{
+              padding: "4px",
+              borderRadius: "20px"
+            }}
+            zDepth={5}
+            rounded={true}
+          >
+            <div
+              className="reward-container"
+              style={{
+                border: "5px dashed #ccc",
+                borderRadius: "20px"
+              }}
+            >
+              <h2>Redeemed</h2>
+              <List className="reward-list">{redeemed}</List>
+            </div>
+          </Paper>
+        </div>
+      </div>
+    );
+  };
 }
 
 const mapStateToProps = state => {
-	return {
-		rewards: state.rewards
-	};
+  return {
+    rewards: state.rewards
+  };
 };
 const mapDispatchToProps = dispatch => {
-	return {
-		fetchRewards: (userId, userKind) => {
-			dispatch(getAllRewards(userId, userKind));
-		},
-		redeemReward: (s_id, id) => {
-			dispatch(redeemReward(s_id, id));
-		}
-	};
+  return {
+    fetchRewards: (userId, userKind) => {
+      dispatch(getAllRewards(userId, userKind));
+    },
+    redeemReward: (s_id, id) => {
+      dispatch(redeemReward(s_id, id));
+    }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-	StudentRewardWallet
+  StudentRewardWallet
 );
