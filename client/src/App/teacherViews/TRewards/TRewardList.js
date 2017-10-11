@@ -67,6 +67,7 @@ class TeacherRewardList extends React.Component {
     const rewards = this.props.rewards.map(reward => {
       return (
         <TRewardCard
+          key={reward._id}
           reward={reward}
           onEditReward={this.onEditReward}
           onToggleAvailability={this.onToggleAvailability}

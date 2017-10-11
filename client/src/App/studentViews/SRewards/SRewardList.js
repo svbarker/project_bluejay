@@ -32,7 +32,6 @@ class StudentRewardList extends React.Component {
 			loading: true
 		};
 	}
-
 	onPurchase = rewardId => {
 		this.props.purchaseReward(this.props.user.id, rewardId);
 	};
@@ -51,9 +50,6 @@ class StudentRewardList extends React.Component {
 			return <LoadScreen />;
 		}
 
-		//TODO: ADD IN-PLACE EDITING FOR DESCRIPTION/ COST/VALUE
-		//TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
-		/////////IF THE USER IS THE TEACHER
 		const rewardOptions = this.props.rewardOptions.map(reward => {
 			return (
 				<SRewardCard
