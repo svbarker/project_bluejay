@@ -74,7 +74,13 @@ const TaskList = props => {
 						borderRadius: "20px"
 					}}
 				>
-					<RaisedButton label="Create a task" onClick={handleOpen} />
+					<RaisedButton
+						icon={<i className="fa fa-plus" />}
+						label="Create Task"
+						onClick={handleOpen}
+					/>
+					<br />
+					<br />
 					{taskCards}
 				</div>
 			</Paper>
