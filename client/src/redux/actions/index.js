@@ -24,7 +24,6 @@ export const endRequest = error => {
 export const registerUser = (params, socket) => async dispatch => {
   try {
     dispatch(startRequest());
-    console.log("In registerUser: ", params, socket);
     const newUser = await user.createUser(params);
     if (!newUser.success) throw new Error(newUser.apiError.message);
     dispatch(returningUser(socket));
@@ -51,7 +50,6 @@ export const loginUser = (email, password, socket) => async dispatch => {
     if (!loggedInUser.success) {
       throw new Error(loggedInUser.apiError.message);
     }
-    console.log(loggedInUser);
     dispatch(setUser(loggedInUser, socket));
     dispatch(endRequest(null));
   } catch (error) {
@@ -106,13 +104,14 @@ const setUser = (loggedInUser, socket) => async dispatch => {
   dispatch(endRequest(null));
 };
 
-export const logoutUser = () => dispatch => {
-  const response = fetch("/sessions", {
+export const logoutUser = () => async dispatch => {
+  let response = await fetch("/sessions", {
     method: "DELETE",
     credentials: "include"
   });
+  response = await response.json();
   if (!response.success) {
-    throw new Error("Something went wrong");
+    throw new Error(response.apiData.message);
   }
   dispatch(user.setUser({}));
 };

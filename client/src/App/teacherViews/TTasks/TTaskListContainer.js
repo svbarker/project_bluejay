@@ -19,12 +19,8 @@ class TaskListContainer extends React.Component {
     super(props);
     this.state = {
       open: false,
-      loaded: false
+      loaded: true
     };
-    //hotfix
-    if (props.students.length) {
-      this.state.loaded = true;
-    }
   }
 
   componentDidMount() {

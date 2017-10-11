@@ -52,8 +52,14 @@
   justify-items: center;
   grid-template-rows: 1.5/3 1.5/3;
 }
-.dashboard-menu-grid:hover {
-  background-color: #efefef;
+.db1:hover {
+  background-color: rgba(220, 43, 43, 0.2);
+}
+.db2:hover {
+  background-color: rgba(26, 132, 132, 0.3);
+}
+.db3:hover {
+  background-color: rgba(150, 205, 40, 0.3);
 }
 #dashboard-item-higher {
   grid-row-start: 1;
@@ -74,9 +80,6 @@
 #dashboard-menu-item1 i {
   color: #dc2b2b; /*dont think this taking affect*/
 }
-#dashboard-menu-item1:hover {
-  background: "#";
-}
 #dashboard-menu-item2 {
   grid-column-start: 2;
   grid-column-end: 3;
@@ -88,9 +91,6 @@
 #dashboard-menu-item2 i {
   color: #1a8484; /*dont think this taking affect*/
 }
-#dashboard-menu-item2:hover {
-  background: "#";
-}
 #dashboard-menu-item3 {
   grid-column-start: 3;
   grid-column-end: 3;
@@ -101,7 +101,4 @@
 }
 #dashboard-menu-item3 i {
   color: #96cd28; /*dont think this taking affect*/
-}
-#dashboard-menu-item3:hover {
-  background: "#";
 }
