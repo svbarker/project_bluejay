@@ -186,10 +186,9 @@ UserSchema.methods.addNotifications = async function(notifications) {
 			!notifications.cleanForLog ||
 			typeof notifications.cleanForLog !== "function"
 		)
-			console.log("BLEH: ", notifications);
-		await this.update({
-			notifications: [...this.notifications, notifications.cleanForLog()]
-		});
+			await this.update({
+				notifications: [...this.notifications, notifications.cleanForLog()]
+			});
 	}
 	return notifications;
 };

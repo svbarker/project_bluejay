@@ -43,7 +43,6 @@ class TeacherRewardList extends React.Component {
   }
 
   onCreateReward = async rewardInput => {
-    console.log("running onCreate");
     this.props.createReward(this.props.user.id, rewardInput);
   };
   //change the availability of a reward

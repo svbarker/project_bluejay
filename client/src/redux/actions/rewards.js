@@ -72,7 +72,6 @@ export const redeemReward = (studentId, rewardId) => async dispatch => {
 //create a new kind of reward
 export const createReward = (teacherId, reward) => async dispatch => {
 	// dispatch(startRequest());
-	console.log("REWARD: ", reward);
 	const newReward = {
 		kind: reward.kind || "loot",
 		cost: reward.cost,
@@ -176,10 +175,8 @@ export const deleteReward = id => async dispatch => {
 		},
 		body: null
 	});
-	//TODO: SHOULD THESE USE THE response success flag?
-	// console.log("response = ", response);
+	//TODO: SHOULD THESE USE THE response success flag?;
 	const data = await response.json();
-	// console.log("data = ", data);
 	if (!data.success) {
 		console.error(data);
 		dispatch(endRequest(data));

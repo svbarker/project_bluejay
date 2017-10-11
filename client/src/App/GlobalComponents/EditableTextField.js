@@ -18,7 +18,6 @@ class Editable extends React.Component {
     };
   }
   onClick = e => {
-    // console.log("you clicked me!");
     this.setState({ editMode: true });
   };
   //clicking away allows for resetting

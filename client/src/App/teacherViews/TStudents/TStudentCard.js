@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 // import store from "../../../store";
 
 const assign = (teacherId, studentId, assignableId, type) => {
-	console.log("Type: ", type);
 	if (type === "tasks") {
 		return assignTask(teacherId, studentId, assignableId)();
 	} else if (type === "rewards") {
@@ -56,9 +55,7 @@ class StudentCard extends Component {
 				>
 					<div className={`student-card ${highlighted}`}>
 						<i className="fa fa-user-circle-o" aria-hidden="true" />
-						<h4>
-							{this.props.student.profile.displayName}
-						</h4>
+						<h4>{this.props.student.profile.displayName}</h4>
 					</div>
 				</Paper>
 			</div>

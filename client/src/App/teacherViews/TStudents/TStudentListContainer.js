@@ -4,7 +4,6 @@ import { createClassroom } from "../../../redux/actions/classrooms";
 import StudentList from "./TStudentList";
 
 const mapStateToProps = state => {
-  console.log("Student List state: ", state);
   return {
     teacherId: state.user.id,
     students: state.students,
