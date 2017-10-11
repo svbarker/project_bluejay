@@ -90,8 +90,9 @@ export const unAssignTask = (task, studentId) => async dispatch => {
       credentials: "include"
     });
     let data = await response.json();
+    console.log("Data is coming back as: ", data);
     if (!data.success) {
-      throw new Error(response.apiError.message);
+      throw new Error(data.apiError.message);
     }
     //update the student and the task
     await dispatch(unassignTask(studentId, task._id));
