@@ -28,31 +28,77 @@ class SRewardsWallet extends React.Component {
     this.props.fetchRewards(this.props.userId, "Student");
   };
   render = () => {
-    let pendingRewards;
+    let rewards = [];
+    let pendingRewards = [];
+    let redeemedRewards = [];
     if (this.props.rewards.length) {
-      pendingRewards = this.props.rewards.map(reward => (
-        <ListItem style={ListItemStyle} hoverColor="#1a8484" key={reward._id}>
-          <NavLink to="/rewards">
-            <Chip>{reward.title}</Chip>
-          </NavLink>
-          <Chip
-            onClick={this.props.redeemReward(this.props.userId, reward._id)}
-          >
-            Redeem
-          </Chip>
-        </ListItem>
-      ));
+      this.props.rewards.forEach(reward => {
+        if (reward.status === "Unredeemed") {
+          rewards.push(
+            <ListItem
+              style={ListItemStyle}
+              hoverColor="#1a8484"
+              key={reward._id}
+            >
+              <NavLink to="/rewards">
+                <Chip>{reward.title}</Chip>
+              </NavLink>
+              <Chip
+                onClick={this.props.redeemReward(this.props.userId, reward._id)}
+              >
+                Redeem
+              </Chip>
+            </ListItem>
+          );
+        }
+        if (reward.status === "Pending") {
+          pendingRewards.push(
+            <ListItem
+              style={ListItemStyle}
+              hoverColor="#1a8484"
+              key={reward._id}
+            >
+              <NavLink to="/rewards">
+                <Chip>{reward.title}</Chip>
+              </NavLink>
+            </ListItem>
+          );
+        }
+        if (reward.status === "Redeemed") {
+          redeemedRewards.push(
+            <ListItem
+              style={ListItemStyle}
+              hoverColor="#1a8484"
+              key={reward._id}
+            >
+              <NavLink to="/rewards">
+                <Chip>{reward.title}</Chip>
+              </NavLink>
+            </ListItem>
+          );
+        }
+      });
     } else {
-      pendingRewards = <h3>You have no rewards.</h3>;
+      let rewards = <h3>You have no rewards.</h3>;
     }
 
     return (
       <Paper style={{ backgroundColor: "#97cb39" }}>
         <Paper style={headingStyle}>
-          <h1>Rewards</h1>
+          <h1>Your Rewards</h1>
+        </Paper>
+        <Divider inset={true} />
+        <List>{rewards}</List>
+        <Paper style={headingStyle}>
+          <h1>Pending Rewards</h1>
         </Paper>
         <Divider inset={true} />
         <List>{pendingRewards}</List>
+        <Paper style={headingStyle}>
+          <h1>Redeemed Rewards</h1>
+        </Paper>
+        <Divider inset={true} />
+        <List>{redeemedRewards}</List>
       </Paper>
     );
   };
