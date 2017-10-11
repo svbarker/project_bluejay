@@ -1,2 +1,2 @@
-import TRewards from "./TRewards";
-export default TRewards;
+import TRewardList from "./TRewardList";
+export default TRewardList;

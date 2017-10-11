@@ -294,7 +294,7 @@ router.patch("/:te_id/students/:st_id/confirmTask/:t_id", async (req, res) => {
   }
 });
 
-// Confirming completion of a student's reward (t_id must be instanceof Reward)
+// Confirming redemption of a student's reward (t_id must be instanceof Reward)
 router.patch(
   "/:te_id/students/:st_id/confirmReward/:t_id",
   async (req, res) => {
@@ -403,51 +403,54 @@ router.patch("/:te_id/students/:st_id/rejectTask/:t_id", async (req, res) => {
 
 // Rejecting reception of a student's reward (t_id must be instanceof Reward)
 router.patch("/:te_id/students/:st_id/rejectReward/:t_id", async (req, res) => {
-  // try {
-  //   const teacher = await getResource(
-  //     req.params.te_id,
-  //     Teacher.findById.bind(Teacher)
-  //   );
-  //
-  //   const student = await teacher.getStudent(req.params.st_id);
-  //   if (!student) {
-  //     throw new Error(`That teacher doesn't have a student with that id`);
-  //   }
-  //
-  //   const task = student.getTask(req.params.t_id);
-  //   if (!task) {
-  //     throw new Error(`That student doesn't have a task with that id`);
-  //   }
-  //
-  //   // Create rejected task.
-  //   const rejectedTask = new RejectedTask(task.toNewObject());
-  //   await rejectedTask.save();
-  //   student.removeTask(task);
-  //   await task.remove();
-  //   student.addTask(rejectedTask);
-  //   task.removeStudent(teacher.getTaskByTitle(rejectedTask));
-  //
-  //   // Create log events.
-  //   logEvent(TaskEvent, {
-  //     message: Messages.TEMPLATE_TASK_REJECT_COMPLETION,
-  //     owner: req.user,
-  //     user: student,
-  //     task
-  //   });
-  //
-  //   logEvent(MessageEvent, {
-  //     body: Messages.TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG,
-  //     message: Messages.TEMPLATE_SEND_MESSAGE,
-  //     owner: req.user,
-  //     user: student,
-  //     task
-  //   });
-  //
-  //   res.json(createResponse(rejectedTask));
-  // } catch (error) {
-  //   logError(error);
-  //   res.json(createResponse(error));
-  // }
+  try {
+    const teacher = await getResource(
+      req.params.te_id,
+      Teacher.findById.bind(Teacher)
+    );
+
+    const user = await teacher.getStudent(req.params.st_id);
+    if (!user) {
+      throw new Error(`That teacher doesn't have a student with that id`);
+    }
+
+    const reward = user.getReward(req.params.t_id);
+    if (!reward) {
+      throw new Error(`That student doesn't have a reward with that id`);
+    }
+
+    if (!(reward.status === "Pending")) {
+      throw new Error(`You can only confirm rewards that are pending`);
+    }
+
+    // Update reward status
+    reward.status = "Redeemed";
+    await reward.save();
+
+    // Create log events.
+    logEvent(RewardEvent, {
+      message: Messages.TEMPLATE_REWARD_REDEEM,
+      owner: req.user,
+      user,
+      reward
+    });
+
+    const event = await logEvent(MessageEvent, {
+      body: Messages.TEMPLATE_STUDENT_REWARD_REDEEM_MSG,
+      message: Messages.TEMPLATE_SEND_MESSAGE,
+      owner: req.user,
+      user,
+      reward
+    });
+    await user.addNotifications(event);
+
+    refreshNotsClientSide(req, user);
+
+    res.json(createResponse(reward));
+  } catch (error) {
+    logError(error);
+    res.json(createResponse(error));
+  }
 });
 
 // Distributing a reward to a student

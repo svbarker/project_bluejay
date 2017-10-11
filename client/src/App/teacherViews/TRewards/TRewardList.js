@@ -13,6 +13,7 @@ import { List, ListItem } from "material-ui/List";
 import Paper from "material-ui/Paper";
 import RaisedButton from "material-ui/RaisedButton";
 import "../../Styles/RewardList.css";
+import TRewardCard from "./TRewardCard";
 
 //actions
 import {
@@ -23,7 +24,7 @@ import {
 } from "../../../redux/actions/rewards";
 import { loginTeacher, loginStudent } from "../../../redux/actions/index";
 
-class TeacherRewards extends React.Component {
+class TeacherRewardList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -63,86 +64,32 @@ class TeacherRewards extends React.Component {
 		//TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
 		//THE REWARDS CARDS ////
 		const rewards = this.props.rewards.map(reward => {
-			return (
-				<Card
-					key={reward._id}
-					className="reward-container"
-					style={{
-						backgroundColor: "#D8F996"
-					}}
-				>
-					<CardHeader
-						title={reward.title}
-						titleStyle={{ fontWeight: "bold" }}
-						subtitle={`costs ${reward.cost || reward.value || "None"}`}
-						className="reward-card-header"
-						actAsExpander={true}
-						showExpandableButton={true}
-					/>
-					<CardText
-						className="reward-item"
-						style={{ hoverColor: "none" }}
-						expandable={true}
-					>
-						<Paper style={{ padding: "20px" }}>
-							<Editable
-								onSubmit={text => {
-									this.onEditReward(text, reward._id, "description");
-								}}
-								text={reward.description || "None"}
-								label={"description"}
-								multiLine={true}
-								fullWidth={true}
-							>
-								<p>
-									Description: {reward.description || "None"}
-								</p>
-							</Editable>
-							<p>
-								Kind of reward: {reward.cost ? "Loot" : "Point"}
-							</p>
-							<Editable
-								onSubmit={text => {
-									this.onEditReward(text, reward._id, "cost");
-								}}
-								text={reward.cost || "None"}
-								label={"Cost"}
-							>
-								<p>
-									Cost: {reward.cost || reward.value || "None"}
-								</p>
-							</Editable>
-
-							<p>
-								Available: {reward.available ? "YES" : "NO"}
-							</p>
-							<p>
-								Supply: {reward.supply || "Unlimited"}
-							</p>
-							<Undoable resolve={() => this.props.removeReward(reward._id)}>
-								<RaisedButton label="delete" />
-							</Undoable>
-							<RaisedButton
-								onClick={() => this.onToggleAvailability(reward)}
-								label={reward.available ? "Make Unavailable" : "Make Available"}
-							/>
-						</Paper>
-					</CardText>
-				</Card>
-			);
+			return <TRewardCard reward={reward} />;
 		});
 		return (
-			<Paper className="reward-container outer" style={{ padding: "20px" }}>
-				{/* header */}
-				<div className="reward-card-title">
-					<h2>
-						{this.props.user.displayName}'s Rewards
-					</h2>
-					<CreateRewardModal onSubmit={this.onCreateReward} />
-				</div>
-				{/* Rewards List */}
-				{rewards}
-			</Paper>
+			<div className="reward-container-outer">
+				<h1>Your Rewards</h1>
+				<Paper
+					className="dashboard-menu"
+					style={{
+						padding: "4px",
+						borderRadius: "20px"
+					}}
+					zDepth={5}
+					rounded={true}
+				>
+					<div
+						className="reward-container"
+						style={{
+							border: "5px dashed #ccc",
+							borderRadius: "20px"
+						}}
+					>
+						{/* Rewards List */}
+						{rewards}
+					</div>
+				</Paper>
+			</div>
 		);
 	};
 }
@@ -171,4 +118,4 @@ const mapDispatchToProps = dispatch => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TeacherRewards);
+export default connect(mapStateToProps, mapDispatchToProps)(TeacherRewardList);

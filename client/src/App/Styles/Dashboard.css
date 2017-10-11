@@ -5,6 +5,7 @@
 	background-color: #85dcdc;
 	/*background-image: url('https://triumphmodular.com/wp-content/uploads/2015/05/project-newton-oakhill-interior.jpg');*/
 	background-size: cover;
+	margin-bottom: 5em;
 }
 .dashboard-container h1 {
 	color: #085a5a !important;
@@ -26,6 +27,13 @@
 	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
+	width: 99.4%;
+	height: 300px;
+}
+.student-dashboard-menu-inner {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 	width: 99.4%;
 	height: 300px;
 }

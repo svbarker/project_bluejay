@@ -10,25 +10,42 @@ const StudentDashboardMenu = () => {
 	return (
 		<div className="dashboard-container">
 			<h1>Student Dashboard</h1>
-			<Paper id="student-dashboard" className="student-dashboard-menu">
-				<Link to="/tasks">
-					<Paper id="dashboard-menu-item2" className="dashboard-menu-item">
-						<div className="dashboard-menu-grid">
-							<h3 style={{ color: "#1a8484" }} id="dashboard-item-higher">
-								Tasks
-							</h3>
-							<i className="fa fa-tasks fa-5x" />
-						</div>
-					</Paper>
-				</Link>
-				<Link to="/rewards">
-					<Paper id="dashboard-menu-item3" className="dashboard-menu-item">
-						<div className="dashboard-menu-grid">
-							<h3 style={{ color: "#96cd28" }}>Rewards</h3>
-							<i className="fa fa-gift fa-5x" />
-						</div>
-					</Paper>
-				</Link>
+			<Paper
+				id="student-dashboard"
+				className="dashboard-menu"
+				style={{
+					padding: "4px",
+					borderRadius: "20px"
+				}}
+				zDepth={5}
+				rounded={true}
+			>
+				<div
+					className="student-dashboard-menu-inner"
+					style={{
+						border: "5px dashed #ccc",
+						borderRadius: "20px"
+					}}
+				>
+					<Link to="/tasks">
+						<Paper id="dashboard-menu-item2" className="dashboard-menu-item">
+							<div className="dashboard-menu-grid">
+								<h3 style={{ color: "#1a8484" }} id="dashboard-item-higher">
+									Tasks
+								</h3>
+								<i className="fa fa-tasks fa-5x" />
+							</div>
+						</Paper>
+					</Link>
+					<Link to="/rewards">
+						<Paper id="dashboard-menu-item3" className="dashboard-menu-item">
+							<div className="dashboard-menu-grid">
+								<h3 style={{ color: "#96cd28" }}>Rewards</h3>
+								<i className="fa fa-gift fa-5x" />
+							</div>
+						</Paper>
+					</Link>
+				</div>
 			</Paper>
 		</div>
 	);
