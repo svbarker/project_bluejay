@@ -66,7 +66,9 @@ const getClearNotificationButton = (n, handler) => (
 );
 
 const getHoverColor = n =>
-  n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205, 40,.3)";
+  n.reward && n.reward.kind === "PointReward"
+    ? "rgba(224,215,21,.3)"
+    : n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205, 40,.3)";
 
 const getMainText = n =>
   n.reward && n.reward.kind === "PointReward"
