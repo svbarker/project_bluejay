@@ -53,3 +53,32 @@ export const addStudentToClassroom = (id, studentData) => async dispatch => {
 		console.log(error);
 	}
 };
+
+export const createClassroom = (id, title) => async dispatch => {
+	try {
+		const params = {
+			title,
+			description: "A class.",
+			teachers: [id],
+			students: []
+		};
+		const response = await fetch("/api/classrooms", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(params)
+		});
+
+		const classroom = await response.json();
+
+		if (!classroom.success) {
+			throw new Error(classroom.apiError.message);
+		}
+
+		dispatch(addClassroom(classroom.apiData));
+	} catch (error) {
+		console.log(error);
+	}
+};

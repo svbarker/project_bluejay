@@ -18,7 +18,7 @@ const classrooms = (state = classroomInitState, action) => {
     //     isFetching: true
     //   };
     case ADD_CLASSROOM:
-      return [...state.classrooms, action.data];
+      return [...state, action.data];
     case UPDATE_CLASSROOM:
       return state.classrooms.map(classroom => {
         return action.data.id === classroom.id

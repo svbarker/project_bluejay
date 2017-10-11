@@ -18,18 +18,19 @@ router.post("/", async (req, res) => {
 		}
 		const classroom = new Classroom({ title, description, students, teachers });
 		let promises = [];
-		teachers.forEach(teacher => {
-			teacher = User.findById(teacher);
+		teachers.forEach(async teacher => {
+			teacher = await User.findById(teacher);
 			teacher.classrooms.push(classroom);
 			promises.push(teacher.save());
 		});
+
 		students.forEach(student => {
 			student = User.findById(student);
 			student.classrooms.push(classroom);
 			promises.push(student.save());
 		});
-		promises.push(classroom.save());
 
+		promises.push(classroom.save());
 		// Create log event.
 		logEvent(
 			ClassroomEvent,

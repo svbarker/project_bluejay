@@ -16,14 +16,15 @@ class AddStudentContainer extends Component {
 
 	handleSubmit = async e => {
 		e.preventDefault();
+		console.log("Event object: ", e.target);
 
 		const fname = e.target.fname.value;
 		const lname = e.target.lname.value;
 		const email = e.target.email.value;
 
-		await this.fnameValidate(fname);
-		await this.lnameValidate(lname);
-		await this.emailValidate(email);
+		this.fnameValidate(fname);
+		this.lnameValidate(lname);
+		this.emailValidate(email);
 
 		if (
 			!this.state.fnameError &&
@@ -31,9 +32,9 @@ class AddStudentContainer extends Component {
 			!this.state.emailError
 		) {
 			const studentData = {
-				fname: e.target.fname.value,
-				lname: e.target.lname.value,
-				email: e.target.email.value
+				fname: fname,
+				lname: lname,
+				email: email
 			};
 
 			await this.props.addStudentToClassroom(this.props.classId, studentData);
