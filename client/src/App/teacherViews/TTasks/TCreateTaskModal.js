@@ -74,7 +74,11 @@ class CreateTaskModal extends Component {
 									id="title"
 								>
 									{this.props.rewards.map(reward => (
-										<MenuItem value={reward} primaryText={reward.title} />
+										<MenuItem
+											key={reward._id}
+											value={reward}
+											primaryText={reward.title}
+										/>
 									))}
 								</SelectField>
 								<FloatingActionButton

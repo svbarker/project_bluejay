@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Paper from "material-ui/Paper";
 import STaskListMenuCard from "./STaskListMenuCard";
 import "../../Styles/TaskList.css";
+import RaisedButton from "material-ui/RaisedButton";
 
 const TaskList = props => {
   const assignedTasks = props.tasks.filter(
@@ -16,10 +17,13 @@ const TaskList = props => {
   const paperStyle = {
     backgroundColor: "#eeeeee"
   };
-  return (
-    <div>
-      <div className="task-container-outer">
-        <h1>Your Tasks</h1>
+
+  let page;
+  let navigateTo = props.navigateTo;
+
+  switch (props.selected) {
+    case "Assigned":
+      page = (
         <Paper
           className="dashboard-menu"
           style={{
@@ -38,7 +42,7 @@ const TaskList = props => {
           >
             <h2>Assigned Tasks</h2>
             {!assignedTasks.length ? (
-              <p>No Assigned Tasks</p>
+              <p>None</p>
             ) : (
               assignedTasks.map(task => (
                 <STaskListMenuCard
@@ -52,8 +56,10 @@ const TaskList = props => {
             )}
           </div>
         </Paper>
-      </div>
-      <div className="task-container-outer">
+      );
+      break;
+    case "Completed":
+      page = (
         <Paper
           className="dashboard-menu"
           style={{
@@ -72,7 +78,7 @@ const TaskList = props => {
           >
             <h2>Completed Tasks</h2>
             {!completedTasks.length ? (
-              <p>No Completed Tasks...Go GET BUSY!</p>
+              <p>None</p>
             ) : (
               completedTasks.map(task => (
                 <div key={task._id}>
@@ -88,8 +94,10 @@ const TaskList = props => {
             )}
           </div>
         </Paper>
-      </div>
-      <div className="task-container-outer">
+      );
+      break;
+    case "Rejected":
+      page = (
         <Paper
           className="dashboard-menu"
           style={{
@@ -108,7 +116,7 @@ const TaskList = props => {
           >
             <h2>Rejected Tasks</h2>
             {!rejectedTasks.length ? (
-              <p>No Rejected Tasks</p>
+              <p>None</p>
             ) : (
               rejectedTasks.map(task => (
                 <div key={task._id}>
@@ -124,7 +132,43 @@ const TaskList = props => {
             )}
           </div>
         </Paper>
+      );
+      break;
+  }
+
+  return (
+    <div className="task-container-outer">
+      <h1>{`${props.name}'s Tasks`}</h1>
+      <div
+        style={{
+          display: "flex",
+          flexFlow: "row nowrap",
+          justifyContent: "center"
+        }}
+      >
+        <RaisedButton
+          onClick={navigateTo("Assigned")}
+          backgroundColor={"rgba( 26,132,132,1)"}
+          style={{ margin: "20px 20px" }}
+          labelColor={"white"}
+          label={"Assigned"}
+        />
+        <RaisedButton
+          onClick={navigateTo("Completed")}
+          backgroundColor={"rgba(150,205, 40,1)"}
+          style={{ margin: "20px 20px" }}
+          labelColor={"white"}
+          label={"Completed"}
+        />
+        <RaisedButton
+          onClick={navigateTo("Rejected")}
+          backgroundColor={"rgba(150,13,13,1)"}
+          style={{ margin: "20px 20px" }}
+          labelColor={"white"}
+          label={"Rejected"}
+        />
       </div>
+      {page}
     </div>
   );
 };

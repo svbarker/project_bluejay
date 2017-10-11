@@ -31,7 +31,6 @@ class StudentList extends Component {
 
   componentWillReceiveProps(newProps) {
     if (!this.props.classrooms.length && newProps.classrooms.length) {
-      console.log("hit the thing");
       this.props.loadStudents(newProps.classrooms[0]._id);
       this.setState({
         currentClass: newProps.classrooms[0]

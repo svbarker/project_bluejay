@@ -189,7 +189,7 @@ router.patch("/:id/unassign/:s_id", async (req, res) => {
 			message: Messages.TEMPLATE_SEND_MESSAGE,
 			owner: req.user,
 			user: student,
-			task: assignedTask
+			task: task
 		});
 
 		refreshNotsClientSide(req, student);

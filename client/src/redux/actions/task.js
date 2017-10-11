@@ -49,7 +49,6 @@ const bulkUnassignStudents = taskId => {
 };
 
 export const hydrateTeacherTasks = userId => async dispatch => {
-  console.log("attempting to hydrate teacher tasks ");
   try {
     let response = await fetch(`api/teachers/${userId}/tasks`, {
       method: "GET",
@@ -91,7 +90,7 @@ export const unAssignTask = (task, studentId) => async dispatch => {
     });
     let data = await response.json();
     if (!data.success) {
-      throw new Error(response.apiError.message);
+      throw new Error(data.apiError.message);
     }
     //update the student and the task
     await dispatch(unassignTask(studentId, task._id));
@@ -121,7 +120,6 @@ export const bulkUnassignTask = (task, studentIds) => async dispatch => {
       // dispatch(endRequest(null));
     } else {
       console.error("problems in Bulk Unassign");
-      console.log("serverResponse = ", serverResponse);
       dispatch(endRequest(serverResponse.apiError));
     }
   } catch (error) {
@@ -229,7 +227,6 @@ export const createTask = params => async dispatch => {
     });
 
     response = await response.json();
-    console.log(response);
 
     if (!response.success) {
       throw new Error(response.apiError.message);

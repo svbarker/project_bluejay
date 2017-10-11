@@ -16,7 +16,6 @@ class AddStudentContainer extends Component {
 
 	handleSubmit = async e => {
 		e.preventDefault();
-		console.log("Event object: ", e.target);
 
 		const fname = e.target.fname.value;
 		const lname = e.target.lname.value;

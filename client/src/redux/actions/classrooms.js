@@ -40,8 +40,6 @@ export const addStudentToClassroom = (id, studentData) => async dispatch => {
 			body: JSON.stringify(studentData)
 		});
 
-		console.log(response);
-
 		const classroom = await response.json();
 
 		if (!classroom.success) {
