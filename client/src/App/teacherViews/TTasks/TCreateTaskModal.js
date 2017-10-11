@@ -4,10 +4,15 @@ import { createTask } from "../../../redux/actions/task";
 import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
+import FloatingActionButton from "material-ui/FloatingActionButton";
+import ContentAdd from "material-ui/svg-icons/content/add";
 
 class CreateTaskModal extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			rewards: []
+		};
 	}
 
 	handleCreateTask = async e => {
@@ -16,11 +21,15 @@ class CreateTaskModal extends Component {
 			title: e.target.title.value,
 			description: e.target.description.value,
 			teacher: this.props.teacherId,
-			rewards: [],
+			rewards: this.state.rewards,
 			classroom: []
 		};
 		await this.props.createTask(params);
 		this.props.handleClose();
+	};
+
+	addReward = () => {
+		//do stuff here
 	};
 
 	render() {
@@ -43,7 +52,20 @@ class CreateTaskModal extends Component {
 					<div>
 						<h3>Rewards</h3>
 						<div>
-							<span>Things will go here</span>
+							{!this.state.rewards.length ? null : (
+								this.state.rewards.map(reward => {
+									reward.title;
+								})
+							)}
+							<div>
+								<FloatingActionButton
+									mini={true}
+									backgroundColor="#96CD28"
+									onClick={this.addReward}
+								>
+									<ContentAdd />
+								</FloatingActionButton>
+							</div>
 						</div>
 						<RaisedButton type="submit" label="Create" />
 						<RaisedButton label="Cancel" onClick={this.props.handleClose} />

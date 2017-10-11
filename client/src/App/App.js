@@ -52,23 +52,23 @@ class App extends Component {
 	}
 
 	render() {
-		const errorDisplay = this.props.status.error
-			? <div
-					style={{
-						position: "absolute",
-						top: "150px",
-						width: "100%",
-						textAlign: "center",
-						height: "200px",
-						background: "red",
-						zIndex: "10000",
-						fontSize: "30px",
-						padding: "70px"
-					}}
-				>
-					{this.props.status.error.message}
-				</div>
-			: null;
+		const errorDisplay = this.props.status.error ? (
+			<div
+				style={{
+					position: "absolute",
+					top: "150px",
+					width: "100%",
+					textAlign: "center",
+					height: "200px",
+					background: "red",
+					zIndex: "10000",
+					fontSize: "30px",
+					padding: "70px"
+				}}
+			>
+				{this.props.status.error.message}
+			</div>
+		) : null;
 		if (this.state.firstLocation !== null && this.props.user.kind) {
 			return (
 				<Router>
@@ -120,8 +120,9 @@ class App extends Component {
 								<Route exact path="/" component={SDashboard} />
 								<Route
 									path="/tasks"
-									component={() =>
-										<STasks user={this.props.user} socket={this.socket} />}
+									component={() => (
+										<STasks user={this.props.user} socket={this.socket} />
+									)}
 								/>
 								<Route
 									path="/rewards"
@@ -129,8 +130,9 @@ class App extends Component {
 								/>
 								<Route
 									path="/rewardsWallet"
-									component={() =>
-										<SRewardsWallet userId={this.props.user.id} />}
+									component={() => (
+										<SRewardsWallet userId={this.props.user.id} />
+									)}
 								/>
 								<Route path="/notifications" component={SNotifications} />
 								<Redirect from="/" to="/" />
@@ -148,11 +150,12 @@ class App extends Component {
 						<Switch>
 							<Route
 								path="/login"
-								component={() =>
+								component={() => (
 									<LoginContainer
 										socket={this.socket}
 										firstLocation={this.state.firstLocation}
-									/>}
+									/>
+								)}
 							/>
 							<Route
 								path="/register"

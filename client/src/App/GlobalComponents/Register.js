@@ -23,26 +23,29 @@ const Register = ({
 		<div className="registration-container">
 			<Paper style={{ padding: "20px" }}>
 				<h2>Register your teacher account</h2>
-				{!submitError
-					? null
-					: <span>A user with that email already exists.</span>}
+				{!submitError ? null : (
+					<span>A user with that email already exists.</span>
+				)}
 				<form className="registration-form-container" onSubmit={handleSubmit}>
 					<div>
 						<fieldset>
 							<legend>Personal Information</legend>
 							<TextField
+								tabIndex="1"
 								floatingLabelText="First Name"
 								errorText={fnameError}
 								id="fname"
 								onBlur={validate}
 							/>
 							<TextField
+								tabIndex="2"
 								floatingLabelText="Last Name"
 								errorText={lnameError}
 								id="lname"
 								onBlur={validate}
 							/>
 							<SelectField
+								tabIndex="3"
 								floatingLabelText="Title"
 								onChange={handleSelectChange}
 								value={selectValue}
@@ -54,6 +57,7 @@ const Register = ({
 								<MenuItem value={"Ms."} primaryText="Ms." />
 							</SelectField>
 							<TextField
+								tabIndex="4"
 								type="email"
 								floatingLabelText="Email"
 								errorText={emailError}
@@ -69,6 +73,7 @@ const Register = ({
 						<fieldset>
 							<legend>Account Credentials</legend>
 							<TextField
+								tabIndex="5"
 								type="password"
 								floatingLabelText="Password"
 								errorText={passwordError}
@@ -77,6 +82,7 @@ const Register = ({
 								onBlur={validate}
 							/>
 							<TextField
+								tabIndex="6"
 								type="password"
 								floatingLabelText="Confirm Password"
 								errorText={passwordConfirmError}
@@ -84,7 +90,7 @@ const Register = ({
 								onBlur={validate}
 							/>
 						</fieldset>
-						<RaisedButton label="Create Account" type="submit" />
+						<RaisedButton tabIndex="7" label="Create Account" type="submit" />
 					</div>
 				</form>
 			</Paper>

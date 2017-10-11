@@ -19,9 +19,11 @@ class StudentList extends Component {
     };
   }
 
-  async componentDidMount() {
-    await this.setState({ currentClass: this.props.classrooms[0] });
-    await this.props.loadStudents(this.state.currentClass._id);
+  componentDidMount() {
+    if (this.props.classrooms.length) {
+      this.setState({ currentClass: this.props.classrooms[0] });
+      this.props.loadStudents(this.props.classrooms[0]._id);
+    }
   }
 
   handleChange = async (event, index, value) => {
@@ -47,45 +49,53 @@ class StudentList extends Component {
       <div className="students-container">
         <Paper style={{ padding: "4px", borderRadius: "22px" }}>
           <div className="students-container-inner">
-            <SelectField
-              labelStyle={{ fontFamily: "Bree Serif" }}
-              menuItemStyle={{ fontFamily: "Bree Serif" }}
-              floatingLabelText="Current Class"
-              value={this.state.classIndex}
-              onChange={this.handleChange}
-            >
-              {this.props.classrooms.map((classroom, i) => (
-                <MenuItem
-                  key={classroom._id}
-                  value={i}
-                  primaryText={classroom.title}
-                />
-              ))}
-            </SelectField>
-            <ClassAssign
-              currentClass={this.state.currentClass}
-              teacherId={this.props.teacherId}
-              students={this.props.students}
-            />
-            <div className="student-card-container">
-              {!this.props.students ? null : (
-                this.props.students.map(student => (
-                  <StudentCard
-                    key={student._id}
-                    student={student}
-                    teacherId={this.props.teacherId}
+            {!this.props.classrooms.length ? (
+              <span>You have no classes! Add one to get started!</span>
+            ) : (
+              <SelectField
+                labelStyle={{ fontFamily: "Bree Serif" }}
+                menuItemStyle={{ fontFamily: "Bree Serif" }}
+                floatingLabelText="Current Class"
+                value={this.state.classIndex}
+                onChange={this.handleChange}
+              >
+                {this.props.classrooms.map((classroom, i) => (
+                  <MenuItem
+                    key={classroom._id}
+                    value={i}
+                    primaryText={classroom.title}
                   />
-                ))
-              )}
-              <div className="add-student">
-                <FloatingActionButton
-                  backgroundColor="#960d0d"
-                  onClick={this.handleOpen}
-                >
-                  <ContentAdd />
-                </FloatingActionButton>
+                ))}
+              </SelectField>
+            )}
+            {!this.state.currentClass ? null : (
+              <div>
+                <ClassAssign
+                  currentClass={this.state.currentClass}
+                  teacherId={this.props.teacherId}
+                  students={this.props.students}
+                />
+                <div className="student-card-container">
+                  {!this.props.students ? null : (
+                    this.props.students.map(student => (
+                      <StudentCard
+                        key={student._id}
+                        student={student}
+                        teacherId={this.props.teacherId}
+                      />
+                    ))
+                  )}
+                  <div className="add-student">
+                    <FloatingActionButton
+                      backgroundColor="#960d0d"
+                      onClick={this.handleOpen}
+                    >
+                      <ContentAdd />
+                    </FloatingActionButton>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
             {!this.state.currentClass ? null : (
               <AddStudentContainer
                 classId={this.state.currentClass._id}
