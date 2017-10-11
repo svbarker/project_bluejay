@@ -1,112 +1,134 @@
+//TODO: SPLIT THIS UP INTO ONE CONTAINER AND TWO COMPONENTS
+
 import React from "react";
 import { connect } from "react-redux";
-import { NavLink } from "react-router-dom";
-import Paper from "material-ui/Paper";
-import Avatar from "material-ui/Avatar";
+
+//components
+import { Card, CardHeader, CardText } from "material-ui/Card";
 import { List, ListItem } from "material-ui/List";
-import Divider from "material-ui/Divider";
-import Chip from "material-ui/Chip";
+import Undoable from "../../GlobalComponents/Undoable";
+import LoadScreen from "../../GlobalComponents/LoadScreen";
+import Paper from "material-ui/Paper";
+import FlatButton from "material-ui/FlatButton";
+import "../../Styles/RewardList.css";
+import SRewardsWalletCard from "./SRewardsWalletCard";
 
 //actions
 import { getAllRewards, redeemReward } from "../../../redux/actions/rewards";
+import { loginTeacher, loginStudent } from "../../../redux/actions/index";
 
-const headingStyle = {
-  color: "white",
-  backgroundColor: "#97cb39",
-  padding: "20px"
-};
-
-const ListItemStyle = {
-  padding: "10px"
-};
-
-class SRewardsWallet extends React.Component {
+class StudentRewardWallet extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      fetchingRewards: false,
+      loading: true
+    };
   }
-  componentDidMount = () => {
-    this.props.fetchRewards(this.props.userId, "Student");
-  };
+
+  async componentDidMount() {
+    //grab all the rewards
+    await this.props.fetchRewards(this.props.userId, "Student");
+    this.setState({
+      fetchingRewards: false,
+      loading: false
+    });
+  }
+
   render = () => {
-    let rewards = [];
-    let pendingRewards = [];
-    let redeemedRewards = [];
-    if (this.props.rewards.length) {
-      this.props.rewards.forEach(reward => {
-        if (reward.status === "Unredeemed") {
-          rewards.push(
-            <ListItem
-              style={ListItemStyle}
-              hoverColor="#1a8484"
-              key={reward._id}
-            >
-              <NavLink to="/rewards">
-                <Chip>
-                  {reward.title}
-                  <br />
-                  {reward.rejectedCount ? (
-                    <h6
-                    >{`This reward has been rejected ${reward.rejectedCount} times`}</h6>
-                  ) : null}
-                </Chip>
-              </NavLink>
-              <Chip
-                onClick={this.props.redeemReward(this.props.userId, reward._id)}
-              >
-                Redeem
-              </Chip>
-            </ListItem>
-          );
-        }
-        if (reward.status === "Pending") {
-          pendingRewards.push(
-            <ListItem
-              style={ListItemStyle}
-              hoverColor="#1a8484"
-              key={reward._id}
-            >
-              <NavLink to="/rewards">
-                <Chip>{reward.title}</Chip>
-              </NavLink>
-            </ListItem>
-          );
-        }
-        if (reward.status === "Redeemed") {
-          redeemedRewards.push(
-            <ListItem
-              style={ListItemStyle}
-              hoverColor="#1a8484"
-              key={reward._id}
-            >
-              <NavLink to="/rewards">
-                <Chip>{reward.title}</Chip>
-              </NavLink>
-            </ListItem>
-          );
-        }
-      });
-    } else {
-      let rewards = <h3>You have no rewards.</h3>;
+    if (this.state.loading) {
+      return <LoadScreen />;
     }
+    const mapFunc = reward => {
+      return reward.cost ? (
+        <SRewardsWalletCard
+          reward={reward}
+          studentId={this.props.userId}
+          redeemReward={this.props.redeemReward}
+        />
+      ) : null;
+    };
+
+    const unredeemed = this.props.rewards
+      .filter(reward => reward.status === "Unredeemed")
+      .map(mapFunc);
+    const pending = this.props.rewards
+      .filter(reward => reward.status === "Pending")
+      .map(mapFunc);
+    const redeemed = this.props.rewards
+      .filter(reward => reward.status === "Redeemed")
+      .map(mapFunc);
 
     return (
-      <Paper style={{ backgroundColor: "#97cb39" }}>
-        <Paper style={headingStyle}>
-          <h1>Your Rewards</h1>
-        </Paper>
-        <Divider inset={true} />
-        <List>{rewards}</List>
-        <Paper style={headingStyle}>
-          <h1>Pending Rewards</h1>
-        </Paper>
-        <Divider inset={true} />
-        <List>{pendingRewards}</List>
-        <Paper style={headingStyle}>
-          <h1>Redeemed Rewards</h1>
-        </Paper>
-        <Divider inset={true} />
-        <List>{redeemedRewards}</List>
-      </Paper>
+      <div>
+        <div className="reward-container-outer">
+          <h1>Your Wallet</h1>
+          <Paper
+            className="dashboard-menu"
+            style={{
+              padding: "4px",
+              borderRadius: "20px"
+            }}
+            zDepth={5}
+            rounded={true}
+          >
+            <div
+              className="reward-container"
+              style={{
+                border: "5px dashed #ccc",
+                borderRadius: "20px"
+              }}
+            >
+              <h2>Unredeemed</h2>
+              <List className="reward-list">{unredeemed}</List>
+            </div>
+          </Paper>
+        </div>
+        <div className="reward-container-outer">
+          <Paper
+            className="dashboard-menu"
+            style={{
+              padding: "4px",
+              borderRadius: "20px"
+            }}
+            zDepth={5}
+            rounded={true}
+          >
+            <div
+              className="reward-container"
+              style={{
+                border: "5px dashed #ccc",
+                borderRadius: "20px"
+              }}
+            >
+              <h2>Pending</h2>
+              <List className="reward-list">{pending}</List>
+            </div>
+          </Paper>
+        </div>
+        <div className="reward-container-outer">
+          <Paper
+            className="dashboard-menu"
+            style={{
+              padding: "4px",
+              borderRadius: "20px"
+            }}
+            zDepth={5}
+            rounded={true}
+          >
+            <div
+              className="reward-container"
+              style={{
+                border: "5px dashed #ccc",
+                borderRadius: "20px"
+              }}
+            >
+              <h2>Redeemed</h2>
+              <List className="reward-list">{redeemed}</List>
+            </div>
+          </Paper>
+        </div>
+      </div>
     );
   };
 }
@@ -121,10 +143,12 @@ const mapDispatchToProps = dispatch => {
     fetchRewards: (userId, userKind) => {
       dispatch(getAllRewards(userId, userKind));
     },
-    redeemReward: (s_id, id) => () => {
+    redeemReward: (s_id, id) => {
       dispatch(redeemReward(s_id, id));
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SRewardsWallet);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  StudentRewardWallet
+);

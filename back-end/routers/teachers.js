@@ -324,7 +324,7 @@ router.patch(
 
       // Create log events.
       logEvent(RewardEvent, {
-        message: Messages.TEMPLATE_REWARD_CONFIRM_COMPLETION,
+        message: Messages.TEMPLATE_REWARD_REDEEM,
         owner: req.user,
         user,
         reward
@@ -369,6 +369,7 @@ router.patch("/:te_id/students/:st_id/rejectTask/:t_id", async (req, res) => {
 
     // Create rejected task.
     const rejectedTask = new RejectedTask(task.toNewObject());
+    rejectedTask.pending = false;
     await rejectedTask.save();
     user.removeTask(teacher.getTaskByTitle(task));
     await task.remove();
@@ -430,14 +431,13 @@ router.patch("/:te_id/students/:st_id/rejectReward/:t_id", async (req, res) => {
 
     // Create log events.
     logEvent(RewardEvent, {
-      message: Messages.TEMPLATE_REWARD_REJECT_COMPLETION,
+      message: Messages.TEMPLATE_TEACHER_REWARD_REJECT_REDEMPTION_MSG,
       owner: req.user,
       user,
       reward
     });
 
     // FIX THIS
-
     const event = await logEvent(MessageEvent, {
       body: Messages.TEMPLATE_TEACHER_REWARD_REJECT_REDEMPTION_MSG,
       message: Messages.TEMPLATE_SEND_MESSAGE,

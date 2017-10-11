@@ -21,9 +21,11 @@ const getClearAllButton = (notifications, handler) =>
 const getListItemStyle = n => ({
   margin: "0px 150px 0 250px",
   paddingBottom: "20px",
-  border: `2px solid ${/reject/.exec(n._body)
-    ? "rgba(150,13,13,1)"
-    : n.task ? "rgba( 26,132,132,.9)" : "rgba(150,205, 40,.9)"}`,
+  border: `2px solid ${n.reward && n.reward.kind === "PointReward"
+    ? "#E0D715"
+    : /reject/.exec(n._body)
+      ? "rgba(150,13,13,1)"
+      : n.task ? "rgba( 26,132,132,.9)" : "rgba(150,205, 40,.9)"}`,
   borderRadius: "20px",
   color: "black"
 });
@@ -32,13 +34,18 @@ const getIcon = n => (
   <i
     style={{
       ...iconStyles,
-      color: /reject/.exec(n._body)
-        ? "rgba(150,13,13,1)"
-        : n.task ? "#1A8484 " : "#96CD28"
+      color:
+        n.reward && n.reward.kind === "PointReward"
+          ? "#E0D715"
+          : /reject/.exec(n._body)
+            ? "rgba(150,13,13,1)"
+            : n.task ? "#1A8484 " : "#96CD28"
     }}
-    className={`${/reject/.exec(n._body)
-      ? `fa fa-ban fa-2x`
-      : n.task ? "fa fa-tasks" : "fa fa-gift"} fa-2x`}
+    className={`${n.reward && n.reward.kind === "PointReward"
+      ? "fa fa-plus-circle fa-2x"
+      : /reject/.exec(n._body)
+        ? `fa fa-ban fa-2x`
+        : n.task ? "fa fa-tasks" : "fa fa-gift"} fa-2x`}
   />
 );
 
@@ -61,12 +68,17 @@ const getClearNotificationButton = (n, handler) => (
 const getHoverColor = n =>
   n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205, 40,.3)";
 
-const getMainText = n => n._body;
+const getMainText = n =>
+  n.reward && n.reward.kind === "PointReward"
+    ? `You earned ${n.reward.value} points for completing a task!`
+    : n._body;
 
 const getSecondaryText = n =>
   n.task
     ? `Description: ${n.task.description}`
-    : `Description: ${n.reward.description}`;
+    : n.reward.description.length
+      ? `Description: ${n.reward.description}`
+      : null;
 
 const topMargin = {
   marginTop: "30px",
@@ -123,6 +135,7 @@ const Notifications = ({
   clearNotification
 }) => {
   let dates = [];
+  let points = 0;
   return (
     <div className="notifications-container">
       <h1>Activity</h1>

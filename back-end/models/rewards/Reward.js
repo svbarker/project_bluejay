@@ -52,7 +52,8 @@ RewardSchema.methods.cleanForLog = function() {
     title: obj.title,
     description: obj.description,
     teacher: obj.teacher,
-    status: obj.status
+    status: obj.status,
+    value: obj.value ? obj.value : null
   };
 };
 

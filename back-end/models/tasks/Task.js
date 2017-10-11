@@ -43,11 +43,15 @@ const autoPopulate = function(next) {
 	this.populate([
 		{
 			path: "students",
-			Model: "Student",
+			model: "Student",
 			populate: {
 				path: "profile",
 				model: "Profile"
 			}
+		},
+		{
+			path: "rewards",
+			model: "Reward"
 		}
 	]);
 	next();

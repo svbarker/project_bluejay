@@ -1,25 +1,25 @@
 .reward-container-outer {
-  padding-top: 70px;
-  width: 80%;
-  margin: auto;
-  margin-bottom: 5em;
+	padding-top: 70px;
+	width: 100%;
+	margin: auto;
+	margin-bottom: 1em;
 }
 
 .reward-container-outer h1 {
-  color: #085a5a !important;
-  text-shadow: 1px 1px 2px #888;
-  text-align: center;
-  font-family: "Bree Serif";
-  margin: 0 25% 0.25em 25%;
+	color: #085a5a !important;
+	text-shadow: 1px 1px 2px #888;
+	text-align: center;
+	font-family: "Bree Serif";
+	margin: 0 25% 0.25em 25%;
 }
 
 .reward-container {
-  padding: 20px;
-  color: #333;
+	padding: 20px;
+	color: #333;
 }
 
 .reward-paper {
-  border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 }
 /*
 .reward-card-title {

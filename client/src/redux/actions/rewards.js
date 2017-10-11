@@ -36,8 +36,11 @@ export const purchaseReward = (studentId, rewardId) => async dispatch => {
       `/api/students/${studentId}/purchase/${rewardId}`,
       { method: "PATCH", credentials: "include" }
     );
-    response = await response.json();
-    console.log(response);
+    const data = await response.json();
+    if (!data.success) {
+      throw new Error(data.apiError.message);
+    }
+    dispatch(addReward(data.apiData));
   } catch (error) {
     console.error(error);
   }
@@ -57,7 +60,8 @@ export const redeemReward = (studentId, rewardId) => async dispatch => {
     if (!data.success) {
       throw new Error(data.apiError.message);
     }
-    console.log(data);
+
+    dispatch(removeReward(data.apiData.id));
   } catch (e) {
     console.error(e);
     // dispatch(endRequest(e));
@@ -71,11 +75,16 @@ export const createReward = (teacherId, reward) => async dispatch => {
   const newReward = {
     kind: reward.kind || "loot",
     description: reward.description || "new reward",
-    cost: reward.cost || undefined,
-    value: reward.value || undefined,
     teacher: teacherId,
-    available: reward.available || true
+    available: reward.available || true,
+    title: reward.title || "NO TITLE"
   };
+  let modifyString = newReward.kind;
+  modifyString = modifyString.split("");
+  modifyString[0] = modifyString[0].toLowerCase();
+  newReward.kind = modifyString.join("");
+  if (reward.cost) newReward.cost = reward.cost;
+  if (reward.value) newReward.value = reward.value;
   const response = await fetch(`/api/rewards`, {
     method: "POST",
     credentials: "include",
@@ -84,18 +93,14 @@ export const createReward = (teacherId, reward) => async dispatch => {
     },
     body: JSON.stringify({ teacher: teacherId, ...newReward })
   });
-  // console.log("response from createReward API = ", response);
   const data = await response.json();
   //check for server errors
-  // console.log("response from createReward API = ", data);
   if (!data.success) {
     dispatch(endRequest(data.apiError));
     console.error(data.apiError);
     return;
   }
-  //TODO: double check that we're getting this back from server
   dispatch(addReward(data.apiData));
-  // dispatch(endRequest(null));
 };
 
 //get all the rewards for a teacher
@@ -131,7 +136,6 @@ export const getAllRewards = (userId, userKind) => async dispatch => {
   // dispatch(endRequest(null));
 };
 
-//works??
 export const editReward = (id, rewardUpdates) => async dispatch => {
   // dispatch(startRequest());
   let response = await fetch(`/api/rewards/${id}`, {
