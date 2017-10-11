@@ -16,7 +16,7 @@ const getListItemStyle = n => ({
 });
 
 const pendingListItemStyle = {
-  borderRadius: "50px",
+  borderRadius: "20px",
   paddingBottom: "20px"
 };
 
