@@ -4,6 +4,7 @@ import { createTask } from "../../../redux/actions/task";
 import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
 import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
 import RaisedButton from "material-ui/RaisedButton";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import ContentAdd from "material-ui/svg-icons/content/add";
@@ -12,8 +13,13 @@ class CreateTaskModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			rewards: []
+			rewards: [],
+			selectedReward: null
 		};
+	}
+
+	componentDidMount() {
+		this.setState({ selectedReward: this.props.rewards[0]._id });
 	}
 
 	handleCreateTask = async e => {
@@ -61,6 +67,11 @@ class CreateTaskModal extends Component {
 								})
 							)}
 							<div>
+								<SelectField>
+									{this.props.rewards.map(reward => (
+										<MenuItem value={reward._id} primaryText={reward.title} />
+									))}
+								</SelectField>
 								<FloatingActionButton
 									mini={true}
 									backgroundColor="#96CD28"
