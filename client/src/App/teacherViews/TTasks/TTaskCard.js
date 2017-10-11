@@ -113,6 +113,7 @@ class TaskCard extends React.Component {
 					titleStyle={{ color: "white", fontWeight: "bold" }}
 					onClick={this.hydrateList}
 				/>
+
 				<CardText expandable={true}>
 					<Paper style={{ padding: "20px" }}>
 						<div className="menu-card-container">

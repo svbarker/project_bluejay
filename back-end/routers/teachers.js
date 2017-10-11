@@ -135,10 +135,6 @@ router.patch("/:te_id/students/:st_id/assign/:t_id", async (req, res) => {
 			throw new Error(`No task found using that id.`);
 		}
 
-		if (user.hasTask(task)) {
-			throw new Error(`Student is already assigned that task.`);
-		}
-
 		// Create new assigned task from root task.
 		let assignedTask = new AssignedTask(task.toNewObject());
 		await assignedTask.save();
@@ -194,7 +190,6 @@ router.patch("/:te_id/classroom/:cl_id/assign/:t_id", async (req, res) => {
 		const students = await classroom.getPopulatedStudents();
 		students.forEach(async user => {
 			user.tasks = await Task.find({ _id: user.tasks });
-			if (user.hasTask(task)) return;
 
 			studentsAssigned.push(user);
 
