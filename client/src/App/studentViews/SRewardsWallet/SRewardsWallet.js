@@ -39,8 +39,7 @@ class StudentRewardWallet extends React.Component {
 		if (this.state.loading) {
 			return <LoadScreen />;
 		}
-
-		const rewards = this.props.rewards.map(reward => {
+		const mapFunc = reward => {
 			return (
 				<SRewardsWalletCard
 					reward={reward}
@@ -48,31 +47,93 @@ class StudentRewardWallet extends React.Component {
 					redeemReward={this.props.redeemReward}
 				/>
 			);
-		});
+		};
+
+		const unredeemed = this.props.rewards
+			.filter(reward => reward.status === "Unredeemed")
+			.map(mapFunc);
+		const pending = this.props.rewards
+			.filter(reward => reward.status === "Pending")
+			.map(mapFunc);
+		const redeemed = this.props.rewards
+			.filter(reward => reward.status === "Redeemed")
+			.map(mapFunc);
+
 		return (
-			<div className="reward-container-outer">
-				<h1>Your Rewards</h1>
-				<Paper
-					className="dashboard-menu"
-					style={{
-						padding: "4px",
-						borderRadius: "20px"
-					}}
-					zDepth={5}
-					rounded={true}
-				>
-					<div
-						className="reward-container"
+			<div>
+				<div className="reward-container-outer">
+					<h1>Your Wallet</h1>
+					<Paper
+						className="dashboard-menu"
 						style={{
-							border: "5px dashed #ccc",
+							padding: "4px",
 							borderRadius: "20px"
 						}}
+						zDepth={5}
+						rounded={true}
 					>
-						<List className="reward-list">
-							{rewards}
-						</List>
-					</div>
-				</Paper>
+						<div
+							className="reward-container"
+							style={{
+								border: "5px dashed #ccc",
+								borderRadius: "20px"
+							}}
+						>
+							<h2>Unredeemed</h2>
+							<List className="reward-list">
+								{unredeemed}
+							</List>
+						</div>
+					</Paper>
+				</div>
+				<div className="reward-container-outer">
+					<Paper
+						className="dashboard-menu"
+						style={{
+							padding: "4px",
+							borderRadius: "20px"
+						}}
+						zDepth={5}
+						rounded={true}
+					>
+						<div
+							className="reward-container"
+							style={{
+								border: "5px dashed #ccc",
+								borderRadius: "20px"
+							}}
+						>
+							<h2>Pending</h2>
+							<List className="reward-list">
+								{pending}
+							</List>
+						</div>
+					</Paper>
+				</div>
+				<div className="reward-container-outer">
+					<Paper
+						className="dashboard-menu"
+						style={{
+							padding: "4px",
+							borderRadius: "20px"
+						}}
+						zDepth={5}
+						rounded={true}
+					>
+						<div
+							className="reward-container"
+							style={{
+								border: "5px dashed #ccc",
+								borderRadius: "20px"
+							}}
+						>
+							<h2>Redeemed</h2>
+							<List className="reward-list">
+								{redeemed}
+							</List>
+						</div>
+					</Paper>
+				</div>
 			</div>
 		);
 	};
@@ -80,7 +141,6 @@ class StudentRewardWallet extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-		user: state.user,
 		rewards: state.rewards
 	};
 };

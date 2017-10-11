@@ -412,15 +412,18 @@ router.delete("/:id", async (req, res) => {
 });
 
 // deleting a student's notification
-router.delete("/:s_id/notifications/:n_id", async (req, res) => {
+router.delete("/notifications/:n_id", async (req, res) => {
 	try {
 		const student = await getResource(
-			req.params.s_id,
-			Student.findByIdAndRemove.bind(Student)
+			req.user._id,
+			Student.findById.bind(Student)
 		);
-		student.notifications = student.notifications.filter(
-			notification => notification._id !== req.params.n_id
-		);
+		student.notifications =
+			req.params.n_id === "all"
+				? []
+				: student.notifications.filter(
+						notification => notification._id !== req.params.n_id
+					);
 		await student.save();
 		res.json(createResponse(student.notifications));
 	} catch (error) {

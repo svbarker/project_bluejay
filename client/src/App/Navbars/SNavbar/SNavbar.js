@@ -76,13 +76,13 @@ class StudentNavbar extends Component {
 								targetOrigin={{ horizontal: "right", vertical: "top" }}
 							>
 								<NavLink to="/rewardsWallet">
-									<MenuItem primaryText="RewardsWallet" />
+									<MenuItem primaryText="Wallet" />
 								</NavLink>
-								<NavLink to="/">
-									<MenuItem primaryText="Other great places" />
+								<NavLink to="/profile">
+									<MenuItem primaryText="Profile" />
 								</NavLink>
-								<NavLink to="/secretpage">
-									<MenuItem primaryText="Other great places" />
+								<NavLink to="/help">
+									<MenuItem primaryText="Get Help?" />
 								</NavLink>
 							</IconMenu>
 						</li>

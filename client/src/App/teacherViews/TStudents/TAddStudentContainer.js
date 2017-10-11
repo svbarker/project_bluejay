@@ -16,9 +16,14 @@ class AddStudentContainer extends Component {
 
 	handleSubmit = async e => {
 		e.preventDefault();
-		this.fnameValidate(e.target.fname.value);
-		this.lnameValidate(e.target.lname.value);
-		this.emailValidate(e.target.email.value);
+
+		const fname = e.target.fname.value;
+		const lname = e.target.lname.value;
+		const email = e.target.email.value;
+
+		await this.fnameValidate(fname);
+		await this.lnameValidate(lname);
+		await this.emailValidate(email);
 
 		if (
 			!this.state.fnameError &&
@@ -31,13 +36,13 @@ class AddStudentContainer extends Component {
 				email: e.target.email.value
 			};
 
-			await this.props.addStudentToClassroom(this.state.classId, studentData);
+			await this.props.addStudentToClassroom(this.props.classId, studentData);
 			await this.props.handleClose();
 			await this.props.loadStudents(this.props.classId);
 		}
 	};
 
-	fnameValidate = fname => {
+	fnameValidate = async fname => {
 		let error = validator.isEmpty(fname) ? "First name is required." : null;
 		error =
 			error ||
@@ -45,10 +50,10 @@ class AddStudentContainer extends Component {
 				? null
 				: "First name must contain only letters.");
 
-		this.setState({ fnameError: error });
+		await this.setState({ fnameError: error });
 	};
 
-	lnameValidate = lname => {
+	lnameValidate = async lname => {
 		let error = validator.isEmpty(lname) ? "Last name is required." : null;
 		error =
 			error ||
@@ -56,16 +61,16 @@ class AddStudentContainer extends Component {
 				? null
 				: "Last name must contain only letters.");
 
-		this.setState({ lnameError: error });
+		await this.setState({ lnameError: error });
 	};
 
-	emailValidate = email => {
+	emailValidate = async email => {
 		let error = validator.isEmpty(email) ? "Email is required." : null;
 		error =
 			error ||
 			(validator.isEmail(email) ? null : "Please enter a valid email.");
 
-		this.setState({ emailError: error });
+		await this.setState({ emailError: error });
 	};
 
 	validate = e => {

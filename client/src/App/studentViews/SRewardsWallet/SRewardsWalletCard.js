@@ -30,7 +30,7 @@ class RewardCard extends React.Component {
 				<CardHeader
 					actAsExpander={true}
 					showExpandableButton={true}
-					title={`(${cost || value || "None"}) ${title}`}
+					title={`(${supply || "None"}) ${title}`}
 					style={{
 						backgroundColor: "#96cd28"
 					}}
@@ -54,13 +54,16 @@ class RewardCard extends React.Component {
 						<p>
 							Supply: {supply || "Unlimited"}
 						</p>
-						<Undoable
-							disabled={this.props.points < cost ? true : false}
-							resolve={() => this.props.redeemReward(this.props.studentId, _id)}
-							wait={2}
-						>
-							<FlatButton primary={true} label="redeem" />
-						</Undoable>
+						{this.props.reward.status === "Unredeemed"
+							? <Undoable
+									disabled={this.props.points < cost ? true : false}
+									resolve={() =>
+										this.props.redeemReward(this.props.studentId, _id)}
+									wait={2}
+								>
+									<FlatButton primary={true} label="redeem" />
+								</Undoable>
+							: ""}
 					</Paper>
 				</CardText>
 			</Card>

@@ -40,7 +40,7 @@ class LoginContainer extends Component {
     this.passwordValidate(e.target.password.value);
 
     if (!this.state.emailError && !this.state.passwordError) {
-      const error = await this.props.loginUser(
+      await this.props.loginUser(
         e.target.email.value,
         e.target.password.value,
         this.props.socket
