@@ -92,7 +92,6 @@ router.get("/:id/tasks", async (req, res) => {
 			req.params.id,
 			Student.findById.bind(Student)
 		);
-
 		// Create log event.
 		user.taskList = user.tasks.join(",");
 		logEvent(UserEvent, {
