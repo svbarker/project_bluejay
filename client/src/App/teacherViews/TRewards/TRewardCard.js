@@ -33,70 +33,63 @@ class RewardCard extends React.Component {
 			available
 		} = this.props.reward;
 		return (
-			<Card
-				key={_id}
-				className="reward-container"
-				style={{
-					backgroundColor: "#D8F996",
-					margin: "10px"
-				}}
-			>
+			<Card style={{ marginBottom: "20px" }} key={_id}>
 				<CardHeader
-					title={title}
-					titleStyle={{ fontWeight: "bold" }}
-					subtitle={`costs ${cost || value || "None"}`}
-					className="reward-card-header"
 					actAsExpander={true}
 					showExpandableButton={true}
+					title={`${cost || value || "None"} ${title}`}
+					style={{
+						backgroundColor: "#96cd28"
+					}}
+					iconStyle={{ color: "white" }}
+					titleStyle={{ color: "white", fontWeight: "bold" }}
 				/>
-				<CardText
-					className="reward-item"
-					style={{ hoverColor: "none" }}
-					expandable={true}
-				>
+				<CardText expandable={true}>
 					<Paper style={{ padding: "20px" }}>
-						<p>
-							Description: {description || "None"}
-						</p>
-						<p>
-							Kind of reward: {cost ? "Loot" : "Point"}
-						</p>
-						<p>
-							Cost: {cost || value || "None"}
-						</p>
+						<div className="menu-card-container">
+							<p>
+								Description: {description || "None"}
+							</p>
+							<p>
+								Kind of reward: {cost ? "Loot" : "Point"}
+							</p>
+							<p>
+								Cost: {cost || value || "None"}
+							</p>
 
-						{this.props.reward.kind === "LootReward"
-							? <p>
-									Available: {available ? "YES" : "NO"}
-								</p>
-							: null}
-
-						<p>
-							Supply: {supply || "Unlimited"}
-						</p>
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "row",
-								margin: "10px",
-								justifyContent: "space-evenly"
-							}}
-						>
-							<TEditRewardModal
-								reward={this.props.reward}
-								onSubmit={updatedReward =>
-									this.props.onEditReward(updatedReward, _id)}
-							/>
-							<Undoable resolve={() => this.props.removeReward(_id)}>
-								<RaisedButton label="delete" />
-							</Undoable>
 							{this.props.reward.kind === "LootReward"
-								? <RaisedButton
-										onClick={() =>
-											this.props.onToggleAvailability(this.props.reward)}
-										label={available ? "Make Unavailable" : "Make Available"}
-									/>
+								? <p>
+										Available: {available ? "YES" : "NO"}
+									</p>
 								: null}
+
+							<p>
+								Supply: {supply || "Unlimited"}
+							</p>
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "row",
+									margin: "10px",
+									justifyContent: "space-evenly"
+								}}
+							>
+								<TEditRewardModal
+									reward={this.props.reward}
+									onSubmit={updatedReward =>
+										this.props.onEditReward(updatedReward, _id)}
+								/>
+								<Undoable resolve={() => this.props.removeReward(_id)}>
+									<RaisedButton label="delete" />
+								</Undoable>
+								{this.props.reward.kind === "LootReward"
+									? <RaisedButton
+											onClick={() =>
+												this.props.onToggleAvailability(this.props.reward)}
+											label={available ? "Make Unavailable" : "Make Available"}
+										/>
+									: null}
+							</div>
 						</div>
 					</Paper>
 				</CardText>
