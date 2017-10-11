@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import Badge from "material-ui/Badge";
 import * as Events from "../../../redux/actions/events";
-import "../Navbar.css";
+import "../../Styles/Navbar.css";
 
 import IconMenu from "material-ui/IconMenu";
 import MenuItem from "material-ui/MenuItem";
@@ -12,7 +12,6 @@ class StudentNavbar extends Component {
 	constructor(props) {
 		super(props);
 		this.props.socket.on(Events.REFRESH_NOTIFICATIONS, () => {
-			console.log("RECEIVED REFRESH NOTIFICAIONTS SOCKET");
 			this.props.refreshPoints();
 			this.props.fetchStudentNotifications(this.props.user.id);
 		});

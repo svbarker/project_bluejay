@@ -4,7 +4,7 @@ import { List, ListItem } from "material-ui/List";
 import RaisedButton from "material-ui/RaisedButton";
 import FontIcon from "material-ui/FontIcon";
 import { red500, yellow500, blue500 } from "material-ui/styles/colors";
-import "./TNotifications.css";
+import "../../Styles/Notifications.css";
 const iconStyles = { marginTop: "25px", color: "#507c0c" };
 
 const getListItemStyle = n => ({

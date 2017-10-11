@@ -1,13 +1,16 @@
 .task-container-outer {
 	padding-top: 70px;
-	max-width: 960px;
+	width: 80%;
 	margin: auto;
 }
 
 .task-container {
 	padding: 20px;
+	color: #333;
 }
-
+.student-task-paper {
+	border-bottom: 1px solid #ccc;
+}
 .menu-card-container {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
