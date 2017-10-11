@@ -27,9 +27,9 @@ const rewards = (state = [], action) => {
       //UNTESTED
       return [...state.rewards, action.data];
     case UPDATE_REWARD:
-      //UNTESTED
-      return state.filter(reward => {
-        return action.data.id === reward._id ? action.data.reward : reward;
+      return state.map(reward => {
+        if (action.data.id === reward._id) return action.data.reward;
+        return reward;
       });
     case REMOVE_REWARD:
       return state.filter(reward => reward._id !== action.data);

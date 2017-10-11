@@ -41,7 +41,14 @@ class SRewardsWallet extends React.Component {
               key={reward._id}
             >
               <NavLink to="/rewards">
-                <Chip>{reward.title}</Chip>
+                <Chip>
+                  {reward.title}
+                  <br />
+                  {reward.rejectedCount ? (
+                    <h6
+                    >{`This reward has been rejected ${reward.rejectedCount} times`}</h6>
+                  ) : null}
+                </Chip>
               </NavLink>
               <Chip
                 onClick={this.props.redeemReward(this.props.userId, reward._id)}

@@ -324,14 +324,14 @@ router.patch(
 
       // Create log events.
       logEvent(RewardEvent, {
-        message: Messages.TEMPLATE_REWARD_REDEEM,
+        message: Messages.TEMPLATE_REWARD_CONFIRM_COMPLETION,
         owner: req.user,
         user,
         reward
       });
 
       const event = await logEvent(MessageEvent, {
-        body: Messages.TEMPLATE_STUDENT_REWARD_REDEEM_MSG,
+        body: Messages.TEMPLATE_TEACHER_REWARD_CONFIRM_REDEMPTION_MSG,
         message: Messages.TEMPLATE_SEND_MESSAGE,
         owner: req.user,
         user,
@@ -401,7 +401,7 @@ router.patch("/:te_id/students/:st_id/rejectTask/:t_id", async (req, res) => {
   }
 });
 
-// Rejecting reception of a student's reward (t_id must be instanceof Reward)
+// Rejecting redemption of a student's reward
 router.patch("/:te_id/students/:st_id/rejectReward/:t_id", async (req, res) => {
   try {
     const teacher = await getResource(
@@ -420,23 +420,26 @@ router.patch("/:te_id/students/:st_id/rejectReward/:t_id", async (req, res) => {
     }
 
     if (!(reward.status === "Pending")) {
-      throw new Error(`You can only confirm rewards that are pending`);
+      throw new Error(`You can only reject rewards that are pending`);
     }
 
     // Update reward status
-    reward.status = "Redeemed";
+    reward.status = "Unredeemed";
+    reward.rejectedCount++;
     await reward.save();
 
     // Create log events.
     logEvent(RewardEvent, {
-      message: Messages.TEMPLATE_REWARD_REDEEM,
+      message: Messages.TEMPLATE_REWARD_REJECT_COMPLETION,
       owner: req.user,
       user,
       reward
     });
 
+    // FIX THIS
+
     const event = await logEvent(MessageEvent, {
-      body: Messages.TEMPLATE_STUDENT_REWARD_REDEEM_MSG,
+      body: Messages.TEMPLATE_TEACHER_REWARD_REJECT_REDEMPTION_MSG,
       message: Messages.TEMPLATE_SEND_MESSAGE,
       owner: req.user,
       user,

@@ -132,27 +132,29 @@ export const getAllRewards = (userId, userKind) => async dispatch => {
 };
 
 //works??
-export const editReward = (id, updates) => async dispatch => {
+export const editReward = (id, rewardUpdates) => async dispatch => {
   // dispatch(startRequest());
-  // console.log("new reward = ", updates);
   let response = await fetch(`/api/rewards/${id}`, {
     method: "PATCH",
     credentials: "include",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(updates)
+    body: JSON.stringify(rewardUpdates)
   });
-  // console.log("response = ", response);
   response = await response.json();
-  // console.log("response = ", response);
-  //do some things
   if (!response.success) {
     console.error(response.apiError);
     dispatch(endRequest(response.apiError));
   } else {
-    await dispatch(updateReward(response.apiData._id, response.apiData));
-    // dispatch(endRequest(null));
+    //server send back the old reward, so update it before you store it in redux
+    let oldReward = response.apiData;
+    for (let key in rewardUpdates.updates) {
+      if (oldReward.hasOwnProperty(key)) {
+        oldReward[key] = rewardUpdates.updates[key];
+      }
+    }
+    dispatch(updateReward(oldReward._id, oldReward));
   }
 };
 

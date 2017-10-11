@@ -7,15 +7,16 @@ import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
 
-export default class CreateRewardModal extends React.Component {
+export default class TEditRewardModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      valid: false,
-      description: "",
-      kind: "Loot",
-      cost: 0
+      valid: true,
+      description: this.props.reward.description,
+      kind: this.props.reward.kind,
+      cost: this.props.reward.cost,
+      value: this.props.reward.value
     };
   }
 
@@ -24,13 +25,16 @@ export default class CreateRewardModal extends React.Component {
   };
 
   handleClose = () => {
-    const { description, kind, cost } = this.state;
-    if (this.state.valid) this.props.onSubmit({ description, kind, cost });
+    const { description, kind, cost, value } = this.state;
+    if (this.state.valid)
+      this.props.onSubmit({
+        description: description.trim(),
+        kind,
+        cost,
+        value
+      });
     this.setState({
-      open: false,
-      description: "",
-      kind: "Loot",
-      cost: 0
+      open: false
     });
   };
   validate = () => {
@@ -45,7 +49,7 @@ export default class CreateRewardModal extends React.Component {
   render() {
     const actions = [
       <RaisedButton
-        label="Create"
+        label="Save"
         primary={true}
         disabled={!this.state.valid}
         onClick={this.handleClose}
@@ -56,12 +60,32 @@ export default class CreateRewardModal extends React.Component {
         onClick={this.handleClose}
       />
     ];
+    let costOrValue;
+    if (this.props.reward.value) {
+      costOrValue = (
+        <TextField
+          onChange={this.onChange}
+          value={this.state.value}
+          floatingLabelText="Value"
+          name="value"
+        />
+      );
+    } else {
+      costOrValue = (
+        <TextField
+          onChange={this.onChange}
+          value={this.state.cost}
+          floatingLabelText="Cost"
+          name="cost"
+        />
+      );
+    }
 
     return (
       <div>
-        <RaisedButton label="Create Reward" onClick={this.handleOpen} />
+        <RaisedButton label="Edit" onClick={this.handleOpen} />
         <Dialog
-          title="Create a new reward for your students!"
+          title="Edit your reward"
           actions={actions}
           actionsContainerStyle={{
             display: "flex",
@@ -82,12 +106,7 @@ export default class CreateRewardModal extends React.Component {
               multiLine={true}
               name="description"
             />
-            <TextField
-              onChange={this.onChange}
-              value={this.state.cost}
-              floatingLabelText="Cost"
-              name="cost"
-            />
+            {costOrValue}
             <TextField
               onChange={this.onChange}
               value={this.state.kind}
