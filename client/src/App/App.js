@@ -59,10 +59,14 @@ class App extends Component {
           top: "150px",
           width: "100%",
           textAlign: "center",
-          height: "200px"
+          height: "200px",
+          background: "red",
+          zIndex: "10000",
+          fontSize: "30px",
+          padding: "70px"
         }}
       >
-        {this.props.status.error}
+        {this.props.status.error.message}
       </div>
     ) : null;
     if (this.state.firstLocation !== null && this.props.user.kind) {
