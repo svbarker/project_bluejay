@@ -17,22 +17,16 @@ import { getAllRewards } from "../../../redux/actions/rewards";
 class TaskListContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      open: false,
+      loaded: false
+    };
     //hotfix
     if (props.students.length) {
-      if (props.tasks.length) {
-        this.state = {
-          loaded: true
-        };
-      }
-      this.state = {
-        loaded: true
-      };
-    } else {
-      this.state = {
-        loaded: false
-      };
+      this.state.loaded = true;
     }
   }
+
   componentDidMount() {
     this.props.hydrateTasks(this.props.userId);
     this.props.getAllRewards(this.props.userId, "Teacher");
@@ -90,6 +84,14 @@ class TaskListContainer extends React.Component {
       rewards: task.rewards.slice().concat(rewardId)
     });
   };
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
   render() {
     if (this.state.loaded) {
       return (
@@ -105,6 +107,10 @@ class TaskListContainer extends React.Component {
           editTask={this.onEdit}
           hydrateStudentList={this.hydrateStudentList}
           name={this.props.name}
+          open={this.state.open}
+          handleOpen={this.handleOpen}
+          handleClose={this.handleClose}
+          teacherId={this.props.id}
         />
       );
     } else {
@@ -119,6 +125,7 @@ const mapStateToProps = state => {
     students: state.students,
     classrooms: state.classrooms,
     name: state.user.displayName,
+    id: state.user.id,
     rewards: state.rewards
   };
 };

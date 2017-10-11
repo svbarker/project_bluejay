@@ -1,12 +1,24 @@
 import React, { Component } from "react";
 import Paper from "material-ui/Paper";
+import RaisedButton from "material-ui/RaisedButton";
 import TaskCard from "./TTaskCard";
+import CreateTaskModal from "./TCreateTaskModal";
 import "./TTaskList.css";
 
 //removed menucard container
 //TODO: refactor this (Eric's) nonsense
 const TaskList = props => {
-  const { name, tasks, students, hydrateStudentList, deleteTask } = props;
+  const {
+    teacherId,
+    name,
+    tasks,
+    students,
+    hydrateStudentList,
+    deleteTask,
+    handleOpen,
+    handleClose,
+    open
+  } = props;
   let taskCards;
   if (tasks.length) {
     //tasks aren't populated with student info
@@ -48,9 +60,15 @@ const TaskList = props => {
       <Paper>
         <div className="task-container">
           <h2>{`${name}'s Tasks`}</h2>
+          <RaisedButton label="Create a task" onClick={handleOpen} />
           {taskCards}
         </div>
       </Paper>
+      <CreateTaskModal
+        open={open}
+        handleClose={handleClose}
+        teacherId={teacherId}
+      />
     </div>
   );
 };

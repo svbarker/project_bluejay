@@ -27,9 +27,9 @@ router.post("/", async (req, res) => {
       status
     });
     let promises = [];
-    teacher = await User.findById(teacher);
-    teacher.tasks.push(task);
-    promises.push(teacher.save());
+    let teacherObj = await User.findById(teacher);
+    teacherObj.tasks.push(task);
+    promises.push(teacherObj.save());
     promises.push(task.save());
 
     // Create log event.

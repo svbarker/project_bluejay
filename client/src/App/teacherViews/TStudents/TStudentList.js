@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import StudentCard from "./TStudentCard";
 import ClassAssign from "./TClassAssign";
-import AddStudentModal from "./TAddStudentModal";
+import AddStudentContainer from "./TAddStudentContainer";
 import Paper from "material-ui/Paper";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import ContentAdd from "material-ui/svg-icons/content/add";
 import "./TStudents.css";
-import validator from "validator";
 
 class StudentList extends Component {
   constructor(props) {
@@ -16,10 +15,7 @@ class StudentList extends Component {
     this.state = {
       currentClass: null,
       classIndex: 0,
-      open: false,
-      fnameError: null,
-      lnameError: null,
-      emailError: null
+      open: false
     };
   }
 
@@ -28,11 +24,13 @@ class StudentList extends Component {
     await this.props.loadStudents(this.state.currentClass._id);
   }
 
-  handleChange = (event, index, value) => {
-    this.setState({
+  handleChange = async (event, index, value) => {
+    await this.setState({
       currentClass: this.props.classrooms[value],
       classIndex: value
     });
+
+    this.props.loadStudents(this.state.currentClass._id);
   };
 
   handleOpen = () => {
@@ -41,67 +39,6 @@ class StudentList extends Component {
 
   handleClose = () => {
     this.setState({ open: false });
-  };
-
-  handleSubmit = async e => {
-    e.preventDefault();
-    this.fnameValidate(e.target.fname.value);
-    this.lnameValidate(e.target.lname.value);
-    this.emailValidate(e.target.email.value);
-
-    if (
-      !this.state.fnameError &&
-      !this.state.lnameError &&
-      !this.state.emailError
-    ) {
-      const studentData = {
-        fname: e.target.fname.value,
-        lname: e.target.lname.value,
-        email: e.target.email.value
-      };
-
-      await this.props.addStudentToClassroom(
-        this.state.currentClass._id,
-        studentData
-      );
-      await this.handleClose();
-      await this.props.loadStudents(this.state.currentClass._id);
-    }
-  };
-
-  fnameValidate = fname => {
-    let error = validator.isEmpty(fname) ? "First name is required." : null;
-    error =
-      error ||
-      (validator.isAlpha(fname)
-        ? null
-        : "First name must contain only letters.");
-
-    this.setState({ fnameError: error });
-  };
-
-  lnameValidate = lname => {
-    let error = validator.isEmpty(lname) ? "Last name is required." : null;
-    error =
-      error ||
-      (validator.isAlpha(lname)
-        ? null
-        : "Last name must contain only letters.");
-
-    this.setState({ lnameError: error });
-  };
-
-  emailValidate = email => {
-    let error = validator.isEmpty(email) ? "Email is required." : null;
-    error =
-      error ||
-      (validator.isEmail(email) ? null : "Please enter a valid email.");
-
-    this.setState({ emailError: error });
-  };
-
-  validate = e => {
-    this[`${e.target.id}Validate`](e.target.value);
   };
 
   render() {
@@ -149,15 +86,14 @@ class StudentList extends Component {
                 </FloatingActionButton>
               </div>
             </div>
-            <AddStudentModal
-              handleClose={this.handleClose}
-              handleSubmit={this.handleSubmit}
-              validate={this.validate}
-              fnameError={this.state.fnameError}
-              lnameError={this.state.lnameError}
-              emailError={this.state.emailError}
-              open={this.state.open}
-            />
+            {!this.state.currentClass ? null : (
+              <AddStudentContainer
+                classId={this.state.currentClass._id}
+                open={this.state.open}
+                handleClose={this.handleClose}
+                loadStudents={this.props.loadStudents}
+              />
+            )}
           </div>
         </Paper>
       </div>
