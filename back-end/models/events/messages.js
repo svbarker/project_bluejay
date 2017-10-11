@@ -30,7 +30,7 @@ module.exports = {
   TEMPLATE_STUDENT_DELETE: `%owner.profile.displayName% deleted student %user.profile.displayName%.`,
   TEMPLATE_STUDENT_REQUEST_COMPLETION_MSG: `%owner.profile.displayName% wants to complete task %task.title%.`,
   TEMPLATE_STUDENT_REWARD_PURCHASE_MSG: `You purchased reward %reward.title%. Go you!`,
-  TEMPLATE_STUDENT_REWARD_REDEEM_MSG: `You redeemed reward %reward.title%. Enjoy!!!`,
+  TEMPLATE_STUDENT_REWARD_REDEEM_MSG: `You redeemed reward %reward.title%. The teacher will be notified!`,
 
   TEMPLATE_CLASSROOM_CREATE: `%owner.profile.displayName% created new classroom named %class.title%.`,
   TEMPLATE_CLASSROOM_READ: `Data retrieval for classroom %class.title% initiated by %owner.profile.displayName%.`,

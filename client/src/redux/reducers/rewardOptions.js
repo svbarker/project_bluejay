@@ -2,7 +2,7 @@ import { GET_ALL_REWARD_OPTIONS } from "../actions/rewardOptions";
 
 export const rewardOptionsInitState = [];
 
-const rewardOptions = (state = rewardOptionsInitState, action) => {
+export const rewardOptions = (state = rewardOptionsInitState, action) => {
   switch (action.type) {
     case GET_ALL_REWARD_OPTIONS:
       return action.data;
@@ -10,4 +10,5 @@ const rewardOptions = (state = rewardOptionsInitState, action) => {
       return state;
   }
 };
+
 export default rewardOptions;
