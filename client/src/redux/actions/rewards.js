@@ -83,7 +83,6 @@ export const createReward = (teacherId, reward) => async dispatch => {
   modifyString = modifyString.split("");
   modifyString[0] = modifyString[0].toLowerCase();
   newReward.kind = modifyString.join("");
-  console.log("new reward is now = ", newReward);
   if (reward.cost) newReward.cost = reward.cost;
   if (reward.value) newReward.value = reward.value;
   const response = await fetch(`/api/rewards`, {
@@ -94,18 +93,14 @@ export const createReward = (teacherId, reward) => async dispatch => {
     },
     body: JSON.stringify({ teacher: teacherId, ...newReward })
   });
-  // console.log("response from createReward API = ", response);
   const data = await response.json();
   //check for server errors
-  // console.log("response from createReward API = ", data);
   if (!data.success) {
     dispatch(endRequest(data.apiError));
     console.error(data.apiError);
     return;
   }
-  //TODO: double check that we're getting this back from server
   dispatch(addReward(data.apiData));
-  // dispatch(endRequest(null));
 };
 
 //get all the rewards for a teacher
