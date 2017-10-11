@@ -1,6 +1,6 @@
-import * as rewards from "./rewards";
-import * as student from "./student";
-import * as task from "./task";
+// import * as rewards from "./rewards";
+// import * as student from "./student";
+// import * as task from "./task";
 import * as user from "./user";
 import * as classrooms from "./classrooms";
 import * as Events from "./events";
@@ -100,8 +100,6 @@ const setUser = (loggedInUser, socket) => async dispatch => {
     };
   }
 
-  console.log("User object: ", userObj);
-  console.log("Made it deep into setting the user...");
   socket.emit(Events.USER_LOGGED_IN, userObj.id);
   await dispatch(user.setUser(userObj));
   await dispatch(classrooms.getClassrooms(loggedInUser.apiData.classrooms));
@@ -113,6 +111,8 @@ export const logoutUser = () => dispatch => {
     method: "DELETE",
     credentials: "include"
   });
-
+  if (!response.success) {
+    throw new Error("Something went wrong");
+  }
   dispatch(user.setUser({}));
 };

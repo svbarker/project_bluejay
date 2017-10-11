@@ -68,11 +68,6 @@ const getSecondaryText = n =>
     ? `Description: ${n.task.description}`
     : `Description: ${n.reward.description}`;
 
-const getHoverColor = n =>
-  /reject/.exec(n._body)
-    ? "rgba(150,13,13,.3)"
-    : n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205,40,.3)";
-
 const topMargin = {
   marginTop: "30px",
   position: "relative"
@@ -139,10 +134,8 @@ const Notifications = ({
               let date = getDateHeader(n, dates);
 
               const ListItemProps = {
-                key: n._id,
                 primaryText: getMainText(n),
                 secondaryText: getSecondaryText(n),
-                hoverColor: getHoverColor(n),
                 onClick: takeToItem(n),
                 secondaryTextLines: 2,
                 leftIcon: getIcon(n),
@@ -150,7 +143,7 @@ const Notifications = ({
               };
 
               return (
-                <div style={topMargin}>
+                <div key={n._id} style={topMargin}>
                   {date}
                   {getClearNotificationButton(n, clearNotification(n))}
                   <ListItem {...ListItemProps} />

@@ -58,9 +58,9 @@ export const fetchStudentNotifications = id => async dispatch => {
 
 export const clearAllStudentNotifications = () => async dispatch => {
   try {
-    let response = await fetch(`/clear/notifications`, {
+    let response = await fetch(`/api/students/notifications/all`, {
       credentials: "include",
-      method: "PATCH"
+      method: "DELETE"
     });
     response = await response.json();
     if (!response.success) {
@@ -74,9 +74,9 @@ export const clearAllStudentNotifications = () => async dispatch => {
 
 export const clearNotification = n_id => async dispatch => {
   try {
-    let response = await fetch(`/notifications/clear/${n_id}`, {
+    let response = await fetch(`/api/students/notifications/${n_id}`, {
       credentials: "include",
-      method: "PATCH"
+      method: "DELETE"
     });
     response = await response.json();
     if (!response.success) {
