@@ -18,12 +18,14 @@ class RewardAssignList extends Component {
             actAsExpander={true}
             showExpandableButton={true}
             style={{
+              textAlign: "left",
               backgroundColor: "#96cd28"
             }}
             title="Rewards"
             titleStyle={{
               fontWeight: "bold",
-              fontSize: "16px"
+              fontSize: "16px",
+              color: "white"
             }}
           />
           <CardText expandable={true}>

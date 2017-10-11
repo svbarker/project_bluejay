@@ -86,7 +86,10 @@ class App extends Component {
             {errorDisplay}
             <Switch>
               <Route exact path="/" component={TDashboard} />
-              <Route path="/students" component={TStudents} />
+              <Route
+                path="/students"
+                component={() => <TStudents user={this.props.user} />}
+              />
               <Route
                 path="/tasks"
                 component={() => <TTasks userId={this.props.user.id} />}

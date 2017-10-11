@@ -2,10 +2,10 @@ import React from "react";
 import TStudentView from "./TStudentView";
 
 class TStudentViewContainer extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      tasks: true
+      selected: "tasks"
     };
   }
 
@@ -16,7 +16,13 @@ class TStudentViewContainer extends React.Component {
   };
 
   render() {
-    return <TStudentView selected={this.state.selected} toggle={this.toggle} />;
+    return (
+      <TStudentView
+        name={this.props.user.displayName}
+        selected={this.state.selected}
+        toggle={this.toggle}
+      />
+    );
   }
 }
 
