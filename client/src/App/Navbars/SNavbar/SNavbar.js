@@ -53,12 +53,14 @@ class StudentNavbar extends Component {
             <NavLink to="/notifications">
               <li style={{ position: "relative" }}>
                 <i className="fa fa-comment" aria-hidden="true" />
-                <Badge
-                  className="navbar-notification-badge"
-                  style={{ position: "absolute" }}
-                  badgeContent={this.props.notifications.length}
-                  primary={true}
-                />
+                {!this.props.notifications.length ? null : (
+                  <Badge
+                    className="navbar-notification-badge"
+                    style={{ position: "absolute" }}
+                    badgeContent={this.props.notifications.length}
+                    primary={true}
+                  />
+                )}
               </li>
             </NavLink>
             <li>
