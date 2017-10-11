@@ -216,3 +216,27 @@ export const completeTask = (s_id, t_id, socket) => async dispatch => {
     console.log(error);
   }
 };
+
+export const createTask = params => async dispatch => {
+  try {
+    let response = await fetch(`api/tasks`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(params)
+    });
+
+    response = await response.json();
+    console.log(response);
+
+    if (!response.success) {
+      throw new Error(response.apiError.message);
+    }
+
+    dispatch(addTask(response.apiData));
+  } catch (error) {
+    console.log(error);
+  }
+};

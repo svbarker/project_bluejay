@@ -178,7 +178,7 @@ router.get("/:id/rewards", async (req, res) => {
   }
 });
 
-router.get("/students/points", async (req, res) => {
+router.get("/student/points", async (req, res) => {
   try {
     const student = req.user;
     res.json(createResponse(student.points));
@@ -205,7 +205,8 @@ router.patch("/:s_id/purchase/:r_id", async (req, res) => {
     student.points -= reward.cost;
 
     const newReward = new LootReward(reward.toNewObject());
-    student.addReward(newReward);
+    await newReward.save();
+    await student.addReward(newReward);
 
     logEvent(RewardEvent, {
       message: Messages.TEMPLATE_REWARD_PURCHASE,
@@ -238,13 +239,21 @@ router.patch("/:s_id/redeem/:r_id", async (req, res) => {
     // get student
     const student = await getResource(
       req.params.s_id,
-      Student.findById(Student)
+      Student.findById.bind(Student)
     );
 
     // get reward
     const reward = student.getReward(req.params.r_id);
     if (!reward) {
       throw new Error(`You don't have that reward`);
+    }
+
+    const teacher = await getResource(
+      reward.teacher,
+      Teacher.findById.bind(Teacher)
+    );
+    if (!teacher) {
+      throw new Error(`This reward does not have a teacher!`);
     }
 
     // set reward status to "pending"
@@ -260,14 +269,24 @@ router.patch("/:s_id/redeem/:r_id", async (req, res) => {
     });
 
     const event = await logEvent(MessageEvent, {
-      body: Messages.TEMPLATE_STUDENT_REDEEM_REWARD_MSG,
+      body: Messages.TEMPLATE_STUDENT_REWARD_REDEEM_MSG,
       message: Messages.TEMPLATE_SEND_MESSAGE,
       owner: req.user,
       user: student,
       reward
     });
+
+    const teacherEvent = await logEvent(MessageEvent, {
+      body: Messages.TEMPLATE_REWARD_REDEEM,
+      message: Messages.TEMPLATE_SEND_MESSAGE,
+      owner: req.user,
+      user: teacher,
+      reward
+    });
+    teacher.addNotifications(teacherEvent);
     student.addNotifications(event);
 
+    refreshNotsClientSide(req, teacher);
     refreshNotsClientSide(req, student);
 
     res.json(createResponse(reward));

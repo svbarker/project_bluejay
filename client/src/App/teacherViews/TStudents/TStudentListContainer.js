@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import { loadStudents } from "../../../redux/actions/student";
-import { addStudentToClassroom } from "../../../redux/actions/classrooms";
 import StudentList from "./TStudentList";
 
 const mapStateToProps = state => {
@@ -15,9 +14,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   loadStudents: id => {
     dispatch(loadStudents(id));
-  },
-  addStudentToClassroom: (id, studentData) => {
-    dispatch(addStudentToClassroom(id, studentData));
   }
 });
 

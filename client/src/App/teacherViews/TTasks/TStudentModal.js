@@ -4,6 +4,7 @@ import React from "react";
 import Undoable from "../../GlobalComponents/Undoable";
 import Paper from "material-ui/Paper";
 import Dialog from "material-ui/Dialog";
+import Subheader from "material-ui/Subheader";
 import FlatButton from "material-ui/FlatButton";
 import { List, ListItem } from "material-ui/List";
 
@@ -11,7 +12,11 @@ const StudentItem = ({ onClick, student }) => {
   const unassignButton = (
     <div>
       <Undoable wait={2} resolve={onClick}>
-        <FlatButton label="Unassign" />
+        <FlatButton
+          label="Unassign"
+          backgroundColor="white"
+          hoverColor="#DC2B2B"
+        />
       </Undoable>
     </div>
   );
@@ -19,9 +24,8 @@ const StudentItem = ({ onClick, student }) => {
   return (
     <ListItem
       primaryText={student.profile.displayName}
-      secondaryText={"assigned on [insert date]"}
+      hoverColor="#97cb39"
       rightIconButton={unassignButton}
-      hoverColor="none"
     />
   );
 };
@@ -30,7 +34,7 @@ const ModalTitle = ({ onClick }) => {
   return (
     <div className="modal-title-container">
       <div>
-        <h1>Full list of students</h1>
+        <h1>Students Assigned This Task</h1>
       </div>
       <div className="modal-title-button">
         <Undoable wait={2} tickDown={true} resolve={onClick}>
@@ -64,13 +68,16 @@ class StudentsModal extends React.Component {
       <StudentItem
         key={student._id}
         student={student}
+        style={{ textAlign: "center" }}
         onClick={() => this.props.unAssignOne(student._id)}
       />
     ));
     //make the small list of names that goes into the task card,
     let nameList = [];
     let defaultNameListSize = 3;
-    if (defaultNameListSize >= this.props.students.length) {
+    if (this.props.students.length === 0) {
+      nameList = null;
+    } else if (defaultNameListSize >= this.props.students.length) {
       nameList = this.props.students.map(student => (
         <ListItem key={student._id}>{student.profile.displayName}</ListItem>
       ));
@@ -78,17 +85,23 @@ class StudentsModal extends React.Component {
       nameList = Array(defaultNameListSize)
         .fill(true)
         .map((nothing, idx) => (
-          <ListItem key={this.props.students[idx]._id}>
+          <ListItem
+            key={this.props.students[idx]._id}
+            style={{ textAlign: "center" }}
+          >
             {this.props.students[idx].profile.displayName}
           </ListItem>
         ));
+      nameList.push(<i key="more" className="fa fa-ellipsis-v" />);
     }
 
     return (
       <div>
         <List className="horizontalCenterChildren" onClick={this.handleOpen}>
-          {nameList}
-          <i className="fa fa-ellipsis-h" />
+          <Subheader style={{ textAlign: "center" }}>
+            Students Assigned
+          </Subheader>
+          {nameList ? nameList : <h5>No Students</h5>}
         </List>
         <Dialog
           title={
@@ -99,7 +112,10 @@ class StudentsModal extends React.Component {
           open={this.state.open}
           onRequestClose={this.handleClose}
         >
-          <List>{listOfStudentItems}</List>
+          <List>
+            <Subheader>Students Assigned</Subheader>
+            {listOfStudentItems}
+          </List>
         </Dialog>
       </div>
     );

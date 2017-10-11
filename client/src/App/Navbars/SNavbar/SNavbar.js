@@ -23,7 +23,6 @@ class StudentNavbar extends Component {
 	};
 
 	render() {
-		console.log(this.props);
 		return (
 			<div className="navbar navbar-base">
 				<div className="navbar-left">
@@ -58,24 +57,20 @@ class StudentNavbar extends Component {
 						<NavLink to="/notifications">
 							<li style={{ position: "relative" }}>
 								<i className="fa fa-comment" aria-hidden="true" />
-								<Badge
-									className="navbar-notification-badge"
-									style={{ position: "absolute" }}
-									badgeContent={this.props.notifications.length}
-									primary={true}
-								/>
+								{!this.props.notifications.length
+									? null
+									: <Badge
+											className="navbar-notification-badge"
+											style={{ position: "absolute" }}
+											badgeContent={this.props.notifications.length}
+											primary={true}
+										/>}
 							</li>
 						</NavLink>
 						<li>
 							<IconMenu
 								iconButtonElement={
-									<IconButton
-										style={{
-											padding: "0"
-										}}
-									>
-										<i className="fa fa-user" aria-hidden="true" />
-									</IconButton>
+									<i className="fa fa-user" aria-hidden="true" />
 								}
 								anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 								targetOrigin={{ horizontal: "right", vertical: "top" }}
