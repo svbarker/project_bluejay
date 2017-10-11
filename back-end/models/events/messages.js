@@ -21,7 +21,7 @@ module.exports = {
   TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG: `%owner.profile.displayName% rejected your completion of a task: %task.title%`,
   TEMPLATE_TEACHER_REWARD_CONFIRM_REDEMPTION_MSG: `%owner.profile.displayName% confirmed your redemption of a reward: %reward.title%`,
   TEMPLATE_TEACHER_REWARD_REJECT_REDEMPTION_MSG: `%owner.profile.displayName% rejected your redemption of a reward: %reward.title%`,
-  TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG: `%owner.profile.displayName% gave you a reward %reward.title%, congratulations!.`,
+  TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG: `%owner.profile.displayName% gave you a reward: %reward.title%, congratulations!.`,
 
   TEMPLATE_STUDENT_CREATE: `New student registered with credentials: %owner.email%, %owner.fname%, %owner.lname%.`,
   TEMPLATE_STUDENT_READ: `Data retrieval for student %user.profile.displayName% initiated by %owner.profile.displayName%.`,
@@ -32,8 +32,8 @@ module.exports = {
   TEMPLATE_STUDENT_UPDATE: `%owner.profile.displayName% updated student %user.profile.displayName%. [%user.fields%] [%user.values%]`,
   TEMPLATE_STUDENT_DELETE: `%owner.profile.displayName% deleted student %user.profile.displayName%.`,
   TEMPLATE_STUDENT_REQUEST_COMPLETION_MSG: `%owner.profile.displayName% wants to complete task %task.title%.`,
-  TEMPLATE_STUDENT_REWARD_PURCHASE_MSG: `You purchased reward %reward.title%. Go you!`,
-  TEMPLATE_STUDENT_REWARD_REDEEM_MSG: `You redeemed reward %reward.title%. The teacher will be notified!`,
+  TEMPLATE_STUDENT_REWARD_PURCHASE_MSG: `You purchased a reward: %reward.title%. Go you!`,
+  TEMPLATE_STUDENT_REWARD_REDEEM_MSG: `You redeemed a reward: %reward.title%. The teacher will be notified!`,
 
   TEMPLATE_CLASSROOM_CREATE: `%owner.profile.displayName% created new classroom named %class.title%.`,
   TEMPLATE_CLASSROOM_READ: `Data retrieval for classroom %class.title% initiated by %owner.profile.displayName%.`,
@@ -55,8 +55,8 @@ module.exports = {
   TEMPLATE_TASK_REQUEST_COMPLETION: `%owner.profile.displayName% requested completion of task %task.title%`,
   TEMPLATE_TASK_CONFIRM_COMPLETION: `%owner.profile.displayName% confirmed completion of task %task.title% for %user.profile.displayName%.`,
   TEMPLATE_TASK_REJECT_COMPLETION: `%owner.profile.displayName% rejected completion of task %task.title% for %user.profile.displayName%.`,
-  TEMPLATE_REWARD_CONFIRM_COMPLETION: `%owner.profile.displayName% confirmed redemption of reward %reward.title% for %user.profile.displayName%.`,
-  TEMPLATE_REWARD_REJECT_COMPLETION: `%owner.profile.displayName% rejected redemption of reward %reward.title% for %user.profile.displayName%.`,
+  TEMPLATE_REWARD_CONFIRM_COMPLETION: `%owner.profile.displayName% confirmed redemption of a reward: %reward.title% for %user.profile.displayName%.`,
+  TEMPLATE_REWARD_REJECT_COMPLETION: `%owner.profile.displayName% rejected redemption of a reward: %reward.title% for %user.profile.displayName%.`,
   TEMPLATE_TASK_UPDATE: `%owner.profile.displayName% updated task %task.title%. [%task.fields%] [%task.values%]`,
   TEMPLATE_TASK_DELETE: `%owner.profile.displayName% deleted task %task.title%.`,
 
