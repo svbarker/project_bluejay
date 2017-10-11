@@ -18,6 +18,8 @@ module.exports = {
   TEMPLATE_TEACHER_TASK_ASSIGN_MSG: `%owner.profile.displayName% assigned you a task: %task.title%`,
   TEMPLATE_TEACHER_TASK_CONFIRM_COMPLETION_MSG: `%owner.profile.displayName% confirmed your completion of task: %task.title%`,
   TEMPLATE_TEACHER_TASK_REJECT_COMPLETION_MSG: `%owner.profile.displayName% rejected your completion of task: %task.title%`,
+  TEMPLATE_TEACHER_REWARD_CONFIRM_REDEMPTION_MSG: `%owner.profile.displayName% confirmed your redemption of task: %reward.title%`,
+  TEMPLATE_TEACHER_REWARD_REJECT_REDEMPTION_MSG: `%owner.profile.displayName% rejected your redemption of task: %reward.title%`,
   TEMPLATE_TEACHER_REWARD_DISTRIBUTE_MSG: `%owner.profile.displayName% gave you a reward %reward.title%, congratulations!.`,
 
   TEMPLATE_STUDENT_CREATE: `New student registered with credentials: %owner.email%, %owner.fname%, %owner.lname%.`,
@@ -51,6 +53,8 @@ module.exports = {
   TEMPLATE_TASK_REQUEST_COMPLETION: `%owner.profile.displayName% requested completion of task %task.title%`,
   TEMPLATE_TASK_CONFIRM_COMPLETION: `%owner.profile.displayName% confirmed completion of task %task.title% for %user.profile.displayName%.`,
   TEMPLATE_TASK_REJECT_COMPLETION: `%owner.profile.displayName% rejected completion of task %task.title% for %user.profile.displayName%.`,
+  TEMPLATE_REWARD_CONFIRM_COMPLETION: `%owner.profile.displayName% confirmed redemption of reward %reward.title% for %user.profile.displayName%.`,
+  TEMPLATE_REWARD_REJECT_COMPLETION: `%owner.profile.displayName% rejected redemption of reward %reward.title% for %user.profile.displayName%.`,
   TEMPLATE_TASK_UPDATE: `%owner.profile.displayName% updated task %task.title%. [%task.fields%] [%task.values%]`,
   TEMPLATE_TASK_DELETE: `%owner.profile.displayName% deleted task %task.title%.`,
 
