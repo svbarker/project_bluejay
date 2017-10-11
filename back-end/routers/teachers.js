@@ -740,7 +740,7 @@ router.delete("/:id", async (req, res) => {
 		);
 
 		// Create log event.
-		logEvent
+		logEvent(UserEvent, {
 			message: Messages.TEMPLATE_TEACHER_DELETE,
 			owner: req.user,
 			user: teacher
