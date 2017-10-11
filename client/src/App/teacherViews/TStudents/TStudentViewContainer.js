@@ -9,9 +9,9 @@ class TStudentViewContainer extends React.Component {
     };
   }
 
-  toggle = () => {
+  toggle = selected => () => {
     this.setState({
-      selected: !this.state.selected
+      selected
     });
   };
 

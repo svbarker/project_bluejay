@@ -23,18 +23,18 @@ const StudentView = ({ selected, toggle }) => {
           >
             <RaisedButton
               backgroundColor={"#1a8484"}
-              onClick={toggle}
+              onClick={toggle("tasks")}
               label={"Tasks"}
               style={{ margin: "8px" }}
             />
             <RaisedButton
               backgroundColor={"#96cd28"}
-              onClick={toggle}
+              onClick={toggle("rewards")}
               label={"Rewards"}
               style={{ margin: "8px" }}
             />
           </div>
-          {!selected ? (
+          {selected === "tasks" ? (
             <TaskAssignListContainer />
           ) : (
             <RewardAssignListContainer />
