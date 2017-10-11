@@ -8,11 +8,21 @@ import { hydrateStudentTasks, completeTask } from "../../../redux/actions/task";
 class StudentTaskListContainer extends React.Component {
   constructor() {
     super();
+
+    this.state = {
+      selected: "Assigned"
+    };
   }
 
   componentDidMount() {
     this.props.hydrateTasks(this.props.user.id);
   }
+
+  navigateTo = selected => () => {
+    this.setState({
+      selected
+    });
+  };
 
   render() {
     return (
@@ -23,6 +33,8 @@ class StudentTaskListContainer extends React.Component {
         markCompleted={this.props.markCompleted}
         user={this.props.user}
         socket={this.props.socket}
+        selected={this.state.selected}
+        navigateTo={this.navigateTo}
       />
     );
   }
