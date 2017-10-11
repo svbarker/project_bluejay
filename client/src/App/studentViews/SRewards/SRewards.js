@@ -14,147 +14,131 @@ import "../../Styles/RewardList.css";
 
 //actions
 import {
-	purchaseReward,
-	createReward,
-	getAllRewards,
-	editReward,
-	deleteReward
+  purchaseReward,
+  createReward,
+  getAllRewards,
+  editReward,
+  deleteReward
 } from "../../../redux/actions/rewards";
 import { getStudentRewardOptions } from "../../../redux/actions/rewardOptions";
 import { loginTeacher, loginStudent } from "../../../redux/actions/index";
 
 class StudentRewards extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			fetchingRewards: false,
-			loading: true
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      fetchingRewards: false,
+      loading: true
+    };
+  }
 
-	onPurchase = rewardId => {
-		this.props.purchaseReward(this.props.user.id, rewardId);
-	};
+  onPurchase = rewardId => {
+    this.props.purchaseReward(this.props.user.id, rewardId);
+  };
 
-	async componentDidMount() {
-		//grab all the rewards
-		await this.props.getStudentRewardOptions(this.props.classrooms);
-		this.setState({
-			fetchingRewards: false,
-			loading: false
-		});
-	}
+  async componentDidMount() {
+    //grab all the rewards
+    await this.props.getStudentRewardOptions(this.props.classrooms);
+    this.setState({
+      fetchingRewards: false,
+      loading: false
+    });
+  }
 
-	render = () => {
-		if (this.state.loading) {
-			return <LoadScreen />;
-		}
+  render = () => {
+    if (this.state.loading) {
+      return <LoadScreen />;
+    }
 
-		//TODO: ADD IN-PLACE EDITING FOR DESCRIPTION/ COST/VALUE
-		//TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
-		/////////IF THE USER IS THE TEACHER
-		const rewardOptions = this.props.rewardOptions.map(reward => {
-			return (
-				<Card
-					className="reward-container"
-					style={{ backgroundColor: "#D8F996" }}
-					key={reward._id}
-				>
-					<CardHeader
-						title={reward.title}
-						subtitle={`costs ${reward.cost || reward.value || "None"}`}
-						className="reward-card-header"
-						actAsExpander={true}
-					/>
-					<CardText
-						className="reward-item"
-						style={{ hoverColor: "none" }}
-						expandable={true}
-					>
-						<Paper style={{ padding: "20px" }}>
-							<p>
-								Description: {reward.description || "None"}
-							</p>
-							<p>
-								Kind of reward: {reward.cost ? "Loot" : "Point"}
-							</p>
-							<p>
-								Cost: {reward.cost || reward.value || "None"}
-							</p>
-							<p>
-								Available: {reward.available ? "YES" : "NO"}
-							</p>
-							<p>
-								Supply: {reward.supply || "Unlimited"}
-							</p>
-							<Undoable
-								disabled={this.props.user.points < reward.cost ? true : false}
-								resolve={() => this.onPurchase(reward._id)}
-								wait={2}
-							>
-								<FlatButton
-									// onClick={() => this.onPurchase(reward)}
-									disabled={this.props.user.points < reward.cost ? true : false}
-									primary={this.props.user.points > reward.cost ? true : false}
-									label="purchase"
-								/>
-							</Undoable>
-						</Paper>
-					</CardText>
-				</Card>
-			);
-		});
-		return (
-			<Paper className="reward-container center">
-				{/* header */}
-				<div className="reward-card-title">
-					<h1>
-						{this.props.user.displayName}'s Rewards
-					</h1>
-					<h5>Your points</h5>
-					<h5>
-						{this.props.user.points}
-					</h5>
-					<FlatButton label="Get More" onClick={this.getMoarPoints} />
-				</div>
-				{/* Rewards List */}
-				<List className="reward-list">
-					{rewardOptions}
-				</List>
-			</Paper>
-		);
-	};
+    //TODO: ADD IN-PLACE EDITING FOR DESCRIPTION/ COST/VALUE
+    //TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
+    /////////IF THE USER IS THE TEACHER
+    const rewardOptions = this.props.rewardOptions.map(reward => {
+      return (
+        <Card
+          className="reward-container"
+          style={{ backgroundColor: "#D8F996" }}
+          key={reward._id}
+        >
+          <CardHeader
+            title={reward.title}
+            subtitle={`costs ${reward.cost || reward.value || "None"}`}
+            className="reward-card-header"
+            actAsExpander={true}
+          />
+          <CardText
+            className="reward-item"
+            style={{ hoverColor: "none" }}
+            expandable={true}
+          >
+            <Paper style={{ padding: "20px" }}>
+              <p>Description: {reward.description || "None"}</p>
+              <p>Kind of reward: {reward.cost ? "Loot" : "Point"}</p>
+              <p>Cost: {reward.cost || reward.value || "None"}</p>
+              <p>Available: {reward.available ? "YES" : "NO"}</p>
+              <p>Supply: {reward.supply || "Unlimited"}</p>
+              <Undoable
+                disabled={this.props.user.points < reward.cost ? true : false}
+                resolve={() => this.onPurchase(reward._id)}
+                wait={2}
+              >
+                <FlatButton
+                  // onClick={() => this.onPurchase(reward)}
+                  disabled={this.props.user.points < reward.cost ? true : false}
+                  primary={this.props.user.points > reward.cost ? true : false}
+                  label="purchase"
+                />
+              </Undoable>
+            </Paper>
+          </CardText>
+        </Card>
+      );
+    });
+    return (
+      <Paper className="reward-container center">
+        {/* header */}
+        <div className="reward-card-title">
+          <h1>{this.props.user.displayName}'s Rewards</h1>
+          <h5>Your points</h5>
+          <h5>{this.props.user.points}</h5>
+          {/* <FlatButton label="Get More" onClick={this.getMoarPoints} /> */}
+        </div>
+        {/* Rewards List */}
+        <List className="reward-list">{rewardOptions}</List>
+      </Paper>
+    );
+  };
 }
 
 const mapStateToProps = state => {
-	return {
-		user: state.user,
-		rewards: state.rewards,
-		classrooms: state.classrooms,
-		rewardOptions: state.rewardOptions
-	};
+  return {
+    user: state.user,
+    rewards: state.rewards,
+    classrooms: state.classrooms,
+    rewardOptions: state.rewardOptions
+  };
 };
 const mapDispatchToProps = dispatch => {
-	return {
-		createReward: teacher => {
-			dispatch(createReward(teacher));
-		},
-		fetchRewards: (userId, userKind) => {
-			dispatch(getAllRewards(userId, userKind));
-		},
-		removeReward: rewardId => {
-			dispatch(deleteReward(rewardId));
-		},
-		updateReward: (id, editedReward) => {
-			dispatch(editReward(id, editedReward));
-		},
-		getStudentRewardOptions: classrooms => {
-			dispatch(getStudentRewardOptions(classrooms));
-		},
-		purchaseReward: (studentId, rewardId) => {
-			dispatch(purchaseReward(studentId, rewardId));
-		}
-	};
+  return {
+    createReward: teacher => {
+      dispatch(createReward(teacher));
+    },
+    fetchRewards: (userId, userKind) => {
+      dispatch(getAllRewards(userId, userKind));
+    },
+    removeReward: rewardId => {
+      dispatch(deleteReward(rewardId));
+    },
+    updateReward: (id, editedReward) => {
+      dispatch(editReward(id, editedReward));
+    },
+    getStudentRewardOptions: classrooms => {
+      dispatch(getStudentRewardOptions(classrooms));
+    },
+    purchaseReward: (studentId, rewardId) => {
+      dispatch(purchaseReward(studentId, rewardId));
+    }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StudentRewards);
