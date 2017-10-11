@@ -11,6 +11,7 @@ import LoadScreen from "../../GlobalComponents/LoadScreen";
 import Paper from "material-ui/Paper";
 import FlatButton from "material-ui/FlatButton";
 import "../../Styles/RewardList.css";
+import SRewardCard from "./SRewardCard";
 
 //actions
 import {
@@ -23,7 +24,7 @@ import {
 import { getStudentRewardOptions } from "../../../redux/actions/rewardOptions";
 import { loginTeacher, loginStudent } from "../../../redux/actions/index";
 
-class StudentRewards extends React.Component {
+class StudentRewardList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -55,73 +56,38 @@ class StudentRewards extends React.Component {
 		/////////IF THE USER IS THE TEACHER
 		const rewardOptions = this.props.rewardOptions.map(reward => {
 			return (
-				<Card
-					className="reward-container"
-					style={{ backgroundColor: "#D8F996" }}
-					key={reward._id}
-				>
-					<CardHeader
-						title={reward.title}
-						subtitle={`costs ${reward.cost || reward.value || "None"}`}
-						className="reward-card-header"
-						actAsExpander={true}
-					/>
-					<CardText
-						className="reward-item"
-						style={{ hoverColor: "none" }}
-						expandable={true}
-					>
-						<Paper style={{ padding: "20px" }}>
-							<p>
-								Description: {reward.description || "None"}
-							</p>
-							<p>
-								Kind of reward: {reward.cost ? "Loot" : "Point"}
-							</p>
-							<p>
-								Cost: {reward.cost || reward.value || "None"}
-							</p>
-							<p>
-								Available: {reward.available ? "YES" : "NO"}
-							</p>
-							<p>
-								Supply: {reward.supply || "Unlimited"}
-							</p>
-							<Undoable
-								disabled={this.props.user.points < reward.cost ? true : false}
-								resolve={() => this.onPurchase(reward._id)}
-								wait={2}
-							>
-								<FlatButton
-									// onClick={() => this.onPurchase(reward)}
-									disabled={this.props.user.points < reward.cost ? true : false}
-									primary={this.props.user.points > reward.cost ? true : false}
-									label="purchase"
-								/>
-							</Undoable>
-						</Paper>
-					</CardText>
-				</Card>
+				<SRewardCard
+					reward={reward}
+					points={this.props.user.points}
+					onPurchase={this.onPurchase}
+				/>
 			);
 		});
 		return (
-			<Paper className="reward-container center">
-				{/* header */}
-				<div className="reward-card-title">
-					<h1>
-						{this.props.user.displayName}'s Rewards
-					</h1>
-					<h5>Your points</h5>
-					<h5>
-						{this.props.user.points}
-					</h5>
-					<FlatButton label="Get More" onClick={this.getMoarPoints} />
-				</div>
-				{/* Rewards List */}
-				<List className="reward-list">
-					{rewardOptions}
-				</List>
-			</Paper>
+			<div className="reward-container-outer">
+				<h1>Your Rewards</h1>
+				<Paper
+					className="dashboard-menu"
+					style={{
+						padding: "4px",
+						borderRadius: "20px"
+					}}
+					zDepth={5}
+					rounded={true}
+				>
+					<div
+						className="reward-container"
+						style={{
+							border: "5px dashed #ccc",
+							borderRadius: "20px"
+						}}
+					>
+						<List className="reward-list">
+							{rewardOptions}
+						</List>
+					</div>
+				</Paper>
+			</div>
 		);
 	};
 }
@@ -157,4 +123,4 @@ const mapDispatchToProps = dispatch => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StudentRewards);
+export default connect(mapStateToProps, mapDispatchToProps)(StudentRewardList);

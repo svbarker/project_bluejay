@@ -36,7 +36,7 @@ class RewardCard extends React.Component {
 				<CardHeader
 					actAsExpander={true}
 					showExpandableButton={true}
-					title={title}
+					title={`(${cost || value || "None"}) ${title}`}
 					style={{
 						backgroundColor: "#96cd28"
 					}}
@@ -45,47 +45,33 @@ class RewardCard extends React.Component {
 				/>
 				<CardText expandable={true}>
 					<Paper style={{ padding: "20px" }}>
-						<Editable
-							onSubmit={text => {
-								this.props.onEditReward(text, _id, "description");
-							}}
-							text={description || "None"}
-							label={"description"}
-							multiLine={true}
-							fullWidth={true}
-						>
-							<p>
-								Description: {description || "None"}
-							</p>
-						</Editable>
+						<p>
+							Description: {description || "None"}
+						</p>
 						<p>
 							Kind of reward: {cost ? "Loot" : "Point"}
 						</p>
-						<Editable
-							onSubmit={text => {
-								this.props.onEditReward(text, _id, "cost");
-							}}
-							text={cost || "None"}
-							label={"Cost"}
-						>
-							<p>
-								Cost: {cost || value || "None"}
-							</p>
-						</Editable>
-
+						<p>
+							Cost: {cost || value || "None"}
+						</p>
 						<p>
 							Available: {available ? "YES" : "NO"}
 						</p>
 						<p>
 							Supply: {supply || "Unlimited"}
 						</p>
-						<Undoable resolve={() => this.props.removeReward(_id)}>
-							<RaisedButton label="delete" />
+						<Undoable
+							disabled={this.props.points < cost ? true : false}
+							resolve={() => this.props.onPurchase(_id)}
+							wait={2}
+						>
+							<FlatButton
+								// onClick={() => this.props.onPurchase(reward)}
+								disabled={this.props.points < cost ? true : false}
+								primary={this.props.points > cost ? true : false}
+								label="purchase"
+							/>
 						</Undoable>
-						<RaisedButton
-							onClick={() => this.props.onToggleAvailability(this.props.reward)}
-							label={available ? "Make Unavailable" : "Make Available"}
-						/>
 					</Paper>
 				</CardText>
 			</Card>

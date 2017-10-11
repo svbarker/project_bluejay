@@ -1,2 +1,2 @@
-import SRewards from "./SRewards.js";
-export default SRewards;
+import SRewardList from "./SRewardList.js";
+export default SRewardList;
