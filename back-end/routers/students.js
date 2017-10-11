@@ -418,7 +418,7 @@ router.delete("/notifications/:n_id", async (req, res) => {
       req.params.n_id === "all"
         ? []
         : student.notifications.filter(
-            notification => notification._id !== req.params.n_id
+            notification => notification !== req.params.n_id
           );
     await student.save();
     res.json(createResponse(student.notifications));

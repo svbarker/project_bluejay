@@ -6,28 +6,25 @@ import FontIcon from "material-ui/FontIcon";
 import { red500, yellow500, blue500 } from "material-ui/styles/colors";
 const iconStyles = { marginTop: "25px", color: "#507c0c" };
 
-const getClearAllButton = (notifications, handler) => {
-  return (
+const getClearAllButton = (notifications, handler) =>
+  notifications.length ? (
     <RaisedButton
-      disabled={!notifications.length}
       backgroundColor={"rgba(150,13,13,1)"}
       hoverColor={"rgba(137,0,0,1)"}
       style={{ margin: "30px 0px 0px 100px" }}
       labelColor={"rgb(255,255,255)"}
-      label={`Clear All Notifications`}
+      label={`Clear All`}
       onClick={handler}
     />
-  );
-};
+  ) : null;
 
 const getListItemStyle = n => ({
   margin: "0px 150px 0 250px",
   paddingBottom: "20px",
-  border: `10px solid ${/reject/.exec(n._body)
+  border: `2px solid ${/reject/.exec(n._body)
     ? "rgba(150,13,13,1)"
     : n.task ? "rgba( 26,132,132,.9)" : "rgba(150,205, 40,.9)"}`,
-  borderRadius: "50px",
-  backgroundColor: "white",
+  borderRadius: "20px",
   color: "black"
 });
 
@@ -52,14 +49,17 @@ const getClearNotificationButton = (n, handler) => (
       cursor: "pointer",
       color: "rgba(150,13,13,1)",
       position: "absolute",
-      left: "230px",
+      left: "220px",
       zIndex: "998",
-      marginTop: "-5px",
+      marginTop: "-10px",
       fontSize: "22px"
     }}
     className={"fa fa-window-close"}
   />
 );
+
+const getHoverColor = n =>
+  n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205, 40,.3)";
 
 const getMainText = n => n._body;
 
@@ -137,6 +137,7 @@ const Notifications = ({
                 primaryText: getMainText(n),
                 secondaryText: getSecondaryText(n),
                 onClick: takeToItem(n),
+                hoverColor: getHoverColor(n),
                 secondaryTextLines: 2,
                 leftIcon: getIcon(n),
                 style: getListItemStyle(n)

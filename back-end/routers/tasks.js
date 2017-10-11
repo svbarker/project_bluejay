@@ -1,7 +1,12 @@
 const router = require("express").Router();
 const { Task, User, Student } = require("../models");
 const { createResponse } = require("../server/util");
-const { getResource, logEvent, logError } = require("../server/util");
+const {
+  getResource,
+  logEvent,
+  logError,
+  refreshNotsClientSide
+} = require("../server/util");
 const { TaskEvent, MessageEvent, Messages } = require("../models/events");
 
 // creating a task
@@ -136,119 +141,78 @@ router.patch("/:id", async (req, res) => {
     res.json(createResponse(error));
   }
 });
-//STATUS: NOT INTEGRATED WITH LOGGER & || req.session things
-//UNASSIGN TASK FROM STUDENT ROUTE
+
+// Unassign task from student
 router.patch("/:id/unassign/:s_id", async (req, res) => {
   try {
-    // Get the task.
-    let task = await getResource(req.params.id, Task.findById.bind(Task));
+    const task = await getResource(req.params.id, Task.findById.bind(Task));
 
-    // Get the student.
-    let student = await getResource(
+    const student = await getResource(
       req.params.s_id,
       Student.findById.bind(Student)
     );
-    //remove student from task's list of students
-    task.students = task.students.filter(currentStudent => {
-      return currentStudent.id !== student.id;
-    });
+
+    await task.removeStudent(student);
     await task.save();
-    //remove task from the students list of tasks
-    //NOTE:
-    //probably need to integrate this with how we're doing assigned tasks
-    //removing tasks by title now
-    student.tasks = student.tasks.filter(currentTask => {
-      return currentTask.title !== task.title;
+
+    await student.removeTask(task);
+
+    logEvent(TaskEvent, {
+      message: Messages.TEMPLATE_TASK_UNASSIGN,
+      owner: req.user,
+      user: student,
+      task
     });
-    await student.save();
-    //assuming no errors, sending no response
+
+    const event = await logEvent(MessageEvent, {
+      body: Messages.TEMPLATE_TEACHER_TASK_UNASSIGN_MSG,
+      message: Messages.TEMPLATE_SEND_MESSAGE,
+      owner: req.user,
+      user: student,
+      task: assignedTask
+    });
+
+    refreshNotsClientSide(req, student);
+
     res.json(createResponse(student.id));
   } catch (error) {
     logError(error);
     res.json(createResponse(error));
   }
 });
-//STATUS: NOT INTEGRATED WITH LOGGER & || req.session things
-//BULK-UNASSIGN TASK FROM STUDENT ROUTE
+
+// Bulk-unassign from class
 router.patch("/:id/bulkunassign", async (req, res) => {
   try {
-    let { studentIds } = req.body;
-    let students;
-    let promiseOfStudents = [];
-
-    // Get the task.
-    let task = await getResource(req.params.id, Task.findById.bind(Task));
-
-    // Get the students.
-    promiseOfStudents = studentIds.map(id =>
-      getResource(id, Student.findById.bind(Student))
-    );
-    students = await Promise.all(promiseOfStudents);
-    //this O(n^2) runtime though, stank nasty
-
-    //remove students from task's list of students
-    students.forEach(async student => {
-      task.students = task.students.filter(currentStudent => {
-        return currentStudent.id !== student.id;
-      });
-    });
-    await task.save();
-
-    //remove task from the students list of tasks
-    //NOTE:
-    //probably need to integrate this with how we're doing assigned tasks
-    //removing tasks by title now
-    students.forEach(async student => {
-      student.tasks = student.tasks.filter(assignedTask => {
-        return assignedTask.title !== task.title;
-      });
-      await student.save();
-    });
-
-    //assuming no errors, sending no response
-    res.json(createResponse(studentIds));
-  } catch (error) {
-    logError(error);
-    res.json(createResponse(error));
-  }
-});
-
-//ASSIGN A TASK TO A STUDENT
-router.patch("/:id/assign/:s_id", async (req, res) => {
-  try {
-    // Get the task.
+    const { studentIds } = req.body;
     const task = await getResource(req.params.id, Task.findById.bind(Task));
 
-    // Get the student.
-    const student = await getResource(
-      req.params.s_id,
-      Student.findById.bind(Student)
-    );
+    studentIds.forEach(async id => {
+      const student = await getResource(id, Student.findById.bind(Student));
 
-    if (task.hasStudent(student)) {
-      // Check the student for the corresponding task.
-      if (!student.hasTask(task)) {
-        // Add the task to the student's task list.
-        student.tasks.push(task);
-        await student.save();
-      }
-      throw new Error("Task already assigned to student");
-    }
+      task.removeStudent(student);
+      student.removeTask(task);
+      await task.save();
 
-    // Create log event.
-    logEvent(TaskEvent, {
-      message: Messages.TEMPLATE_TASK_ASSIGN,
-      owner: req.user,
-      user: student,
-      task
+      logEvent(TaskEvent, {
+        message: Messages.TEMPLATE_TASK_UNASSIGN,
+        owner: req.user,
+        user: student,
+        task
+      });
+
+      const event = await logEvent(MessageEvent, {
+        body: Messages.TEMPLATE_TEACHER_TASK_UNASSIGN_MSG,
+        message: Messages.TEMPLATE_SEND_MESSAGE,
+        owner: req.user,
+        user: student,
+        task: assignedTask
+      });
+
+      refreshNotsClientSide(req, student);
     });
 
-    req.session.body = {
-      updates: {
-        students: student
-      }
-    };
-    res.redirect(`/api/tasks/${req.params.id}`);
+    res.json(createResponse(studentIds));
   } catch (error) {
     logError(error);
     res.json(createResponse(error));
