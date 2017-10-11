@@ -18,10 +18,6 @@ class CreateTaskModal extends Component {
 		};
 	}
 
-	componentDidMount() {
-		this.setState({ selectedReward: this.props.rewards[0]._id });
-	}
-
 	handleCreateTask = async e => {
 		e.preventDefault();
 		const params = {
@@ -32,13 +28,19 @@ class CreateTaskModal extends Component {
 			classroom: []
 		};
 		await this.props.createTask(params);
+		this.setState({ rewards: [], selectedReward: null });
 		this.props.handleClose();
 	};
 
-	openRewardDropdown = () => {};
+	handleSelectChange = (e, i, value) => {
+		this.setState({ selectedReward: value });
+	};
 
 	addReward = () => {
-		//do stuff here
+		this.setState({
+			rewards: [...this.state.rewards, this.state.selectedReward],
+			selectedReward: null
+		});
 	};
 
 	render() {
@@ -62,20 +64,23 @@ class CreateTaskModal extends Component {
 						<h3>Rewards</h3>
 						<div>
 							{!this.state.rewards.length ? null : (
-								this.state.rewards.map(reward => {
-									reward.title;
-								})
+								this.state.rewards.map(reward => <p>{reward.title}</p>)
 							)}
 							<div>
-								<SelectField>
+								<SelectField
+									floatingLabelText="Choose a reward"
+									onChange={this.handleSelectChange}
+									value={this.state.selectedReward}
+									id="title"
+								>
 									{this.props.rewards.map(reward => (
-										<MenuItem value={reward._id} primaryText={reward.title} />
+										<MenuItem value={reward} primaryText={reward.title} />
 									))}
 								</SelectField>
 								<FloatingActionButton
 									mini={true}
 									backgroundColor="#96CD28"
-									onClick={this.openRewardDropdown}
+									onClick={this.addReward}
 								>
 									<ContentAdd />
 								</FloatingActionButton>
