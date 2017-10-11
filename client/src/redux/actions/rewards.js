@@ -43,11 +43,11 @@ export const purchaseReward = (studentId, rewardId) => async dispatch => {
   }
 };
 
-//NOT IMPLEMENTED
 export const redeemReward = (studentId, rewardId) => async dispatch => {
-  // dispatch(startRequest());
-  let response;
   try {
+    // dispatch(startRequest());
+    let response;
+
     response = await fetch(`/api/students/${studentId}/redeem/${rewardId}`, {
       method: "PATCH",
       credentials: "include"
@@ -57,7 +57,7 @@ export const redeemReward = (studentId, rewardId) => async dispatch => {
     if (!data.success) {
       throw new Error(data.apiError.message);
     }
-    dispatch(addReward(data.apiData));
+    console.log(data);
   } catch (e) {
     console.error(e);
     // dispatch(endRequest(e));

@@ -22,6 +22,14 @@ const RewardSchema = new mongoose.Schema(
       type: String,
       enum: ["Unredeemed", "Pending", "Redeemed"],
       default: "Unredeemed"
+    },
+    supply: {
+      type: Number,
+      default: 1
+    },
+    rejectedCount: {
+      type: Number,
+      default: 0
     }
   },
   {

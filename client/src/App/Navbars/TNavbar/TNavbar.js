@@ -7,7 +7,6 @@ import "../../Styles/Navbar.css";
 class TeacherNavbar extends Component {
 	constructor(props) {
 		super(props);
-		console.log("CONSTRUCTOR CALLED");
 		this.props.socket.on(Events.REFRESH_NOTIFICATIONS, () => {
 			this.props.fetchNotifications(this.props.userId);
 		});
@@ -24,9 +23,7 @@ class TeacherNavbar extends Component {
 			<div className="navbar navbar-base">
 				<div className="navbar-left">
 					<NavLink to="/">
-						<h1>
-							{"Kids' Productivity App"}
-						</h1>
+						<h1>{"Kids' Productivity App"}</h1>
 					</NavLink>
 				</div>
 				<div className="navbar-mid">
@@ -58,12 +55,14 @@ class TeacherNavbar extends Component {
 						<NavLink to="/notifications">
 							<li style={{ position: "relative" }}>
 								<i className="fa fa-comment" aria-hidden="true" />
-								<Badge
-									className="navbar-notification-badge"
-									style={{ position: "absolute" }}
-									badgeContent={this.props.notifications.length}
-									primary={true}
-								/>
+								{!this.props.notifications.length ? null : (
+									<Badge
+										className="navbar-notification-badge"
+										style={{ position: "absolute" }}
+										badgeContent={this.props.notifications.length}
+										primary={true}
+									/>
+								)}
 							</li>
 						</NavLink>
 						<NavLink to="/profile">

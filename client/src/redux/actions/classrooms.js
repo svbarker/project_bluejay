@@ -30,6 +30,7 @@ const removeClassroom = id => ({
 export const addStudentToClassroom = (id, studentData) => async dispatch => {
 	try {
 		studentData.password = "foo";
+
 		const response = fetch(`/api/classrooms/${id}/student`, {
 			method: "POST",
 			credentials: "include",
