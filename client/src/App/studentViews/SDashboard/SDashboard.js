@@ -1,6 +1,6 @@
 import React from "react";
 // import "../index.css";
-import "./SDashboard.css";
+import "../../Styles/Dashboard.css";
 import { Link } from "react-router-dom";
 import Paper from "material-ui/Paper";
 

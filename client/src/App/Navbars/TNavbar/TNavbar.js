@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import Badge from "material-ui/Badge";
 import * as Events from "../../../redux/actions/events";
-import "../Navbar.css";
+import "../../Styles/Navbar.css";
 
 class TeacherNavbar extends Component {
 	constructor(props) {
