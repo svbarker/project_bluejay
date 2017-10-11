@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Paper from "material-ui/Paper";
 import STaskListMenuCard from "./STaskListMenuCard";
-import "./STaskList.css";
+import "../../Styles/TaskList.css";
 
 const TaskList = props => {
 	const assignedTasks = props.tasks.filter(

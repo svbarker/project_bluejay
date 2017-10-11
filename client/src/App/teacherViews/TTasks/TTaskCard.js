@@ -28,11 +28,23 @@ const DropDownAddReward = ({ rewards, addReward }) => {
     />
   ));
   return (
-    <IconMenu
-      iconButtonElement={<i className="fa fa-plus" aria-hidden="true" />}
+    <Chip
+      className="reward-chip"
+      style={{
+        backgroundColor: "#97cb39",
+        color: "white",
+        margin: "10px",
+        alignItems: "center"
+      }}
     >
-      {options}
-    </IconMenu>
+      <IconMenu
+        iconButtonElement={
+          <i className="fa fa-plus fa-2x" aria-hidden="true" />
+        }
+      >
+        {options}
+      </IconMenu>
+    </Chip>
   );
   return <FlatButton label="add" />;
 };
@@ -59,7 +71,13 @@ class TaskCard extends React.Component {
       return (
         <Chip
           key={reward._id}
-          style={null}
+          style={{
+            color: "white",
+            margin: "10px",
+            alignItems: "center",
+            fontSize: "8px"
+          }}
+          className="reward-chip"
           onRequestDelete={() => {
             this.props.onRemoveReward(reward._id);
           }}
@@ -112,16 +130,19 @@ class TaskCard extends React.Component {
           <Divider />
           {/* Rewards for a task view */}
           <Paper style={{ marginTop: "20px" }}>
-            <div className="menu-card-container">
+            <div className="rewards-chip-container">
               {/* center this */}
-              <div style={{ textAlign: "center", padding: "10px" }}>
+              <div className="rewards-chip-header">
                 <h3>Rewards Given For Completing This Task</h3>
               </div>
-              {rewards}
-              <DropDownAddReward
-                rewards={this.props.allRewards}
-                addReward={this.props.onAddReward}
-              />
+              <div className="rewards-chip-list">
+                {rewards}
+                <DropDownAddReward
+                  rewards={this.props.allRewards}
+                  addReward={this.props.onAddReward}
+                />
+              </div>
+
               {/* <div style={{ display: "flex", flexDirection: "row" }}>
                 {rewards}
               </div> */}

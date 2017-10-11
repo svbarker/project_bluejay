@@ -1,6 +1,6 @@
 import React from "react";
 // import "../index.css";
-import "./TDashboard.css";
+import "../../Styles/Dashboard.css";
 import { Link } from "react-router-dom";
 import Paper from "material-ui/Paper";
 
@@ -23,7 +23,7 @@ const DashboardMenu = () => {
 					className="dashboard-menu-inner"
 					style={{
 						border: "5px dashed #ccc",
-						borderRadius: "22px"
+						borderRadius: "20px"
 					}}
 				>
 					<Link to="/students">

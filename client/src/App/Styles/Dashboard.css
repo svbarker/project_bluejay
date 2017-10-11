@@ -11,21 +11,25 @@
 	text-shadow: 1px 1px 2px #888;
 	text-align: center;
 	font-family: "Bree Serif";
-	/*border-bottom: 1px solid #085a5a;*/
 	margin: 0 25% .25em 25%;
 }
 .dashboard-menu-grid h3 {
-	font-family: "Luckiest Guy";
+	font-family: "Bree Serif";
 }
-.student-dashboard-menu {
-	background-color: red;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+.dashboard-menu {
+	display: block;
 	text-decoration: none;
 	margin: 0 auto;
 	width: 80%;
+}
+.dashboard-menu-inner {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	width: 99.4%;
 	height: 300px;
 }
+
 .dashboard-menu-item {
 	text-decoration: none;
 	height: 260px; /*change later */
@@ -40,6 +44,9 @@
 	justify-items: center;
 	grid-template-rows: 1.5/3 1.5/3;
 }
+.dashboard-menu-grid:hover {
+	background-color: #efefef;
+}
 #dashboard-item-higher {
 	grid-row-start: 1;
 	grid-row-end: 2;
@@ -48,10 +55,19 @@
 	grid-row-start: 2;
 	grid-row-end: 3;
 }
-/*leftmost item = 1, rightmost = 3*/
-
-#dashboard-menu-item2 {
+#dashboard-menu-item1 {
 	grid-column-start: 1;
+	grid-column-end: 2;
+	grid-row-start: 1;
+	grid-row-end: 1;
+	border-color: #dc2b2b;
+	color: #dc2b2b; /*dont think this taking affect*/
+}
+#dashboard-menu-item1 i {
+	color: #dc2b2b; /*dont think this taking affect*/
+}
+#dashboard-menu-item2 {
+	grid-column-start: 2;
 	grid-column-end: 3;
 	grid-row-start: 1;
 	grid-row-end: 1;
@@ -62,7 +78,7 @@
 	color: #1a8484; /*dont think this taking affect*/
 }
 #dashboard-menu-item3 {
-	grid-column-start: 2;
+	grid-column-start: 3;
 	grid-column-end: 3;
 	grid-row-start: 1;
 	grid-row-end: 1;
@@ -72,5 +88,3 @@
 #dashboard-menu-item3 i {
 	color: #96cd28; /*dont think this taking affect*/
 }
-
-/* DASHBOARD STYLES */

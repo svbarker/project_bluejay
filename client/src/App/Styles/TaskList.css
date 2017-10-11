@@ -1,22 +1,44 @@
 .task-container-outer {
   padding-top: 70px;
-  max-width: 960px;
+  width: 80%;
   margin: auto;
 }
 
 .task-container {
   padding: 20px;
+  color: #333;
 }
-
+.student-task-paper {
+  border-bottom: 1px solid #ccc;
+}
 .menu-card-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 20px;
 }
+
+.menu-card-button-container {
+  width: 100%;
+  text-align: right;
+  margin-top: 10px;
+}
+
+.modal-title-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-column-gap: 10px;
+  align-items: center;
+  margin: 20px;
+}
+
+.modal-title-button {
+  justify-self: end;
+}
 .rewards-chip-container {
   display: grid;
   grid-template-rows: 1fr 2fr;
 }
+
 .rewards-chip-header {
   grid-row-start: 1;
   grid-row-end: 2;
@@ -37,22 +59,4 @@
   flex-wrap: wrap;
   grid-row-start: 2;
   padding: 8px;
-}
-
-.menu-card-button-container {
-  width: 100%;
-  text-align: right;
-  margin-top: 10px;
-}
-
-.modal-title-container {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-column-gap: 10px;
-  align-items: center;
-  margin: 20px;
-}
-
-.modal-title-button {
-  justify-self: end;
 }

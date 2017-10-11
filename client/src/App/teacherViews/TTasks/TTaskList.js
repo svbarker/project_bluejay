@@ -3,7 +3,7 @@ import Paper from "material-ui/Paper";
 import RaisedButton from "material-ui/RaisedButton";
 import TaskCard from "./TTaskCard";
 import CreateTaskModal from "./TCreateTaskModal";
-import "./TTaskList.css";
+import "../../Styles/TaskList.css";
 
 //removed menucard container
 //TODO: refactor this (Eric's) nonsense
@@ -57,8 +57,22 @@ const TaskList = props => {
 
   return (
     <div className="task-container-outer">
-      <Paper>
-        <div className="task-container">
+      <Paper
+        className="dashboard-menu"
+        style={{
+          padding: "4px",
+          borderRadius: "20px"
+        }}
+        zDepth={5}
+        rounded={true}
+      >
+        <div
+          className="task-container"
+          style={{
+            border: "5px dashed #ccc",
+            borderRadius: "20px"
+          }}
+        >
           <h2>{`${name}'s Tasks`}</h2>
           <RaisedButton label="Create a task" onClick={handleOpen} />
           {taskCards}

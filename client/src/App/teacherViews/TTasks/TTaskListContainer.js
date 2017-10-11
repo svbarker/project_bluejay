@@ -129,6 +129,7 @@ const mapStateToProps = state => {
     rewards: state.rewards
   };
 };
+
 const mapDispatchToProps = dispatch => {
   return {
     loadStudents: classId => {

@@ -7,7 +7,7 @@ import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import ContentAdd from "material-ui/svg-icons/content/add";
-import "./TStudents.css";
+import "../../Styles/StudentList.css";
 
 class StudentList extends Component {
   constructor(props) {

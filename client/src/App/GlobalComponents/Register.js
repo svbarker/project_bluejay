@@ -5,7 +5,6 @@ import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import RaisedButton from "material-ui/RaisedButton";
 import { Link } from "react-router-dom";
-import "./Login.css";
 
 const Register = ({
 	handleSubmit,
@@ -24,9 +23,9 @@ const Register = ({
 		<div className="registration-container">
 			<Paper style={{ padding: "20px" }}>
 				<h2>Register your teacher account</h2>
-				{!submitError ? null : (
-					<span>A user with that email already exists.</span>
-				)}
+				{!submitError
+					? null
+					: <span>A user with that email already exists.</span>}
 				<form className="registration-form-container" onSubmit={handleSubmit}>
 					<div>
 						<fieldset>
