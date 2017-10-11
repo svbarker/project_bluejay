@@ -61,7 +61,7 @@ class StudentRewardList extends React.Component {
 		});
 		return (
 			<div className="reward-container-outer">
-				<h1>Your Rewards</h1>
+				<h1>Rewards Available for Purchase</h1>
 				<Paper
 					className="dashboard-menu"
 					style={{
