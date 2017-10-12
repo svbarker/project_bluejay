@@ -2,6 +2,8 @@ import React from "react";
 
 //components
 import Editable from "../../GlobalComponents/Editable";
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
 import Dialog from "material-ui/Dialog";
 import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
@@ -38,6 +40,9 @@ export default class TEditRewardModal extends React.Component {
       open: false
     });
   };
+  handleChange = (e, index, value) => {
+    this.setState({ kind: value });
+  };
   validate = () => {
     if (this.state.description.length > 0) {
       this.setState({ valid: true });
@@ -71,7 +76,7 @@ export default class TEditRewardModal extends React.Component {
       />
     ];
     let costOrValue;
-    if (this.props.reward.value) {
+    if (this.props.reward.kind === "LootReward") {
       costOrValue = (
         <TextField
           floatingLabelStyle={{ color: "grey" }}
@@ -128,15 +133,26 @@ export default class TEditRewardModal extends React.Component {
               multiLine={true}
               name="description"
             />
-            {costOrValue}
-            <TextField
-              floatingLabelStyle={{ color: "grey" }}
-              underlineFocusStyle={{ borderColor: "#96CD28" }}
-              onChange={this.onChange}
-              value={this.state.kind}
-              floatingLabelText="Kind"
-              name="kind"
-            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly"
+              }}
+            >
+              {costOrValue}
+              <SelectField
+                floatingLabelText="Kind"
+                value={this.state.kind}
+                floatingLabelStyle={{ color: "grey" }}
+                underlineFocusStyle={{ borderColor: "#97cb39" }}
+                selectedMenuItemStyle={{ color: "#97cb39" }}
+                onChange={this.handleChange}
+              >
+                <MenuItem value={"LootReward"} primaryText="Loot" />
+                <MenuItem value={"PointReward"} primaryText="Point" />
+              </SelectField>
+            </div>
           </Paper>
         </Dialog>
       </div>

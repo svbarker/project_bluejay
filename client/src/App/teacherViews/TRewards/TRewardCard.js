@@ -76,7 +76,9 @@ class RewardCard extends React.Component {
               <div>
                 <p>
                   <strong>Kind: </strong>
-                  {cost ? "Loot" : "Point"} Reward
+                  {this.props.reward.kind === "LootReward"
+                    ? "Loot"
+                    : "Point"}:  Reward
                 </p>
                 <p>
                   <strong>
