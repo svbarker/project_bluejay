@@ -209,7 +209,7 @@ export const completeTask = (s_id, t_id, socket) => async dispatch => {
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
-    // dispatch(updateTask(t_id, response.apiData));
+    dispatch(updateTask(t_id, response.apiData));
   } catch (error) {
     console.log(error);
   }

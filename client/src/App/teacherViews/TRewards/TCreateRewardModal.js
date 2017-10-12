@@ -31,8 +31,18 @@ export default class CreateRewardModal extends React.Component {
 
   handleClose = () => {
     const { description, kind, cost, title } = this.state;
-    if (this.state.valid)
+    if (this.state.valid) {
       this.props.onSubmit({ description, kind, cost, title });
+    }
+    this.setState({
+      open: false,
+      title: "",
+      description: "",
+      kind: "Loot",
+      cost: 0
+    });
+  };
+  handleCancel = () => {
     this.setState({
       open: false,
       title: "",
@@ -64,7 +74,7 @@ export default class CreateRewardModal extends React.Component {
       />,
       <RaisedButton
         label="Cancel"
-        onClick={this.handleClose}
+        onClick={this.handleCancel}
         labelColor="white"
         backgroundColor="#960d0d"
         icon={<i style={{ color: "white" }} className="fa fa-times" />}
@@ -105,6 +115,8 @@ export default class CreateRewardModal extends React.Component {
           <Paper style={{ padding: "20px", border: "3px solid #97cb39" }}>
             <TextField
               onChange={this.onChange}
+              floatingLabelStyle={{ color: "grey" }}
+              underlineFocusStyle={{ borderColor: "#97cb39" }}
               value={this.state.title}
               floatingLabelText="Title"
               fullWidth={true}
@@ -113,6 +125,8 @@ export default class CreateRewardModal extends React.Component {
             />
             <TextField
               onChange={this.onChange}
+              floatingLabelStyle={{ color: "grey" }}
+              underlineFocusStyle={{ borderColor: "#97cb39" }}
               value={this.state.description}
               floatingLabelText="Description"
               fullWidth={true}
@@ -129,6 +143,8 @@ export default class CreateRewardModal extends React.Component {
             >
               <TextField
                 onChange={this.onChange}
+                floatingLabelStyle={{ color: "grey" }}
+                underlineFocusStyle={{ borderColor: "#97cb39" }}
                 value={this.state.cost}
                 floatingLabelText="Cost/Value"
                 name="cost"
@@ -136,6 +152,9 @@ export default class CreateRewardModal extends React.Component {
               <SelectField
                 floatingLabelText="Kind"
                 value={this.state.kind}
+                floatingLabelStyle={{ color: "grey" }}
+                underlineFocusStyle={{ borderColor: "#97cb39" }}
+                selectedMenuItemStyle={{ color: "#97cb39" }}
                 onChange={this.handleChange}
               >
                 <MenuItem value={"Loot"} primaryText="Loot" />
