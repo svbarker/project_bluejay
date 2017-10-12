@@ -15,8 +15,8 @@ const classrooms = (state = classroomInitState, action) => {
     case ADD_CLASSROOM:
       return [...state, action.data];
     case UPDATE_CLASSROOM:
-      return state.classrooms.map(classroom => {
-        return action.data._id === classroom._id
+      return state.map(classroom => {
+        return action.data.id === `${classroom._id}`
           ? action.data.classroom
           : classroom;
       });

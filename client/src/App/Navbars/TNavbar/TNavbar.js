@@ -4,7 +4,7 @@ import Badge from "material-ui/Badge";
 import * as Events from "../../../redux/actions/events";
 import "../../Styles/Navbar.css";
 
-import Logo from "../../GlobalComponents/logo";
+import Logo from "../../GlobalComponents/Logo";
 
 class TeacherNavbar extends Component {
 	constructor(props) {

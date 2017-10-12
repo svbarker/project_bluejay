@@ -1,12 +1,12 @@
 import React from "react";
 
+import Logo from "../GlobalComponents/Logo";
+
 const LoggedOutNavbar = () => {
 	return (
 		<div className="navbar navbar-base">
 			<div className="navbar-left">
-				<h1>
-					{"Kids' Productivity App"}
-				</h1>
+				<Logo />
 			</div>
 		</div>
 	);
