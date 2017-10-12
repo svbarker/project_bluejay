@@ -10,6 +10,7 @@ import {
   unAssignTask,
   bulkUnassignTask,
   editTask,
+  createTask,
   deleteTask
 } from "../../../redux/actions/task";
 import { getAllRewards } from "../../../redux/actions/rewards";
@@ -60,6 +61,11 @@ class TaskListContainer extends React.Component {
   onUnAssignOne = async (task, studentId) => {
     this.props.unAssignTask(task, studentId);
   };
+  //create a task
+  onCreateTask = newTask => {
+    console.log("new Task ", newTask);
+    this.props.createTask(newTask);
+  };
   //delete a task
   onDelete = (teacherId, taskId) => {
     this.props.deleteTask(teacherId, taskId);
@@ -100,6 +106,7 @@ class TaskListContainer extends React.Component {
           allRewards={this.props.rewards}
           onRemoveReward={this.onRemoveReward}
           onAddReward={this.onAddReward}
+          onCreateTask={this.onCreateTask}
           students={this.props.students}
           deleteTask={taskId => this.onDelete(this.props.userId, taskId)}
           editTask={this.onEdit}
@@ -142,6 +149,7 @@ const mapDispatchToProps = dispatch => {
     bulkUnassignTask: (task, studentIds) => {
       dispatch(bulkUnassignTask(task, studentIds));
     },
+    createTask: newTask => dispatch(createTask(newTask)),
     deleteTask: (teacherId, taskId) => dispatch(deleteTask(teacherId, taskId)),
     editTask: (taskId, taskUpdates) => dispatch(editTask(taskId, taskUpdates)),
     getAllRewards: (userId, userKind) =>

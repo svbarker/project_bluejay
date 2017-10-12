@@ -65,7 +65,7 @@ export default class TEditRewardModal extends React.Component {
       <RaisedButton
         label="Cancel"
         backgroundColor={"#960D0D"}
-        labelColor="white"
+        labelColor={"white"}
         icon={<i style={{ color: "white" }} className="fa fa-times" />}
         onClick={this.handleCancel}
       />
@@ -100,7 +100,7 @@ export default class TEditRewardModal extends React.Component {
         <RaisedButton
           label="Edit"
           backgroundColor={"#96CD28"}
-          labelColor="black"
+          labelColor={"black"}
           icon={<i style={{ color: "black" }} className="fa fa-edit" />}
           onClick={this.handleOpen}
         />

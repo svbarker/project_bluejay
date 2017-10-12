@@ -35,6 +35,7 @@ const TaskList = props => {
             props.unAssignOne(task, student);
           }}
           allRewards={props.allRewards}
+          onCreateTask={props.onCreateTask}
           onRemoveReward={rewardId => props.onRemoveReward(task, rewardId)}
           onAddReward={rewardId => props.onAddReward(task, rewardId)}
           deleteTask={() => props.deleteTask(task._id)}
@@ -80,7 +81,7 @@ const TaskList = props => {
               icon={<i style={{ color: "white" }} className="fa fa-plus" />}
               label="Task"
               backgroundColor={"#1a8484"}
-              labelColor="white"
+              labelColor={"white"}
               onClick={handleOpen}
             />
           </div>
@@ -91,6 +92,7 @@ const TaskList = props => {
       </Paper>
       <CreateTaskModal
         open={open}
+        onCreateTask={props.onCreateTask}
         handleClose={handleClose}
         teacherId={teacherId}
         rewards={props.allRewards}
