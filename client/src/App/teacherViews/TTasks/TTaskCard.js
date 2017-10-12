@@ -20,6 +20,9 @@ import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
 
 const rewardsChip = {
+  background: "96CD28",
+  color: "white",
+  fontWeight: "bold",
   height: "50px",
   fontSize: "18px",
   margin: "3px"
@@ -156,11 +159,21 @@ class TaskCard extends React.Component {
                 <h3>Rewards Given For Completing This Task</h3>
               </div>
               <div className="rewards-chip-list">
+                <div
+                  style={{
+                    margin: "10px",
+                    width: "100%",
+                    display: "flex",
+                    flexFlow: "row nowrap",
+                    justifyContent: "center"
+                  }}
+                >
+                  <DropDownAddReward
+                    rewards={this.props.allRewards}
+                    addReward={this.props.onAddReward}
+                  />
+                </div>
                 {rewards}
-                <DropDownAddReward
-                  rewards={this.props.allRewards}
-                  addReward={this.props.onAddReward}
-                />
               </div>
             </div>
           </Paper>

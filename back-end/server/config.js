@@ -2,10 +2,10 @@ require("dotenv").config();
 const User = require("../models/users/User");
 
 module.exports = {
-  port: process.env.PORT || process.argv[2] || 3000,
+  port: process.env.PORT || process.argv[2] || 3001,
   host: "localhost",
   serverCallback: () => {
-    console.log("Listening on port 3001");
+    console.log(`Listening on port 3000`);
   },
   session: {
     secret: process.env.SECRET,

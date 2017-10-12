@@ -6,6 +6,7 @@ import {
   REDEEM_REWARD,
   REMOVE_REWARD
 } from "../actions/rewards";
+import { CLEAR_STORE } from "../actions/index";
 
 export const rewardInitState = [];
 
@@ -15,6 +16,8 @@ const rewards = (state = [], action) => {
     return state;
   }
   switch (action.type) {
+    case CLEAR_STORE:
+      return [];
     case GET_ALL_REWARDS:
       return action.data;
     case GET_ONE_REWARD:

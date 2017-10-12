@@ -44,10 +44,6 @@
 .modal-title-button {
   justify-self: end;
 }
-.rewards-chip-container {
-  display: grid;
-  grid-template-rows: 1fr 2fr;
-}
 
 .rewards-chip-header {
   grid-row-start: 1;
@@ -62,7 +58,7 @@
   padding: 8px;
 }
 .reward-chip p {
-  font-size: 12px;
+  font-size: 16px;
 }
 .rewards-chip-list {
   display: flex;

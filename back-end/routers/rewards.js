@@ -71,23 +71,16 @@ router.get("/rewardOptions", async (req, res) => {
 
     let classrooms = await Promise.all(promises);
 
-    let found = {};
     let rewards = classrooms.reduce(
       (rewards, room) =>
-        room.teachers.reduce((array, teacher) => {
-          if (!found[teacher._id]) {
-            console.log("NOT DUPLICATE");
-            found[teacher._id] = true;
-            console.log(teacher.rewards);
-            return array.concat(teacher.rewards);
-          }
-          return array;
-        }, rewards),
+        rewards.concat(
+          room.teachers.reduce(
+            (array, teacher) => array.concat(teacher.rewards),
+            []
+          )
+        ),
       []
     );
-
-    console.log(rewards);
-    console.log(found);
 
     const reward = {
       rewardList: rewards.join(",")

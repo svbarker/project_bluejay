@@ -7,11 +7,14 @@ import {
   UNASSIGN_STUDENT,
   BULK_UNASSIGN_STUDENTS
 } from "../actions/task";
+import { CLEAR_STORE } from "../actions/index";
 
 export const taskInitState = [];
 
 const tasks = (state = [], action) => {
   switch (action.type) {
+    case CLEAR_STORE:
+      return [];
     case GET_ALL_TASKS:
       return [...action.data];
     case ADD_TASK:
