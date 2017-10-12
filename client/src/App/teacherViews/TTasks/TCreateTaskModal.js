@@ -45,7 +45,7 @@ class CreateTaskModal extends Component {
 
   render() {
     return (
-      <Dialog title="Create a task" open={this.props.open} modal={true}>
+      <Dialog title="Create a task:" open={this.props.open} modal={true}>
         <form
           onSubmit={this.handleCreateTask}
           className="create-task-container"
@@ -64,7 +64,7 @@ class CreateTaskModal extends Component {
           </div>
           <div style={{ padding: "20px", border: "3px solid #97cb39" }}>
             <div>
-              <h3>Rewards</h3>
+              <h3>Rewards:</h3>
               <div>
                 {!this.state.rewards.length ? null : (
                   this.state.rewards.map(reward => <p>{reward.title}</p>)
@@ -108,6 +108,7 @@ class CreateTaskModal extends Component {
               label="Create"
               labelColor="white"
               backgroundColor="#1a8484"
+              icon={<i style={{ color: "white" }} className="fa fa-save" />}
             />
             <RaisedButton
               style={{ margin: "10px" }}
@@ -115,6 +116,7 @@ class CreateTaskModal extends Component {
               onClick={this.props.handleClose}
               labelColor="white"
               backgroundColor="#960d0d"
+              icon={<i style={{ color: "white" }} className="fa fa-times" />}
             />
           </div>
         </form>

@@ -50,13 +50,16 @@ export default class TEditRewardModal extends React.Component {
     const actions = [
       <RaisedButton
         label="Save"
-        primary={true}
         disabled={!this.state.valid}
         onClick={this.handleClose}
+        backgroundColor={"#96CD28"}
+        icon={<i style={{ color: "black" }} className="fa fa-save" />}
       />,
       <RaisedButton
         label="Cancel"
-        secondary={true}
+        backgroundColor={"#960D0D"}
+        labelColor="white"
+        icon={<i style={{ color: "white" }} className="fa fa-times" />}
         onClick={this.handleClose}
       />
     ];
@@ -83,7 +86,13 @@ export default class TEditRewardModal extends React.Component {
 
     return (
       <div>
-        <RaisedButton label="Edit" onClick={this.handleOpen} />
+        <RaisedButton
+          label="Edit"
+          backgroundColor={"#96CD28"}
+          labelColor="black"
+          icon={<i style={{ color: "black" }} className="fa fa-edit" />}
+          onClick={this.handleOpen}
+        />
         <Dialog
           title="Edit your reward"
           actions={actions}

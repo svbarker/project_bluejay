@@ -160,6 +160,11 @@ class TaskCard extends React.Component {
                     <RaisedButton
                       label="Delete"
                       style={{ marginLeft: "20px" }}
+                      backgroundColor={"#960D0D"}
+                      labelColor="white"
+                      icon={
+                        <i style={{ color: "white" }} className="fa fa-trash" />
+                      }
                     />
                   </Undoable>
                 </div>

@@ -58,14 +58,16 @@ export default class CreateRewardModal extends React.Component {
         label="Create"
         disabled={!this.state.valid}
         onClick={this.handleClose}
-        labelColor="white"
+        labelColor="black"
         backgroundColor="#97cb39"
+        icon={<i style={{ color: "black" }} className={"fa fa-save"} />}
       />,
       <RaisedButton
         label="Cancel"
         onClick={this.handleClose}
         labelColor="white"
         backgroundColor="#960d0d"
+        icon={<i style={{ color: "white" }} className="fa fa-times" />}
       />
     ];
 

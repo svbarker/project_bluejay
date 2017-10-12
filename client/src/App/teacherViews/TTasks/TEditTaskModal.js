@@ -11,12 +11,13 @@ import RaisedButton from "material-ui/RaisedButton";
 const ModalTitle = props => {
   return (
     <div className="modal-title-container">
-      <h1>Modify your task</h1>
+      <h1>Modify your task:</h1>
     </div>
   );
 };
 const style = {
-  margin: 12
+  margin: 12,
+  color: "white"
 };
 class TEditTaskModal extends React.Component {
   constructor(props) {
@@ -49,19 +50,29 @@ class TEditTaskModal extends React.Component {
       <FlatButton
         label="Cancel"
         style={style}
-        primary={true}
+        labelColor="white"
+        backgroundColor="#960D0D"
         onClick={this.handleClose}
+        icon={<i style={{ color: "white" }} className={"fa fa-times"} />}
       />,
       <FlatButton
         label="Save"
-        secondary={true}
         style={style}
+        labelColor="white"
+        backgroundColor="#1A8484"
         onClick={this.onSave}
+        icon={<i style={{ color: "white" }} className={"fa fa-save"} />}
       />
     ];
     return (
       <div>
-        <RaisedButton onClick={this.handleOpen} label="Edit" />
+        <RaisedButton
+          onClick={this.handleOpen}
+          backgroundColor={"#1A8484"}
+          labelColor="white"
+          icon={<i style={{ color: "white" }} className="fa fa-edit" />}
+          label="Edit"
+        />
         <Dialog
           title={<ModalTitle />}
           open={this.state.open}

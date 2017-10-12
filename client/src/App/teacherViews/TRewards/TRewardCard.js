@@ -114,7 +114,14 @@ class RewardCard extends React.Component {
                     this.props.onEditReward(updatedReward, _id)}
                 />
                 <Undoable resolve={() => this.props.removeReward(_id)}>
-                  <RaisedButton label="delete" />
+                  <RaisedButton
+                    backgroundColor={"#960D0D"}
+                    icon={
+                      <i style={{ color: "white" }} className="fa fa-trash" />
+                    }
+                    labelColor="white"
+                    label="delete"
+                  />
                 </Undoable>
                 {this.props.reward.kind === "LootReward" ? (
                   <RaisedButton
