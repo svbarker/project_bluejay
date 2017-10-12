@@ -51,15 +51,7 @@
   text-align: center;
   padding: 10px;
 }
-.reward-chip {
-  height: 50px;
-  font-size: 8px;
-  margin: 8px;
-  padding: 8px;
-}
-.reward-chip p {
-  font-size: 16px;
-}
+
 .rewards-chip-list {
   display: flex;
   flex-direction: row;

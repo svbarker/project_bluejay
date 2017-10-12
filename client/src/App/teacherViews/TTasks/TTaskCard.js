@@ -20,12 +20,7 @@ import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
 
 const rewardsChip = {
-  background: "96CD28",
-  color: "white",
-  fontWeight: "bold",
-  height: "50px",
-  fontSize: "18px",
-  margin: "3px"
+  fontWeight: "bold"
 };
 
 const DropDownAddReward = ({ rewards, addReward }) => {
@@ -68,14 +63,20 @@ class TaskCard extends React.Component {
       return (
         <Chip
           key={idx}
-          style={rewardsChip}
+          backgroundColor="#96CD28"
+          style={{ margin: "5px" }}
+          labelColor="#FFFFFF"
+          labelStyle={rewardsChip}
           className="reward-chip"
           onRequestDelete={() => {
             this.props.onRemoveReward(reward._id);
           }}
         >
-          <Avatar src="images/rewards/rewards1.png" />
-          <p>{reward.title}</p>
+          <Avatar
+            icon={<i class="fa fa-gift" aria-hidden="true" />}
+            backgroundColor="#618C0C"
+          />
+          {reward.title}
         </Chip>
       );
     });
