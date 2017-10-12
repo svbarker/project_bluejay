@@ -29,7 +29,7 @@ class NotificationsContainer extends React.Component {
     this.setState({
       pendingActions: [
         ...this.state.pendingActions,
-        { id: n_id, timeLeft: 15, type: `${action}ed` }
+        { id: n_id, timeLeft: 5, type: `${action}ed` }
       ]
     });
     let interval = setInterval(() => {
@@ -50,7 +50,7 @@ class NotificationsContainer extends React.Component {
                 a => a.id !== n_id
               )
             });
-          }, 15000),
+          }, 5000),
           eventId: n_id,
           interval,
           t_id,
@@ -63,7 +63,7 @@ class NotificationsContainer extends React.Component {
     });
     setTimeout(() => {
       clearInterval(interval);
-    }, 15000);
+    }, 5000);
   };
 
   undoAction = id => e => {

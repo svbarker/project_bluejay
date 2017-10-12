@@ -144,29 +144,33 @@ const Notifications = ({
       <Paper style={{ padding: "4px", borderRadius: "22px" }}>
         <div className="notifications-container-inner">
           {getClearAllButton(notifications, clearAll)}
-          <List>
-            {notifications.map(n => {
-              let date = getDateHeader(n, dates);
+          {!notifications.length ? (
+            <p className="notifications-none">You have no notifications</p>
+          ) : (
+            <List>
+              {notifications.map(n => {
+                let date = getDateHeader(n, dates);
 
-              const ListItemProps = {
-                primaryText: getMainText(n),
-                secondaryText: getSecondaryText(n),
-                onClick: takeToItem(n),
-                hoverColor: getHoverColor(n),
-                secondaryTextLines: 2,
-                leftIcon: getIcon(n),
-                style: getListItemStyle(n)
-              };
+                const ListItemProps = {
+                  primaryText: getMainText(n),
+                  secondaryText: getSecondaryText(n),
+                  onClick: takeToItem(n),
+                  hoverColor: getHoverColor(n),
+                  secondaryTextLines: 2,
+                  leftIcon: getIcon(n),
+                  style: getListItemStyle(n)
+                };
 
-              return (
-                <div key={n._id} style={topMargin}>
-                  {date}
-                  {getClearNotificationButton(n, clearNotification(n))}
-                  <ListItem {...ListItemProps} />
-                </div>
-              );
-            })}
-          </List>
+                return (
+                  <div key={n._id} style={topMargin}>
+                    {date}
+                    {getClearNotificationButton(n, clearNotification(n))}
+                    <ListItem {...ListItemProps} />
+                  </div>
+                );
+              })}
+            </List>
+          )}
         </div>
       </Paper>
     </div>

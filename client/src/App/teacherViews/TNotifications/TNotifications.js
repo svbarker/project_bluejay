@@ -185,63 +185,67 @@ const Notifications = ({
       <h1>Activity</h1>
       <Paper style={{ padding: "4px", borderRadius: "22px" }}>
         <div className="notifications-container-inner">
-          <List>
-            {notifications.map(n => {
-              let date = getDateHeader(n, dates);
+          {!notifications.length ? (
+            <p className="notifications-none">You have no notifications</p>
+          ) : (
+            <List>
+              {notifications.map(n => {
+                let date = getDateHeader(n, dates);
 
-              if (isPending(n, pendingIds)) {
-                const [pendingType, timeLeft] = getPendingData(n, pendings);
+                if (isPending(n, pendingIds)) {
+                  const [pendingType, timeLeft] = getPendingData(n, pendings);
 
-                const pendingListItemProps = {
+                  const pendingListItemProps = {
+                    key: n._id,
+                    primaryText: getPendingMainText(
+                      pendingType,
+                      n,
+                      undo,
+                      timeLeft
+                    ),
+                    secondaryText: `Leaving the page will make this permanent.`,
+                    hoverColor: "lightgrey",
+                    secondaryTextLines: 2,
+                    leftIcon: getActionIcon(pendingType),
+                    style: pendingListItemStyle
+                  };
+
+                  return (
+                    <div style={topMargin}>
+                      {date}
+                      <div style={notificationDivStyle}>
+                        <ListItem {...pendingListItemProps} />
+                      </div>
+                    </div>
+                  );
+                }
+
+                const ListItemProps = {
                   key: n._id,
-                  primaryText: getPendingMainText(
-                    pendingType,
-                    n,
-                    undo,
-                    timeLeft
-                  ),
-                  secondaryText: `Leaving the page will make this permanent.`,
-                  hoverColor: "lightgrey",
+                  primaryText: getMainText(n),
+                  secondaryText: getSecondaryText(n),
+                  hoverColor: getHoverColor(n),
+                  onClick: takeToItem(n.task, n._id),
                   secondaryTextLines: 2,
-                  leftIcon: getActionIcon(pendingType),
-                  style: pendingListItemStyle
+                  leftIcon: getIcon(n),
+                  style: getListItemStyle(n)
                 };
 
                 return (
                   <div style={topMargin}>
                     {date}
                     <div style={notificationDivStyle}>
-                      <ListItem {...pendingListItemProps} />
+                      <ListItem {...ListItemProps} />
+                      <div style={listItemButtonsStyle}>
+                        {getButton(n, user.id, acceptEvent, "Accept")}
+                        {getButton(n, user.id, rejectEvent, "Reject")}
+                      </div>
                     </div>
                   </div>
                 );
-              }
-
-              const ListItemProps = {
-                key: n._id,
-                primaryText: getMainText(n),
-                secondaryText: getSecondaryText(n),
-                hoverColor: getHoverColor(n),
-                onClick: takeToItem(n.task, n._id),
-                secondaryTextLines: 2,
-                leftIcon: getIcon(n),
-                style: getListItemStyle(n)
-              };
-
-              return (
-                <div style={topMargin}>
-                  {date}
-                  <div style={notificationDivStyle}>
-                    <ListItem {...ListItemProps} />
-                    <div style={listItemButtonsStyle}>
-                      {getButton(n, user.id, acceptEvent, "Accept")}
-                      {getButton(n, user.id, rejectEvent, "Reject")}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </List>
+              })}
+            </List>
+          )}
         </div>
       </Paper>
     </div>

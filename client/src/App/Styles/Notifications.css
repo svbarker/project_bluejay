@@ -11,7 +11,7 @@
 	text-align: center;
 	font-family: "Bree Serif";
 	/*border-bottom: 1px solid #085a5a;*/
-	margin: 0 25% .25em 25%;
+	margin: 0 25% 0.25em 25%;
 }
 
 .notifications-container-inner {
@@ -19,4 +19,10 @@
 	border-radius: 20px;
 	padding: 5px 15px;
 	padding-bottom: 40px;
+}
+
+.notifications-none {
+	text-align: center;
+	font-weight: bold;
+	padding-top: 20px;
 }
