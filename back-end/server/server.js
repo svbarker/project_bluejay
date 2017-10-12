@@ -19,7 +19,7 @@ const mw = require("./middleware");
 // middleware
 app.use(session(configs.session));
 app.use(bodyParser.json());
-// app.use(express.static("build"));
+app.use(express.static("server/build"));
 app.use(mw.mongooseConnect);
 app.use(passport.initialize());
 app.use(passport.session());
@@ -32,7 +32,7 @@ passport.deserializeUser(configs.deserialize);
 passport.use(new localStrategy(require("../strategies/local")));
 
 // serve static resource
-// app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
 // registering route
 app.use("/register", require("../routers/register"));

@@ -1,5 +1,5 @@
 const { ErrorEvent, Messages } = require("../models/events");
-const Events = require("../../client/src/redux/actions/events");
+const Events = require("./events");
 
 module.exports = {
 	getResource: async function(_id, method, options, populate) {
