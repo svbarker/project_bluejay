@@ -167,6 +167,7 @@ class StudentRewardWallet extends React.Component {
             style={{ margin: "20px 20px" }}
             labelColor={"white"}
             label={"Unredeemed"}
+            icon={<i style={{ color: "white" }} className="fa fa-gift" />}
           />
           <RaisedButton
             disabled={this.state.selected === "Pending"}
@@ -175,6 +176,7 @@ class StudentRewardWallet extends React.Component {
             style={{ margin: "20px 20px" }}
             labelColor={"white"}
             label={"Pending"}
+            icon={<i style={{ color: "white" }} className="fa fa-ellipsis-h" />}
           />
           <RaisedButton
             disabled={this.state.selected === "Redeemed"}
@@ -183,6 +185,12 @@ class StudentRewardWallet extends React.Component {
             style={{ margin: "20px 20px" }}
             labelColor={"white"}
             label={"Redeemed"}
+            icon={
+              <span>
+                <i style={{ color: "white" }} className="fa fa-check" />
+                <i style={{ color: "white" }} className="fa fa-gift" />
+              </span>
+            }
           />
         </div>
         {page}

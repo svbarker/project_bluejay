@@ -65,7 +65,7 @@ class ClassAssign extends Component {
         }}
         className={`student-assign-all ${highlighted}`}
       >
-        <span>Assign to Class</span>
+        <span>Entire Class</span>
       </div>
     );
   }

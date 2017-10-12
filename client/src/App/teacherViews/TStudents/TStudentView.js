@@ -20,20 +20,24 @@ const StudentView = ({ selected, toggle, name }) => {
               justifyContent: "center"
             }}
           >
-            <RaisedButton
-              labelColor={"white"}
-              backgroundColor={"#1a8484"}
-              onClick={toggle("tasks")}
-              label={"Tasks"}
-              style={{ margin: "8px" }}
-            />
-            <RaisedButton
-              labelColor={"white"}
-              backgroundColor={"#96cd28"}
-              onClick={toggle("rewards")}
-              label={"Rewards"}
-              style={{ margin: "8px" }}
-            />
+            <div>
+              <RaisedButton
+                labelColor={"white"}
+                backgroundColor={"#1a8484"}
+                onClick={toggle("tasks")}
+                icon={<i style={{ color: "white" }} className="fa fa-tasks" />}
+                label={"Tasks"}
+                style={{ margin: "8px" }}
+              />
+              <RaisedButton
+                labelColor={"white"}
+                backgroundColor={"#96cd28"}
+                onClick={toggle("rewards")}
+                icon={<i style={{ color: "white" }} className="fa fa-gift" />}
+                label={"Rewards"}
+                style={{ margin: "8px" }}
+              />
+            </div>
           </div>
 
           {selected === "tasks" ? (

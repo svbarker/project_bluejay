@@ -35,7 +35,7 @@ class RewardCard extends React.Component {
             backgroundColor: "#96cd28"
           }}
           iconStyle={{ color: "white" }}
-          titleStyle={{ color: "white", fontWeight: "bold" }}
+          titleStyle={{ color: "black", fontWeight: "bold" }}
         />
         <CardText expandable={true}>
           <Paper style={{ padding: "20px" }}>

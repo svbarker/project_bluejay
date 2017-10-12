@@ -149,25 +149,43 @@ const TaskList = props => {
         <RaisedButton
           disabled={props.selected === "Assigned"}
           onClick={navigateTo("Assigned")}
+          icon={
+            <i
+              style={{ color: "white", fontSize: "23px" }}
+              className="fa fa-hand-o-right"
+            />
+          }
           backgroundColor={"rgba( 26,132,132,1)"}
           style={{ margin: "20px 20px" }}
-          labelColor={"white"}
+          labelColor={"rgba(255,255,255,1)"}
           label={"Assigned"}
         />
         <RaisedButton
           disabled={props.selected === "Completed"}
           onClick={navigateTo("Completed")}
+          icon={
+            <i
+              style={{ color: "white", fontSize: "23px" }}
+              className="fa fa-thumbs-o-up"
+            />
+          }
           backgroundColor={"rgba(150,205, 40,1)"}
           style={{ margin: "20px 20px" }}
-          labelColor={"white"}
+          labelColor={"rgba(255,255,255,1)"}
           label={"Completed"}
         />
         <RaisedButton
           disabled={props.selected === "Rejected"}
           onClick={navigateTo("Rejected")}
+          icon={
+            <i
+              style={{ color: "white", fontSize: "23px" }}
+              className="fa fa-thumbs-o-down"
+            />
+          }
           backgroundColor={"rgba(150,13,13,1)"}
           style={{ margin: "20px 20px" }}
-          labelColor={"white"}
+          labelColor={"rgba(255,255,255,1)"}
           label={"Rejected"}
         />
       </div>

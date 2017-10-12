@@ -35,7 +35,8 @@ const rewardsChipContainer = {
 
 const rewardsChip = {
   height: "50px",
-  fontSize: "8px"
+  fontSize: "18px",
+  margin: "3px"
 };
 const rewardsChipP = {
   fontSize: "12px"
@@ -104,11 +105,23 @@ class TaskCard extends React.Component {
       );
     });
     return (
-      <Card style={{ marginBottom: "20px" }} key={_id}>
+      <Card
+        style={{
+          marginBottom: "20px",
+          marginLeft: "50px",
+          marginRight: "50px"
+        }}
+        key={_id}
+      >
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
-          title={title}
+          title={
+            <div>
+              <i className={"fa fa-tasks"} />
+              {title}
+            </div>
+          }
           style={{
             backgroundColor: "#1a8484"
           }}

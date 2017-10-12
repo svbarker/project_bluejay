@@ -21,7 +21,8 @@ const rewardsChipContainer = {
 
 const rewardsChip = {
   height: "50px",
-  fontSize: "8px"
+  fontSize: "18px",
+  margin: "3px"
 };
 const rewardsChipP = {
   fontSize: "12px"
@@ -34,8 +35,8 @@ const rewardsChipList = {
   gridRowStart: "2",
   padding: "8px"
 };
-const BUTTON_MARK_COMPLETED_TEXT = "Mark Completed";
-const BUTTON_PENDING_TEXT = "Pending Teacher Approval";
+const BUTTON_MARK_COMPLETED_TEXT = "Mark Complete";
+const BUTTON_PENDING_TEXT = "Pending Approval";
 class StudentTaskListMenuCard extends React.Component {
   constructor(props) {
     super(props);
@@ -62,11 +63,23 @@ class StudentTaskListMenuCard extends React.Component {
       );
     });
     return (
-      <Card style={{ marginBottom: "20px", backgroundColor: "#85DCDC" }}>
+      <Card
+        style={{
+          marginBottom: "20px",
+          backgroundColor: "#85DCDC",
+          marginLeft: "50px",
+          marginRight: "50px"
+        }}
+      >
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
-          title={title}
+          title={
+            <div>
+              <i className={"fa fa-tasks"} />
+              {title}
+            </div>
+          }
           style={{
             backgroundColor: "#1a8484"
           }}
@@ -86,6 +99,7 @@ class StudentTaskListMenuCard extends React.Component {
                   <FlatButton
                     disabled={this.state.disabled}
                     label={this.state.label}
+                    icon={<i className="fa fa-check fa-1x" />}
                     style={{ color: "rgb(255,255,255)" }}
                     onClick={() => {
                       if (!this.state.disabled)

@@ -33,11 +33,25 @@ class RewardCard extends React.Component {
       available
     } = this.props.reward;
     return (
-      <Card style={{ marginBottom: "20px" }} key={_id}>
+      <Card
+        style={{
+          marginBottom: "20px",
+          backgroundColor: "#D8F996",
+          marginLeft: "50px",
+          marginRight: "50px"
+        }}
+        key={_id}
+      >
         <CardHeader
           actAsExpander={true}
           showExpandableButton={true}
-          title={`${title} (${cost || value || "None"} Points)`}
+          title={
+            <div>
+              {" "}
+              <i className={"fa fa-gift"} />
+              {`${title} (${cost || value || "None"} Points)`}
+            </div>
+          }
           style={{
             backgroundColor: "#96cd28"
           }}
@@ -45,7 +59,11 @@ class RewardCard extends React.Component {
           titleStyle={{ color: "black", fontWeight: "bold" }}
         />
         <CardText expandable={true}>
-          <Paper style={{ padding: "20px" }}>
+          <Paper
+            style={{
+              padding: "20px"
+            }}
+          >
             <div className="menu-card-container">
               <div>
                 <h3>{title}</h3>
