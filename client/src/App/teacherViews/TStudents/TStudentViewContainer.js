@@ -1,5 +1,6 @@
 import React from "react";
 import TStudentView from "./TStudentView";
+import { connect } from "react-redux";
 
 class TStudentViewContainer extends React.Component {
   constructor(props) {
@@ -26,4 +27,10 @@ class TStudentViewContainer extends React.Component {
   }
 }
 
-export default TStudentViewContainer;
+const mapStateToProps = state => {
+  return {
+    classrooms: state.classrooms
+  };
+};
+
+export default connect(mapStateToProps, null)(TStudentViewContainer);

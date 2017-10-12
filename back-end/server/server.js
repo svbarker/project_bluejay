@@ -34,14 +34,14 @@ passport.use(new localStrategy(require("../strategies/local")));
 // session handling routes
 app.use("/sessions", require("../routers/sessions"));
 
-// serve static resource
-app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
-
 // registering route
 app.use("/register", require("../routers/register"));
 
 // api routes
 app.use("/api/:resource", require("../routers")(io));
+
+// serve static resource
+// app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
 // web sockets
 io.on("connection", require("./sockets")(io));
