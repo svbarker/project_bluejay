@@ -2,6 +2,8 @@ import { connect } from "react-redux";
 import { loadStudents } from "../../../redux/actions/student";
 import { createClassroom } from "../../../redux/actions/classrooms";
 import StudentList from "./TStudentList";
+import { deleteClass } from "../../../redux/actions/classrooms";
+import { deleteStudent } from "../../../redux/actions/student";
 
 const mapStateToProps = state => {
   return {
@@ -17,6 +19,12 @@ const mapDispatchToProps = dispatch => ({
   },
   createClassroom: (id, title) => {
     dispatch(createClassroom(id, title));
+  },
+  deleteClass: id => {
+    dispatch(deleteClass(id));
+  },
+  deleteStudent: id => {
+    dispatch(deleteStudent(id));
   }
 });
 

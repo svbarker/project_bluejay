@@ -25,13 +25,13 @@ const students = (state = studentInitState, action) => {
     //I think add update and remove may be broken
     //state appears to be = [{student}] not {students: [{student}]}
     case ADD_STUDENT:
-      return [...state.students, action.data];
+      return [...state, action.data];
     case UPDATE_STUDENT:
-      return state.students.map(student => {
-        return action.data.id === student.id ? action.data.student : student;
+      return state.map(student => {
+        return action.data.id === student._id ? action.data.student : student;
       });
     case REMOVE_STUDENT:
-      return state.students.filter(student => student.id !== action.data);
+      return state.filter(student => `${student._id}` !== `${action.data}`);
     case UNASSIGN_TASK:
       //TODO: implement this by returning new student objects maybe?
       return state.map(student => {
