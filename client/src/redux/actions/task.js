@@ -231,8 +231,23 @@ export const createTask = params => async dispatch => {
     if (!response.success) {
       throw new Error(response.apiError.message);
     }
-
-    dispatch(addTask(response.apiData));
+    //redux store now expects the rewards under a task
+    //to be populated, this route sends it unpopulated
+    //so I'll fetch the rewards, probably change this later
+    let taskRewardsFetch = await fetch(
+      `api/tasks/${response.apiData._id}/rewards`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    let rewards = await taskRewardsFetch.json();
+    let task = response.apiData;
+    task.rewards = rewards.apiData;
+    dispatch(addTask(task));
   } catch (error) {
     console.log(error);
   }

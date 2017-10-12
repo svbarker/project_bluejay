@@ -20,14 +20,14 @@ class CreateTaskModal extends Component {
 
   handleCreateTask = async e => {
     e.preventDefault();
-    const params = {
+    const newTask = {
       title: e.target.title.value,
       description: e.target.description.value,
       teacher: this.props.teacherId,
       rewards: this.state.rewards,
       classroom: []
     };
-    await this.props.createTask(params);
+    await this.props.onCreateTask(newTask);
     this.setState({ rewards: [], selectedReward: null });
     this.props.handleClose();
   };
@@ -113,17 +113,17 @@ class CreateTaskModal extends Component {
                 </div>
                 <h3>Rewards:</h3>
 
-                {!this.state.rewards.length ? null : (
-                  this.state.rewards.map(reward => (
-                    <p key={reward._id}>
-                      {reward.title}
-                      <i
-                        onClick={this.clearReward(reward._id)}
-                        className="fa fa-trash"
-                      />
-                    </p>
-                  ))
-                )}
+                {!this.state.rewards.length
+                  ? null
+                  : this.state.rewards.map(reward => (
+                      <p key={reward._id}>
+                        {reward.title}
+                        <i
+                          onClick={this.clearReward(reward._id)}
+                          className="fa fa-trash"
+                        />
+                      </p>
+                    ))}
               </div>
             </div>
           </div>
@@ -161,10 +161,7 @@ class CreateTaskModal extends Component {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  ...ownProps,
-  createTask: params => {
-    dispatch(createTask(params));
-  }
+  ...ownProps
 });
 
 export default connect(null, mapDispatchToProps)(CreateTaskModal);
