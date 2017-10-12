@@ -61,15 +61,10 @@ class TaskCard extends React.Component {
   render() {
     const { _id, title, value, description, classroom } = this.props.task;
     const { students } = this.props;
-    //redux store has task with reward ids, so we do some finding
-    const rewards = this.props.task.rewards.map(rewardId => {
-      const reward = this.props.allRewards.find(
-        reward => reward._id === rewardId
-      );
-      if (!reward) return null;
+    let rewards = this.props.task.rewards.map(reward => {
       return (
         <Chip
-          key={reward._id}
+          // key={idx}
           style={rewardsChip}
           className="reward-chip"
           onRequestDelete={() => {
@@ -81,6 +76,7 @@ class TaskCard extends React.Component {
         </Chip>
       );
     });
+
     return (
       <Card
         style={{
