@@ -80,11 +80,9 @@ class RewardCard extends React.Component {
                 </p>
                 <p>
                   <strong>
-                    {this.props.reward.kind === "LootReward" ? (
-                      "Cost"
-                    ) : (
-                      "Value"
-                    )}:{" "}
+                    {this.props.reward.kind === "LootReward"
+                      ? "Cost"
+                      : "Value"}:{" "}
                   </strong>
                   {cost || value || "None"} points
                 </p>
@@ -127,7 +125,7 @@ class RewardCard extends React.Component {
                     icon={
                       <i style={{ color: "white" }} className="fa fa-trash" />
                     }
-                    labelColor="white"
+                    labelColor={"white"}
                     label="Delete"
                   />
                 </Undoable>

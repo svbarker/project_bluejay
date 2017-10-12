@@ -84,7 +84,7 @@ class StudentTaskListMenuCard extends React.Component {
                         markCompleted(user.id, _id, socket);
                     }}
                     backgroundColor="#1a8484"
-                    hoverColor="#3ca6a6"
+                    hoverColor={"#3ca6a6"}
                   />
                 </div>
               ) : (

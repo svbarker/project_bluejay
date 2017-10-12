@@ -138,7 +138,7 @@ class CreateTaskModal extends Component {
               style={{ margin: "10px" }}
               type="submit"
               label="Create"
-              labelColor="white"
+              labelColor={"white"}
               backgroundColor="#1a8484"
               icon={<i style={{ color: "white" }} className="fa fa-save" />}
             />
@@ -149,7 +149,7 @@ class CreateTaskModal extends Component {
                 this.props.handleClose();
                 this.clearRewards();
               }}
-              labelColor="white"
+              labelColor={"white"}
               backgroundColor="#960d0d"
               icon={<i style={{ color: "white" }} className="fa fa-times" />}
             />
