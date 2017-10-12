@@ -19,7 +19,7 @@ const mw = require("./middleware");
 // middleware
 app.use(session(configs.session));
 app.use(bodyParser.json());
-app.use(express.static("server/build"));
+app.use(express.static(path.join(__dirname, "build")));
 app.use(mw.mongooseConnect);
 app.use(passport.initialize());
 app.use(passport.session());
@@ -34,19 +34,21 @@ passport.use(new localStrategy(require("../strategies/local")));
 // session handling routes
 app.use("/sessions", require("../routers/sessions"));
 
-// serve static resource
-app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
-
 // registering route
 app.use("/register", require("../routers/register"));
 
 // api routes
 app.use("/api/:resource", require("../routers")(io));
 
+// serve static resource
+app.get("/*", (req, res) =>
+	res.sendFile(path.join(__dirname, "build/index.html"))
+);
+
 // web sockets
 io.on("connection", require("./sockets")(io));
 
 // start server
 process.env.NODE_ENV === "production"
-  ? server.listen(configs.port, configs.serverCallback)
-  : server.listen(configs.port, configs.host, configs.serverCallback);
+	? server.listen(configs.port, configs.serverCallback)
+	: server.listen(configs.port, configs.host, configs.serverCallback);
