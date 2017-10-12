@@ -7,34 +7,13 @@ import Avatar from "material-ui/Avatar";
 import Divider from "material-ui/Divider";
 import Chip from "material-ui/Chip";
 import FlatButton from "material-ui/FlatButton";
-//styles don't work, idk why
-const rewardsChipHeader = {
-  gridRowStart: "1",
-  gridRowEnd: "2",
-  textAlign: "center",
-  padding: "10px"
-};
-const rewardsChipContainer = {
-  display: "grid",
-  gridTemplateRows: "1fr 2fr"
-};
 
-const rewardsChip = {
+//Styles
+const rewardChip = {
   height: "50px",
-  fontSize: "18px",
   margin: "3px"
 };
-const rewardsChipP = {
-  fontSize: "12px"
-};
-const rewardsChipList = {
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "center",
-  flexWrap: "wrap",
-  gridRowStart: "2",
-  padding: "8px"
-};
+
 const BUTTON_MARK_COMPLETED_TEXT = "Mark Complete";
 const BUTTON_PENDING_TEXT = "Pending Approval";
 class StudentTaskListMenuCard extends React.Component {
@@ -50,7 +29,7 @@ class StudentTaskListMenuCard extends React.Component {
     const { _id, title, value, description, classroom } = task;
     const rewards = task.rewards.map(reward => {
       return (
-        <Chip key={reward._id} style={rewardsChip}>
+        <Chip key={reward._id} className="reward-chip" style={rewardChip}>
           <Avatar src="images/rewards/rewards1.png" />
           <p>{reward.title}</p>
         </Chip>
@@ -116,17 +95,12 @@ class StudentTaskListMenuCard extends React.Component {
           </Paper>
           <Divider />
           <Paper style={{ marginTop: "20px" }}>
-            <div
-              style={rewardsChipContainer}
-              className="rewards-chip-container"
-            >
+            <div className="rewards-chip-container">
               {/* center this */}
-              <div style={rewardsChipHeader} className="rewards-chip-header">
+              <div className="rewards-chip-header">
                 <h3>Rewards Given For Completing This Task</h3>
               </div>
-              <div style={rewardsChipList} className="rewards-chip-list">
-                {rewards}
-              </div>
+              <div className="rewards-chip-list">{rewards}</div>
             </div>
           </Paper>
         </CardText>

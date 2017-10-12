@@ -12,11 +12,6 @@ const classrooms = (state = classroomInitState, action) => {
   switch (action.type) {
     case GET_ALL_CLASSROOMS:
       return action.data;
-    // case GET_ONE_CLASSROOM:
-    //   return {
-    //     ...state,
-    //     isFetching: true
-    //   };
     case ADD_CLASSROOM:
       return [...state, action.data];
     case UPDATE_CLASSROOM:

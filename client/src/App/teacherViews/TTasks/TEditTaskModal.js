@@ -50,6 +50,7 @@ class TEditTaskModal extends React.Component {
       <FlatButton
         label="Cancel"
         style={style}
+        hoverColor={"#960D0D"}
         labelColor="white"
         backgroundColor="#960D0D"
         onClick={this.handleClose}
@@ -58,6 +59,7 @@ class TEditTaskModal extends React.Component {
       <FlatButton
         label="Save"
         style={style}
+        hoverColor={"#1A8484"}
         labelColor="white"
         backgroundColor="#1A8484"
         onClick={this.onSave}
@@ -79,7 +81,7 @@ class TEditTaskModal extends React.Component {
           actions={actions}
           onRequestClose={this.handleClose}
         >
-          <div>
+          <div style={{ padding: "10px", border: "3px solid #1A8484" }}>
             <TextField
               floatingLabelText="title"
               floatingLabelStyle={{ color: "grey" }}
