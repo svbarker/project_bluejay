@@ -31,14 +31,14 @@ passport.serializeUser(configs.serialize);
 passport.deserializeUser(configs.deserialize);
 passport.use(new localStrategy(require("../strategies/local")));
 
+// session handling routes
+app.use("/sessions", require("../routers/sessions"));
+
 // serve static resource
-app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
+app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
 // registering route
 app.use("/register", require("../routers/register"));
-
-// session handling routes
-app.use("/sessions", require("../routers/sessions"));
 
 // api routes
 app.use("/api/:resource", require("../routers")(io));
@@ -48,5 +48,5 @@ io.on("connection", require("./sockets")(io));
 
 // start server
 process.env.NODE_ENV === "production"
-	? server.listen(configs.port, configs.serverCallback)
-	: server.listen(configs.port, configs.host, configs.serverCallback);
+  ? server.listen(configs.port, configs.serverCallback)
+  : server.listen(configs.port, configs.host, configs.serverCallback);
