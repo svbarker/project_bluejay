@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const session = require("express-session");
+var cors = require("cors");
 const path = require("path");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
@@ -20,6 +21,7 @@ const mw = require("./middleware");
 
 // middleware
 app.use(session(configs.session));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("client"));
 app.use(mw.mongooseConnect);

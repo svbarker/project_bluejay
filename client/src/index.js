@@ -7,17 +7,18 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import store from "./store";
+require("dotenv").config();
 
 const Index = () => {
-  return (
-    <MuiThemeProvider>
-      <Provider store={store}>
-        <Router>
-          <AppContainer />
-        </Router>
-      </Provider>
-    </MuiThemeProvider>
-  );
+	return (
+		<MuiThemeProvider>
+			<Provider store={store}>
+				<Router>
+					<AppContainer />
+				</Router>
+			</Provider>
+		</MuiThemeProvider>
+	);
 };
 
 ReactDOM.render(<Index />, document.getElementById("root"));
