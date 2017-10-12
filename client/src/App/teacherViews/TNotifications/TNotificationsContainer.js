@@ -106,8 +106,8 @@ class NotificationsContainer extends React.Component {
       acceptEvent: this.handleAction("confirm"),
       rejectEvent: this.handleAction("reject"),
       user: this.props.user,
-      pendings: this.state.pendingActions,
-      undo: this.undoAction
+      undo: this.undoAction,
+      pendings: this.state.pendingActions
     };
 
     return <Notifications {...NotificationsProps} />;
