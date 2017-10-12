@@ -10,6 +10,7 @@ import FlatButton from "material-ui/FlatButton";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import ContentAdd from "material-ui/svg-icons/content/add";
 import "../../Styles/StudentList.css";
+import RaisedButton from "material-ui/RaisedButton";
 
 class StudentList extends Component {
   constructor(props) {
@@ -18,7 +19,8 @@ class StudentList extends Component {
       currentClass: null,
       classIndex: 0,
       open: false,
-      addingClass: false
+      addingClass: false,
+      created: false
     };
   }
 
@@ -68,9 +70,26 @@ class StudentList extends Component {
         this.props.teacherId,
         e.target.name.value
       );
-    }
 
-    this.toggleAddClass(e);
+      this.toggleAddClass(e);
+
+      this.setState({
+        created: true
+      });
+      setTimeout(() => {
+        this.setState({
+          created: false
+        });
+      }, 1500);
+    }
+  };
+
+  cancelAdd = e => {
+    e.preventDefault();
+
+    this.setState({
+      addingClass: !this.state.addingClass
+    });
   };
 
   render() {
@@ -83,6 +102,8 @@ class StudentList extends Component {
                 <span>You have no classes! Add one to get started!</span>
               ) : (
                 <SelectField
+                  floatingLabelStyle={{ color: "grey" }}
+                  selectedMenuItemStyle={{ color: "#960d0d" }}
                   labelStyle={{ fontFamily: "Bree Serif" }}
                   menuItemStyle={{ fontFamily: "Bree Serif" }}
                   floatingLabelText="Current Class"
@@ -101,14 +122,48 @@ class StudentList extends Component {
               <br />
               {!this.state.addingClass ? (
                 <p>
-                  <a href="" onClick={this.toggleAddClass}>
-                    Add a class
-                  </a>
+                  {this.state.created ? (
+                    <div style={{ margin: "5px", color: "#1A8484" }}>
+                      {"Created!"}
+                    </div>
+                  ) : null}
+                  <RaisedButton
+                    labelColor={"white"}
+                    icon={
+                      <i style={{ color: "white" }} className={"fa fa-plus"} />
+                    }
+                    backgroundColor={"#1A8484"}
+                    hoverColor={"#85DCDC"}
+                    label={"Class"}
+                    onClick={this.toggleAddClass}
+                  />
                 </p>
               ) : (
                 <form onSubmit={this.addClass}>
-                  <TextField id="name" floatingLabelText="Class name" />{" "}
-                  <FlatButton type="submit" label="Add" />
+                  <TextField
+                    id="name"
+                    floatingLabelStyle={{ color: "grey" }}
+                    underlineFocusStyle={{ borderColor: "#1A8484" }}
+                    floatingLabelText="Class name"
+                  />{" "}
+                  <div style={{ margin: "10px" }}>
+                    <FlatButton
+                      backgroundColor={"#1a8484"}
+                      hoverColor={"#1a8484"}
+                      labelColor={"white"}
+                      style={{ color: "white", marginRight: "5px" }}
+                      type="submit"
+                      label="Add"
+                    />
+                    <FlatButton
+                      labelColor={"white"}
+                      hoverColor={"#960d0d"}
+                      style={{ color: "white" }}
+                      onClick={this.cancelAdd}
+                      backgroundColor={"#960d0d"}
+                      label={"Cancel"}
+                    />
+                  </div>
                 </form>
               )}
               <div>

@@ -21,7 +21,11 @@ const AddStudentModal = ({
 			onRequestClose={handleClose}
 			contentStyle={{ maxWidth: "400px", textAlign: "center" }}
 		>
-			{!submitError ? null : <span>{submitError}</span>}
+			{!submitError
+				? null
+				: <span>
+						{submitError}
+					</span>}
 			<form onSubmit={handleSubmit}>
 				<TextField
 					floatingLabelText="First Name"

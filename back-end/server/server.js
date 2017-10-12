@@ -10,8 +10,6 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const localStrategy = require("passport-local").Strategy;
 
-const routers = require("../routers/teachers");
-
 // connect to database
 require("../mongoose/connect")();
 
@@ -23,25 +21,22 @@ const mw = require("./middleware");
 app.use(session(configs.session));
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static("client"));
+// app.use(express.static("build"));
 app.use(mw.mongooseConnect);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api", mw.authCheck);
+app.use(mw.socket(io));
 
 // passport setup
 passport.serializeUser(configs.serialize);
 passport.deserializeUser(configs.deserialize);
 passport.use(new localStrategy(require("../strategies/local")));
 
-app.use((req, res, next) => {
-	req.socket = io;
-	next();
-});
-
 // serve static resource
-// app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
+// app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
+// registering route
 app.use("/register", require("../routers/register"));
 
 // session handling routes
@@ -55,5 +50,5 @@ io.on("connection", require("./sockets")(io));
 
 // start server
 process.env.NODE_ENV === "production"
-	? server.listen(configs.port, configs.serverCallback)
-	: server.listen(configs.port, configs.host, configs.serverCallback);
+  ? server.listen(configs.port, configs.serverCallback)
+  : server.listen(configs.port, configs.host, configs.serverCallback);

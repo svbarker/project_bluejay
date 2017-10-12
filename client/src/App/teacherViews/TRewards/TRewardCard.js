@@ -117,14 +117,18 @@ class RewardCard extends React.Component {
                   onSubmit={updatedReward =>
                     this.props.onEditReward(updatedReward, _id)}
                 />
-                <Undoable resolve={() => this.props.removeReward(_id)}>
+                <Undoable
+                  wait={3}
+                  tickDown={true}
+                  resolve={() => this.props.removeReward(_id)}
+                >
                   <RaisedButton
                     backgroundColor={"#960D0D"}
                     icon={
                       <i style={{ color: "white" }} className="fa fa-trash" />
                     }
                     labelColor="white"
-                    label="delete"
+                    label="Delete"
                   />
                 </Undoable>
                 {this.props.reward.kind === "LootReward" ? (

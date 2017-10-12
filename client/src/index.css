@@ -2,146 +2,145 @@
 
 /*Bangers|Bree+Serif|Lobster|Luckiest+Guy|Ribeye+Marrow*/
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #85dcdc;
-  font-family: "Cabin", sans-serif;
-  height: 100vh;
+	margin: 0;
+	padding: 0;
+	background-color: #85dcdc;
+	font-family: "Cabin", sans-serif;
+	height: 100vh;
 }
 
 #root {
-  background-color: #85dcdc;
-  height: 100%;
+	background-color: #85dcdc;
+	height: 100%;
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 i {
-  padding: 0 10px;
+	padding: 0 10px;
 }
 
 .horizontalCenterChildren {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	align-content: center;
 }
 
 .navbar {
-  position: fixed;
-  display: grid;
-  top: 0;
-  width: 100%;
-  background-color: #1a8484;
-  grid-template-columns: 1.5fr 1fr 1.5fr;
-  align-items: center;
-  padding: 0;
-  color: white;
-  z-index: 999;
+	position: fixed;
+	display: grid;
+	top: 0;
+	width: 100%;
+	background-color: #1a8484;
+	grid-template-columns: 1.5fr 1fr 1.5fr;
+	align-items: center;
+	padding: 0;
+	color: white;
+	z-index: 999;
 }
 
 .navbar a {
-  color: white;
+	color: white;
 }
 
 .navbar li i {
-  font-size: 30px;
+	font-size: 30px;
 }
 
 .navbar a li:hover {
-  background-color: #3d9f9f;
+	background-color: #3d9f9f;
 }
 
 .navbar h1 {
-  margin: 0;
-  font-size: 1.3em;
-  padding: 10px;
-  font-family: "Luckiest Guy";
+	margin: 0;
+	padding: 10px;
+	font-family: "Luckiest Guy";
 }
 
 .navbar ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
 }
 
 .navbar li {
-  display: inline-block;
-  padding: 10px;
+	display: inline-block;
+	padding: 10px;
 }
 
 .navbar-left {
-  justify-self: start;
-  padding-left: 20px;
+	justify-self: start;
+	padding-left: 20px;
 }
 
 .navbar-mid {
-  justify-self: center;
+	justify-self: center;
 }
 
 .navbar-right {
-  justify-self: end;
-  padding-right: 20px;
+	justify-self: end;
+	padding-right: 20px;
 }
 
 .active li {
-  background-color: #3d9f9f;
+	background-color: #3d9f9f;
 }
 
 .avatar {
-  height: 100%;
+	height: 100%;
 }
 
 /* COLOR PALETTE */
 .color-primary-0 {
-  color: #dc2b2b;
+	color: #dc2b2b;
 }
 .color-primary-1 {
-  color: #ff9a9a;
+	color: #ff9a9a;
 }
 .color-primary-2 {
-  color: #ff6161;
+	color: #ff6161;
 }
 .color-primary-3 {
-  color: #960d0d;
+	color: #960d0d;
 }
 .color-primary-4 {
-  color: #300000;
+	color: #300000;
 }
 
 /*/ Main Secondary color (1) /*/
 .color-secondary-1-0 {
-  color: #1a8484;
+	color: #1a8484;
 }
 .color-secondary-1-1 {
-  color: #85dcdc;
+	color: #85dcdc;
 }
 .color-secondary-1-2 {
-  color: #3d9f9f;
+	color: #3d9f9f;
 }
 .color-secondary-1-3 {
-  color: #085a5a;
+	color: #085a5a;
 }
 .color-secondary-1-4 {
-  color: #001d1d;
+	color: #001d1d;
 }
 
 /*/ Main Secondary color (2) /*/
 .color-secondary-2-0 {
-  color: #96cd28;
+	color: #96cd28;
 }
 .color-secondary-2-1 {
-  color: #d8f996;
+	color: #d8f996;
 }
 .color-secondary-2-2 {
-  color: #beef5b;
+	color: #beef5b;
 }
 .color-secondary-2-3 {
-  color: #618c0c;
+	color: #618c0c;
 }
 .color-secondary-2-4 {
-  color: #1e2d00;
+	color: #1e2d00;
 }
 /* COLOR PALETTE */

@@ -71,13 +71,15 @@ class TaskListContainer extends React.Component {
   onRemoveReward = (task, rewardId) => {
     //setup what the rewards should include before passing to edit
     const taskUpdates = {
-      rewards: task.rewards.filter(reward_id => reward_id !== rewardId)
+      rewards: task.rewards.filter(reward => reward._id !== rewardId)
     };
     this.props.editTask(task._id, taskUpdates);
   };
   onAddReward = (task, rewardId) => {
+    //server now expects the full reward to be added when modifying the task
+    let reward = this.props.rewards.find(reward => reward._id === rewardId);
     this.props.editTask(task._id, {
-      rewards: task.rewards.slice().concat(rewardId)
+      rewards: task.rewards.slice().concat(reward)
     });
   };
 
