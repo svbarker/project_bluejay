@@ -49,7 +49,7 @@ mongooseeder.seed({
 				tasks: [],
 				rewards: [],
 				notifications: [],
-				points: 1000
+				points: 100
 			});
 			profiles.push(student.profile);
 			students.push(student);

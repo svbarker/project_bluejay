@@ -14,47 +14,34 @@ import "../../Styles/RewardList.css";
 import SRewardCard from "./SRewardCard";
 
 //actions
-import {
-	purchaseReward,
-	createReward,
-	getAllRewards,
-	editReward,
-	deleteReward
-} from "../../../redux/actions/rewards";
+import { purchaseReward } from "../../../redux/actions/rewards";
 import { getStudentRewardOptions } from "../../../redux/actions/rewardOptions";
-import { loginTeacher, loginStudent } from "../../../redux/actions/index";
+import { loginStudent } from "../../../redux/actions/index";
 
 class StudentRewardList extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			fetchingRewards: false,
-			loading: true
-		};
 	}
 	onPurchase = rewardId => {
-		this.props.purchaseReward(this.props.user.id, rewardId);
+		this.props.purchaseReward(this.props.userId, rewardId);
 	};
 
 	async componentDidMount() {
 		//grab all the rewards
 		await this.props.getStudentRewardOptions(this.props.classrooms);
-		this.setState({
-			fetchingRewards: false,
-			loading: false
-		});
 	}
 
 	render = () => {
-		if (this.state.loading) {
-			return <LoadScreen />;
-		}
+		// if (this.state.loading) {
+		// 	return <LoadScreen />;
+		// }
 
 		const rewardOptions = this.props.rewardOptions.map(reward => {
 			return (
 				<SRewardCard
+					key={reward._id}
 					reward={reward}
-					points={this.props.user.points}
+					points={this.props.userPoints}
 					onPurchase={this.onPurchase}
 				/>
 			);
@@ -78,6 +65,7 @@ class StudentRewardList extends React.Component {
 							borderRadius: "20px"
 						}}
 					>
+						<h2>Current Rewards</h2>
 						<List className="reward-list">
 							{rewardOptions}
 						</List>
@@ -90,26 +78,12 @@ class StudentRewardList extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-		user: state.user,
-		rewards: state.rewards,
 		classrooms: state.classrooms,
 		rewardOptions: state.rewardOptions
 	};
 };
 const mapDispatchToProps = dispatch => {
 	return {
-		createReward: teacher => {
-			dispatch(createReward(teacher));
-		},
-		fetchRewards: (userId, userKind) => {
-			dispatch(getAllRewards(userId, userKind));
-		},
-		removeReward: rewardId => {
-			dispatch(deleteReward(rewardId));
-		},
-		updateReward: (id, editedReward) => {
-			dispatch(editReward(id, editedReward));
-		},
 		getStudentRewardOptions: classrooms => {
 			dispatch(getStudentRewardOptions(classrooms));
 		},

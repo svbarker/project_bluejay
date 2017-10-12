@@ -9,6 +9,7 @@ import Logo from "../../GlobalComponents/Logo";
 class TeacherNavbar extends Component {
 	constructor(props) {
 		super(props);
+		this.props.socket.off(Events.REFRESH_NOTIFICATIONS);
 		this.props.socket.on(Events.REFRESH_NOTIFICATIONS, () => {
 			this.props.fetchNotifications(this.props.userId);
 		});
