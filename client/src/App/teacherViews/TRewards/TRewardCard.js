@@ -92,7 +92,11 @@ class RewardCard extends React.Component {
                 {this.props.reward.kind === "LootReward" ? (
                   <p>
                     <strong>Available: </strong>
-                    {available ? "Yes" : "No"}
+                    {available ? (
+                      <i style={{ color: "#96cd28" }} className="fa fa-check" />
+                    ) : (
+                      <i style={{ color: "#960D0D" }} className="fa fa-times" />
+                    )}
                   </p>
                 ) : null}
                 <p>
@@ -125,9 +129,11 @@ class RewardCard extends React.Component {
                 </Undoable>
                 {this.props.reward.kind === "LootReward" ? (
                   <RaisedButton
+                    labelStyle={{ color: !available ? "white" : "black" }}
+                    backgroundColor={!available ? "#960D0D" : "#96CD28"}
                     onClick={() =>
                       this.props.onToggleAvailability(this.props.reward)}
-                    label={available ? "Make Unavailable" : "Make Available"}
+                    label={"Availability"}
                   />
                 ) : null}
               </div>
