@@ -92,6 +92,28 @@ class StudentList extends Component {
     });
   };
 
+  deleteClassAlert = () => {
+    const userIsSure = window.confirm(
+      `Are you sure you would like to delete this class: ${this.state
+        .currentClass.title}`
+    );
+    if (userIsSure) {
+      this.props.deleteClass(this.state.currentClass._id);
+    }
+    this.setState({
+      currentClass: null
+    });
+  };
+
+  deleteStudentAlert = (id, name) => () => {
+    const userIsSure = window.confirm(
+      `Are you sure you would like to delete this stuent: ${name}`
+    );
+    if (userIsSure) {
+      this.props.deleteStudent(id);
+    }
+  };
+
   render() {
     return (
       <div style={{ paddingTop: "50px" }}>
@@ -99,7 +121,7 @@ class StudentList extends Component {
           <Paper style={{ padding: "4px", borderRadius: "22px" }}>
             <div className="students-container-inner">
               {!this.props.classrooms.length ? (
-                <span>You have no classes! Add one to get started!</span>
+                <h3>You have no classes! Add one to get started!</h3>
               ) : (
                 <SelectField
                   floatingLabelStyle={{ color: "grey" }}
@@ -129,6 +151,18 @@ class StudentList extends Component {
                   ) : null}
                   <RaisedButton
                     labelColor="#FCFCFC"
+                    icon={
+                      <i style={{ color: "white" }} className={"fa fa-times"} />
+                    }
+                    backgroundColor={"#960D0D"}
+                    hoverColor={"#960D0D"}
+                    label={"Delete"}
+                    disabled={!this.props.classrooms.length}
+                    onClick={this.deleteClassAlert}
+                  />
+                  <RaisedButton
+                    labelColor="#FCFCFC"
+                    style={{ marginLeft: "10px" }}
                     icon={
                       <i style={{ color: "white" }} className={"fa fa-plus"} />
                     }
@@ -178,6 +212,7 @@ class StudentList extends Component {
                       key={student._id}
                       student={student}
                       teacherId={this.props.teacherId}
+                      deleteStudentAlert={this.deleteStudentAlert}
                     />
                   ))}
                   <div className="add-student">
