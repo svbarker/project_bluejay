@@ -6,9 +6,9 @@ import Divider from "material-ui/Divider";
 import Snackbar from "material-ui/Snackbar";
 import Avatar from "material-ui/Avatar";
 
-import goldBarImage from "./images/gold-bar.png";
-import lootBoxImage from "./images/loot-box.png";
-import taskImage from "./images/task.png";
+import goldBarImage from "../images/gold-bar.png";
+import lootBoxImage from "../images/loot-box.png";
+import taskImage from "../images/task.png";
 
 const assignableSource = {
 	beginDrag(props) {
