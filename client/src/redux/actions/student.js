@@ -59,3 +59,25 @@ export const loadStudents = classId => async dispatch => {
     console.log(error);
   }
 };
+
+export const deleteStudent = id => async dispatch => {
+  try {
+    let response = await fetch(`/api/students/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    response = await response.json();
+
+    if (!response.success) {
+      throw new Error(response.apiError.message);
+    }
+
+    dispatch(removeStudent(id));
+  } catch (error) {
+    console.log(error);
+  }
+};

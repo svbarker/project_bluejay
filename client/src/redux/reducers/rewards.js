@@ -8,6 +8,7 @@ import {
 	REDEEM_REWARD,
 	REMOVE_REWARD
 } from "../actions/rewards";
+import { CLEAR_STORE } from "../actions/index";
 
 export const rewardInitState = {
 	isFetching: true,

@@ -23,6 +23,8 @@ import STasks from "./studentViews/STasks";
 import SRewards from "./studentViews/SRewards";
 import TRewards from "./teacherViews/TRewards";
 import SRewardsWallet from "./studentViews/SRewardsWallet";
+import TReports from "./teacherViews/TReports";
+import TProfile from "./teacherViews/TProfile";
 import LoadScreen from "./GlobalComponents/LoadScreen";
 
 class App extends Component {
@@ -51,23 +53,6 @@ class App extends Component {
 
 	render() {
 		const errorDisplay = null;
-		// const errorDisplay = this.props.status.error ? (
-		//   <div
-		//     style={{
-		//       position: "absolute",
-		//       top: "150px",
-		//       width: "100%",
-		//       textAlign: "center",
-		//       height: "200px",
-		//       background: "red",
-		//       zIndex: "10000",
-		//       fontSize: "30px",
-		//       padding: "70px"
-		//     }}
-		//   >
-		//     {this.props.status.error.message}
-		//   </div>
-		// ) : null;
 		if (this.state.firstLocation !== null && this.props.user.kind) {
 			return (
 				<Router>

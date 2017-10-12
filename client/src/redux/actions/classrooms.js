@@ -52,6 +52,28 @@ export const addStudentToClassroom = (id, studentData) => async dispatch => {
 	}
 };
 
+export const deleteClass = id => async dispatch => {
+  try {
+    let response = await fetch(`/api/classrooms/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    response = await response.json();
+
+    if (!response.success) {
+      throw new Error(response.apiError.message);
+    }
+
+    dispatch(removeClassroom(id));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const createClassroom = (id, title) => async dispatch => {
 	try {
 		const params = {

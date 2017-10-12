@@ -5,6 +5,7 @@ import {
 	ERROR_GET_ALL_NOTIFICATIONS,
 	CLEAR_ALL_NOTIFICATIONS
 } from "../actions/notifications";
+import { CLEAR_STORE } from "../actions/index";
 
 export const notificationInitState = {
 	isFetching: true,

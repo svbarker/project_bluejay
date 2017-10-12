@@ -4,6 +4,8 @@ import {
 	ERROR_GET_ALL_REWARD_OPTIONS
 } from "../actions/rewardOptions";
 
+import { CLEAR_STORE } from "../actions/index";
+
 export const rewardOptionsInitState = {
 	isFetching: true,
 	error: null,
@@ -12,6 +14,11 @@ export const rewardOptionsInitState = {
 
 export const rewardOptions = (state = rewardOptionsInitState, action) => {
 	switch (action.type) {
+		case CLEAR_STORE:
+			return {
+				...state,
+				list: []
+			};
 		case START_GET_ALL_REWARD_OPTIONS:
 			return {
 				...state,

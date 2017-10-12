@@ -4,7 +4,7 @@
 import * as user from "./user";
 import * as classrooms from "./classrooms";
 import * as Events from "./events";
-
+export const CLEAR_STORE = "CLEAR_STORE";
 export const START_REQUEST = "START_REQUEST";
 export const END_REQUEST = "END_REQUEST";
 
@@ -18,6 +18,12 @@ export const endRequest = error => {
   return {
     type: END_REQUEST,
     data: error
+  };
+};
+
+export const clearStore = () => {
+  return {
+    type: CLEAR_STORE
   };
 };
 
@@ -114,4 +120,5 @@ export const logoutUser = () => async dispatch => {
     throw new Error(response.apiData.message);
   }
   dispatch(user.setUser({}));
+  dispatch(clearStore());
 };

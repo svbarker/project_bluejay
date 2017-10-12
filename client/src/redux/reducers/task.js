@@ -9,6 +9,7 @@ import {
 	UNASSIGN_STUDENT,
 	BULK_UNASSIGN_STUDENTS
 } from "../actions/task";
+import { CLEAR_STORE } from "../actions/index";
 
 export const taskInitState = {
 	isFetching: true,

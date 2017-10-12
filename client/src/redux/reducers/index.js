@@ -6,6 +6,7 @@ import rewards from "./rewards";
 import rewardOptions from "./rewardOptions";
 import notifications from "./notifications";
 import classrooms from "./classrooms";
+import { CLEAR_STORE } from "../actions/index";
 
 import { START_REQUEST, END_REQUEST } from "../actions/index";
 
@@ -16,6 +17,11 @@ const initialState = {
 
 const status = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAR_STORE:
+      return {
+        isFetching: false,
+        error: null
+      };
     case END_REQUEST:
       return {
         isFetching: false,
