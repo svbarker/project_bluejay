@@ -4,7 +4,7 @@ import "./index.css";
 import AppContainer from "./App/AppContainer";
 import registerServiceWorker from "./serviceWorker/registerServiceWorker";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import store from "./store";
 require("dotenv").config();
@@ -14,7 +14,7 @@ const Index = () => {
 		<MuiThemeProvider>
 			<Provider store={store}>
 				<Router>
-					<AppContainer />
+					<Route path="/" component={AppContainer} />
 				</Router>
 			</Provider>
 		</MuiThemeProvider>
