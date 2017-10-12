@@ -31,8 +31,18 @@ export default class CreateRewardModal extends React.Component {
 
   handleClose = () => {
     const { description, kind, cost, title } = this.state;
-    if (this.state.valid)
+    if (this.state.valid) {
       this.props.onSubmit({ description, kind, cost, title });
+    }
+    this.setState({
+      open: false,
+      title: "",
+      description: "",
+      kind: "Loot",
+      cost: 0
+    });
+  };
+  handleCancel = () => {
     this.setState({
       open: false,
       title: "",
@@ -64,7 +74,7 @@ export default class CreateRewardModal extends React.Component {
       />,
       <RaisedButton
         label="Cancel"
-        onClick={this.handleClose}
+        onClick={this.handleCancel}
         labelColor="white"
         backgroundColor="#960d0d"
         icon={<i style={{ color: "white" }} className="fa fa-times" />}
