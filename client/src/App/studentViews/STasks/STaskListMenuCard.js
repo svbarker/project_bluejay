@@ -10,8 +10,7 @@ import FlatButton from "material-ui/FlatButton";
 
 //Styles
 const rewardChip = {
-  height: "50px",
-  margin: "3px"
+  fontWeight: "bold"
 };
 
 const BUTTON_MARK_COMPLETED_TEXT = "Mark Complete";
@@ -30,9 +29,18 @@ class StudentTaskListMenuCard extends React.Component {
     const rewards = task.rewards.map(reward => {
       //no keys, because they aren't unique fix this later
       return (
-        <Chip key={reward._id} className="reward-chip" style={rewardChip}>
-          <Avatar src="images/rewards/rewards1.png" />
-          <p>{reward.title}</p>
+        <Chip
+          key={reward._id}
+          backgroundColor="#96CD28"
+          style={{ margin: "5px" }}
+          labelColor="#FFFFFF"
+          labelStyle={rewardChip}
+        >
+          <Avatar
+            icon={<i class="fa fa-gift" aria-hidden="true" />}
+            backgroundColor="#618C0C"
+          />
+          {reward.title}
         </Chip>
       );
     });
@@ -73,9 +81,11 @@ class StudentTaskListMenuCard extends React.Component {
                   <FlatButton
                     disabled={this.props.task.pending}
                     label={
-                      this.props.task.pending
-                        ? BUTTON_PENDING_TEXT
-                        : BUTTON_MARK_COMPLETED_TEXT
+                      this.props.task.pending ? (
+                        BUTTON_PENDING_TEXT
+                      ) : (
+                        BUTTON_MARK_COMPLETED_TEXT
+                      )
                     }
                     icon={<i className="fa fa-check fa-1x" />}
                     style={{ color: "rgb(255,255,255)" }}
