@@ -19,36 +19,12 @@ import IconMenu from "material-ui/IconMenu";
 import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
 
-import "../../Styles/TaskList.css";
-
-//styles don't work, idk why
-const rewardsChipHeader = {
-  gridRowStart: "1",
-  gridRowEnd: "2",
-  textAlign: "center",
-  padding: "10px"
-};
-const rewardsChipContainer = {
-  display: "grid",
-  gridTemplateRows: "1fr 2fr"
-};
-
 const rewardsChip = {
   height: "50px",
   fontSize: "18px",
   margin: "3px"
 };
-const rewardsChipP = {
-  fontSize: "12px"
-};
-const rewardsChipList = {
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "center",
-  flexWrap: "wrap",
-  gridRowStart: "2",
-  padding: "8px"
-};
+
 const DropDownAddReward = ({ rewards, addReward }) => {
   const options = rewards.map(reward => (
     <MenuItem
@@ -95,6 +71,7 @@ class TaskCard extends React.Component {
         <Chip
           key={reward._id}
           style={rewardsChip}
+          className="reward-chip"
           onRequestDelete={() => {
             this.props.onRemoveReward(reward._id);
           }}
@@ -173,14 +150,11 @@ class TaskCard extends React.Component {
           </Paper>
           <Divider />
           <Paper style={{ marginTop: "20px" }}>
-            <div
-              style={rewardsChipContainer}
-              className="rewards-chip-container"
-            >
-              <div style={rewardsChipHeader} className="rewards-chip-header">
+            <div className="rewards-chip-container">
+              <div className="rewards-chip-header">
                 <h3>Rewards Given For Completing This Task</h3>
               </div>
-              <div style={rewardsChipList} className="rewards-chip-list">
+              <div className="rewards-chip-list">
                 {rewards}
                 <DropDownAddReward
                   rewards={this.props.allRewards}
