@@ -133,7 +133,11 @@ class TaskCard extends React.Component {
                     task={this.props.task}
                     onSubmit={this.onSubmit}
                   />
-                  <Undoable wait={1} resolve={() => this.props.deleteTask()}>
+                  <Undoable
+                    wait={3}
+                    tickDown={true}
+                    resolve={() => this.props.deleteTask()}
+                  >
                     <RaisedButton
                       label="Delete"
                       style={{ marginLeft: "20px" }}

@@ -33,6 +33,7 @@ export default class TEditRewardModal extends React.Component {
         cost,
         value
       });
+
     this.setState({
       open: false
     });
@@ -44,6 +45,12 @@ export default class TEditRewardModal extends React.Component {
   };
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value }, this.validate());
+  };
+
+  handleCancel = () => {
+    this.setState({
+      open: false
+    });
   };
 
   render() {
@@ -60,7 +67,7 @@ export default class TEditRewardModal extends React.Component {
         backgroundColor={"#960D0D"}
         labelColor="white"
         icon={<i style={{ color: "white" }} className="fa fa-times" />}
-        onClick={this.handleClose}
+        onClick={this.handleCancel}
       />
     ];
     let costOrValue;

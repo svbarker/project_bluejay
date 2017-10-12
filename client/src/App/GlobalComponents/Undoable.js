@@ -66,9 +66,9 @@ class Undoable extends React.Component {
         return (
           <div>
             <FlatButton
+              labelColor={"#960D0D"}
               label={`Undo?${timeDisplay}`}
               onClick={this.onUndo}
-              secondary={true}
             />
           </div>
         );
