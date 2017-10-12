@@ -80,16 +80,6 @@ router.get("/rewardOptions", async (req, res) => {
 			[]
 		);
 
-		let found = {};
-		rewards = rewards.filter(reward => {
-			let result = false;
-			if (!found[reward._id] && reward instanceof LootReward) {
-				found[reward._id] = true;
-				result = reward;
-			}
-			return result;
-		});
-
 		const reward = {
 			rewardList: rewards.join(",")
 		};
