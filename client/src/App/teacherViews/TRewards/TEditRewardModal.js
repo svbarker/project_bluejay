@@ -110,7 +110,7 @@ export default class TEditRewardModal extends React.Component {
           open={this.state.open}
           style={{ color: "#97cb39" }}
         >
-          <Paper style={{ padding: "20px", border: "10px solid #97cb39" }}>
+          <Paper style={{ padding: "20px", border: "3px solid #97cb39" }}>
             <TextField
               onChange={this.onChange}
               value={this.state.description}
