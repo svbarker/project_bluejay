@@ -14,109 +14,85 @@ import "../../Styles/RewardList.css";
 import SRewardCard from "./SRewardCard";
 
 //actions
-import {
-	purchaseReward,
-	createReward,
-	getAllRewards,
-	editReward,
-	deleteReward
-} from "../../../redux/actions/rewards";
+import { purchaseReward } from "../../../redux/actions/rewards";
 import { getStudentRewardOptions } from "../../../redux/actions/rewardOptions";
-import { loginTeacher, loginStudent } from "../../../redux/actions/index";
+import { loginStudent } from "../../../redux/actions/index";
 
 class StudentRewardList extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			fetchingRewards: false,
-			loading: true
-		};
-	}
-	onPurchase = rewardId => {
-		this.props.purchaseReward(this.props.user.id, rewardId);
-	};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  onPurchase = rewardId => {
+    this.props.purchaseReward(this.props.userId, rewardId);
+  };
 
-	async componentDidMount() {
-		//grab all the rewards
-		await this.props.getStudentRewardOptions(this.props.classrooms);
-		this.setState({
-			fetchingRewards: false,
-			loading: false
-		});
-	}
+  async componentDidMount() {
+    //grab all the rewards
+    await this.props.getStudentRewardOptions(this.props.classrooms);
+  }
 
-	render = () => {
-		if (this.state.loading) {
-			return <LoadScreen />;
-		}
+  render = () => {
+    // if (this.state.loading) {
+    // 	return <LoadScreen />;
+    // }
 
-		const rewardOptions = this.props.rewardOptions.map(reward => {
-			return (
-				<SRewardCard
-					reward={reward}
-					points={this.props.user.points}
-					onPurchase={this.onPurchase}
-				/>
-			);
-		});
-		return (
-			<div className="reward-container-outer">
-				<h1>Rewards Available for Purchase</h1>
-				<Paper
-					className="dashboard-menu"
-					style={{
-						padding: "4px",
-						borderRadius: "20px"
-					}}
-					zDepth={5}
-					rounded={true}
-				>
-					<div
-						className="reward-container"
-						style={{
-							border: "5px dashed #ccc",
-							borderRadius: "20px"
-						}}
-					>
-						<List className="reward-list">
-							{rewardOptions}
-						</List>
-					</div>
-				</Paper>
-			</div>
-		);
-	};
+    const rewardOptions = this.props.rewardOptions.map(reward => {
+      if (reward.kind === "PointReward") {
+        return null;
+      }
+      return (
+        <SRewardCard
+          key={reward._id}
+          reward={reward}
+          points={this.props.userPoints}
+          onPurchase={this.onPurchase}
+        />
+      );
+    });
+    return (
+      <div className="reward-container-outer">
+        <h1>Rewards Available for Purchase</h1>
+        <Paper
+          className="dashboard-menu"
+          style={{
+            padding: "4px",
+            borderRadius: "20px"
+          }}
+          zDepth={5}
+          rounded={true}
+        >
+          <div
+            className="reward-container"
+            style={{
+              border: "5px dashed #ccc",
+              borderRadius: "20px"
+            }}
+          >
+            <h2>Current Rewards</h2>
+            <List className="reward-list">{rewardOptions}</List>
+          </div>
+        </Paper>
+      </div>
+    );
+  };
 }
 
 const mapStateToProps = state => {
-	return {
-		user: state.user,
-		rewards: state.rewards,
-		classrooms: state.classrooms,
-		rewardOptions: state.rewardOptions
-	};
+  return {
+    classrooms: state.classrooms,
+    rewardOptions: state.rewardOptions
+  };
 };
 const mapDispatchToProps = dispatch => {
-	return {
-		createReward: teacher => {
-			dispatch(createReward(teacher));
-		},
-		fetchRewards: (userId, userKind) => {
-			dispatch(getAllRewards(userId, userKind));
-		},
-		removeReward: rewardId => {
-			dispatch(deleteReward(rewardId));
-		},
-		updateReward: (id, editedReward) => {
-			dispatch(editReward(id, editedReward));
-		},
-		getStudentRewardOptions: classrooms => {
-			dispatch(getStudentRewardOptions(classrooms));
-		},
-		purchaseReward: (studentId, rewardId) => {
-			dispatch(purchaseReward(studentId, rewardId));
-		}
-	};
+  return {
+    getStudentRewardOptions: classrooms => {
+      dispatch(getStudentRewardOptions(classrooms));
+    },
+    purchaseReward: (studentId, rewardId) => {
+      dispatch(purchaseReward(studentId, rewardId));
+    }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(StudentRewardList);

@@ -104,7 +104,7 @@ const Register = ({
             </fieldset>
             <RaisedButton
               backgroundColor={"#1A8484"}
-              labelColor={"white"}
+              labelColor="#FCFCFC"
               style={{ margin: "20px 20px 20px 5px" }}
               label="Create Account"
               type="submit"

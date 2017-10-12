@@ -17,7 +17,7 @@ const StudentItem = ({ onClick, student }) => {
           label="Unassign"
           labelStyle={{ color: "white" }}
           backgroundColor="#960d0d"
-          hoverColor="#dc2b2b"
+          hoverColor={"#dc2b2b"}
         />
       </Undoable>
     </div>
@@ -26,7 +26,7 @@ const StudentItem = ({ onClick, student }) => {
   return (
     <ListItem
       primaryText={student.profile.displayName}
-      hoverColor="#3d9f9f"
+      hoverColor={"#3d9f9f"}
       rightIconButton={unassignButton}
     />
   );
@@ -44,7 +44,7 @@ const ModalTitle = ({ onClick }) => {
             label="Unassign All"
             labelStyle={{ color: "white" }}
             backgroundColor="#960d0d"
-            hoverColor="#dc2b2b"
+            hoverColor={"#dc2b2b"}
           />
         </Undoable>
       </div>
@@ -100,7 +100,9 @@ class StudentsModal extends React.Component {
           </ListItem>
         ));
       nameList.push(
-        <ListItem>and {this.props.students.length - 3} more...</ListItem>
+        <ListItem key={"andMore"}>
+          and {this.props.students.length - 3} more...
+        </ListItem>
       );
     }
 

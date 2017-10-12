@@ -61,10 +61,10 @@ class TaskCard extends React.Component {
   render() {
     const { _id, title, value, description, classroom } = this.props.task;
     const { students } = this.props;
-    let rewards = this.props.task.rewards.map(reward => {
+    let rewards = this.props.task.rewards.map((reward, idx) => {
       return (
         <Chip
-          // key={idx}
+          key={idx}
           style={rewardsChip}
           className="reward-chip"
           onRequestDelete={() => {
@@ -135,10 +135,11 @@ class TaskCard extends React.Component {
                     resolve={() => this.props.deleteTask()}
                   >
                     <RaisedButton
-                      label="Delete"
                       style={{ marginLeft: "20px" }}
                       backgroundColor={"#960D0D"}
-                      labelColor="white"
+                      hoverColor="#a71e1e"
+                      labelColor="#FCFCFC"
+                      label="Delete"
                       icon={
                         <i style={{ color: "white" }} className="fa fa-trash" />
                       }

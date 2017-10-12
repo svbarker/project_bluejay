@@ -65,8 +65,12 @@ class RewardCard extends React.Component {
             <p>{description || "None"}</p>
             <p>
               <strong>
-                This reward is{" "}
-                {available ? "available." : "not available right now."}
+                Available:
+                {available ? (
+                  <i style={{ color: "#96cd28" }} className="fa fa-check" />
+                ) : (
+                  <i style={{ color: "#960D0D" }} className="fa fa-times" />
+                )}
               </strong>
             </p>
             <Undoable
@@ -75,10 +79,11 @@ class RewardCard extends React.Component {
               wait={2}
             >
               <FlatButton
-                // onClick={() => this.props.onPurchase(reward)}
+                backgroundColor={"#96cd28"}
+                labelColor={"black"}
                 disabled={this.props.points < cost ? true : false}
-                primary={this.props.points > cost ? true : false}
                 label="purchase"
+                hoverColor={"#96cd28"}
               />
             </Undoable>
           </Paper>

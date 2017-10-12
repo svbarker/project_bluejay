@@ -165,7 +165,7 @@ class StudentRewardWallet extends React.Component {
             onClick={navigateTo("Unredeemed")}
             backgroundColor={"rgba( 26,132,132,1)"}
             style={{ margin: "20px 20px" }}
-            labelColor={"white"}
+            labelColor="#FCFCFC"
             label={"Unredeemed"}
             icon={<i style={{ color: "white" }} className="fa fa-gift" />}
           />
@@ -174,7 +174,7 @@ class StudentRewardWallet extends React.Component {
             onClick={navigateTo("Pending")}
             backgroundColor={"rgba(150,13,13,1)"}
             style={{ margin: "20px 20px" }}
-            labelColor={"white"}
+            labelColor="#FCFCFC"
             label={"Pending"}
             icon={<i style={{ color: "white" }} className="fa fa-ellipsis-h" />}
           />
@@ -183,7 +183,7 @@ class StudentRewardWallet extends React.Component {
             onClick={navigateTo("Redeemed")}
             backgroundColor={"rgba(150,205, 40,1)"}
             style={{ margin: "20px 20px" }}
-            labelColor={"white"}
+            labelColor="#FCFCFC"
             label={"Redeemed"}
             icon={
               <span>
