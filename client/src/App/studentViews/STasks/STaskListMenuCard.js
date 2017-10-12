@@ -54,7 +54,7 @@ class StudentTaskListMenuCard extends React.Component {
         label: this.props.task.pending
           ? BUTTON_PENDING_TEXT
           : BUTTON_MARK_COMPLETED_TEXT,
-        disabled: newProps.tasks.pending
+        disabled: newProps.task.pending
       });
     }
   }
