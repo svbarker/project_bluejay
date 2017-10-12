@@ -5,11 +5,14 @@ import {
   UPDATE_CLASSROOM,
   REMOVE_CLASSROOM
 } from "../actions/classrooms";
+import { CLEAR_STORE } from "../actions/index";
 
 export const classroomInitState = [];
 
 const classrooms = (state = classroomInitState, action) => {
   switch (action.type) {
+    case CLEAR_STORE:
+      return [];
     case GET_ALL_CLASSROOMS:
       return action.data;
     case ADD_CLASSROOM:

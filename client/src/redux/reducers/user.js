@@ -2,6 +2,8 @@ import { SET_USER, UPDATE_POINTS } from "../actions/user";
 
 const user = (state = {}, action) => {
   switch (action.type) {
+    case CLEAR_STORE:
+      return {};
     case SET_USER:
       return {
         ...state,

@@ -12,6 +12,8 @@ export const taskInitState = [];
 
 const tasks = (state = [], action) => {
   switch (action.type) {
+    case CLEAR_STORE:
+      return [];
     case GET_ALL_TASKS:
       return [...action.data];
     case ADD_TASK:
