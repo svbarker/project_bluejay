@@ -26,20 +26,8 @@ import {
 import { loginTeacher, loginStudent } from "../../../redux/actions/index";
 
 class TeacherRewardList extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			fetchingRewards: false,
-			loading: true
-		};
-	}
-
 	async componentDidMount() {
 		await this.props.fetchRewards(this.props.user.id, this.props.user.kind);
-		this.setState({
-			fetchingRewards: false,
-			loading: false
-		});
 	}
 
 	onCreateReward = async rewardInput => {
@@ -58,11 +46,10 @@ class TeacherRewardList extends React.Component {
 		this.props.updateReward(id, { updates: updatedReward });
 	};
 	render = () => {
-		if (this.state.loading) {
+		if (this.props.isFetching) {
 			return <LoadScreen />;
 		}
-		//TODO: ADD A RADIO-BUTTON TO CHANGE THE AVAILABILITY SETTINGS
-		//THE REWARDS CARDS ////
+
 		const rewards = this.props.rewards.map(reward => {
 			return (
 				<TRewardCard
@@ -108,7 +95,8 @@ class TeacherRewardList extends React.Component {
 const mapStateToProps = (state, ownProps) => {
 	return {
 		...ownProps,
-		rewards: state.rewards,
+		isFetching: state.rewards.isFetching,
+		rewards: state.rewards.list,
 		classrooms: state.classrooms,
 		name: state.user.displayName
 	};

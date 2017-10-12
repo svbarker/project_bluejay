@@ -77,6 +77,7 @@ class App extends Component {
 				</Router>
 			);
 		}
+
 		if (this.props.status.isFetching) {
 			return <LoadScreen />;
 		} else if (this.props.user.kind === "Teacher") {

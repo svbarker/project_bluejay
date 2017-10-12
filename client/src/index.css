@@ -144,3 +144,38 @@ i {
 	color: #1e2d00;
 }
 /* COLOR PALETTE */
+
+.loading-outer {
+	padding-top: 180px;
+	width: 80%;
+	margin: auto;
+	margin-bottom: 1em;
+}
+
+.loading {
+	position: absolute;
+	top: 0;
+	right: 20px;
+}
+/*.loading {
+	left: 20%;
+	margin: auto;
+	margin-top: 5%;
+	width: 60%;
+	height: 30%;
+	background-color: #fff;
+	border-radius: 3em;
+}*/
+
+.loading-outer h1,
+h2 {
+	margin-left: 20px;
+	font-family: "Bree Serif";
+	text-align: left;
+	padding-right: 200px;
+}
+
+.loading h2 {
+	margin-bottom: 2em;
+	display: inline-block;
+}
