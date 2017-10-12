@@ -7,6 +7,7 @@ import {
   UNASSIGN_TASK,
   BULK_UNASSIGN_TASK
 } from "../actions/student";
+import { CLEAR_STORE } from "../actions/index";
 
 export const studentInitState = [];
 
