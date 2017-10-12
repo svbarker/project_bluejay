@@ -24,7 +24,7 @@ const classrooms = (state = classroomInitState, action) => {
           : classroom;
       });
     case REMOVE_CLASSROOM:
-      return state.classrooms.filter(classroom => classroom.id !== action.data);
+      return state.filter(classroom => `${classroom._id}` !== `${action.data}`);
     default:
       return state;
   }
