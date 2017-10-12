@@ -43,6 +43,19 @@ class CreateTaskModal extends Component {
     });
   };
 
+  clearReward = id => () => {
+    this.setState({
+      rewards: this.state.rewards.filter(reward => id !== reward._id)
+    });
+  };
+
+  clearRewards = () => {
+    this.setState({
+      rewards: [],
+      selectedReward: null
+    });
+  };
+
   render() {
     return (
       <Dialog title="Create a task:" open={this.props.open} modal={true}>
@@ -64,11 +77,7 @@ class CreateTaskModal extends Component {
           </div>
           <div style={{ padding: "20px", border: "3px solid #97cb39" }}>
             <div>
-              <h3>Rewards:</h3>
               <div>
-                {!this.state.rewards.length ? null : (
-                  this.state.rewards.map(reward => <p>{reward.title}</p>)
-                )}
                 <div>
                   <SelectField
                     floatingLabelText="Choose a reward"
@@ -85,6 +94,7 @@ class CreateTaskModal extends Component {
                     ))}
                   </SelectField>
                   <FloatingActionButton
+                    disabled={!this.state.selectedReward}
                     mini={true}
                     backgroundColor="#96CD28"
                     onClick={this.addReward}
@@ -92,6 +102,19 @@ class CreateTaskModal extends Component {
                     <ContentAdd />
                   </FloatingActionButton>
                 </div>
+                <h3>Rewards:</h3>
+
+                {!this.state.rewards.length ? null : (
+                  this.state.rewards.map(reward => (
+                    <p key={reward._id}>
+                      {reward.title}
+                      <i
+                        onClick={this.clearReward(reward._id)}
+                        className="fa fa-trash"
+                      />
+                    </p>
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -113,7 +136,10 @@ class CreateTaskModal extends Component {
             <RaisedButton
               style={{ margin: "10px" }}
               label="Cancel"
-              onClick={this.props.handleClose}
+              onClick={() => {
+                this.props.handleClose();
+                this.clearRewards();
+              }}
               labelColor="white"
               backgroundColor="#960d0d"
               icon={<i style={{ color: "white" }} className="fa fa-times" />}
