@@ -13,31 +13,21 @@ class TaskAssignList extends Component {
   render() {
     return (
       <div>
-        <Card style={{ backgroundColor: "#85dcdc" }}>
-          <CardHeader
-            actAsExpander={true}
-            showExpandableButton={true}
-            style={{
-              textAlign: "left",
-              backgroundColor: "#1a8484"
-            }}
-            iconStyle={{ color: "white" }}
-            title="Tasks"
-            titleStyle={{
-              color: "white",
-              fontWeight: "bold",
-              fontSize: "16px"
-            }}
-          />
-          <CardText expandable={true}>
-            <div className="card-container">
-              {this.props.tasks.map(task => {
-                return (
-                  <Assignable key={task._id} resource={task} type="tasks" />
-                );
-              })}
-            </div>
-          </CardText>
+        <Card style={{ backgroundColor: "#3d9f9f" }}>
+          <div
+            style={{ textAlign: "center" }}
+            className="assignables-container"
+          >
+            <CardText expandable={true}>
+              <div className="card-container">
+                {this.props.tasks.map(task => {
+                  return (
+                    <Assignable key={task._id} resource={task} type="tasks" />
+                  );
+                })}
+              </div>
+            </CardText>
+          </div>
         </Card>
       </div>
     );

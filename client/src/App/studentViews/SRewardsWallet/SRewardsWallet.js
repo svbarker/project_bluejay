@@ -60,6 +60,7 @@ class StudentRewardWallet extends React.Component {
       ) : null;
     };
 
+    // THIS BREAKS OCCASIONALLY !!! -Ian
     const unredeemed = this.props.rewards
       .filter(reward => reward.status === "Unredeemed")
       .map(mapFunc);

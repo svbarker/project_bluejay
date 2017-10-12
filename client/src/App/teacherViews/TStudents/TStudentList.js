@@ -75,75 +75,77 @@ class StudentList extends Component {
 
   render() {
     return (
-      <div className="students-container">
-        <Paper style={{ padding: "4px", borderRadius: "22px" }}>
-          <div className="students-container-inner">
-            {!this.props.classrooms.length ? (
-              <span>You have no classes! Add one to get started!</span>
-            ) : (
-              <SelectField
-                labelStyle={{ fontFamily: "Bree Serif" }}
-                menuItemStyle={{ fontFamily: "Bree Serif" }}
-                floatingLabelText="Current Class"
-                value={this.state.classIndex}
-                onChange={this.handleChange}
-              >
-                {this.props.classrooms.map((classroom, i) => (
-                  <MenuItem
-                    key={classroom._id}
-                    value={i}
-                    primaryText={classroom.title}
-                  />
-                ))}
-              </SelectField>
-            )}
-            <br />
-            {!this.state.addingClass ? (
-              <p>
-                <a href="" onClick={this.toggleAddClass}>
-                  Add a class
-                </a>
-              </p>
-            ) : (
-              <form onSubmit={this.addClass}>
-                <TextField id="name" floatingLabelText="Class name" />{" "}
-                <FlatButton type="submit" label="Add" />
-              </form>
-            )}
-            <div>
-              <ClassAssign
-                currentClass={this.state.currentClass}
-                teacherId={this.props.teacherId}
-                students={this.props.students}
-              />
-              <div className="student-card-container">
-                {this.props.students.map(student => (
-                  <StudentCard
-                    key={student._id}
-                    student={student}
-                    teacherId={this.props.teacherId}
-                  />
-                ))}
-                <div className="add-student">
-                  <FloatingActionButton
-                    backgroundColor="#960d0d"
-                    onClick={this.handleOpen}
-                  >
-                    <ContentAdd />
-                  </FloatingActionButton>
+      <div style={{ paddingTop: "50px" }}>
+        <div className="students-container">
+          <Paper style={{ padding: "4px", borderRadius: "22px" }}>
+            <div className="students-container-inner">
+              {!this.props.classrooms.length ? (
+                <span>You have no classes! Add one to get started!</span>
+              ) : (
+                <SelectField
+                  labelStyle={{ fontFamily: "Bree Serif" }}
+                  menuItemStyle={{ fontFamily: "Bree Serif" }}
+                  floatingLabelText="Current Class"
+                  value={this.state.classIndex}
+                  onChange={this.handleChange}
+                >
+                  {this.props.classrooms.map((classroom, i) => (
+                    <MenuItem
+                      key={classroom._id}
+                      value={i}
+                      primaryText={classroom.title}
+                    />
+                  ))}
+                </SelectField>
+              )}
+              <br />
+              {!this.state.addingClass ? (
+                <p>
+                  <a href="" onClick={this.toggleAddClass}>
+                    Add a class
+                  </a>
+                </p>
+              ) : (
+                <form onSubmit={this.addClass}>
+                  <TextField id="name" floatingLabelText="Class name" />{" "}
+                  <FlatButton type="submit" label="Add" />
+                </form>
+              )}
+              <div>
+                <ClassAssign
+                  currentClass={this.state.currentClass}
+                  teacherId={this.props.teacherId}
+                  students={this.props.students}
+                />
+                <div className="student-card-container">
+                  {this.props.students.map(student => (
+                    <StudentCard
+                      key={student._id}
+                      student={student}
+                      teacherId={this.props.teacherId}
+                    />
+                  ))}
+                  <div className="add-student">
+                    <FloatingActionButton
+                      backgroundColor="#960d0d"
+                      onClick={this.handleOpen}
+                    >
+                      <ContentAdd />
+                    </FloatingActionButton>
+                  </div>
                 </div>
               </div>
+              {!this.state.currentClass ? null : (
+                <AddStudentContainer
+                  classId={this.state.currentClass._id}
+                  open={this.state.open}
+                  handleClose={this.handleClose}
+                  loadStudents={this.props.loadStudents}
+                />
+              )}
             </div>
-            {!this.state.currentClass ? null : (
-              <AddStudentContainer
-                classId={this.state.currentClass._id}
-                open={this.state.open}
-                handleClose={this.handleClose}
-                loadStudents={this.props.loadStudents}
-              />
-            )}
-          </div>
-        </Paper>
+          </Paper>
+        </div>
       </div>
     );
   }

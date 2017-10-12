@@ -69,11 +69,21 @@ const TaskList = props => {
             borderRadius: "20px"
           }}
         >
-          <RaisedButton
-            icon={<i className="fa fa-plus" />}
-            label="Create Task"
-            onClick={handleOpen}
-          />
+          <div
+            style={{
+              display: "flex",
+              flexFlow: "row nowrap",
+              justifyContent: "center"
+            }}
+          >
+            <RaisedButton
+              icon={<i style={{ color: "white" }} className="fa fa-plus" />}
+              label="Task"
+              backgroundColor={"#1a8484"}
+              labelColor="white"
+              onClick={handleOpen}
+            />
+          </div>
           <br />
           <br />
           {taskCards}

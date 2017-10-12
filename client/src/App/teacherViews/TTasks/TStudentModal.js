@@ -13,9 +13,11 @@ const StudentItem = ({ onClick, student }) => {
     <div>
       <Undoable wait={2} resolve={onClick}>
         <FlatButton
+          style={{ marginTop: "5px" }}
           label="Unassign"
-          backgroundColor="white"
-          hoverColor="#DC2B2B"
+          labelStyle={{ color: "white" }}
+          backgroundColor="#960d0d"
+          hoverColor="#dc2b2b"
         />
       </Undoable>
     </div>
@@ -24,7 +26,7 @@ const StudentItem = ({ onClick, student }) => {
   return (
     <ListItem
       primaryText={student.profile.displayName}
-      hoverColor="#97cb39"
+      hoverColor="#3d9f9f"
       rightIconButton={unassignButton}
     />
   );
@@ -34,11 +36,16 @@ const ModalTitle = ({ onClick }) => {
   return (
     <div className="modal-title-container">
       <div>
-        <h1>Students Assigned This Task</h1>
+        <h1>Students Assigned This Task:</h1>
       </div>
       <div className="modal-title-button">
         <Undoable wait={2} tickDown={true} resolve={onClick}>
-          <FlatButton label="Unassign All" />
+          <FlatButton
+            label="Unassign All"
+            labelStyle={{ color: "white" }}
+            backgroundColor="#960d0d"
+            hoverColor="#dc2b2b"
+          />
         </Undoable>
       </div>
     </div>
@@ -92,16 +99,18 @@ class StudentsModal extends React.Component {
             {this.props.students[idx].profile.displayName}
           </ListItem>
         ));
-      nameList.push(<i key="more" className="fa fa-ellipsis-v" />);
+      nameList.push(
+        <ListItem>and {this.props.students.length - 3} more...</ListItem>
+      );
     }
 
     return (
-      <div>
+      <div style={{ cursor: "pointer" }}>
         <List className="horizontalCenterChildren" onClick={this.handleOpen}>
           <Subheader style={{ textAlign: "center" }}>
-            Students Assigned
+            Students Assigned This Task:
           </Subheader>
-          {nameList ? nameList : <h5>No Students</h5>}
+          {nameList ? nameList : <h5>None</h5>}
         </List>
         <Dialog
           title={
@@ -113,7 +122,7 @@ class StudentsModal extends React.Component {
           onRequestClose={this.handleClose}
         >
           <List>
-            <Subheader>Students Assigned</Subheader>
+            {nameList ? null : <Subheader>None</Subheader>}
             {listOfStudentItems}
           </List>
         </Dialog>

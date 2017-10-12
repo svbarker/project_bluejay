@@ -12,8 +12,7 @@ const StudentView = ({ selected, toggle, name }) => {
       <h1>{`${name}'s Students`}</h1>
       <div className="student-view-container">
         <StudentListContainer />
-        <div style={{ textAlign: "center" }} className="assignables-container">
-          <h2>Drag and drop to assign:</h2>
+        <div>
           <div
             style={{
               display: "flex",
@@ -36,6 +35,7 @@ const StudentView = ({ selected, toggle, name }) => {
               style={{ margin: "8px" }}
             />
           </div>
+
           {selected === "tasks" ? (
             <TaskAssignListContainer />
           ) : (
