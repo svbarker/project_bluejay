@@ -4,6 +4,8 @@ import Badge from "material-ui/Badge";
 import * as Events from "../../../redux/actions/events";
 import "../../Styles/Navbar.css";
 
+import Logo from "../../GlobalComponents/logo";
+
 import IconMenu from "material-ui/IconMenu";
 import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
@@ -27,9 +29,7 @@ class StudentNavbar extends Component {
 			<div className="navbar navbar-base">
 				<div className="navbar-left">
 					<NavLink to="/">
-						<h1>
-							{"Kids' Productivity App"}
-						</h1>
+						<Logo />
 					</NavLink>
 				</div>
 				<div className="navbar-mid">

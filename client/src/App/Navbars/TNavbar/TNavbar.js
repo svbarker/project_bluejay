@@ -4,6 +4,8 @@ import Badge from "material-ui/Badge";
 import * as Events from "../../../redux/actions/events";
 import "../../Styles/Navbar.css";
 
+import Logo from "../../GlobalComponents/logo";
+
 class TeacherNavbar extends Component {
 	constructor(props) {
 		super(props);
@@ -22,7 +24,7 @@ class TeacherNavbar extends Component {
 			<div className="navbar navbar-base">
 				<div className="navbar-left">
 					<NavLink to="/">
-						<h1>{"Kids' Productivity App"}</h1>
+						<Logo />
 					</NavLink>
 				</div>
 				<div className="navbar-mid">
@@ -54,14 +56,14 @@ class TeacherNavbar extends Component {
 						<NavLink to="/notifications">
 							<li style={{ position: "relative" }}>
 								<i className="fa fa-comment" aria-hidden="true" />
-								{!this.props.notifications.length ? null : (
-									<Badge
-										className="navbar-notification-badge"
-										style={{ position: "absolute" }}
-										badgeContent={this.props.notifications.length}
-										primary={true}
-									/>
-								)}
+								{!this.props.notifications.length
+									? null
+									: <Badge
+											className="navbar-notification-badge"
+											style={{ position: "absolute" }}
+											badgeContent={this.props.notifications.length}
+											primary={true}
+										/>}
 							</li>
 						</NavLink>
 						<NavLink to="/profile">
