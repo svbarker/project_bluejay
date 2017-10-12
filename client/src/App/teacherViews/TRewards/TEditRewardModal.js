@@ -67,6 +67,8 @@ export default class TEditRewardModal extends React.Component {
     if (this.props.reward.value) {
       costOrValue = (
         <TextField
+          floatingLabelStyle={{ color: "grey" }}
+          underlineFocusStyle={{ borderColor: "#96CD28" }}
           onChange={this.onChange}
           value={this.state.value}
           floatingLabelText="Value"
@@ -76,6 +78,8 @@ export default class TEditRewardModal extends React.Component {
     } else {
       costOrValue = (
         <TextField
+          floatingLabelStyle={{ color: "grey" }}
+          underlineFocusStyle={{ borderColor: "#96CD28" }}
           onChange={this.onChange}
           value={this.state.cost}
           floatingLabelText="Cost"
@@ -110,6 +114,8 @@ export default class TEditRewardModal extends React.Component {
             <TextField
               onChange={this.onChange}
               value={this.state.description}
+              floatingLabelStyle={{ color: "grey" }}
+              underlineFocusStyle={{ borderColor: "#96CD28" }}
               floatingLabelText="Description"
               fullWidth={true}
               multiLine={true}
@@ -117,6 +123,8 @@ export default class TEditRewardModal extends React.Component {
             />
             {costOrValue}
             <TextField
+              floatingLabelStyle={{ color: "grey" }}
+              underlineFocusStyle={{ borderColor: "#96CD28" }}
               onChange={this.onChange}
               value={this.state.kind}
               floatingLabelText="Kind"
