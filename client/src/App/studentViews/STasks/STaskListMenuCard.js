@@ -41,23 +41,10 @@ class StudentTaskListMenuCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      label: props.task.pending
-        ? BUTTON_PENDING_TEXT
-        : BUTTON_MARK_COMPLETED_TEXT,
-      visible: true,
-      disabled: props.task.pending
+      visible: true
     };
   }
-  componentWillReceiveProps(newProps) {
-    if (newProps.task && this.props.task.pending !== newProps.task.pending) {
-      this.setState({
-        label: this.props.task.pending
-          ? BUTTON_PENDING_TEXT
-          : BUTTON_MARK_COMPLETED_TEXT,
-        disabled: newProps.task.pending
-      });
-    }
-  }
+
   render() {
     const { task, markCompleted, user, socket } = this.props;
     const { _id, title, value, description, classroom } = task;
@@ -104,17 +91,19 @@ class StudentTaskListMenuCard extends React.Component {
               {this.props.task.status !== "CompletedTask" ? (
                 <div className="menu-card-button-container">
                   <FlatButton
-                    disabled={this.state.disabled}
-                    label={this.state.label}
+                    disabled={this.props.task.pending}
+                    label={
+                      this.props.task.pending ? (
+                        BUTTON_PENDING_TEXT
+                      ) : (
+                        BUTTON_MARK_COMPLETED_TEXT
+                      )
+                    }
                     icon={<i className="fa fa-check fa-1x" />}
                     style={{ color: "rgb(255,255,255)" }}
                     onClick={() => {
-                      if (!this.state.disabled)
+                      if (!this.props.task.pending)
                         markCompleted(user.id, _id, socket);
-                      this.setState({
-                        label: BUTTON_PENDING_TEXT,
-                        disabled: true
-                      });
                     }}
                     backgroundColor="#1a8484"
                     hoverColor="#3ca6a6"
