@@ -32,7 +32,7 @@ passport.deserializeUser(configs.deserialize);
 passport.use(new localStrategy(require("../strategies/local")));
 
 // serve static resource
-app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
+app.get("*", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
 // registering route
 app.use("/register", require("../routers/register"));
