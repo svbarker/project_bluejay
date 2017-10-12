@@ -82,17 +82,19 @@ class TEditTaskModal extends React.Component {
           <div>
             <TextField
               floatingLabelText="title"
+              floatingLabelStyle={{ color: "grey" }}
+              underlineFocusStyle={{ borderColor: "#1A8484" }}
               floatingLabelFixed={true}
-              underlineShow={false}
               name="title"
               value={this.state.title}
               onChange={this.onChange}
             />
             <TextField
               floatingLabelText="description"
+              floatingLabelStyle={{ color: "grey" }}
+              underlineFocusStyle={{ borderColor: "#1A8484" }}
               floatingLabelFixed={true}
               fullWidth={true}
-              underlineShow={false}
               multiLine={true}
               name="description"
               value={this.state.description}

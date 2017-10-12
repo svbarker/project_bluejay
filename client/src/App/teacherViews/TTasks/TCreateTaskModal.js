@@ -65,9 +65,16 @@ class CreateTaskModal extends Component {
         >
           <div style={{ padding: "20px", border: "3px solid #1a8484" }}>
             <div>
-              <TextField id="title" floatingLabelText="Title" />
+              <TextField
+                id="title"
+                floatingLabelStyle={{ color: "grey" }}
+                underlineFocusStyle={{ borderColor: "#1a8484" }}
+                floatingLabelText="Title"
+              />
               <br />
               <TextField
+                floatingLabelStyle={{ color: "grey" }}
+                underlineFocusStyle={{ borderColor: "#1a8484" }}
                 id="description"
                 floatingLabelText="Description"
                 multiLine={true}
@@ -80,6 +87,8 @@ class CreateTaskModal extends Component {
               <div>
                 <div>
                   <SelectField
+                    floatingLabelStyle={{ color: "grey" }}
+                    underlineFocusStyle={{ borderColor: "#97cb39" }}
                     floatingLabelText="Choose a reward"
                     onChange={this.handleSelectChange}
                     value={this.state.selectedReward}
