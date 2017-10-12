@@ -51,7 +51,7 @@ class TEditTaskModal extends React.Component {
         label="Cancel"
         style={style}
         hoverColor={"#960D0D"}
-        labelColor={"white"}
+        labelColor="#FCFCFC"
         backgroundColor="#960D0D"
         onClick={this.handleClose}
         icon={<i style={{ color: "white" }} className={"fa fa-times"} />}
@@ -60,7 +60,7 @@ class TEditTaskModal extends React.Component {
         label="Save"
         style={style}
         hoverColor={"#1A8484"}
-        labelColor={"white"}
+        labelColor="#FCFCFC"
         backgroundColor="#1A8484"
         onClick={this.onSave}
         icon={<i style={{ color: "white" }} className={"fa fa-save"} />}
@@ -71,7 +71,7 @@ class TEditTaskModal extends React.Component {
         <RaisedButton
           onClick={this.handleOpen}
           backgroundColor={"#1A8484"}
-          labelColor={"white"}
+          labelColor="#FCFCFC"
           icon={<i style={{ color: "white" }} className="fa fa-edit" />}
           label="Edit"
         />

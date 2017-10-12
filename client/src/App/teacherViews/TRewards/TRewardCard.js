@@ -125,7 +125,7 @@ class RewardCard extends React.Component {
                     icon={
                       <i style={{ color: "white" }} className="fa fa-trash" />
                     }
-                    labelColor={"white"}
+                    labelColor="#FCFCFC"
                     label="Delete"
                   />
                 </Undoable>
