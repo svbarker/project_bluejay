@@ -13,6 +13,11 @@ import {
 class NotificationsContainer extends React.Component {
   constructor() {
     super();
+
+    this.state = {
+      pendingActions: [],
+      actionTimeouts: []
+    };
   }
 
   takeToItem = (item, id) => () => {
@@ -21,79 +26,77 @@ class NotificationsContainer extends React.Component {
 
   handleAction = action => (t_id, s_id, ta_id, n_id, type) => e => {
     e.stopPropagation();
-    this.props[`${action}Event`](t_id, s_id, ta_id, n_id, type);
-    // e.stopPropagation();
-    // this.setState({
-    //   pendingActions: [
-    //     ...this.state.pendingActions,
-    //     { id: n_id, timeLeft: 5, type: `${action}ed` }
-    //   ]
-    // });
-    // let interval = setInterval(() => {
-    //   this.setState({
-    //     pendingActions: this.state.pendingActions.map(
-    //       a => (a.id === n_id ? { ...a, timeLeft: a.timeLeft - 1 } : a)
-    //     )
-    //   });
-    // }, 1000);
-    // this.setState({
-    //   actionTimeouts: [
-    //     ...this.state.actionTimeouts.filter(t => t.eventId !== n_id),
-    //     {
-    //       timeout: setTimeout(() => {
-    //         this.props[`${action}Event`](t_id, s_id, ta_id, n_id, type);
-    //         this.setState({
-    //           pendingActions: this.state.pendingActions.filter(
-    //             a => a.id !== n_id
-    //           )
-    //         });
-    //       }, 5000),
-    //       eventId: n_id,
-    //       interval,
-    //       t_id,
-    //       s_id,
-    //       ta_id,
-    //       action,
-    //       type
-    //     }
-    //   ]
-    // });
-    // setTimeout(() => {
-    //   clearInterval(interval);
-    // }, 5000);
+    this.setState({
+      pendingActions: [
+        ...this.state.pendingActions,
+        { id: n_id, timeLeft: 5, type: `${action}ed` }
+      ]
+    });
+    let interval = setInterval(() => {
+      this.setState({
+        pendingActions: this.state.pendingActions.map(
+          a => (a.id === n_id ? { ...a, timeLeft: a.timeLeft - 1 } : a)
+        )
+      });
+    }, 1000);
+    this.setState({
+      actionTimeouts: [
+        ...this.state.actionTimeouts.filter(t => t.eventId !== n_id),
+        {
+          timeout: setTimeout(() => {
+            this.props[`${action}Event`](t_id, s_id, ta_id, n_id, type);
+            this.setState({
+              pendingActions: this.state.pendingActions.filter(
+                a => a.id !== n_id
+              )
+            });
+          }, 5000),
+          eventId: n_id,
+          interval,
+          t_id,
+          s_id,
+          ta_id,
+          action,
+          type
+        }
+      ]
+    });
+    setTimeout(() => {
+      clearInterval(interval);
+    }, 5000);
   };
 
   undoAction = id => e => {
-    // e.stopPropagation();
-    // clearTimeout(
-    //   this.state.actionTimeouts.filter(t => t.eventId === id)[0]["timeout"]
-    // );
-    // clearInterval(
-    //   this.state.actionTimeouts.filter(t => t.eventId === id)[0]["interval"]
-    // );
-    // this.setState({
-    //   pendingActions: this.state.pendingActions.filter(a => a.id !== id)
-    // });
+    e.stopPropagation();
+    clearTimeout(
+      this.state.actionTimeouts.filter(t => t.eventId === id)[0]["timeout"]
+    );
+    clearInterval(
+      this.state.actionTimeouts.filter(t => t.eventId === id)[0]["interval"]
+    );
+    this.setState({
+      pendingActions: this.state.pendingActions.filter(a => a.id !== id)
+    });
   };
 
   componentDidMount() {
     this.props.hydrateNotifications(this.props.user.id);
-    // window.addEventListener("onbeforeunload", this.componentWillUnmount);
+    window.addEventListener("onbeforeunload", this.componentWillUnmount);
   }
 
   componentWillUnmount() {
-    // let timeouts = this.state.actionTimeouts;
-    // timeouts.forEach(t => {
-    //   clearTimeout(t.timeout);
-    //   clearInterval(t.interval);
-    //   this.props[`${t.action}Event`](
-    //     t.t_id,
-    //     t.s_id,
-    //     t.ta_id,
-    //     t.eventId,
-    //     t.type
-    //   );
-    // });
+    let timeouts = this.state.actionTimeouts;
+    timeouts.forEach(t => {
+      clearTimeout(t.timeout);
+      clearInterval(t.interval);
+      this.props[`${t.action}Event`](
+        t.t_id,
+        t.s_id,
+        t.ta_id,
+        t.eventId,
+        t.type
+      );
+    });
   }
 
   render() {
@@ -102,7 +105,9 @@ class NotificationsContainer extends React.Component {
       notifications: this.props.notifications,
       acceptEvent: this.handleAction("confirm"),
       rejectEvent: this.handleAction("reject"),
-      user: this.props.user
+      user: this.props.user,
+      undo: this.undoAction,
+      pendings: this.state.pendingActions
     };
 
     return <Notifications {...NotificationsProps} />;

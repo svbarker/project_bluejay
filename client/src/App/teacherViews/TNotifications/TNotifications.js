@@ -15,10 +15,10 @@ const getListItemStyle = n => ({
   borderRadius: "20px"
 });
 
-// const pendingListItemStyle = {
-//   borderRadius: "20px",
-//   paddingBottom: "20px"
-// };
+const pendingListItemStyle = {
+  borderRadius: "20px",
+  paddingBottom: "20px"
+};
 
 const listItemButtonsStyle = {
   display: "flex",
@@ -87,18 +87,18 @@ const getActionIcon = type => {
   );
 };
 
-// const getPendingMainText = (pendingType, n, undo, timeLeft) => (
-//   <span>
-//     {`You ${pendingType} this ${n.task ? "task." : "reward."} `}
-//     <span
-//       onClick={undo(n._id)}
-//       style={{ color: "blue", textDecoration: "underline" }}
-//     >
-//       Undo?
-//     </span>
-//     {`  (${timeLeft} seconds)`}
-//   </span>
-// );
+const getPendingMainText = (pendingType, n, undo, timeLeft) => (
+  <span>
+    {`You ${pendingType} this ${n.task ? "task." : "reward."} `}
+    <span
+      onClick={undo(n._id)}
+      style={{ color: "blue", textDecoration: "underline" }}
+    >
+      Undo?
+    </span>
+    {`  (${timeLeft} seconds)`}
+  </span>
+);
 
 const getMainText = n =>
   `${n.owner.profile.fname} ${n.owner.profile.lname} ${n.task
@@ -114,12 +114,12 @@ const getSecondaryText = n =>
 const getHoverColor = n =>
   n.task ? "rgba( 26,132,132,.3)" : "rgba(150,205, 40,.3)";
 
-// const isPending = (n, pendingIds) => pendingIds.includes(n._id);
+const isPending = (n, pendingIds) => pendingIds.includes(n._id);
 
-// const getPendingData = (n, pendings) => {
-//   let pendingObj = pendings.filter(p => p.id === n._id)[0];
-//   return [pendingObj.type, pendingObj.timeLeft];
-// };
+const getPendingData = (n, pendings) => {
+  let pendingObj = pendings.filter(p => p.id === n._id)[0];
+  return [pendingObj.type, pendingObj.timeLeft];
+};
 
 const topMargin = {
   marginTop: "30px",
@@ -178,7 +178,7 @@ const Notifications = ({
   undo
 }) => {
   let dates = [];
-  // const pendingIds = pendings.map(p => p.id);
+  const pendingIds = pendings.map(p => p.id);
 
   return (
     <div className="notifications-container">
@@ -192,33 +192,33 @@ const Notifications = ({
               {notifications.map(n => {
                 let date = getDateHeader(n, dates);
 
-                // if (isPending(n, pendingIds)) {
-                //   const [pendingType, timeLeft] = getPendingData(n, pendings);
-                //
-                //   const pendingListItemProps = {
-                //     key: n._id,
-                //     primaryText: getPendingMainText(
-                //       pendingType,
-                //       n,
-                //       undo,
-                //       timeLeft
-                //     ),
-                //     secondaryText: `Leaving the page will make this permanent.`,
-                //     hoverColor: "lightgrey",
-                //     secondaryTextLines: 2,
-                //     leftIcon: getActionIcon(pendingType),
-                //     style: pendingListItemStyle
-                //   };
+                if (isPending(n, pendingIds)) {
+                  const [pendingType, timeLeft] = getPendingData(n, pendings);
 
-                //   return (
-                //     <div style={topMargin}>
-                //       {date}
-                //       <div style={notificationDivStyle}>
-                //         <ListItem {...pendingListItemProps} />
-                //       </div>
-                //     </div>
-                //   );
-                // }
+                  const pendingListItemProps = {
+                    key: n._id,
+                    primaryText: getPendingMainText(
+                      pendingType,
+                      n,
+                      undo,
+                      timeLeft
+                    ),
+                    secondaryText: `Leaving the page will make this permanent.`,
+                    hoverColor: "lightgrey",
+                    secondaryTextLines: 2,
+                    leftIcon: getActionIcon(pendingType),
+                    style: pendingListItemStyle
+                  };
+
+                  return (
+                    <div style={topMargin}>
+                      {date}
+                      <div style={notificationDivStyle}>
+                        <ListItem {...pendingListItemProps} />
+                      </div>
+                    </div>
+                  );
+                }
 
                 const ListItemProps = {
                   key: n._id,
