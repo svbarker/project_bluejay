@@ -65,7 +65,7 @@ export default class TEditRewardModal extends React.Component {
       <RaisedButton
         label="Cancel"
         backgroundColor={"#960D0D"}
-        labelColor={"white"}
+        labelColor="#FCFCFC"
         icon={<i style={{ color: "white" }} className="fa fa-times" />}
         onClick={this.handleCancel}
       />

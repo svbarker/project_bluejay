@@ -70,7 +70,7 @@ const Login = ({
                 marginTop: "2em"
               }}
               backgroundColor={"#1A8484"}
-              labelColor={"white"}
+              labelColor="#FCFCFC"
               label="login"
               type="submit"
             />

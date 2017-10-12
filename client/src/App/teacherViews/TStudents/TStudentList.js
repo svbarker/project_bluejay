@@ -128,7 +128,7 @@ class StudentList extends Component {
                     </div>
                   ) : null}
                   <RaisedButton
-                    labelColor={"white"}
+                    labelColor="#FCFCFC"
                     icon={
                       <i style={{ color: "white" }} className={"fa fa-plus"} />
                     }
@@ -150,13 +150,13 @@ class StudentList extends Component {
                     <FlatButton
                       backgroundColor={"#1a8484"}
                       hoverColor={"#1a8484"}
-                      labelColor={"white"}
+                      labelColor="#FCFCFC"
                       style={{ color: "white", marginRight: "5px" }}
                       type="submit"
                       label="Add"
                     />
                     <FlatButton
-                      labelColor={"white"}
+                      labelColor="#FCFCFC"
                       hoverColor={"#960d0d"}
                       style={{ color: "white" }}
                       onClick={this.cancelAdd}

@@ -81,7 +81,7 @@ const TaskList = props => {
               icon={<i style={{ color: "white" }} className="fa fa-plus" />}
               label="Task"
               backgroundColor={"#1a8484"}
-              labelColor={"white"}
+              labelColor="#FCFCFC"
               onClick={handleOpen}
             />
           </div>

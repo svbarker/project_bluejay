@@ -137,7 +137,8 @@ class TaskCard extends React.Component {
                     <RaisedButton
                       style={{ marginLeft: "20px" }}
                       backgroundColor={"#960D0D"}
-                      labelColor={"white"}
+                      hoverColor="#a71e1e"
+                      labelColor="#FCFCFC"
                       label="Delete"
                       icon={
                         <i style={{ color: "white" }} className="fa fa-trash" />
