@@ -26,12 +26,14 @@ class NotificationsContainer extends React.Component {
 
   handleAction = action => (t_id, s_id, ta_id, n_id, type) => e => {
     e.stopPropagation();
+
     this.setState({
       pendingActions: [
         ...this.state.pendingActions,
         { id: n_id, timeLeft: 5, type: `${action}ed` }
       ]
     });
+
     let interval = setInterval(() => {
       this.setState({
         pendingActions: this.state.pendingActions.map(
@@ -39,6 +41,7 @@ class NotificationsContainer extends React.Component {
         )
       });
     }, 1000);
+
     this.setState({
       actionTimeouts: [
         ...this.state.actionTimeouts.filter(t => t.eventId !== n_id),
@@ -61,6 +64,7 @@ class NotificationsContainer extends React.Component {
         }
       ]
     });
+
     setTimeout(() => {
       clearInterval(interval);
     }, 5000);
