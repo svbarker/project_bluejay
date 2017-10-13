@@ -22,11 +22,12 @@
 
 .registration-container {
 	padding-top: 70px;
-	max-width: 800px;
+	max-width: 900px;
 	margin: 0 auto;
 }
 
 .registration-form-container {
+	padding: 1em;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 20px;

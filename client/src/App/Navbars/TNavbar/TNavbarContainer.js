@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
 		...ownProps,
 		userId: state.user.id,
 		displayName: state.user.displayName,
-		notifications: state.notifications
+		notifications: state.notifications.list
 	};
 };
 

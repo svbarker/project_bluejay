@@ -6,17 +6,18 @@ import TaskAssignList from "./TTaskAssignList";
 import { hydrateTeacherTasks } from "../../../redux/actions/task";
 
 const mapStateToProps = state => {
-  return {
-    userId: state.user.id,
-    tasks: state.tasks
-  };
+	return {
+		userId: state.user.id,
+		isFetching: state.tasks.isFetching,
+		tasks: state.tasks.list
+	};
 };
 const mapDispatchToProps = dispatch => {
-  return {
-    hydrateTasks: id => {
-      dispatch(hydrateTeacherTasks(id));
-    }
-  };
+	return {
+		hydrateTasks: id => {
+			dispatch(hydrateTeacherTasks(id));
+		}
+	};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskAssignList);

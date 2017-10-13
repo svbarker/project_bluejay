@@ -195,8 +195,6 @@ UserSchema.methods.addNotifications = async function(notifications) {
 			});
 		}
 	}
-
-	console.log("This's notifications are: ", this.notifications);
 	return notifications;
 };
 

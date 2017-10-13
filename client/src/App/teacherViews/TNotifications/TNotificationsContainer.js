@@ -122,7 +122,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     user: state.user,
-    notifications: state.notifications
+    isFetching: state.notifications.isFetching,
+    notifications: state.notifications.list
   };
 };
 

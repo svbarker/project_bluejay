@@ -186,7 +186,6 @@ router.delete("/:id", async (req, res) => {
 //Creating a student and adding them to a classroom
 router.post("/:cl_id/student", async (req, res) => {
 	try {
-		console.log("Hit the route!");
 		const classroom = await getResource(
 			req.params.cl_id,
 			Classroom.findById.bind(Classroom)
@@ -198,8 +197,6 @@ router.post("/:cl_id/student", async (req, res) => {
 		}
 
 		let student = await User.findOne({ email });
-		console.log(student);
-
 		if (!student) {
 			student = new Student({
 				email,
@@ -233,7 +230,6 @@ router.post("/:cl_id/student", async (req, res) => {
 		classroom.students.push(student);
 		await student.save();
 		await classroom.save();
-		console.log(student);
 
 		res.json(createResponse(classroom));
 	} catch (error) {

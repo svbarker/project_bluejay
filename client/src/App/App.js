@@ -3,10 +3,10 @@ import TNavbar from "./Navbars/TNavbar";
 import SNavbar from "./Navbars/SNavbar";
 import LoggedOutNavbar from "./Navbars/LoggedOutNavbar";
 import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
+	BrowserRouter as Router,
+	Route,
+	Switch,
+	Redirect
 } from "react-router-dom";
 import connect from "socket.io-client";
 
@@ -28,138 +28,135 @@ import TProfile from "./teacherViews/TProfile";
 import LoadScreen from "./GlobalComponents/LoadScreen";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.socket = connect("/");
+	constructor(props) {
+		super(props);
+		this.socket = connect("/");
 
-    this.state = {
-      firstLocation: window.location.pathname
-    };
-  }
+		this.state = {
+			firstLocation: window.location.pathname
+		};
+	}
 
-  componentWillMount() {
-    if (/connect.sid/.test(document.cookie)) {
-      this.props.returningUser(this.socket);
-    }
-  }
+	componentWillMount() {
+		if (/connect.sid/.test(document.cookie)) {
+			this.props.returningUser(this.socket);
+		}
+	}
 
-  componentWillReceiveProps() {
-    if (this.state.firstLocation !== null && this.props.user.kind) {
-      this.setState({
-        firstLocation: null
-      });
-    }
-  }
+	componentWillReceiveProps() {
+		if (this.state.firstLocation !== null && this.props.user.kind) {
+			this.setState({
+				firstLocation: null
+			});
+		}
+	}
 
-  render() {
-    if (this.props.status.error) {
-      alert(`An error occurred: ${this.props.status.error}`);
-    }
-    if (this.state.firstLocation !== null && this.props.user.kind) {
-      return (
-        <Router>
-          <Route>
-            <Redirect to={this.state.firstLocation} />
-          </Route>
-        </Router>
-      );
-    }
-    if (this.props.status.isFetching) {
-      return <LoadScreen />;
-    } else if (this.props.user.kind === "Teacher") {
-      return (
-        <Router>
-          <div className="App">
-            <TNavbar socket={this.socket} />
-            <Switch>
-              <Route exact path="/" component={TDashboard} />
-              <Route
-                path="/students"
-                component={() => <TStudents user={this.props.user} />}
-              />
-              <Route
-                path="/tasks"
-                component={() => <TTasks userId={this.props.user.id} />}
-              />
-              <Route
-                path="/rewards"
-                component={() => <TRewards user={this.props.user} />}
-              />
-              <Route path="/reports" component={TReports} />
-              <Route
-                path="/notifications"
-                component={() => <TNotifications socket={this.socket} />}
-              />
-              <Route path="/profile" component={TProfile} />
-              <Redirect from="/" to="/" />
-            </Switch>
-          </div>
-        </Router>
-      );
-    } else if (this.props.user.kind === "Student") {
-      return (
-        <div className="App">
-          <Router>
-            <div>
-              <SNavbar socket={this.socket} />
-              <Switch>
-                {/* do some login checking here */}
-                <Redirect from="/login" to="/" />
-                <Route exact path="/" component={SDashboard} />
-                <Route
-                  path="/tasks"
-                  component={() => (
-                    <STasks user={this.props.user} socket={this.socket} />
-                  )}
-                />
-                <Route
-                  path="/rewards"
-                  component={() => (
-                    <SRewards
-                      userId={this.props.user.id}
-                      userPoints={this.props.user.points}
-                    />
-                  )}
-                />
-                <Route
-                  path="/rewardsWallet"
-                  component={() => (
-                    <SRewardsWallet userId={this.props.user.id} />
-                  )}
-                />
-                <Route path="/notifications" component={SNotifications} />
-                <Redirect from="/" to="/" />
-              </Switch>
-            </div>
-          </Router>
-        </div>
-      );
-    } else {
-      return (
-        <Router>
-          <div>
-            <LoggedOutNavbar />
-            <Switch>
-              <Route
-                path="/login"
-                component={() => (
-                  <LoginContainer
-                    socket={this.socket}
-                    firstLocation={this.state.firstLocation}
-                  />
-                )}
-              />
-              <Route
-                path="/register"
-                component={() => <RegisterContainer socket={this.socket} />}
-              />
-              <Redirect from="/" to="/login" />
-            </Switch>
-          </div>
-        </Router>
-      );
-    }
-  }
+	render() {
+		const errorDisplay = null;
+		if (this.state.firstLocation !== null && this.props.user.kind) {
+			return (
+				<Router>
+					<Route>
+						<Redirect to={this.state.firstLocation} />
+					</Route>
+				</Router>
+			);
+		}
+
+		if (this.props.status.isFetching) {
+			return <LoadScreen />;
+		} else if (this.props.user.kind === "Teacher") {
+			return (
+				<Router>
+					<div className="App">
+						<TNavbar socket={this.socket} />
+						{errorDisplay}
+						<Switch>
+							<Route exact path="/" component={TDashboard} />
+							<Route
+								path="/students"
+								component={() => <TStudents user={this.props.user} />}
+							/>
+							<Route
+								path="/tasks"
+								component={() => <TTasks userId={this.props.user.id} />}
+							/>
+							<Route
+								path="/rewards"
+								component={() => <TRewards user={this.props.user} />}
+							/>
+							<Route path="/report" component={() => <h1>Reports</h1>} />
+							<Route
+								path="/notifications"
+								component={() => <TNotifications socket={this.socket} />}
+							/>
+							<Redirect from="/" to="/" />
+						</Switch>
+					</div>
+				</Router>
+			);
+		} else if (this.props.user.kind === "Student") {
+			return (
+				<div className="App">
+					<Router>
+						<div>
+							<SNavbar socket={this.socket} />
+							{errorDisplay}
+							<Switch>
+								{/* do some login checking here */}
+								<Redirect from="/login" to="/" />
+								<Route exact path="/" component={SDashboard} />
+								<Route
+									path="/tasks"
+									component={() =>
+										<STasks user={this.props.user} socket={this.socket} />}
+								/>
+								<Route
+									path="/rewards"
+									component={() =>
+										<SRewards
+											userId={this.props.user.id}
+											userPoints={this.props.user.points}
+										/>}
+								/>
+								<Route
+									path="/rewardsWallet"
+									component={() =>
+										<SRewardsWallet userId={this.props.user.id} />}
+								/>
+								<Route path="/notifications" component={SNotifications} />
+								<Redirect from="/" to="/" />
+							</Switch>
+						</div>
+					</Router>
+				</div>
+			);
+		} else {
+			return (
+				<Router>
+					<div>
+						<LoggedOutNavbar />
+						{errorDisplay}
+						<Switch>
+							<Route
+								path="/login"
+								component={() =>
+									<LoginContainer
+										socket={this.socket}
+										firstLocation={this.state.firstLocation}
+									/>}
+							/>
+							<Route
+								path="/register"
+								component={() => <RegisterContainer socket={this.socket} />}
+							/>
+							<Redirect from="/" to="/login" />
+						</Switch>
+					</div>
+				</Router>
+			);
+		}
+	}
 }
 
 export default App;
